@@ -42,14 +42,54 @@ class MainViewController < UITableViewController
   end
 end
 
+class ModelManager
+  attr_accessor :modifications, :modifications_index, :metadata
+
+  def brand_names
+    @metadata['brand_names']
+  end
+
+  def model_names
+    @metadata['model_names']
+  end
+
+  def body_names
+    @metadata['body_names']
+  end
+  
+  def branded_model_name_for(model_key)
+    brand_key = model_key.split('--').first
+    brand_name = brand_names[brand_key]
+    model_name = model_names[model_key]
+    "#{brand_name} #{model_name}"
+  end
+  
+  def modification_for(key)
+    modifications_index[key]
+  end
+  
+  def self.instance
+    @instance
+  end
+  
+  def self.load
+    instance.modifications = NSMutableArray.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("modifications.bin", ofType:"plist"))
+    instance.metadata = NSMutableDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("metadata.bin", ofType:"plist"))
+    instance.modifications_index = Hash[ instance.modifications.map { |hash| [hash['key'], hash] } ]
+  end
+  
+  @instance = new
+end
+
+Model = ModelManager.instance
+
 class ParamsChartController < UITableViewController
   attr_accessor :models, :params, :data
 
   def viewDidLoad
     super
     
-    dataPath = NSBundle.mainBundle.pathForResource("final-models.bin", ofType:"plist")
-    self.data = NSMutableArray.alloc.initWithContentsOfFile(dataPath)    
+    ModelManager.load
     
     self.params = ['max_power']
     self.models = [
@@ -77,11 +117,7 @@ class ParamsChartController < UITableViewController
       # cell.textLabel.adjustsFontSizeToFitWidth = true
     end
     
-    model_key = models[ip.row]
-    cell.model = data.detect { |hash| hash['key'] == model_key }
-    
-    # model = data.detect { |hash| hash['key'] == model_key }
-    # cell.textLabel.text = "#{model['key']} #{model[params.first]}"
+    cell.model = Model.modification_for(models[ip.row])
     return cell
   end
   
@@ -134,11 +170,25 @@ class BarView < UIView
     # CGContextSetFillColorWithColor(context, UIColor.redColor.CGColor)
     # CGContextFillRect(context, bar)
     
-    colorSpace = CGColorSpaceCreateDeviceRGB()
+    drawGradientRect(context, rect, UIColor.redColor, UIColor.yellowColor)
+    
+    model_key = model['key'].split('--').first(2).join('--')
+    model_name = Model.branded_model_name_for(model_key)
+        
+    UIColor.blackColor.set
+    actualFontSize = Pointer.new(:float)
+		model_name.drawAtPoint CGPointMake(5, 8), forWidth:bounds.size.width - 5, 
+      withFont:UIFont.systemFontOfSize(12), minFontSize:10, actualFontSize:actualFontSize,
+      lineBreakMode:UILineBreakModeTailTruncation, baselineAdjustment:UIBaselineAdjustmentAlignBaselines
+  end
+  
+  def drawGradientRect(context, rect, color1, color2)
     # locationsPtr = Pointer.new(:float, 2)
     # locationsPtr[0] = 0.0
     # locationsPtr[1] = 1.0
-    colors = [UIColor.redColor.CGColor, UIColor.yellowColor.CGColor]
+
+    colorSpace = CGColorSpaceCreateDeviceRGB()
+    colors = [color1.CGColor, color2.CGColor]
     gradient = CGGradientCreateWithColors(colorSpace, colors, nil)
     
     startPoint = CGPointMake(CGRectGetMinX(rect), CGRectGetMinY(rect))
@@ -148,17 +198,9 @@ class BarView < UIView
     CGContextAddRect(context, rect)
     CGContextClip(context)
     CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0)
-    CGContextRestoreGState(context);
+    CGContextRestoreGState(context)
  
     # CGGradientRelease(gradient)
-    # CGColorSpaceRelease(colorSpace)
-    
-    vendor, title, _ = model['key'].split('--')
-    
-    UIColor.blackColor.set
-    font = UIFont.systemFontOfSize(12)
-    actualFontSize = Pointer.new(:float)
-		"#{vendor} #{title}".drawAtPoint CGPointMake(5, 8), forWidth:bounds.size.width - 5, withFont:font, minFontSize:10, actualFontSize:actualFontSize,
-       lineBreakMode:UILineBreakModeTailTruncation, baselineAdjustment:UIBaselineAdjustmentAlignBaselines
+    # CGColorSpaceRelease(colorSpace)    
   end
 end
