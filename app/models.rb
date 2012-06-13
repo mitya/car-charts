@@ -23,6 +23,10 @@ class Modification
     "#{branded_model_name} #{engine_vol}#{fuel_suffix} #{transmission}"
   end
   
+  def mod_name
+    "#{body} #{engine_vol}#{fuel_suffix} #{transmission}"
+  end
+  
   def fuel_suffix
     fuel == 'i' ? '' : 'd'
   end
@@ -30,6 +34,10 @@ class Modification
   AutomaticTransmissions = %w(AT AMT CVT)
   def automatic?
     AutomaticTransmissions.include?(@transmission)
+  end
+  
+  def hatch?
+    body.start_with?('hatch')
   end
   
   def [](key)

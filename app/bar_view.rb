@@ -11,10 +11,12 @@ class BarView < UIView
 
   def drawRect(rect)
     context = UIGraphicsGetCurrentContext()
+    labelWidth = 130
     
     value = mod[comparision.param].to_f
-    width = value * bounds.size.width / comparision.max_value
-    rect = CGRectMake(0, 5, width, 20)
+    # width = value * bounds.size.width / comparision.max_value
+    width = value * (bounds.size.width - labelWidth - 5) / comparision.max_value
+    rect = CGRectMake(0, 5, width, 18)
         
     # CGContextSetLineWidth(context, 20)
     # CGContextSetStrokeColorWithColor(context, UIColor.redColor.CGColor)
@@ -25,22 +27,40 @@ class BarView < UIView
     # CGContextSetFillColorWithColor(context, UIColor.redColor.CGColor)
     # CGContextFillRect(context, bar)
     
-    Helper.drawGradientRect(context, rect, UIColor.yellowColor, UIColor.redColor)
-    
     title = mod.full_name
     parameter = mod[comparision.param].to_s
     
-    UIColor.blackColor.set
     actualFontSize = Pointer.new(:float)
 
-		title.drawAtPoint CGPointMake(5, 8), forWidth:bounds.size.width - 5, 
-      withFont:UIFont.systemFontOfSize(11), minFontSize:10, actualFontSize:actualFontSize,
-      lineBreakMode:UILineBreakModeTailTruncation, baselineAdjustment:UIBaselineAdjustmentAlignBaselines
-      
-    UIColor.grayColor.set
-		parameter.drawAtPoint CGPointMake(width + 5, 8), forWidth:30, 
-      withFont:UIFont.systemFontOfSize(11), minFontSize:10, actualFontSize:actualFontSize,
-      lineBreakMode:UILineBreakModeTailTruncation, baselineAdjustment:UIBaselineAdjustmentAlignBaselines
+    # title.drawAtPoint CGPointMake(5, 8), forWidth:bounds.size.width - 5, 
+    #       withFont:UIFont.systemFontOfSize(11), minFontSize:8, actualFontSize:actualFontSize,
+    #       lineBreakMode:UILineBreakModeTailTruncation, baselineAdjustment:UIBaselineAdjustmentAlignBaselines
+
+    modelRect = CGRectMake(5, 0, labelWidth, 16)
+    detailRect = CGRectMake(5, 11, labelWidth, 16)
+    barRect = CGRectMake(labelWidth + 10, 4, width, 12)    
+
+    Helper.drawGradientRect context, barRect, UIColor.yellowColor, UIColor.orangeColor
+
+    Helper.drawStringInRect mod.branded_model_name, modelRect, UIColor.blackColor, 11, UILineBreakModeClip, UITextAlignmentRight
+    Helper.drawStringInRect mod.mod_name, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
+    Helper.drawStringInRect parameter, barRect, UIColor.grayColor, 9, UILineBreakModeClip, UITextAlignmentRight
+
+    # title.drawInRect CGRectMake(5, 8, width, 18),
+    #   withFont:UIFont.systemFontOfSize(11), lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentLeft
+
+
+    # UIColor.blackColor.set
+    # title.drawInRect CGRectMake(5, 8, width, 18),
+    #   withFont:UIFont.systemFontOfSize(11), lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentLeft
+    # 
+    # UIColor.grayColor.set    
+    # parameter.drawInRect CGRectMake(bounds.size.width - 35, 8, 30, bounds.size.height - 8),
+    #   withFont:UIFont.systemFontOfSize(11), lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentRight
+    
+    # parameter.drawAtPoint CGPointMake(bounds.size.width - 35, 8), forWidth:30,
+    #   withFont:UIFont.systemFontOfSize(11), minFontSize:8, actualFontSize:actualFontSize,
+    #   lineBreakMode:UILineBreakModeTailTruncation, baselineAdjustment:UIBaselineAdjustmentAlignBaselines
       
   end
 end

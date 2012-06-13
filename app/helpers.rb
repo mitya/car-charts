@@ -22,4 +22,9 @@ module Helper
     # CGGradientRelease(gradient)
     # CGColorSpaceRelease(colorSpace)    
   end  
+
+  def drawStringInRect(string, rect, color, fontSize, lineBreakMode, alignment)
+    color.set
+    string.drawInRect rect, withFont:UIFont.systemFontOfSize(fontSize), lineBreakMode:lineBreakMode, alignment:alignment
+  end  
 end

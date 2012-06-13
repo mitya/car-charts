@@ -37,7 +37,7 @@ class ParamsChartController < UITableViewController
     self.params = ['max_power']
     self.models = Model.metadata['classes']['C'].map do |model_key|
         Model.modifications_by_model_key[model_key]
-      end.flatten.select(&:automatic?)
+      end.flatten.select(&:automatic?).select(&:hatch?)
     
     self.comparision = Comparision.new(models, params)
     
