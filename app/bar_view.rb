@@ -11,7 +11,7 @@ class BarView < UIView
 
   def drawRect(rect)
     context = UIGraphicsGetCurrentContext()
-    labelWidth = 130
+    labelWidth = 120
     
     value = mod[comparision.param].to_f
     # width = value * bounds.size.width / comparision.max_value
@@ -44,7 +44,7 @@ class BarView < UIView
 
     Helper.drawStringInRect mod.branded_model_name, modelRect, UIColor.blackColor, 11, UILineBreakModeClip, UITextAlignmentRight
     Helper.drawStringInRect mod.mod_name, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
-    Helper.drawStringInRect parameter, barRect, UIColor.grayColor, 9, UILineBreakModeClip, UITextAlignmentRight
+    Helper.drawStringInRect parameter, barRect, UIColor.blackColor, 8, UILineBreakModeClip, UITextAlignmentRight
 
     # title.drawInRect CGRectMake(5, 8, width, 18),
     #   withFont:UIFont.systemFontOfSize(11), lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentLeft

@@ -24,7 +24,11 @@ class Modification
   end
   
   def mod_name
-    "#{body} #{engine_vol}#{fuel_suffix} #{transmission}"
+    "#{engine_vol}#{fuel_suffix} #{transmission}, #{body_name}"
+  end
+  
+  def body_name
+    Model.body_names[body] || "XXX #{body}"
   end
   
   def fuel_suffix
