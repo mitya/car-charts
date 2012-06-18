@@ -38,11 +38,12 @@ class BarView < UIView
 
     modelRect = CGRectMake(5, 0, labelWidth, 16)
     detailRect = CGRectMake(5, 11, labelWidth, 16)
-    barRect = CGRectMake(labelWidth + 10, 4, width, 12)    
+    barRect = CGRectMake(labelWidth + 10, 4, width, 12)
 
     Helper.drawGradientRect context, barRect, UIColor.yellowColor, UIColor.orangeColor
 
-    Helper.drawStringInRect mod.branded_model_name, modelRect, UIColor.blackColor, 11, UILineBreakModeClip, UITextAlignmentRight
+    model_name_color = mod.premium? ? UIColor.blueColor : UIColor.blackColor
+    Helper.drawStringInRect mod.branded_model_name, modelRect, model_name_color, 11, UILineBreakModeClip, UITextAlignmentRight
     Helper.drawStringInRect mod.mod_name, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
     Helper.drawStringInRect parameter, barRect, UIColor.blackColor, 8, UILineBreakModeClip, UITextAlignmentRight
 

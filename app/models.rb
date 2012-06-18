@@ -35,6 +35,10 @@ class Modification
     fuel == 'i' ? '' : 'd'
   end
   
+  def premium?
+    Model.premium_brands.containsObject(brand_key)
+  end
+  
   AutomaticTransmissions = %w(AT AMT CVT)
   def automatic?
     AutomaticTransmissions.include?(@transmission)
@@ -71,6 +75,10 @@ class ModelManager
 
   def brand_names
     @metadata['brand_names']
+  end
+  
+  def premium_brands
+    @premium_brands ||= NSSet.setWithArray(@metadata['premium_brands'])
   end
 
   def model_names
