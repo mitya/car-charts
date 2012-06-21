@@ -55,7 +55,7 @@ class ParamsChartController < UITableViewController
     unless cell = tv.dequeueReusableCellWithIdentifier("barCell")
       # cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"cell")
       cell = BarTableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"barCell")
-      # cell.selectionStyle = UITableViewCellSelectionStyleNone
+      cell.selectionStyle = UITableViewCellSelectionStyleNone
       # cell.textLabel.adjustsFontSizeToFitWidth = true
     end
     

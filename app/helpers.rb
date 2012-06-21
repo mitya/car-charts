@@ -13,8 +13,13 @@ module Helper
     startPoint = CGPointMake(CGRectGetMinX(rect), CGRectGetMinY(rect))
     endPoint = CGPointMake(CGRectGetMaxX(rect), CGRectGetMinY(rect))
  
+    path = UIBezierPath.bezierPathWithRoundedRect(rect, 
+      byRoundingCorners: UIRectCornerAllCorners, # UIRectCornerTopRight | UIRectCornerBottomRight, 
+      cornerRadii: CGSizeMake(2,2)
+    )
+     
     CGContextSaveGState(context)
-    CGContextAddRect(context, rect)
+    path.addClip
     CGContextClip(context)
     CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0)
     CGContextRestoreGState(context)
@@ -23,8 +28,35 @@ module Helper
     # CGColorSpaceRelease(colorSpace)    
   end  
 
-  def drawStringInRect(string, rect, color, fontSize, lineBreakMode, alignment)
+  def drawStringInRect(string, rect, color, font, lineBreakMode, alignment)
     color.set
-    string.drawInRect rect, withFont:UIFont.systemFontOfSize(fontSize), lineBreakMode:lineBreakMode, alignment:alignment
+    font = UIFont.systemFontOfSize(font) if font.is_a?(Numeric)
+    string.drawInRect rect, withFont:font, lineBreakMode:lineBreakMode, alignment:alignment
   end  
+  
+  def rgbColor(red, green, blue)
+    UIColor.colorWithRed(red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: 1.0)
+  end  
+  
+  def rectWithChangedWidth(rect, widthDelta)
+    CGRectMake(rect.x, rect.y, rect.width + widthDelta, rect.height)
+  end
+end
+
+class CGRect
+  def x
+    origin.x
+  end
+
+  def y
+    origin.y
+  end
+
+  def width
+    size.width
+  end
+
+  def height
+    size.height
+  end
 end

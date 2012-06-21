@@ -28,7 +28,7 @@ class BarView < UIView
     # CGContextFillRect(context, bar)
     
     title = mod.full_name
-    parameter = mod[comparision.param].to_s
+    parameter = mod[comparision.param].to_s + " ps"
     
     actualFontSize = Pointer.new(:float)
 
@@ -40,12 +40,12 @@ class BarView < UIView
     detailRect = CGRectMake(5, 11, labelWidth, 16)
     barRect = CGRectMake(labelWidth + 10, 4, width, 12)
 
-    Helper.drawGradientRect context, barRect, UIColor.yellowColor, UIColor.orangeColor
+    Helper.drawGradientRect context, barRect, Helper.rgbColor(0, 90, 180), Helper.rgbColor(108, 164, 220)
 
     model_name_color = mod.premium? ? UIColor.blueColor : UIColor.blackColor
     Helper.drawStringInRect mod.branded_model_name, modelRect, model_name_color, 11, UILineBreakModeClip, UITextAlignmentRight
     Helper.drawStringInRect mod.mod_name, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
-    Helper.drawStringInRect parameter, barRect, UIColor.blackColor, 8, UILineBreakModeClip, UITextAlignmentRight
+    Helper.drawStringInRect parameter, Helper.rectWithChangedWidth(barRect, -2), UIColor.whiteColor, UIFont.boldSystemFontOfSize(8), UILineBreakModeClip, UITextAlignmentRight
 
     # title.drawInRect CGRectMake(5, 8, width, 18),
     #   withFont:UIFont.systemFontOfSize(11), lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentLeft

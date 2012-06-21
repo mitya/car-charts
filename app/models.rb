@@ -1,14 +1,11 @@
 class Modification
-  attr_accessor :data
+  attr_accessor :data, :key
   attr_accessor :brand_key, :model_key, :body, :engine_vol, :fuel, :power, :transmission, :drive
   
-  def initialize(data)
+  def initialize(key, data)
+    @key = key
     @data = data
     parse_key
-  end
-  
-  def key
-    @data['key']
   end
   
   def branded_model_name
@@ -24,15 +21,25 @@ class Modification
   end
   
   def mod_name
-    "#{engine_vol}#{fuel_suffix} #{transmission}, #{body_name}"
+    "#{engine_vol}#{fuel_suffix}#{compressor_suffix} #{transmission}, #{body_name}"
   end
   
   def body_name
     Model.body_names[body] || "XXX #{body}"
   end
   
+  def version_name
+    data['version_name']
+  end
+  
   def fuel_suffix
+    # fuel == 'i' ? '' : ' diesel'
     fuel == 'i' ? '' : 'd'
+  end
+  
+  def compressor_suffix
+    # data['compressor'] && fuel != 'd' ? " turbo" : ""
+    data['compressor'] && fuel != 'd' ? "T" : ""
   end
   
   def premium?
@@ -58,12 +65,11 @@ class Modification
   # [alfa_romeo, 159, 2005, sedan, 1.8, i, 140, MT, FWD]
   # [alfa_romeo--159]
   def parse_key
-    model_info, agregate_info = key.split('---')
-    
-    @brand_key, model_subkey, years, @body = model_info.split('--')
+    @brand_key, model_version, years, @body, agregate = key.split(' ')
+    model_subkey, @version_subkey = model_version.split('.')
     @model_key = [@brand_key, model_subkey].join('--')
     
-    engine, power, @transmission, @drive = agregate_info.split('-')
+    engine, power, @transmission, @drive = agregate.split('-')
     @engine_vol = engine[0..-2]
     @fuel = engine[-1]
     @power = power.to_i
@@ -94,8 +100,9 @@ class ModelManager
   end
   
   def load
-    modification_hashes = NSMutableArray.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("modifications", ofType:"plist"))
-    @modifications = modification_hashes.map { |hash| Modification.new(hash) }
+    modifications_hash = NSMutableDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("modifications", ofType:"plist"))
+
+    @modifications = modifications_hash.map { |key, data| Modification.new(key, data) }
         
     @metadata = NSMutableDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("metadata", ofType:"plist"))
 
@@ -142,3 +149,57 @@ class Comparision
     @min_value ||= values.min
   end
 end
+
+# "skoda fabia 2010 hatch_5d 1.6i-105ps-AT-FWD": {
+#   "top_speed": 185,
+#   "acceleration_0_100_kmh": 11.5,
+#   "consumption_city": 10.2,
+#   "consumption_highway": 6.1,
+#   "consumption_mixed": 7.6,
+#   "engine_volume": 1598,
+#   "fuel": "petrol",
+#   "fuel_rating": "A95",
+#   "cylinder_count": 4,
+#   "cylinder_placement": "inline",
+#   "injection": "distributed_injection",
+#   "engine_placement": "front_transversely",
+#   "valves_per_cylinder": 4,
+#   "compression": 10.5,
+#   "bore": 76.5,
+#   "max_power": 105,
+#   "max_power_kw": 77,
+#   "max_power_range_start": 5600,
+#   "max_torque": 153,
+#   "max_torque_range_start": 3800,
+#   "transmission": "AT",
+#   "gears": 6,
+#   "drive_config": "FWD",
+#   "length": 4000,
+#   "width": 1642,
+#   "height": 1498,
+#   "ground_clearance": 149,
+#   "tires": "185/60/R14,195/55/R15",
+#   "front_tire_rut": 1433,
+#   "rear_tire_rut": 1426,
+#   "wheelbase": 2451,
+#   "luggage_min": 315,
+#   "luggage_max": 1180,
+#   "tank_capacity": 45,
+#   "gross_mass": 1650,
+#   "kerbweight": 1135,
+#   "front_suspension": "independent_coil",
+#   "rear_suspension": "semidependent_coil",
+#   "front_brakes": "disc_ventilated",
+#   "rear_brakes": "drum",
+#   "countries": "Чехия Россия",
+#   "body_type": "хэтчбек",
+#   "car_class": "В",
+#   "doors": "5",
+#   "seats": "5",
+#   "produced_since": "Июнь 2010",
+#   "model_title": "Skoda Fabia",
+#   "body_title": "хэтчбек 5 дв",
+#   "engine_title": "Ambition",
+#   "engine_spec": "1.6 AT (105 л.с.)",
+#   "price": "549 000 руб."
+# },
