@@ -98,6 +98,11 @@ class ModelManager
   def modification_for(key)
     @modifications_by_mod_key[key]
   end
+
+  def unit_name_for(param)
+    unit = ParameterUnits[param.to_sym]
+    ParameterUnitNames[unit]
+  end
   
   def load
     modifications_hash = NSMutableDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("modifications", ofType:"plist"))
@@ -137,16 +142,25 @@ class Comparision
     @param = params.first
   end
   
-  def values
-    @values ||= mods.map { |mod| mod[param] }.compact
+  def values_for(param)
+    @values ||= {}
+    @values[param] ||= mods.map { |mod| mod[param] }.compact
   end
   
-  def max_value
-    @max_value ||= values.max
+  def max_value_for(param)
+    @max_values ||= {}
+    @max_values[param] ||= values_for(param).max
   end
 
-  def min_value
-    @min_value ||= values.min
+  def min_value_for(param)
+    @min_values ||= {}
+    @min_values[param] ||= values_for(param).min
+    0
+  end
+  
+  def range_for(param)
+    @ranges ||= {}
+    @ranges[param] ||= max_value_for(param) - min_value_for(param)    
   end
 end
 

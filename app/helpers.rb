@@ -1,13 +1,15 @@
 module Helper
   module_function
   
-  def drawGradientRect(context, rect, color1, color2)
+  def drawGradientRect(context, rect, colors)
     # locationsPtr = Pointer.new(:float, 2)
     # locationsPtr[0] = 0.0
     # locationsPtr[1] = 1.0
 
     colorSpace = CGColorSpaceCreateDeviceRGB()
-    colors = [color1.CGColor, color2.CGColor]
+    # colors = [color1.CGColor, color2.CGColor, Helper.rgbColor(255, 102, 102).CGColor]
+    # colors = colors.map(&:CGColor)
+    colors = colors.map { |c| c.CGColor }
     gradient = CGGradientCreateWithColors(colorSpace, colors, nil)
     
     startPoint = CGPointMake(CGRectGetMinX(rect), CGRectGetMinY(rect))
@@ -20,7 +22,7 @@ module Helper
      
     CGContextSaveGState(context)
     path.addClip
-    CGContextClip(context)
+    CGContextClip(context) unless CGContextIsPathEmpty(context)
     CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0)
     CGContextRestoreGState(context)
  

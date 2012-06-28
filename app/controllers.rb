@@ -34,7 +34,8 @@ class ParamsChartController < UITableViewController
     
     ModelManager.load
     
-    self.params = ['max_power']
+    # self.params = %w(max_power max_torque)
+    self.params = %w(max_power)
     self.models = Model.metadata['classes']['C'].map do |model_key|
         Model.modifications_by_model_key[model_key]
       end.flatten.select(&:automatic?).select(&:hatch?)
@@ -47,20 +48,27 @@ class ParamsChartController < UITableViewController
     # self.tableView.separatorColor = UIColor.lightGrayColor
   end
 
+  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+    true
+  end
+
   def tableView(tv, numberOfRowsInSection:section)
     return models.count
   end
   
   def tableView(tv, cellForRowAtIndexPath:ip)
     unless cell = tv.dequeueReusableCellWithIdentifier("barCell")
-      # cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"cell")
       cell = BarTableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"barCell")
       cell.selectionStyle = UITableViewCellSelectionStyleNone
-      # cell.textLabel.adjustsFontSizeToFitWidth = true
     end
-    
-    cell.mod = models[ip.row]
+
+    cell.mods = models
+    cell.modIndex = ip.row
     cell.comparision = comparision
-    return cell
-  end  
+    cell
+  end
+  
+  def tableView(tv, heightForRowAtIndexPath:ip)
+    10 + comparision.params.count * 14
+  end
 end
