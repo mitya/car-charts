@@ -27,25 +27,22 @@ class MainViewController < UITableViewController
 end
 
 class ParamsChartController < UITableViewController
-  attr_accessor :models, :params, :comparision, :data
+  attr_accessor :mods, :params, :comparision, :data
 
   def viewDidLoad
     super
     
     ModelManager.load
     
-    # self.params = %w(max_power max_torque)
+    self.title = "Power"
     self.params = %w(max_power)
-    self.models = Model.metadata['classes']['C'].map do |model_key|
+    self.mods = Model.metadata['classes']['C'].map do |model_key|
         Model.modifications_by_model_key[model_key]
-      end.flatten.select(&:automatic?).select(&:hatch?)
-    
-    self.comparision = Comparision.new(models, params)
+      end.flatten.select(&:automatic?).select(&:hatch?)    
+    self.comparision = Comparision.new(mods, params)
     
     self.tableView.rowHeight = 25
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone
-    # self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine
-    # self.tableView.separatorColor = UIColor.lightGrayColor
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -53,7 +50,7 @@ class ParamsChartController < UITableViewController
   end
 
   def tableView(tv, numberOfRowsInSection:section)
-    return models.count
+    mods.count
   end
   
   def tableView(tv, cellForRowAtIndexPath:ip)
@@ -62,13 +59,16 @@ class ParamsChartController < UITableViewController
       cell.selectionStyle = UITableViewCellSelectionStyleNone
     end
 
-    cell.mods = models
-    cell.modIndex = ip.row
-    cell.comparision = comparision
+    cell.item = comparision.items[ip.row]
     cell
   end
   
   def tableView(tv, heightForRowAtIndexPath:ip)
-    10 + comparision.params.count * 14
+    item = comparision.items[ip.row]
+    height = BarDetailHeight
+    height += BarTitleHeight if item.first?
+    height += 4 if item.last?
+    height += (comparision.params.count - 1) * BarFullHeight
+    height
   end
 end
