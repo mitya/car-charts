@@ -193,6 +193,10 @@ class Comparision
   def items
     @items ||= (0...mods.count).map { |index| ComparisionItem.new(self, index) }
   end
+  
+  def title
+    params.map { |p| ParameterNames[p.to_sym] }.join(' - ')
+  end
 end
 
 class ComparisionItem

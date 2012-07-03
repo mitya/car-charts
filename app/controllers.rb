@@ -74,8 +74,6 @@ class ParamsChartController < UITableViewController
       end.flatten.select(&:automatic?).select(&:hatch?)    
     @comparision = Comparision.new(mods, Model.current_parameters.dup)
 
-    self.title = "Power"
-    
     self.tableView.rowHeight = 25
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
 
@@ -95,6 +93,7 @@ class ParamsChartController < UITableViewController
       @comparision = Comparision.new(mods, Model.current_parameters.dup)
       tableView.reloadData
     end
+    self.title = comparision.title
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
