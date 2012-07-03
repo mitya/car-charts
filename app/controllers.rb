@@ -73,7 +73,6 @@ class ParamsChartController < UITableViewController
         Model.modifications_by_model_key[model_key]
       end.flatten.select(&:automatic?).select(&:hatch?)    
     @comparision = Comparision.new(mods, Model.current_parameters.dup)
-    @paramsButton = UIBarButtonItem.alloc.initWithTitle("Params", style: UIBarButtonItemStyleBordered, target: self, action: 'showParamsScreen')
 
     self.title = "Power"
     
@@ -81,7 +80,13 @@ class ParamsChartController < UITableViewController
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
 
     self.navigationController.toolbarHidden = false
-    self.navigationItem.rightBarButtonItem = @paramsButton
+    # self.navigationItem.rightBarButtonItem = @paramsButton
+    self.toolbarItems = [
+      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
+      UIBarButtonItem.alloc.initWithTitle("Models", style: UIBarButtonItemStyleBordered, target: self, action: 'showParamsScreen'),
+      UIBarButtonItem.alloc.initWithTitle("Params", style: UIBarButtonItemStyleBordered, target: self, action: 'showParamsScreen'),
+      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
+    ]
   end
   
   def viewWillAppear(animated)
