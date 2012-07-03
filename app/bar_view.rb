@@ -16,8 +16,16 @@ end
 class BarViewInfo
   attr_accessor :param, :value, :width, :rect, :index, :mod
     
+  def value
+    mod[param]
+  end
+    
+  def param_text
+    Float === value ? "%.1f" % value : value
+  end
+    
   def text
-    "#{mod[param]} #{Model.unit_name_for(param)}"
+    "#{param_text} #{Model.unit_name_for(param)}"
   end
 end
 
@@ -53,7 +61,6 @@ class BarView < UIView
       bar = BarViewInfo.new
       bar.index = comparision.params.index(param)
       bar.param = param
-      bar.value = mod[param].to_f
       bar.mod = mod
       bar.width = (bar.value - comparision.min_value_for(param)) * pixelRange / comparision.range_for(param) + minWidth
       bar.rect = CGRectMake(BarLabelsWidth + 10, firstBarShift + bar.index * BarFullHeight, bar.width, BarHeight)

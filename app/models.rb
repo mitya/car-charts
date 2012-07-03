@@ -104,6 +104,14 @@ class ModelManager
     ParameterUnitNames[unit]
   end
   
+  def parameters
+    @parameters ||= ParameterNames.map { |key, name| Parameter.new(key, name) }
+  end
+  
+  def current_parameters
+    @current_parameters ||= []
+  end
+  
   def load
     modifications_hash = NSMutableDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("modifications", ofType:"plist"))
 
@@ -132,6 +140,22 @@ class ModelManager
 end
 
 Model = ModelManager.instance
+
+class Parameter
+  attr_accessor :key, :name
+
+  def initialize(key, name)
+    @key, @name = key, name
+  end
+
+  def unit
+    ParameterUnits[key]
+  end
+  
+  def unit_name
+    ParameterUnitNames[unit]
+  end
+end
 
 class Comparision
   attr_accessor :mods, :params
