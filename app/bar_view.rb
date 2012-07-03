@@ -63,7 +63,7 @@ class BarView < UIView
       bar.param = param
       bar.mod = mod
       bar.width = (bar.value - comparision.min_value_for(param)) * pixelRange / comparision.range_for(param) + minWidth
-      bar.rect = CGRectMake(BarLabelsWidth + 10, firstBarShift + bar.index * BarFullHeight, bar.width, BarHeight)
+      bar.rect = CGRectMake(BarLabelsWidth + 10, 1 + firstBarShift + bar.index * BarFullHeight, bar.width, BarHeight)
       bar
     end
     
@@ -86,7 +86,7 @@ class BarView < UIView
       bgColors = self.class.colors[bar.index]
       
       Helper.drawGradientRect context, rect, bgColors
-      Helper.drawStringInRect bar.text, CGRectMake(rect.x, rect.y, textWidth, rect.height), textColor, textFont, UILineBreakModeClip, UITextAlignmentRight
+      Helper.drawStringInRect bar.text, CGRectMake(rect.x, rect.y - 1, textWidth, rect.height), textColor, textFont, UILineBreakModeClip, UITextAlignmentRight
     end
   end
   

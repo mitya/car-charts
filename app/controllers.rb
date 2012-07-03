@@ -56,10 +56,10 @@ class ParamsListController < UITableViewController
     
     if cell.accessoryType == UITableViewCellAccessoryCheckmark
       cell.accessoryType = UITableViewCellAccessoryNone
-      Model.current_parameters = Model.current_parameters - [parameter.key]
+      Model.current_parameters = Model.current_parameters - [parameter.key.to_s]
     else
       cell.accessoryType = UITableViewCellAccessoryCheckmark
-      Model.current_parameters = Model.current_parameters + [parameter.key]
+      Model.current_parameters = Model.current_parameters + [parameter.key.to_s]
     end
   end
 end
@@ -114,8 +114,9 @@ class ParamsChartController < UITableViewController
     item = comparision.items[ip.row]
     height = BarDetailHeight
     height += BarTitleHeight if item.first?
-    height += 4 if item.last?
+    height += 2 if item.last?
     height += (comparision.params.count - 1) * BarFullHeight
+    height += 4
     height
   end
   
