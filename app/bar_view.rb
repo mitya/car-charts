@@ -95,6 +95,8 @@ class BarView < UIView
       [Helper.rgbColor(0, 90, 180), Helper.rgbColor(108, 164, 220)].reverse,
       [Helper.rgbColor(2, 120, 2), Helper.rgbColor(63, 153, 63)].reverse,
       [Helper.rgbColor(120, 2, 2), Helper.rgbColor(153, 63, 63)].reverse,
+      [Helper.rgbColor(2, 2, 120), Helper.rgbColor(63, 63, 153)].reverse,
+      [Helper.rgbColor(120, 120, 2), Helper.rgbColor(153, 153, 63)].reverse,
     ]    
   end
 end

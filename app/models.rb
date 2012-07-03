@@ -109,7 +109,11 @@ class ModelManager
   end
   
   def current_parameters
-    @current_parameters ||= []
+    NSUserDefaults.standardUserDefaults["parameters"] || []
+  end
+  
+  def current_parameters=(array)
+    NSUserDefaults.standardUserDefaults["parameters"] = array
   end
   
   def load

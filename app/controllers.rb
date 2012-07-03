@@ -56,10 +56,10 @@ class ParamsListController < UITableViewController
     
     if cell.accessoryType == UITableViewCellAccessoryCheckmark
       cell.accessoryType = UITableViewCellAccessoryNone
-      Model.current_parameters.delete(parameter.key)
+      Model.current_parameters = Model.current_parameters - [parameter.key]
     else
       cell.accessoryType = UITableViewCellAccessoryCheckmark
-      Model.current_parameters.push(parameter.key)
+      Model.current_parameters = Model.current_parameters + [parameter.key]
     end
   end
 end
@@ -69,10 +69,6 @@ class ParamsChartController < UITableViewController
 
   def viewDidLoad
     super
-    
-    ModelManager.load
-    
-    Model.current_parameters << :max_power
     @mods = Model.metadata['classes']['C'].map do |model_key|
         Model.modifications_by_model_key[model_key]
       end.flatten.select(&:automatic?).select(&:hatch?)    

@@ -2,6 +2,9 @@ class AppDelegate
   attr_accessor :window, :navigationController
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
+    ModelManager.load
+    Model.current_parameters ||= [:max_power]
+
     self.navigationController = UINavigationController.alloc.initWithRootViewController(ParamsChartController.alloc.init)
     navigationController.delegate = self
 
