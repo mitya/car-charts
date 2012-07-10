@@ -3,7 +3,6 @@ class CategoriesController < UITableViewController
     super
     @category_names = StaticData[:category_names]
     self.title = "Car Classes"
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:"showChart")
   end  
   
   def tableView tv, numberOfRowsInSection:section
@@ -29,9 +28,5 @@ class CategoriesController < UITableViewController
     controller = ModelsController.alloc.initWithStyle(UITableViewStyleGrouped)
     controller.model_keys = category_models    
     navigationController.pushViewController(controller, animated:true)
-  end
-  
-  def showChart
-    presentingViewController.dismissModalViewControllerAnimated true, completion:nil
   end
 end

@@ -24,7 +24,7 @@ class ChartController < UITableViewController
   def viewWillAppear(animated)
     super    
     # if comparision.params != Model.current_parameters
-    @comparision = Comparision.new(Model.current_mods, Model.current_parameters.dup)
+    @comparision = Comparision.new(Model.current_mods.sort_by { |m| m.key }, Model.current_parameters.dup)
     tableView.reloadData
     self.title = comparision.title
   end
@@ -33,11 +33,11 @@ class ChartController < UITableViewController
     true
   end
 
-  def tableView tv, numberOfRowsInSection:section
+  def tableView(tv, numberOfRowsInSection:section)
     @comparision.mods.count
   end
   
-  def tableView tv, cellForRowAtIndexPath:ip
+  def tableView(tv, cellForRowAtIndexPath:ip)
     cell = tv.dequeueReusableCell klass:BarTableViewCell do |cell|
       cell.selectionStyle = UITableViewCellSelectionStyleNone
     end
@@ -67,18 +67,22 @@ class ChartController < UITableViewController
   end  
   
   def showSettings
-    self.settingsNavigationController ||= begin
+    @settingsNavigationController || begin
       settingsController = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
       settingsController.modalTransitionStyle = UIModalTransitionStyleCoverVertical
-      # controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal
-      # controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve
-      # controller.modalTransitionStyle = UIModalTransitionStylePartialCurl
-
-      settingsNavigationController = UINavigationController.alloc.initWithRootViewController(settingsController)
-      # settingsNavigationController.delegate = self      
-      settingsNavigationController
+      @settingsNavigationController = UINavigationController.alloc.initWithRootViewController(settingsController)
+      @settingsNavigationController.delegate = self
     end
     
-    presentViewController settingsNavigationController, animated:true, completion:nil
+    presentViewController @settingsNavigationController, animated:true, completion:nil
+  end
+  
+  def closeSettings
+    dismissModalViewControllerAnimated true
+  end
+
+  def navigationController(navController, willShowViewController:viewController, animated:animated)
+    @closeSettingsButton ||= UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:"closeSettings")
+    viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
   end
 end
