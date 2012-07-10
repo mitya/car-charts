@@ -5,7 +5,7 @@ class AppDelegate
     ModelManager.load
     Model.current_parameters ||= [:max_power]
 
-    self.navigationController = UINavigationController.alloc.initWithRootViewController(ParamsChartController.alloc.init)
+    self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
     navigationController.delegate = self
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)

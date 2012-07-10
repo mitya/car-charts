@@ -118,9 +118,7 @@ class ModelManager
   
   def load
     modifications_hash = NSMutableDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("modifications", ofType:"plist"))
-
     @modifications = modifications_hash.map { |key, data| Modification.new(key, data) }
-        
     @metadata = NSMutableDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("metadata", ofType:"plist"))
 
     @modifications_by_mod_key = {}

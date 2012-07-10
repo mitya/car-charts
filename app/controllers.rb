@@ -26,7 +26,7 @@ class MainViewController < UITableViewController
   end
 end
 
-class ParamsListController < UITableViewController
+class ParametersController < UITableViewController
   def viewDidLoad
     super
     self.title = "Select Parameters"
@@ -64,7 +64,7 @@ class ParamsListController < UITableViewController
   end
 end
 
-class ParamsChartController < UITableViewController
+class ChartController < UITableViewController
   attr_accessor :mods, :params, :comparision, :data
 
   def viewDidLoad
@@ -72,6 +72,7 @@ class ParamsChartController < UITableViewController
     @mods = Model.metadata['classes']['C'].map do |model_key|
         Model.modifications_by_model_key[model_key]
       end.flatten.select(&:automatic?).select(&:hatch?)    
+
     @comparision = Comparision.new(mods, Model.current_parameters.dup)
 
     self.tableView.rowHeight = 25
@@ -81,8 +82,8 @@ class ParamsChartController < UITableViewController
     # self.navigationItem.rightBarButtonItem = @paramsButton
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-      UIBarButtonItem.alloc.initWithTitle("Models", style: UIBarButtonItemStyleBordered, target: self, action: 'showParamsScreen'),
-      UIBarButtonItem.alloc.initWithTitle("Params", style: UIBarButtonItemStyleBordered, target: self, action: 'showParamsScreen'),
+      UIBarButtonItem.alloc.initWithTitle("Models", style: UIBarButtonItemStyleBordered, target: self, action: 'showCategories'),
+      UIBarButtonItem.alloc.initWithTitle("Params", style: UIBarButtonItemStyleBordered, target: self, action: 'showParameters'),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
     ]
   end
@@ -124,8 +125,53 @@ class ParamsChartController < UITableViewController
     height
   end
   
-  def showParamsScreen
-    paramsController = ParamsListController.alloc.initWithStyle(UITableViewStyleGrouped)
+  def showParameters
+    paramsController = ParametersController.alloc.initWithStyle(UITableViewStyleGrouped)
     navigationController.pushViewController(paramsController, animated: true)
   end  
+
+  def showCategories
+    paramsController = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
+    navigationController.pushViewController(paramsController, animated: true)
+  end  
+end
+
+class CategoriesController < UITableViewController
+  def viewDidLoad
+    super
+    @data = Model.metadata['classes']
+    @keys = @data.keys
+    self.title = "Select Car Class"
+  end  
+  
+  def tableView(tv, numberOfRowsInSection:section)
+    @data.count
+  end
+  
+  def tableView(table, cellForRowAtIndexPath:indexPath)
+    key = @data.keys[indexPath.row]
+    category = @data[key]
+
+    unless cell = table.dequeueReusableCellWithIdentifier("cell")
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: "cell")
+    end
+
+    cell.textLabel.text = key
+    # cell.accessoryType = Model.current_parameters.include?(parameter.key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell
+  end
+
+  # def tableView(table, didSelectRowAtIndexPath:indexPath)
+  #   tableView.deselectRowAtIndexPath(indexPath, animated: true)
+  #   cell = tableView.cellForRowAtIndexPath(indexPath)
+  #   parameter = Model.parameters[indexPath.row]
+  #   
+  #   if cell.accessoryType == UITableViewCellAccessoryCheckmark
+  #     cell.accessoryType = UITableViewCellAccessoryNone
+  #     Model.current_parameters = Model.current_parameters - [parameter.key.to_s]
+  #   else
+  #     cell.accessoryType = UITableViewCellAccessoryCheckmark
+  #     Model.current_parameters = Model.current_parameters + [parameter.key.to_s]
+  #   end
+  # end
 end
