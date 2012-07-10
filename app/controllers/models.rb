@@ -19,22 +19,17 @@ class ModelsController < UITableViewController
     end
 
     cell.textLabel.text = model_name
-    cell.accessoryType = Model.current_models.include?(model_key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator    
     cell
   end
 
   def tableView table, didSelectRowAtIndexPath:indexPath
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
-  
-    cell = tableView.cellForRowAtIndexPath(indexPath)
+
     model_key = @model_keys[indexPath.row]
     
-    if cell.accessoryType == UITableViewCellAccessoryCheckmark
-      cell.accessoryType = UITableViewCellAccessoryNone
-      Model.current_models = Model.current_models - [model_key]
-    else
-      cell.accessoryType = UITableViewCellAccessoryCheckmark
-      Model.current_models = Model.current_models + [model_key]
-    end
+    controller = ModificationsController.alloc.initWithStyle(UITableViewStyleGrouped)
+    controller.model_key = model_key
+    navigationController.pushViewController(controller, animated:true)  
   end
 end

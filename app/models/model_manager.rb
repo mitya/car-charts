@@ -29,13 +29,17 @@ class ModelManager
   def parameters
     @parameters ||= ParameterNames.map { |key, name| Parameter.new(key, name) }
   end
+
+  def current_mods
+    current_mod_keys.map { |m| modification_for(m) }
+  end
   
-  def current_models
-    NSUserDefaults.standardUserDefaults["models"] || []
+  def current_mod_keys
+    NSUserDefaults.standardUserDefaults["mods"] || []
   end
 
-  def current_models=(array)
-    NSUserDefaults.standardUserDefaults["models"] = array
+  def current_mod_keys=(array)
+    NSUserDefaults.standardUserDefaults["mods"] = array
   end
   
   def current_parameters
