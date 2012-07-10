@@ -38,11 +38,10 @@ class ChartController < UITableViewController
   end
   
   def tableView tv, cellForRowAtIndexPath:ip
-    unless cell = tv.dequeueReusableCellWithIdentifier("barCell")
-      cell = BarTableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"barCell")
+    cell = tv.dequeueReusableCell klass:BarTableViewCell do |cell|
       cell.selectionStyle = UITableViewCellSelectionStyleNone
     end
-
+        
     cell.item = comparision.items[ip.row]
     cell
   end

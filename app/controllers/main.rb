@@ -14,8 +14,7 @@ class MainViewController < UITableViewController
   end
   
   def tableView(tv, cellForRowAtIndexPath:ip)  
-    unless cell = tv.dequeueReusableCellWithIdentifier("cell")
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"cell")
+    cell = tv.dequeueCell do |cell|
       cell.selectionStyle = UITableViewCellSelectionStyleNone
       cell.textLabel.adjustsFontSizeToFitWidth = true
     end

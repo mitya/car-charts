@@ -11,8 +11,7 @@ class ParametersController < UITableViewController
   def tableView(table, cellForRowAtIndexPath:indexPath)
     parameter = Model.parameters[indexPath.row]
 
-    unless cell = table.dequeueReusableCellWithIdentifier("cell")
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: "cell")
+    cell = table.dequeueReusableCell do |cell|
       cell.selectionStyle = UITableViewCellSelectionStyleNone
     end
 
@@ -22,15 +21,13 @@ class ParametersController < UITableViewController
   end  
   
   def tableView(table, didSelectRowAtIndexPath:indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
     cell = tableView.cellForRowAtIndexPath(indexPath)
     parameter = Model.parameters[indexPath.row]
-    
-    if cell.accessoryType == UITableViewCellAccessoryCheckmark
-      cell.accessoryType = UITableViewCellAccessoryNone
-      Model.current_parameters = Model.current_parameters - [parameter.key.to_s]
+
+    if cell.toggleCheckmark
+      Model.current_parameters = Model.current_parameters - [parameter.key.to_s]      
     else
-      cell.accessoryType = UITableViewCellAccessoryCheckmark
       Model.current_parameters = Model.current_parameters + [parameter.key.to_s]
     end
   end

@@ -19,3 +19,30 @@ class Class
     include(extmod)
   end  
 end
+
+class UITableView
+  def dequeueReusableCell(options = {})
+    klass = options[:klass] || UITableViewCell
+    style = options[:style] || UITableViewCellStyleDefault 
+    id = options[:id] || "cell"
+
+    unless cell = dequeueReusableCellWithIdentifier(id)
+      cell = klass.alloc.initWithStyle(style, reuseIdentifier:id)
+      yield cell if block_given?
+    end
+    
+    cell    
+  end
+end
+
+class UITableViewCell
+  def toggleCheckmark
+    if self.accessoryType == UITableViewCellAccessoryCheckmark
+      self.accessoryType = UITableViewCellAccessoryNone
+      true
+    else
+      self.accessoryType = UITableViewCellAccessoryCheckmark
+      false
+    end    
+  end
+end

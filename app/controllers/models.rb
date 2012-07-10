@@ -14,10 +14,7 @@ class ModelsController < UITableViewController
     model_key = @model_keys[indexPath.row]
     model_name = Model.metadata['branded_model_names'][model_key] || model_key
 
-    unless cell = table.dequeueReusableCellWithIdentifier("cell")
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"cell")
-    end
-
+    cell = table.dequeueReusableCell
     cell.textLabel.text = model_name
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator    
     cell

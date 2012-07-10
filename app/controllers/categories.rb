@@ -13,10 +13,7 @@ class CategoriesController < UITableViewController
     category_key = @category_names.keys[indexPath.row]
     category_name = StaticData[:category_names][category_key.to_sym]
 
-    unless cell = table.dequeueReusableCellWithIdentifier("cell")
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"cell")
-    end
-
+    cell = table.dequeueReusableCell
     cell.textLabel.text = category_name
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell
