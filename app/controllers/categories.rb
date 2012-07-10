@@ -1,7 +1,7 @@
 class CategoriesController < UITableViewController
   def viewDidLoad
     super
-    @data = Model.metadata['classes']
+    @data = StaticData[:category_names]
     @keys = @data.keys
     self.title = "Select Car Class"
   end  
@@ -18,8 +18,8 @@ class CategoriesController < UITableViewController
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: "cell")
     end
 
-    cell.textLabel.text = key
-    # cell.accessoryType = Model.current_parameters.include?(parameter.key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.textLabel.text = StaticData[:category_names][key.to_sym]
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell
   end
 

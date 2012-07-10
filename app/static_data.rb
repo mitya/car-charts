@@ -1,3 +1,5 @@
+StaticData = {}
+
 ParameterNames = {
   top_speed: "Top Speed",
   acceleration_0_100_kmh: "Acelleration",
@@ -86,4 +88,27 @@ ParameterUnitNames = {
   kg: "kg",
   date: "",
   rouble: "",  
+}
+
+StaticData[:category_names] = {
+   A: "City (A class)",
+   B: "Supermini (B class)",
+   C: "Compact (C/Golf class) ",
+   D: "Family (D class)",
+   E: "Business (E class)",
+   F: "Premium Sedans",
+  Xb: "Very Compact SUV",
+  Xc: "Compact SUV",
+  Xd: "Compact+ SUV",
+  Xe: "Mid-Size SUV",
+  Xf: "Full-Size SUV",
+  Xx: "Offroad SUV",
+  Wx: "AWD Wagon",
+  Sr: "Roadster",
+  Sc: "Sportcar",
+  Mb: "Mini MPV",
+  Mc: "Compact MPV",
+  Me: "Mid-Size MPV",
+  Pc: "Compact Pickup",
+  Pd: "Full-Size Pickup",  
 }
