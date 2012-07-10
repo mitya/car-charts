@@ -1,18 +1,30 @@
 class ModificationsController < UITableViewController
-  attr_accessor :model_key, :mods
+  attr_accessor :model_key, :mods, :mods_by_body
   
   def viewDidLoad
     super
     self.title = "Modifications"
     @mods = Model.modifications_by_model_key[@model_key]
+    @mods_by_body = @mods.group_by { |m| m.body }
   end  
   
-  def tableView tv, numberOfRowsInSection:section
-    @mods.count
+  def numberOfSectionsInTableView tview
+    mods_by_body.count
+  end
+  
+  def tableView tview, numberOfRowsInSection:section
+    body_key = mods_by_body.keys[section]
+    mods_by_body[body_key].count
+  end
+  
+  def tableView tview, titleForHeaderInSection:section
+    body_key = mods_by_body.keys[section]    
+    Model.metadata['body_names'][body_key]    
   end
   
   def tableView table, cellForRowAtIndexPath:indexPath
-    mod = @mods[indexPath.row]
+    body_key = mods_by_body.keys[indexPath.section]
+    mod = mods_by_body[body_key][indexPath.row]
 
     unless cell = table.dequeueReusableCellWithIdentifier("cell")
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"cell")
@@ -27,7 +39,8 @@ class ModificationsController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
   
     cell = tableView.cellForRowAtIndexPath(indexPath)
-    mod = @mods[indexPath.row]
+    body_key = mods_by_body.keys[indexPath.section]
+    mod = mods_by_body[body_key][indexPath.row]
     
     if cell.accessoryType == UITableViewCellAccessoryCheckmark
       cell.accessoryType = UITableViewCellAccessoryNone

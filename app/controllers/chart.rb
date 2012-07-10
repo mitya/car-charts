@@ -20,7 +20,7 @@ class ChartController < UITableViewController
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
     ]
   end
-  
+
   def viewWillAppear(animated)
     super    
     # if comparision.params != Model.current_parameters
