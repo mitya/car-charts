@@ -7,21 +7,21 @@ class ModificationsController < UITableViewController
     @mods = Model.modifications_by_model_key[@model_key]
     @mods_by_body = @mods.group_by { |m| m.body }
   end  
-  
+
   def numberOfSectionsInTableView tview
     mods_by_body.count
   end
-  
+
   def tableView tview, numberOfRowsInSection:section
     body_key = mods_by_body.keys[section]
     mods_by_body[body_key].count
   end
-  
+
   def tableView tview, titleForHeaderInSection:section
     body_key = mods_by_body.keys[section]    
     Model.metadata['body_names'][body_key]    
   end
-  
+
   def tableView table, cellForRowAtIndexPath:indexPath
     body_key = mods_by_body.keys[indexPath.section]
     mod = mods_by_body[body_key][indexPath.row]

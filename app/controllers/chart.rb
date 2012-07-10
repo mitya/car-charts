@@ -1,5 +1,5 @@
 class ChartController < UITableViewController
-  attr_accessor :mods, :params, :comparision, :data
+  attr_accessor :mods, :params, :comparision, :data, :settingsNavigationController
 
   def viewDidLoad
     super
@@ -11,13 +11,13 @@ class ChartController < UITableViewController
 
     self.navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil)
     self.navigationController.toolbarHidden = false
-    # self.navigationItem.rightBarButtonItem = @paramsButton
 
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithTitle("Models", style: UIBarButtonItemStyleBordered, target: self, action: 'showCategories'),
       UIBarButtonItem.alloc.initWithTitle("Params", style: UIBarButtonItemStyleBordered, target: self, action: 'showParameters'),
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
+      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
+      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemPageCurl, target:self, action:"showSettings")
     ]
   end
 
@@ -65,4 +65,20 @@ class ChartController < UITableViewController
     controller = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
     navigationController.pushViewController(controller, animated:true)
   end  
+  
+  def showSettings
+    self.settingsNavigationController ||= begin
+      settingsController = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
+      settingsController.modalTransitionStyle = UIModalTransitionStyleCoverVertical
+      # controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal
+      # controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve
+      # controller.modalTransitionStyle = UIModalTransitionStylePartialCurl
+
+      settingsNavigationController = UINavigationController.alloc.initWithRootViewController(settingsController)
+      # settingsNavigationController.delegate = self      
+      settingsNavigationController
+    end
+    
+    presentViewController settingsNavigationController, animated:true, completion:nil
+  end
 end
