@@ -30,6 +30,14 @@ class ModelManager
     @parameters ||= ParameterNames.map { |key, name| Parameter.new(key, name) }
   end
   
+  def current_models
+    NSUserDefaults.standardUserDefaults["models"] || []
+  end
+
+  def current_models=(array)
+    NSUserDefaults.standardUserDefaults["models"] = array
+  end
+  
   def current_parameters
     NSUserDefaults.standardUserDefaults["parameters"] || []
   end

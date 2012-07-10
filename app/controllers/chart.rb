@@ -3,17 +3,20 @@ class ChartController < UITableViewController
 
   def viewDidLoad
     super
-    @mods = Model.metadata['classes']['C'].map do |model_key|
-        Model.modifications_by_model_key[model_key]
-      end.flatten.select(&:automatic?).select(&:hatch?)    
+    # @mods = Model.metadata['classes']['C'].map do |model_key|
+    #     Model.modifications_by_model_key[model_key]
+    #   end.flatten.select(&:automatic?).select(&:hatch?)    
 
+    @mods = Model.current_models.map { |model_key| Model.modifications_by_model_key[model_key] }.flatten.select(&:automatic?)
     @comparision = Comparision.new(mods, Model.current_parameters.dup)
 
     self.tableView.rowHeight = 25
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
 
+    self.navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil)
     self.navigationController.toolbarHidden = false
     # self.navigationItem.rightBarButtonItem = @paramsButton
+
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithTitle("Models", style: UIBarButtonItemStyleBordered, target: self, action: 'showCategories'),
@@ -23,11 +26,10 @@ class ChartController < UITableViewController
   end
   
   def viewWillAppear(animated)
-    super
-    if comparision.params != Model.current_parameters
-      @comparision = Comparision.new(mods, Model.current_parameters.dup)
-      tableView.reloadData
-    end
+    super    
+    # if comparision.params != Model.current_parameters
+    @comparision = Comparision.new(mods, Model.current_parameters.dup)
+    tableView.reloadData 
     self.title = comparision.title
   end
 
@@ -35,11 +37,11 @@ class ChartController < UITableViewController
     true
   end
 
-  def tableView(tv, numberOfRowsInSection:section)
+  def tableView tv, numberOfRowsInSection:section
     mods.count
   end
   
-  def tableView(tv, cellForRowAtIndexPath:ip)
+  def tableView tv, cellForRowAtIndexPath:ip
     unless cell = tv.dequeueReusableCellWithIdentifier("barCell")
       cell = BarTableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"barCell")
       cell.selectionStyle = UITableViewCellSelectionStyleNone
@@ -60,12 +62,12 @@ class ChartController < UITableViewController
   end
   
   def showParameters
-    paramsController = ParametersController.alloc.initWithStyle(UITableViewStyleGrouped)
-    navigationController.pushViewController(paramsController, animated: true)
+    controller = ParametersController.alloc.initWithStyle(UITableViewStyleGrouped)
+    navigationController.pushViewController(controller, animated:true)
   end  
 
   def showCategories
-    paramsController = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
-    navigationController.pushViewController(paramsController, animated: true)
+    controller = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
+    navigationController.pushViewController(controller, animated:true)
   end  
 end

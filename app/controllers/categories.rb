@@ -1,39 +1,35 @@
 class CategoriesController < UITableViewController
   def viewDidLoad
     super
-    @data = StaticData[:category_names]
-    @keys = @data.keys
-    self.title = "Select Car Class"
+    @category_names = StaticData[:category_names]
+    self.title = "Car Classes"
   end  
   
-  def tableView(tv, numberOfRowsInSection:section)
-    @data.count
+  def tableView tv, numberOfRowsInSection:section
+    @category_names.count
   end
   
-  def tableView(table, cellForRowAtIndexPath:indexPath)
-    key = @data.keys[indexPath.row]
-    category = @data[key]
+  def tableView table, cellForRowAtIndexPath:indexPath
+    category_key = @category_names.keys[indexPath.row]
+    category_name = StaticData[:category_names][category_key.to_sym]
 
     unless cell = table.dequeueReusableCellWithIdentifier("cell")
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier: "cell")
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, reuseIdentifier:"cell")
     end
 
-    cell.textLabel.text = StaticData[:category_names][key.to_sym]
+    cell.textLabel.text = category_name
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell
   end
 
-  # def tableView(table, didSelectRowAtIndexPath:indexPath)
-  #   tableView.deselectRowAtIndexPath(indexPath, animated: true)
-  #   cell = tableView.cellForRowAtIndexPath(indexPath)
-  #   parameter = Model.parameters[indexPath.row]
-  #   
-  #   if cell.accessoryType == UITableViewCellAccessoryCheckmark
-  #     cell.accessoryType = UITableViewCellAccessoryNone
-  #     Model.current_parameters = Model.current_parameters - [parameter.key.to_s]
-  #   else
-  #     cell.accessoryType = UITableViewCellAccessoryCheckmark
-  #     Model.current_parameters = Model.current_parameters + [parameter.key.to_s]
-  #   end
-  # end
+  def tableView table, didSelectRowAtIndexPath:indexPath
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
+
+    category_key = @category_names.keys[indexPath.row]
+    category_models = Model.metadata['classes'][category_key.to_s]
+    
+    controller = ModelsController.alloc.initWithStyle(UITableViewStyleGrouped)
+    controller.model_keys = category_models    
+    navigationController.pushViewController(controller, animated:true)
+  end
 end
