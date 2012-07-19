@@ -1,3 +1,8 @@
+M_PI = Math::PI
+YES = true
+NO = false
+NULL = nil
+
 class Class
   def attr_delegated(target, *attrs)
     @attrs_delegated ||= {}

@@ -62,3 +62,33 @@ class CGRect
     size.height
   end
 end
+
+def Point(x, y)
+  CGPointMake(x, y)
+end
+
+def BoldSystemFont(size)
+  UIFont.boldSystemFontOfSize(size)
+end
+
+def SystemFont(size)
+  UIFont.systemFontOfSize(size)
+end
+
+module Color
+  def self.rgba(r, g, b, a)
+    UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
+  end
+  
+  def self.method_missing(selector, *args)
+    if UIColor.respond_to?("#{selector}Color")
+      UIColor.send("#{selector}Color")
+    else
+      super
+    end
+  end
+end
+
+def Color(colorName)
+  UIColor.send("#{colorName}Color")
+end
