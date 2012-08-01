@@ -10,15 +10,7 @@ class ChartController < UITableViewController
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
 
     self.navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil)
-    self.navigationController.toolbarHidden = false
-
-    self.toolbarItems = [
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-      UIBarButtonItem.alloc.initWithTitle("Models", style: UIBarButtonItemStyleBordered, target: self, action: 'showCategories'),
-      UIBarButtonItem.alloc.initWithTitle("Params", style: UIBarButtonItemStyleBordered, target: self, action: 'showParameters'),
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemPageCurl, target:self, action:"showSettings")
-    ]
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("abc_Op.png"), style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
   end
 
   def viewWillAppear(animated)
@@ -67,14 +59,22 @@ class ChartController < UITableViewController
   end  
   
   def showSettings
-    @settingsNavigationController || begin
-      settingsController = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
-      settingsController.modalTransitionStyle = UIModalTransitionStyleCoverVertical
-      @settingsNavigationController = UINavigationController.alloc.initWithRootViewController(settingsController)
-      @settingsNavigationController.delegate = self
+    @settingsTabBarController || begin
+      categoriesCon = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
+      categoriesCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
+      categoriesNavCon = UINavigationController.alloc.initWithRootViewController(categoriesCon)
+      categoriesNavCon.delegate = self
+
+      parametersCon = ParametersController.alloc.initWithStyle(UITableViewStyleGrouped)
+      parametersCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
+      parametersNavCon = UINavigationController.alloc.initWithRootViewController(parametersCon)
+      parametersNavCon.delegate = self
+      
+      @settingsTabBarController = UITabBarController.new
+      @settingsTabBarController.viewControllers = [categoriesNavCon, parametersNavCon]
     end
     
-    presentViewController @settingsNavigationController, animated:true, completion:nil
+    presentViewController @settingsTabBarController, animated:true, completion:nil
   end
   
   def closeSettings

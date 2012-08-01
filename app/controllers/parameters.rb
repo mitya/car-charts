@@ -1,8 +1,10 @@
 class ParametersController < UITableViewController
-  def viewDidLoad
+  def initWithStyle(style)
     super
-    self.title = "Select Parameters"
-  end  
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Parameters", image:UIImage.imageNamed("abc_Pr.png"), tag:1)
+    self.title = "Parameters"
+    self
+  end
   
   def tableView(tv, numberOfRowsInSection:section)
     Model.parameters.count

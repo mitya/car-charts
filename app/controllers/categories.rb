@@ -1,8 +1,10 @@
 class CategoriesController < UITableViewController
-  def viewDidLoad
+  def initWithStyle(style)
     super
-    @category_names = StaticData[:category_names]
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Car Classes", image:UIImage.imageNamed("abc_Cc.png"), tag:1)
     self.title = "Car Classes"
+    @category_names = StaticData[:category_names]
+    self
   end  
   
   def tableView tv, numberOfRowsInSection:section
