@@ -32,7 +32,8 @@ class Comparision
   end
   
   def title
-    params.map { |p| ParameterNames[p.to_sym] }.join(' - ')
+    params.count == 1 ? ParameterNames[params.first.to_sym] : "#{ParameterNames[params.first.to_sym]} +#{params.count - 1}"
+    # params.map { |p| ParameterNames[p.to_sym] }.join(' - ')
   end
 end
 

@@ -75,22 +75,22 @@ class BadgeView < UIView
         badgeTextSize.width + 14, badgeTextSize.height + 4
       ))
 
-  		CGContextSaveGState(context)
-  		CGContextSetFillColorWithColor(context, currentBadgeColor.CGColor)
-  		path = CGPathCreateMutable()
-  		CGPathAddArc(path, nil, 
-        badgeViewFrame.x + badgeViewFrame.width - badgeViewFrame.height / 2, badgeViewFrame.y + badgeViewFrame.height / 2, 
-        badgeViewFrame.height / 2, M_PI / 2, M_PI * 3 / 2, true
-      )
-  		CGPathAddArc(path, nil, 
-        badgeViewFrame.x + badgeViewFrame.height / 2, badgeViewFrame.y + badgeViewFrame.height / 2, 
-        badgeViewFrame.height / 2, M_PI * 3 / 2, M_PI / 2, true
-      )
-  		CGContextAddPath(context, path)
-  		CGContextDrawPath(context, KCGPathFill)
-  		CGContextRestoreGState(context)
-
       if cell.badgeText
+    		CGContextSaveGState(context)
+    		CGContextSetFillColorWithColor(context, currentBadgeColor.CGColor)
+    		path = CGPathCreateMutable()
+    		CGPathAddArc(path, nil, 
+          badgeViewFrame.x + badgeViewFrame.width - badgeViewFrame.height / 2, badgeViewFrame.y + badgeViewFrame.height / 2, 
+          badgeViewFrame.height / 2, M_PI / 2, M_PI * 3 / 2, true
+        )
+    		CGPathAddArc(path, nil, 
+          badgeViewFrame.x + badgeViewFrame.height / 2, badgeViewFrame.y + badgeViewFrame.height / 2, 
+          badgeViewFrame.height / 2, M_PI * 3 / 2, M_PI / 2, true
+        )
+    		CGContextAddPath(context, path)
+    		CGContextDrawPath(context, KCGPathFill)
+    		CGContextRestoreGState(context)
+
     		CGContextSaveGState(context)
     		CGContextSetBlendMode(context, KCGBlendModeClear)
     		cell.badgeText.drawInRect CGRectInset(badgeViewFrame, 7, 2), withFont:BoldSystemFont(13)

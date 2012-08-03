@@ -33,6 +33,7 @@ class UITableView
 
     unless cell = dequeueReusableCellWithIdentifier(id)
       cell = klass.alloc.initWithStyle(style, reuseIdentifier:id)
+      cell.textLabel.backgroundColor = UIColor.clearColor if klass == BadgeViewCell
       yield cell if block_given?
     end
     

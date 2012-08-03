@@ -24,6 +24,10 @@ class Modification
     "#{engine_vol}#{fuel_suffix}#{compressor_suffix} #{transmission}, #{body_name}"
   end
   
+  def category
+    Model.metadata['model_classes'][model_key]
+  end
+  
   def body_name
     Model.body_names[body] || "XXX #{body}"
   end

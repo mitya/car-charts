@@ -33,7 +33,7 @@ class ChartController < UITableViewController
     cell = tv.dequeueReusableCell klass:BarTableViewCell do |cell|
       cell.selectionStyle = UITableViewCellSelectionStyleNone
     end
-        
+
     cell.item = comparision.items[ip.row]
     cell
   end
