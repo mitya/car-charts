@@ -32,7 +32,9 @@ class Comparision
   end
   
   def title
-    params.count == 1 ? ParameterNames[params.first.to_sym] : "#{ParameterNames[params.first.to_sym]} +#{params.count - 1}"
+    return "Select some cars..." if params.count == 0
+    return ParameterNames[params.first.to_sym] if params.count == 1
+    "#{ParameterNames[params.first.to_sym]} +#{params.count - 1}"
     # params.map { |p| ParameterNames[p.to_sym] }.join(' - ')
   end
 end

@@ -2,8 +2,10 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
 
 Motion::Project::App.setup do |app|
-  # Use `rake config' to see complete project settings.
   app.name = 'CarCharts'
+  app.identifier = "name.sokurenko.CarCharts"
+  app.version = "0.1"
+  app.icons = ["icon_iphone.png", "icon_iphone@2x.png"]
   # app.deployment_target = "5.0"
   # app.frameworks += ['AVFoundation']
   # app.device_family = [:ipad, :iphone]
@@ -20,6 +22,14 @@ task :icons do
     system "convert #{src_dir}/#{icon}.png -alpha Off -negate #{tmp_dir}/#{icon}_neg.png"
     system "convert #{src_dir}/#{icon}.png #{tmp_dir}/#{icon}_neg.png -alpha Off -compose Copy_Opacity -composite #{dst_dir}/#{icon}@2x.png"
   end
+end
+
+# convert -list font | grep Font:
+task :appicon do
+  label = "Cc"
+  options = "-background blue -fill white -font LuxiSansB -gravity center"
+  system "convert #{options} -size   57x57 -pointsize 40 label:#{label} resources/icon_iphone.png"
+  system "convert #{options} -size 114x114 -pointsize 80 label:#{label} resources/icon_iphone@2x.png"
 end
 
 task :letters do
@@ -99,41 +109,3 @@ end
 #     # `convert -size 6x44 radial-gradient:##{color_string.first}-##{color_string.last} data/images/cell-gradient-#{color_name}.png`    
 #   end
 # end
-
-# convert -list font
-# AvantGarde-Book
-# AvantGarde-BookOblique
-# AvantGarde-Demi
-# AvantGarde-DemiOblique
-# Bookman-Demi
-# Bookman-DemiItalic
-# Bookman-Light
-# Bookman-LightItalic
-# Courier
-# Courier-Bold
-# Courier-BoldOblique
-# Courier-Oblique
-# fixed
-# Helvetica
-# Helvetica-Bold
-# Helvetica-BoldOblique
-# Helvetica-Narrow
-# Helvetica-Narrow-Bold
-# Helvetica-Narrow-BoldOblique
-# Helvetica-Narrow-Oblique
-# Helvetica-Oblique
-# NewCenturySchlbk-Bold
-# NewCenturySchlbk-BoldItalic
-# NewCenturySchlbk-Italic
-# NewCenturySchlbk-Roman
-# Palatino-Bold
-# Palatino-BoldItalic
-# Palatino-Italic
-# Palatino-Roman
-# Symbol
-# Times-Bold
-# Times-BoldItalic
-# Times-Italic
-# Times-Roman
-
-# convert -background transparent -fill black -font Bookman-Demi -gravity center -size 60x60 label:Pr pr.png
