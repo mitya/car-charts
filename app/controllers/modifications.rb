@@ -19,7 +19,7 @@ class ModificationsController < UITableViewController
 
   def tableView tview, titleForHeaderInSection:section
     body_key = mods_by_body.keys[section]    
-    Model.metadata['body_names'][body_key]    
+    Static.body_names[body_key]    
   end
 
   def tableView table, cellForRowAtIndexPath:indexPath

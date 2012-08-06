@@ -2,19 +2,27 @@ class ModelManager
   attr_accessor :modifications, :modifications_by_mod_key, :modifications_by_model_key, :metadata
 
   def brand_names
-    @metadata['brand_names']
+    Static.brand_names
   end
   
   def premium_brands
-    @premium_brands ||= NSSet.setWithArray(@metadata['premium_brands'])
+    @premium_brands ||= NSSet.setWithArray(Static.premium_brands)
   end
 
   def model_names
     @metadata['model_names']
   end
+  
+  def model_names_branded
+    Model.metadata['model_names_branded']
+  end
+  
+  def model_classes
+    Model.metadata['model_classes_inverted']
+  end
 
   def body_names
-    @metadata['body_names']
+    Static.body_names
   end
   
   def modification_for(key)
@@ -22,12 +30,12 @@ class ModelManager
   end
 
   def unit_name_for(param)
-    unit = ParameterUnits[param.to_sym]
-    ParameterUnitNames[unit]
+    unit = Static.parameter_units[param.to_sym]
+    Static.parameter_unit_names[unit]
   end
   
   def parameters
-    @parameters ||= ParameterNames.map { |key, name| Parameter.new(key, name) }
+    @parameters ||= Static.parameter_names.map { |key, name| Parameter.new(key, name) }
   end
 
   def current_mods

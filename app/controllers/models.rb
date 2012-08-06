@@ -17,7 +17,7 @@ class ModelsController < UITableViewController
 
   def tableView(table, cellForRowAtIndexPath:indexPath)
     model_key = @model_keys[indexPath.row]
-    model_name = Model.metadata['branded_model_names'][model_key] || model_key
+    model_name = Model.model_names_branded[model_key] || model_key
     model_selected_mods_count = Model.current_mods.map(&:model_key).select{ |key| key == model_key}.count
 
     cell = table.dequeueReusableCell(klass: BadgeViewCell)
@@ -29,9 +29,8 @@ class ModelsController < UITableViewController
 
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
-
     model_key = @model_keys[indexPath.row]
-    
+
     controller = ModificationsController.alloc.initWithStyle(UITableViewStyleGrouped)
     controller.model_key = model_key
     navigationController.pushViewController(controller, animated:true)  
