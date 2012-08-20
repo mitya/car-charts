@@ -35,6 +35,7 @@ BarTitleHeight = 13 # 14
 BarDetailHeight = 11
 BarLabelsLeftMargin = 5
 BarLabelsWidth = 120
+BarRightMargin = 7
 BarPremiumBrandColor = Helper.rgbColor(202, 0, 50)
 
 class BarView < UIView  
@@ -53,7 +54,7 @@ class BarView < UIView
     context = UIGraphicsGetCurrentContext()
     
     minWidth = 40
-    pixelRange = bounds.width - BarLabelsWidth - 5 - minWidth - 5
+    pixelRange = bounds.width - BarLabelsWidth - BarLabelsLeftMargin - minWidth - BarRightMargin
     
     bars = comparision.params.map do |param|
       firstBarShift = item.first?? BarTitleHeight : 0

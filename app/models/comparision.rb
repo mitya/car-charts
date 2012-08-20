@@ -17,9 +17,9 @@ class Comparision
   end
 
   def min_value_for(param)
-    @min_values ||= {}
-    @min_values[param] ||= values_for(param).min
-    # 0
+    # @min_values ||= {}
+    # @min_values[param] ||= values_for(param).min
+    0
   end
   
   def range_for(param)
