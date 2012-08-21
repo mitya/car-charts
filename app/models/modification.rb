@@ -17,11 +17,15 @@ class Modification
   end
   
   def full_name
-    "#{branded_model_name} #{engine_vol}#{fuel_suffix} #{transmission}"
+    "#{branded_model_name} #{modNameNoBody}"
+  end
+  
+  def modNameNoBody
+    "#{engine_vol}#{fuel_suffix}#{compressor_suffix} #{power}ps #{transmission}"
   end
   
   def mod_name
-    "#{engine_vol}#{fuel_suffix}#{compressor_suffix} #{transmission}, #{body_name}"
+    "#{modNameNoBody}, #{body_name}"
   end
   
   def category

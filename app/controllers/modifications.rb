@@ -5,7 +5,7 @@ class ModificationsController < UITableViewController
   def viewDidLoad
     super
     self.title = "Modifications"
-    @mods = Model.modifications_by_model_key[@model_key]
+    @mods = Model.modifications_by_model_key[@model_key].sort_by { |m| m.key }
     @modsByBody = @mods.group_by { |m| m.body }
   end  
 
@@ -28,7 +28,7 @@ class ModificationsController < UITableViewController
     mod = modsByBody[bodyKey][indexPath.row]
 
     cell = table.dequeueReusableCell
-    cell.textLabel.text = mod.full_name
+    cell.textLabel.text = mod.modNameNoBody
     cell.accessoryType = Model.current_mod_keys.include?(mod.key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end

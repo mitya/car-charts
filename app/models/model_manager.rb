@@ -58,7 +58,9 @@ class ModelManager
     if current_mod_keys.include?(mod_key)
       recent_mod_keys.delete(mod_key)
       recent_mod_keys << mod_key
-    end    
+    elsif recent_mod_keys.include?(mod_key)
+      recent_mod_keys.delete(mod_key)
+    end
     self.current_mod_keys = current_mod_keys.copyWithToggled(mod_key)
   end
   
