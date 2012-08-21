@@ -14,11 +14,27 @@ class ChartController < UITableViewController
   end
 
   def viewWillAppear(animated)
-    super    
+    super
+    
     # if comparision.params != Model.current_parameters
     @comparision = Comparision.new(Model.current_mods.sort_by { |m| m.key }, Model.current_parameters.dup)
     tableView.reloadData
     self.title = comparision.title
+
+    if comparision.mods.empty? || comparision.params.empty?
+      @messageView || begin
+        @messageView = UILabel.alloc.initWithFrame(view.bounds)
+        @messageView.text = "To start select some car models and some parameters to compare"
+        @messageView.textAlignment = UITextAlignmentCenter
+        @messageView.textColor = UIColor.lightGrayColor
+        @messageView.font = UIFont.systemFontOfSize(26)
+        @messageView.numberOfLines = 0
+      end
+      view.addSubview(@messageView)
+    else
+      @messageView.removeFromSuperview if @messageView && @messageView.superview
+    end
+
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
