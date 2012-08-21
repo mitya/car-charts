@@ -34,8 +34,6 @@ class CategoriesController < UITableViewController
 
     case indexPath.section 
     when CategoriesSection
-      puts indexPath.section 
-      
       category_key = @category_names.keys[indexPath.row]
       category_name = Static.category_names[category_key.to_sym]
       category_models = Model.model_classes[category_key.to_s]
