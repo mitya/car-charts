@@ -24,10 +24,10 @@ class ChartController < UITableViewController
     if comparision.mods.empty? || comparision.params.empty?
       @messageView || begin
         @messageView = UILabel.alloc.initWithFrame(view.bounds)
-        @messageView.text = "To start select some car models and some parameters to compare"
+        @messageView.text = "To start – select some car models and some parameters to compare"
         @messageView.textAlignment = UITextAlignmentCenter
-        @messageView.textColor = UIColor.lightGrayColor
-        @messageView.font = UIFont.systemFontOfSize(26)
+        @messageView.textColor = Color.rgba(0.75, 0.75, 0.75, 1)
+        @messageView.font = UIFont.systemFontOfSize(20)
         @messageView.numberOfLines = 0
       end
       view.addSubview(@messageView)
