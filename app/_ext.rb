@@ -3,6 +3,16 @@ YES = true
 NO = false
 NULL = nil
 
+class NSArray
+  def copyWithToggled(item)
+    if include?(item)
+      self - [item]
+    else
+      self + [item]
+    end
+  end
+end
+
 class Class
   def attr_delegated(target, *attrs)
     @attrs_delegated ||= {}
@@ -24,6 +34,8 @@ class Class
     include(extmod)
   end  
 end
+
+###############################################################################
 
 class UITableView
   def dequeueReusableCell(options = {})

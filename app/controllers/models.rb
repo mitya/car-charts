@@ -1,16 +1,16 @@
 class ModelsController < UITableViewController
   attr_accessor :model_keys
-  
+
   def viewDidLoad
     super
     self.title = "Car Models"
-  end  
+  end
 
   def viewWillAppear(animated)
     super
     tableView.reloadData
   end
-  
+
   def tableView(tv, numberOfRowsInSection:section)
     @model_keys.count
   end
@@ -33,6 +33,6 @@ class ModelsController < UITableViewController
 
     controller = ModificationsController.alloc.initWithStyle(UITableViewStyleGrouped)
     controller.model_key = model_key
-    navigationController.pushViewController(controller, animated:true)  
+    navigationController.pushViewController(controller, animated:true)
   end
 end

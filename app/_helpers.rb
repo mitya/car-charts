@@ -100,3 +100,4 @@ end
 def Color(colorName)
   UIColor.send("#{colorName}Color")
 end
+

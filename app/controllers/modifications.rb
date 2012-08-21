@@ -1,30 +1,31 @@
+# Represents a list of modifications of one model
 class ModificationsController < UITableViewController
-  attr_accessor :model_key, :mods, :mods_by_body
+  attr_accessor :model_key, :mods, :modsByBody
   
   def viewDidLoad
     super
     self.title = "Modifications"
     @mods = Model.modifications_by_model_key[@model_key]
-    @mods_by_body = @mods.group_by { |m| m.body }
+    @modsByBody = @mods.group_by { |m| m.body }
   end  
 
-  def numberOfSectionsInTableView tview
-    mods_by_body.count
+  def numberOfSectionsInTableView(tview)
+    @modsByBody.count
   end
 
   def tableView tview, numberOfRowsInSection:section
-    body_key = mods_by_body.keys[section]
-    mods_by_body[body_key].count
+    bodyKey = modsByBody.keys[section]
+    @modsByBody[bodyKey].count
   end
 
-  def tableView tview, titleForHeaderInSection:section
-    body_key = mods_by_body.keys[section]    
-    Static.body_names[body_key]    
+  def tableView(tview, titleForHeaderInSection:section)
+    bodyKey = modsByBody.keys[section]
+    Static.body_names[bodyKey]
   end
 
-  def tableView table, cellForRowAtIndexPath:indexPath
-    body_key = mods_by_body.keys[indexPath.section]
-    mod = mods_by_body[body_key][indexPath.row]
+  def tableView(table, cellForRowAtIndexPath:indexPath)
+    bodyKey = modsByBody.keys[indexPath.section]
+    mod = modsByBody[bodyKey][indexPath.row]
 
     cell = table.dequeueReusableCell
     cell.textLabel.text = mod.full_name
@@ -32,17 +33,14 @@ class ModificationsController < UITableViewController
     cell
   end
 
-  def tableView table, didSelectRowAtIndexPath:indexPath
+  def tableView(table, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
   
-    body_key = mods_by_body.keys[indexPath.section]
-    mod = mods_by_body[body_key][indexPath.row]
+    bodyKey = modsByBody.keys[indexPath.section]
+    mod = modsByBody[bodyKey][indexPath.row]
     
     cell = tableView.cellForRowAtIndexPath(indexPath)
-    if cell.toggleCheckmark
-      Model.current_mod_keys = Model.current_mod_keys - [mod.key]
-    else
-      Model.current_mod_keys = Model.current_mod_keys + [mod.key]
-    end
+    cell.toggleCheckmark
+    Model.toggle_mod_with_key(mod.key)
   end
 end
