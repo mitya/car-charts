@@ -9,7 +9,7 @@ class RecentModificationsController < UITableViewController
   def viewWillAppear(animated)
     super
     @current = Model.current_mod_keys.map { |k| Model.modification_for(k) }
-    @recent = Model.recent_mod_keys.map { |k| Model.modification_for(k) }    
+    @recent = Model.recentModKeys.map { |k| Model.modification_for(k) }    
     tableView.reloadData
   end
 
@@ -42,6 +42,6 @@ class RecentModificationsController < UITableViewController
     
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmark
-    Model.toggle_mod_with_key(mod.key)
+    Model.toggleModWithKey(mod.key)
   end
 end

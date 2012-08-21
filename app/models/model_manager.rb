@@ -1,5 +1,5 @@
 class ModelManager
-  attr_accessor :modifications, :modifications_by_mod_key, :modifications_by_model_key, :metadata, :recent_mod_keys
+  attr_accessor :modifications, :modifications_by_mod_key, :modifications_by_model_key, :metadata, :recentModKeys
 
   def brand_names
     Static.brand_names
@@ -54,14 +54,26 @@ class ModelManager
     NSUserDefaults.standardUserDefaults["mods"] = array
   end
   
-  def toggle_mod_with_key(mod_key)
-    if current_mod_keys.include?(mod_key)
-      recent_mod_keys.delete(mod_key)
-      recent_mod_keys << mod_key
-    elsif recent_mod_keys.include?(mod_key)
-      recent_mod_keys.delete(mod_key)
+  def recentModKeys
+    NSUserDefaults.standardUserDefaults["recentMods"] || []
+  end
+
+  def recentModKeys=(array)
+    NSUserDefaults.standardUserDefaults["recentMods"] = array
+  end
+  
+  def toggleModWithKey(modKey)
+    if current_mod_keys.include?(modKey)
+      recents = recentModKeys.dup
+      recents.push(modKey)
+      self.recentModKeys = recents
+    elsif recentModKeys.include?(modKey)
+      recents = recentModKeys.dup
+      recents.delete(modKey)
+      self.recentModKeys = recents
     end
-    self.current_mod_keys = current_mod_keys.copyWithToggled(mod_key)
+    
+    self.current_mod_keys = current_mod_keys.copyWithToggled(modKey)
   end
   
   def current_parameters
@@ -85,7 +97,7 @@ class ModelManager
       @modifications_by_model_key[mod.model_key] << mod
     end    
     
-    @recent_mod_keys = []
+    @recentModKeys = []
   end
   
   def self.instance

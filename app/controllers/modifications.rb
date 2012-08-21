@@ -1,13 +1,13 @@
 # Represents a list of modifications of one model
 class ModificationsController < UITableViewController
   attr_accessor :model_key, :mods, :modsByBody
-  
+
   def viewDidLoad
     super
     self.title = "Modifications"
     @mods = Model.modifications_by_model_key[@model_key].sort_by { |m| m.key }
     @modsByBody = @mods.group_by { |m| m.body }
-  end  
+  end
 
   def numberOfSectionsInTableView(tview)
     @modsByBody.count
@@ -35,12 +35,12 @@ class ModificationsController < UITableViewController
 
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
-  
+
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
-    
+
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmark
-    Model.toggle_mod_with_key(mod.key)
+    Model.toggleModWithKey(mod.key)
   end
 end
