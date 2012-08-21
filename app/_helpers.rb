@@ -61,6 +61,10 @@ class CGRect
   def height
     size.height
   end
+  
+  def withXMargins(margin)
+    CGRectMake(x + margin, y, width - margin * 2, height)
+  end
 end
 
 def Point(x, y)
@@ -78,6 +82,10 @@ end
 module Color
   def self.rgba(r, g, b, a)
     UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
+  end
+  
+  def self.grayShade(level)
+    rgba(level, level, level, 1)
   end
   
   def self.method_missing(selector, *args)
