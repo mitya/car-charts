@@ -1,6 +1,6 @@
 class Modification
   attr_accessor :data, :key
-  attr_accessor :brand_key, :model_key, :body, :engine_vol, :fuel, :power, :transmission, :drive
+  attr_accessor :brand_key, :model_key, :body, :engine_vol, :fuel, :power, :transmission, :drive, :version_subkey
   
   def initialize(key, data)
     @key = key
@@ -17,15 +17,19 @@ class Modification
   end
   
   def full_name
-    "#{branded_model_name} #{modNameNoBody}"
+    "#{branded_model_name} #{nameNoBody}"
   end
   
-  def modNameNoBody
+  def nameNoBody
     "#{engine_vol}#{fuel_suffix}#{compressor_suffix} #{power}ps #{transmission}"
   end
   
+  def nameWithVersion
+    version ? "#{nameNoBody}, #{version_subkey}" : nameNoBody
+  end
+  
   def mod_name
-    "#{modNameNoBody}, #{body_name}"
+    "#{nameNoBody}, #{version}"
   end
   
   def category
@@ -34,6 +38,10 @@ class Modification
   
   def body_name
     Model.body_names[body] || "XXX #{body}"
+  end
+  
+  def version
+    @version ||= [body_name, version_subkey].join(' ')
   end
   
   def version_name

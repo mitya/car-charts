@@ -13,7 +13,7 @@ class ModificationsController < UITableViewController
     @modsByBody.count
   end
 
-  def tableView tview, numberOfRowsInSection:section
+  def tableView(tv, numberOfRowsInSection:section)
     bodyKey = modsByBody.keys[section]
     @modsByBody[bodyKey].count
   end
@@ -28,7 +28,7 @@ class ModificationsController < UITableViewController
     mod = modsByBody[bodyKey][indexPath.row]
 
     cell = table.dequeueReusableCell
-    cell.textLabel.text = mod.modNameNoBody
+    cell.textLabel.text = mod.nameWithVersion
     cell.accessoryType = Model.current_mod_keys.include?(mod.key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end
