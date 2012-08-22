@@ -25,7 +25,7 @@ class Modification
   end
   
   def nameWithVersion
-    version ? "#{nameNoBody}, #{version_subkey}" : nameNoBody
+    version_subkey ? "#{nameNoBody}, #{version_subkey}" : nameNoBody
   end
   
   def mod_name
