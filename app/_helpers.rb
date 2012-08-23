@@ -84,6 +84,10 @@ module Color
     UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
   end
   
+  def self.rgbi(r, g, b)
+    rgba(r / 255.0, g / 255.0, b / 255.0, 1)
+  end
+  
   def self.grayShade(level)
     rgba(level, level, level, 1)
   end
