@@ -41,6 +41,35 @@ task :letters do
   system "convert -background transparent -fill #{color} -font Bookman-Demi -gravity center -size #{size}x#{size} label:#{letters} #{dst_dir}/#{letters}@2x.png"
 end
 
+task :buttons do
+  size = 60
+  corners = 10
+  
+  items = [
+    %w(blue #8aa1bf-#6682aa #466999-#486b9b #3b4f6b),
+    %w(bluehigh #7298e9-#1f56c1 #2160dd-#2362de #163f91)
+  ]    
+  
+  items.each do |data|
+    name = data[0]
+    gradient1 = data[1]
+    gradient2 = data[2]
+    border = data[3]
+  
+    cmd = %{ convert
+      -size #{size}x#{size/2} gradient:#{gradient1} -size #{size}x#{size/2} gradient:#{gradient2} -append
+      ( +clone -threshold -1
+         -draw "fill black polygon 0,0 0,#{corners} #{corners},0 fill white circle #{corners},#{corners} #{corners},0"
+         ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
+      +matte -compose CopyOpacity -composite
+      -stroke #{border} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{size-1},#{size-1} #{corners},#{corners}" 
+      resources/button_#{name}@2x.png
+      }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
+
+    system cmd 
+  end
+end
+
 # $images = "data/images"
 # $sources = "artefacts/images"
 # 
