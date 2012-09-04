@@ -45,6 +45,14 @@ class ModelManager
   def current_mods
     current_mod_keys.map { |m| modification_for(m) }
   end
+
+  def filterOptions
+    NSUserDefaults.standardUserDefaults["filterOptions"] || {}
+  end
+
+  def filterOptions=(hash)
+    NSUserDefaults.standardUserDefaults["filterOptions"] = hash
+  end
   
   def current_mod_keys
     NSUserDefaults.standardUserDefaults["mods"] || []

@@ -1,5 +1,5 @@
 class ModificationsController < UITableViewController
-  attr_accessor :model_key, :mods, :modsByBody, :filterOptions, :filteredMods
+  attr_accessor :model_key, :mods, :modsByBody, :filteredMods
 
   def viewDidLoad
     super
@@ -7,21 +7,20 @@ class ModificationsController < UITableViewController
     self.title = Model.model_names_branded[@model_key]
 
     self.mods = Model.modifications_by_model_key[@model_key].sort_by { |m| m.key }
-    self.filterOptions = {}
     applyFilter
-    
+
     @transmissionFilter = MultisegmentView.new
-    @transmissionFilter.addButton("MT") { |state| applyFilter(mt: state) }
-    @transmissionFilter.addButton("AT") { |state| applyFilter(at: state) }
+    @transmissionFilter.addButton("MT", Model.filterOptions[:mt]) { |state| applyFilter(mt: state) }
+    @transmissionFilter.addButton("AT", Model.filterOptions[:at]) { |state| applyFilter(at: state) }
 
     @bodyFilter = MultisegmentView.new
-    @bodyFilter.addButton("Sed") { |state| applyFilter(sedan: state) }
-    @bodyFilter.addButton("Wag") { |state| applyFilter(wagon: state) }
-    @bodyFilter.addButton("Hat") { |state| applyFilter(hatch: state) }
+    @bodyFilter.addButton("Sed", Model.filterOptions[:sedan]) { |state| applyFilter(sedan: state) }
+    @bodyFilter.addButton("Wag", Model.filterOptions[:wagon]) { |state| applyFilter(wagon: state) }
+    @bodyFilter.addButton("Hat", Model.filterOptions[:hatch]) { |state| applyFilter(hatch: state) }
 
     @fuelFilter = MultisegmentView.new
-    @fuelFilter.addButton("Gas") { |state| applyFilter(gas: state) }
-    @fuelFilter.addButton("Di") { |state| applyFilter(diesel: state) }
+    @fuelFilter.addButton("Gas", Model.filterOptions[:gas]) { |state| applyFilter(gas: state) }
+    @fuelFilter.addButton("Di", Model.filterOptions[:diesel]) { |state| applyFilter(diesel: state) }
 
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
@@ -73,15 +72,15 @@ class ModificationsController < UITableViewController
   private
   
   def applyFilter(options = {})
-    self.filterOptions.merge!(options)
-    self.filteredMods = filterOptions.empty? ? mods : mods.select do |mod|
-      next false if filterOptions[:at] && mod.automatic?
-      next false if filterOptions[:mt] && mod.manual?
-      next false if filterOptions[:sedan] && mod.sedan?
-      next false if filterOptions[:hatch] && mod.hatch?
-      next false if filterOptions[:wagon] && mod.wagon?
-      next false if filterOptions[:gas] && mod.gas?
-      next false if filterOptions[:diesel] && mod.diesel?
+    Model.filterOptions = Model.filterOptions.merge(options) if options.any?
+    self.filteredMods = Model.filterOptions.empty? ? mods : mods.select do |mod|
+      next false if Model.filterOptions[:at] && mod.automatic?
+      next false if Model.filterOptions[:mt] && mod.manual?
+      next false if Model.filterOptions[:sedan] && mod.sedan?
+      next false if Model.filterOptions[:hatch] && mod.hatch?
+      next false if Model.filterOptions[:wagon] && mod.wagon?
+      next false if Model.filterOptions[:gas] && mod.gas?
+      next false if Model.filterOptions[:diesel] && mod.diesel?
       next true
     end
     self.modsByBody = filteredMods.group_by { |m| m.body }    

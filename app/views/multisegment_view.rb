@@ -15,16 +15,16 @@ class MultisegmentView < UIView
     self
   end
   
-  def addButton(label, action = nil, &handler)
+  def addButton(label, unselected = true, &handler)
     button = UIButton.buttonWithType(UIButtonTypeCustom)
     button.setTitle(label, forState:UIControlStateNormal)
     button.frame = CGRectMake(MARGIN + segmentButtons.count * (SIZE + SPACING), (HEIGHT - SIZE) / 2 + 1, SIZE, SIZE)
     button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
+    button.selected = !unselected
     button.setBackgroundImage self.class.unselectedBackground, forState:UIControlStateNormal
     button.setBackgroundImage self.class.unselectedBackground, forState:UIControlStateHighlighted
     button.setBackgroundImage self.class.selectedBackground, forState:UIControlStateSelected
     button.setBackgroundImage self.class.selectedBackground, forState:UIControlStateSelected | UIControlStateHighlighted
-    button.selected = true
     button.addTarget self, action:'segmentButtonDown:', forControlEvents:UIControlEventTouchDown
     button.addTarget self, action:'segmentButtonUp:', forControlEvents:UIControlEventTouchUpInside
 
