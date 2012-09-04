@@ -80,6 +80,13 @@ def SystemFont(size)
 end
 
 module Color
+  def self.hex(value)
+    r = value >> 16 & 0xFF
+    g = value >> 8 & 0xFF
+    b = value & 0xFF
+    self.rgbi(r, g, b)
+  end
+  
   def self.rgba(r, g, b, a)
     UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
   end
