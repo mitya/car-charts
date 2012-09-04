@@ -20,4 +20,8 @@ class AppDelegate
     
     return true
   end
+  
+  def navigationController(navController, willShowViewController:viewController, animated:animated)
+    navigationController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
+  end  
 end

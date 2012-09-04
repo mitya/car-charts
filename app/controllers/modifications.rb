@@ -31,7 +31,6 @@ class ModificationsController < UITableViewController
       UIBarButtonItem.alloc.initWithCustomView(@fuelFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
     ]
-    self.navigationController.toolbarHidden = false
   end
   
   def numberOfSectionsInTableView(tview)

@@ -100,5 +100,6 @@ class ChartController < UITableViewController
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     @closeSettingsButton ||= UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:"closeSettings")
     viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
+    navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
   end
 end

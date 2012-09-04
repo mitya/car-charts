@@ -53,7 +53,6 @@ class Modification
   end
   
   def compressor_suffix
-    # data['compressor'] && fuel != 'd' ? " turbo" : ""
     data['compressor'] && fuel != 'd' ? "T" : ""
   end
   
