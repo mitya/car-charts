@@ -49,7 +49,6 @@ class Modification
   end
   
   def fuel_suffix
-    # fuel == 'i' ? '' : ' diesel'
     fuel == 'i' ? '' : 'd'
   end
   
@@ -61,10 +60,30 @@ class Modification
   def premium?
     Model.premium_brands.containsObject(brand_key)
   end
+
+  def gas?
+    fuel == 'i'
+  end
+  
+  def diesel?
+    fuel == 'd'
+  end
   
   AutomaticTransmissions = %w(AT AMT CVT)
   def automatic?
     AutomaticTransmissions.include?(@transmission)
+  end
+
+  def manual?
+    @transmission == "MT"
+  end
+
+  def sedan?
+    body == 'sedan'
+  end
+
+  def wagon?
+    body == 'wagon'
   end
   
   def hatch?

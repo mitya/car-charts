@@ -1,39 +1,40 @@
 class ModificationsController < UITableViewController
-  attr_accessor :model_key, :mods, :modsByBody
+  attr_accessor :model_key, :mods, :modsByBody, :filterOptions, :filteredMods
 
   def viewDidLoad
     super
     
     self.title = Model.model_names_branded[@model_key]
+
     self.mods = Model.modifications_by_model_key[@model_key].sort_by { |m| m.key }
-    self.modsByBody = @mods.group_by { |m| m.body }
+    self.filterOptions = {}
+    applyFilter
     
     @transmissionFilter = MultisegmentView.new
-    @transmissionFilter.addButton "MT", 'filterTransmissionByMT'
-    @transmissionFilter.addButton "AT", 'filterTransmissionByAT'
+    @transmissionFilter.addButton("MT") { |state| applyFilter(mt: state) }
+    @transmissionFilter.addButton("AT") { |state| applyFilter(at: state) }
 
     @bodyFilter = MultisegmentView.new
-    @bodyFilter.addButton "Sed", 'filterBodyBySedan'
-    @bodyFilter.addButton "Wag", 'filterBodyByWagon'
-    @bodyFilter.addButton "Hat", 'filterBodyByHatch'
+    @bodyFilter.addButton("Sed") { |state| applyFilter(sedan: state) }
+    @bodyFilter.addButton("Wag") { |state| applyFilter(wagon: state) }
+    @bodyFilter.addButton("Hat") { |state| applyFilter(hatch: state) }
+
+    @fuelFilter = MultisegmentView.new
+    @fuelFilter.addButton("Gas") { |state| applyFilter(gas: state) }
+    @fuelFilter.addButton("Di") { |state| applyFilter(diesel: state) }
 
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@bodyFilter),
+      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
+      UIBarButtonItem.alloc.initWithCustomView(@fuelFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
     ]
     self.navigationController.toolbarHidden = false
   end
   
-  def buttonPressed(button)
-    button.selected = !button.isSelected
-  end
-  
-  def segmentClicked(segment)
-  end
-
   def numberOfSectionsInTableView(tview)
     @modsByBody.count
   end
@@ -67,5 +68,23 @@ class ModificationsController < UITableViewController
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmark
     Model.toggleModWithKey(mod.key)
+  end
+  
+  private
+  
+  def applyFilter(options = {})
+    self.filterOptions.merge!(options)
+    self.filteredMods = filterOptions.empty? ? mods : mods.select do |mod|
+      next false if filterOptions[:at] && mod.automatic?
+      next false if filterOptions[:mt] && mod.manual?
+      next false if filterOptions[:sedan] && mod.sedan?
+      next false if filterOptions[:hatch] && mod.hatch?
+      next false if filterOptions[:wagon] && mod.wagon?
+      next false if filterOptions[:gas] && mod.gas?
+      next false if filterOptions[:diesel] && mod.diesel?
+      next true
+    end
+    self.modsByBody = filteredMods.group_by { |m| m.body }    
+    tableView.reloadData
   end
 end
