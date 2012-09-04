@@ -31,13 +31,15 @@ class ModificationsController < UITableViewController
       UIBarButtonItem.alloc.initWithCustomView(@fuelFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
     ]
+    
   end
   
   def numberOfSectionsInTableView(tview)
-    @modsByBody.count
+    @modsByBody.count > 0 ? @modsByBody.count : 1
   end
 
   def tableView(tv, numberOfRowsInSection:section)
+    return 0 if section >= @modsByBody.count
     bodyKey = modsByBody.keys[section]
     @modsByBody[bodyKey].count
   end
@@ -45,6 +47,17 @@ class ModificationsController < UITableViewController
   def tableView(tview, titleForHeaderInSection:section)
     bodyKey = modsByBody.keys[section]
     Static.body_names[bodyKey]
+  end
+
+  def tableView(tview, titleForFooterInSection:section)
+    if section == tableView.numberOfSections - 1
+      hiddenModsCount = mods.count - filteredMods.count
+      if tableView.numberOfSections == 1
+        "There are #{hiddenModsCount} different models of that car but they all are hidden. Relax the filter options to show some of them."
+      else
+        hiddenModsCount > 0 ? "There are also #{hiddenModsCount} hidden models" : nil
+      end
+    end
   end
 
   def tableView(table, cellForRowAtIndexPath:indexPath)
