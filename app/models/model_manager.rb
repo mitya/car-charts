@@ -92,6 +92,20 @@ class ModelManager
     NSUserDefaults.standardUserDefaults["parameters"] = array
   end
   
+  def availableFilterOptionsFor(mods)
+    options = {}
+    mods.each do |mod|
+      options[:mt] = true if options[:mt].nil? && mod.manual?
+      options[:at] = true if options[:at].nil? && mod.automatic?
+      options[:sedan] = true if options[:sedan].nil? && mod.sedan?
+      options[:hatch] = true if options[:hatch].nil? && mod.hatch?
+      options[:wagon] = true if options[:wagon].nil? && mod.wagon?
+      options[:gas] = true if options[:gas].nil? && mod.gas?      
+      options[:diesel] = true if options[:diesel].nil? && mod.diesel?      
+    end
+    options
+  end
+  
   def load
     modifications_hash = NSMutableDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("modifications", ofType:"plist"))
     @modifications = modifications_hash.map { |key, data| Modification.new(key, data) }
