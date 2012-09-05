@@ -44,10 +44,10 @@ class MultisegmentView < UIView
   end
     
   def self.unselectedBackground
-    @@unselectedBackground ||= UIImage.imageNamed("UISegmentBarMiniButton.png").resizableImageWithCapInsets(UIEdgeInsetsMake(15, 5, 15, 5))
+    @@unselectedBackground ||= UIImage.imageNamed("UISegmentOptionsButtonSelected.png").resizableImageWithCapInsets(UIEdgeInsetsMake(15, 5, 15, 5))
   end
 
   def self.selectedBackground
-    @@selectedBackground ||= UIImage.imageNamed("UISegmentBarMiniButtonHighlighted.png").resizableImageWithCapInsets(UIEdgeInsetsMake(15, 5, 15, 5))
+    @@selectedBackground ||= UIImage.imageNamed("UISegmentBarPopoverButtonHighlighted.png").resizableImageWithCapInsets(UIEdgeInsetsMake(15, 7, 15, 7))
   end
 end
