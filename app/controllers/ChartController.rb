@@ -76,10 +76,10 @@ class ChartController < UITableViewController
   
   def showSettings
     @settingsTabBarController || begin
-      categoriesCon = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
-      categoriesCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
-      categoriesNavCon = UINavigationController.alloc.initWithRootViewController(categoriesCon)
-      categoriesNavCon.delegate = self
+      carsCon = CarsController.alloc.initWithStyle(UITableViewStyleGrouped)
+      carsCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
+      carsNavCon = UINavigationController.alloc.initWithRootViewController(carsCon)
+      carsNavCon.delegate = self
 
       parametersCon = ParametersController.alloc.initWithStyle(UITableViewStyleGrouped)
       parametersCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
@@ -87,7 +87,7 @@ class ChartController < UITableViewController
       parametersNavCon.delegate = self
       
       @settingsTabBarController = UITabBarController.new
-      @settingsTabBarController.viewControllers = [categoriesNavCon, parametersNavCon]
+      @settingsTabBarController.viewControllers = [carsNavCon, parametersNavCon]
     end
     
     presentViewController @settingsTabBarController, animated:true, completion:nil
