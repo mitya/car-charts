@@ -70,6 +70,19 @@ task :buttons do
   end
 end
 
+task :split_images do
+  # convert resources/UISegmentOptionsDivider@2x.png -gravity East -crop 50%x100%+0+0 +repage resources/UISegmentOptionsDivider@2x.png
+  
+  [
+    %w(resources/OOMultisegment resources/OOMultisegmentDivider@2x.png),
+    %w(resources/OOMultisegmentSelected resources/OOMultisegmentSelectedDivider@2x.png)
+  ].each do |file, border|
+    system "convert #{file}@2x.png -gravity West  -crop 50%x100%+0+0 +repage #{border} +append #{file}Left@2x.png"
+    system "convert #{border} #{file}@2x.png -gravity North -crop 4x60+0+0     +repage #{border} +append #{file}Mid@2x.png"
+    system "convert #{border} #{file}@2x.png -gravity East  -crop 50%x100%+0+0 +repage +append #{file}Right@2x.png"
+  end
+end
+
 # $images = "data/images"
 # $sources = "artefacts/images"
 # 

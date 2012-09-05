@@ -24,6 +24,9 @@ class ModificationsController < UITableViewController
     @fuelFilter.addButton("Gas", Model.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableOptions[:gas]
     @fuelFilter.addButton("Di", Model.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableOptions[:diesel]
 
+    segmentedControl = UISegmentedControl.alloc.initWithItems(%w(AT MT))
+    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
+
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
@@ -31,9 +34,8 @@ class ModificationsController < UITableViewController
       UIBarButtonItem.alloc.initWithCustomView(@bodyFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@fuelFilter),
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-    ]
-    
+      UIBarButtonItem.alloc.initWithCustomView(segmentedControl),
+    ]    
   end
   
   def numberOfSectionsInTableView(tview)
