@@ -10,7 +10,7 @@ class ChartController < UITableViewController
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
 
     self.navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil)
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("abc_Op.png"), style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bar-button-options.png"), style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
   end
 
   def viewWillAppear(animated)

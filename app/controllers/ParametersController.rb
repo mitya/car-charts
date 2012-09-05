@@ -1,7 +1,7 @@
 class ParametersController < UITableViewController
   def initWithStyle(style)
     super
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Parameters", image:UIImage.imageNamed("abc_Pr.png"), tag:1)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Parameters", image:UIImage.imageNamed("ico-tab-parameters.png"), tag:1)
     self.title = "Parameters"
     self
   end

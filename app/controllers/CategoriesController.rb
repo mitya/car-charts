@@ -7,7 +7,7 @@ class CategoriesController < UITableViewController
   def initWithStyle(style)
     super
     self.title = "Car Classes"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("abc_Cc.png"), tag:1)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)
     @category_names = Static.category_names
     self
   end  

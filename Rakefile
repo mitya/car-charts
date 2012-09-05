@@ -5,7 +5,7 @@ Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
   app.version = "0.1"
-  app.icons = ["icon_iphone.png", "icon_iphone@2x.png"]
+  app.icons = ["icon-app-iphone.png", "icon-app-iphone@2x.png"]
   # app.deployment_target = "5.0"
   # app.frameworks += ['AVFoundation']
   # app.device_family = [:ipad, :iphone]
@@ -74,12 +74,12 @@ task :split_images do
   # convert resources/UISegmentOptionsDivider@2x.png -gravity East -crop 50%x100%+0+0 +repage resources/UISegmentOptionsDivider@2x.png
   
   [
-    %w(resources/OOMultisegment resources/OOMultisegmentDivider@2x.png),
-    %w(resources/OOMultisegmentSelected resources/OOMultisegmentSelectedDivider@2x.png)
+    %w(resources/ui-multisegment resources/ui-multisegment-divider@2x.png),
+    %w(resources/ui-multisegment-selected resources/ui-multisegment-selected-divider@2x.png)
   ].each do |file, border|
-    system "convert #{file}@2x.png -gravity West  -crop 50%x100%+0+0 +repage #{border} +append #{file}Left@2x.png"
-    system "convert #{border} #{file}@2x.png -gravity North -crop 4x60+0+0     +repage #{border} +append #{file}Mid@2x.png"
-    system "convert #{border} #{file}@2x.png -gravity East  -crop 50%x100%+0+0 +repage +append #{file}Right@2x.png"
+    system "convert #{file}-base@2x.png -gravity West  -crop 50%x100%+0+0 +repage #{border} +append #{file}-left@2x.png"
+    system "convert #{border} #{file}-base@2x.png -gravity North -crop 4x60+0+0     +repage #{border} +append #{file}-mid@2x.png"
+    system "convert #{border} #{file}-base@2x.png -gravity East  -crop 50%x100%+0+0 +repage +append #{file}-right@2x.png"
   end
 end
 
