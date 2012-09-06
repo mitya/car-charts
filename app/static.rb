@@ -6,7 +6,7 @@ class << Static
 end
 
 StaticData = {
-  body_names: {
+  bodyNames: {
    "sedan"=>"sedan",
    "sedan_long"=>"sedan long",
    "wagon"=>"wagon",

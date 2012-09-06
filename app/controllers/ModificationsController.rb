@@ -9,7 +9,7 @@ class ModificationsController < UITableViewController
     
     applyFilter
     
-    availableOptions = Model.availableFilterOptionsFor(mods)
+    availableOptions = Modification.availableFilterOptionsFor(mods)
 
     @transmissionFilter = MultisegmentView.new
     @transmissionFilter.addButton("MT", Model.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableOptions[:mt]
@@ -47,7 +47,7 @@ class ModificationsController < UITableViewController
 
   def tableView(tview, titleForHeaderInSection:section)
     bodyKey = modsByBody.keys[section]
-    Static.body_names[bodyKey]
+    Metadata.bodyNames[bodyKey]
   end
 
   def tableView(tview, titleForFooterInSection:section)

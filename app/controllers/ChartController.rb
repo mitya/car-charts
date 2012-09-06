@@ -3,7 +3,7 @@ class ChartController < UITableViewController
 
   def viewDidLoad
     super
-    @comparision = Comparision.new(Model.currentMods, Model.current_parameters.dup)
+    @comparision = Comparision.new(Model.currentMods, Model.currentParameters.dup)
 
     self.tableView.rowHeight = 25
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
@@ -15,7 +15,7 @@ class ChartController < UITableViewController
   def viewWillAppear(animated)
     super
     
-    @comparision = Comparision.new(Model.currentMods.sort_by { |m| m.key }, Model.current_parameters.dup)
+    @comparision = Comparision.new(Model.currentMods.sort_by { |m| m.key }, Model.currentParameters.dup)
     tableView.reloadData
     self.title = comparision.title
 

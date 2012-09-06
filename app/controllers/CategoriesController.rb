@@ -3,7 +3,7 @@ class CategoriesController < UITableViewController
     super
     self.title = "Car Classes"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)
-    @category_names = Static.category_names
+    @category_names = Metadata.category_names
     self
   end  
   
@@ -21,7 +21,7 @@ class CategoriesController < UITableViewController
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
 
     category_key = @category_names.keys[indexPath.row]
-    category_name = Static.category_names[category_key]
+    category_name = Metadata.category_names[category_key]
     category_models = Make.inCategory(category_key)
     category_selected_mods_count = Model.currentMods.map(&:category).map(&:to_sym).select{ |c| c == category_key}.count
 

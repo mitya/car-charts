@@ -24,11 +24,11 @@ class Modification
   end
   
   def category
-    Model.metadata['model_classes'][model.key]
+    Metadata.model_classes[model.key]
   end
   
   def body_name
-    Model.body_names[body] || "XXX #{body}"
+    Metadata.bodyNames[body] || "!!! #{body}"
   end
   
   def version
@@ -129,6 +129,20 @@ class Modification
         @@map[mod.key] = mod
         mod.model.modifications << mod
       end        
+    end
+    
+    def availableFilterOptionsFor(mods)
+      options = {}
+      mods.each do |mod|
+        options[:mt] = true if options[:mt].nil? && mod.manual?
+        options[:at] = true if options[:at].nil? && mod.automatic?
+        options[:sedan] = true if options[:sedan].nil? && mod.sedan?
+        options[:hatch] = true if options[:hatch].nil? && mod.hatch?
+        options[:wagon] = true if options[:wagon].nil? && mod.wagon?
+        options[:gas] = true if options[:gas].nil? && mod.gas?      
+        options[:diesel] = true if options[:diesel].nil? && mod.diesel?      
+      end
+      options
     end    
   end
 end

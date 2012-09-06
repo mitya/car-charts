@@ -6,11 +6,11 @@ class Parameter
   end
 
   def unit
-    Static.parameter_units[key]
+    Metadata.parameter_units[key]
   end
   
   def unit_name
-    Static.parameter_unit_names[unit]
+    Metadata.parameter_unit_names[unit]
   end
 end
 

@@ -33,9 +33,9 @@ class Comparision
   
   def title
     return "Select some cars..." if params.count == 0
-    return Static.parameter_names[params.first.to_sym] if params.count == 1
-    "#{Static.parameter_names[params.first.to_sym]} +#{params.count - 1}"
-    # params.map { |p| Static.parameter_names[p.to_sym] }.join(' - ')
+    return Metadata.parameter_names[params.first.to_sym] if params.count == 1
+    "#{Metadata.parameter_names[params.first.to_sym]} +#{params.count - 1}"
+    # params.map { |p| Metadata.parameter_names[p.to_sym] }.join(' - ')
   end
 end
 

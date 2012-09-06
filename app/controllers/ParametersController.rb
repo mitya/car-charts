@@ -18,7 +18,7 @@ class ParametersController < UITableViewController
     end
 
     cell.textLabel.text = parameter.name
-    cell.accessoryType = Model.current_parameters.include?(parameter.key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.accessoryType = Model.currentParameters.include?(parameter.key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end  
   
@@ -28,9 +28,9 @@ class ParametersController < UITableViewController
     parameter = Model.parameters[indexPath.row]
 
     if cell.toggleCheckmark
-      Model.current_parameters = Model.current_parameters - [parameter.key.to_s]      
+      Model.currentParameters = Model.currentParameters - [parameter.key.to_s]      
     else
-      Model.current_parameters = Model.current_parameters + [parameter.key.to_s]
+      Model.currentParameters = Model.currentParameters + [parameter.key.to_s]
     end
   end
 end

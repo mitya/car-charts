@@ -9,7 +9,7 @@ class CarsController < UITableViewController
     super
     self.title = "Cars"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)
-    @category_names = Static.category_names
+    @category_names = Metadata.category_names
     self
   end  
   

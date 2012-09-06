@@ -8,11 +8,11 @@ class Make
   end
   
   def name
-    @name ||= Model.metadata['model_names_branded'][key]
+    @name ||= Metadata.model_names_branded[key]
   end
   
   def unbrandedName
-    @unbrandedName ||= Model.metadata['model_names']
+    @unbrandedName ||= Metadata.model_names
   end
   
   def brandKey
@@ -37,11 +37,11 @@ class Make
     end
 
     def inCategory(categoryKey)
-      getMany Model.metadata['model_classes_inverted'][categoryKey]
+      getMany Metadata.model_classes_inverted[categoryKey]
     end
 
     def allKeys
-      @@allKeys ||= Model.metadata['model_names'].keys.sort
+      @@allKeys ||= Metadata.model_names.keys.sort
     end  
 
     def all
