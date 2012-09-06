@@ -4,13 +4,13 @@ class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     ModelManager.load
     Model.current_parameters ||= [:max_power]
-    Model.current_mod_keys ||= [] # %w(ford--focus volkswagen--golf honda--civic toyota--corolla)
+    Model.currentMods ||= []
 
     self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
     navigationController.delegate = self
 
     # controller = ModificationsController.alloc.initWithStyle(UITableViewStyleGrouped)
-    # controller.model_key = "ford--focus"
+    # controller.model = Make.get("ford--focus")
     # navigationController.pushViewController(controller, animated:false)
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)

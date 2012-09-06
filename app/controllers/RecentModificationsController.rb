@@ -12,8 +12,8 @@ class RecentModificationsController < UITableViewController
 
   def tableView(tv, numberOfRowsInSection:section)
     case section
-      when 0 then Model.current_mod_keys.count
-      when 1 then Model.recentModKeys.count
+      when 0 then Model.currentMods.count
+      when 1 then Model.recentMods.count
     end
   end
 
@@ -25,26 +25,26 @@ class RecentModificationsController < UITableViewController
   end
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
-    collection = indexPath.section == 0 ? Model.current_mod_keys : Model.recentModKeys
-    modKey = collection[-indexPath.row - 1]
-    mod = Model.modification_for(modKey)
+    collection = indexPath.section == 0 ? Model.currentMods : Model.recentMods
+    mod = collection[-indexPath.row - 1]
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle)
-    cell.textLabel.text = mod.branded_model_name
+    cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.mod_name
-    cell.accessoryType = Model.current_mod_keys.include?(mod.key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.accessoryType = Model.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end
 
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
-    collection = indexPath.section == 0 ? Model.current_mod_keys : Model.recentModKeys
-    modKey = collection[-indexPath.row - 1]
+    collection = indexPath.section == 0 ? Model.currentMods : Model.recentMods
     
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmark
 
-    Model.toggleModWithKey(modKey)
+    mod = collection[-indexPath.row - 1]
+    mod.toggle
+    
     tableView.moveRowAtIndexPath(indexPath, toIndexPath:(NSIndexPath.indexPathForRow(0, inSection: indexPath.section == 0 ? 1 : 0)))
   end
 end

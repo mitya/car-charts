@@ -21,9 +21,9 @@ class CategoriesController < UITableViewController
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
 
     category_key = @category_names.keys[indexPath.row]
-    category_name = Static.category_names[category_key.to_sym]
-    category_models = Model.model_classes[category_key.to_s]
-    category_selected_mods_count = Model.current_mods.map(&:category).map(&:to_sym).select{ |c| c == category_key}.count
+    category_name = Static.category_names[category_key]
+    category_models = Make.inCategory(category_key)
+    category_selected_mods_count = Model.currentMods.map(&:category).map(&:to_sym).select{ |c| c == category_key}.count
 
     cell.textLabel.text = category_name
     cell.badgeText = category_selected_mods_count.to_s if category_selected_mods_count > 0
@@ -35,9 +35,8 @@ class CategoriesController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
     category_key = @category_names.keys[indexPath.row]
-    category_models = Model.model_classes[category_key.to_s]
     controller = ModelsController.alloc.initWithStyle(UITableViewStyleGrouped)
-    controller.model_keys = category_models
+    controller.models = Make.inCategory(category_key)
 
     navigationController.pushViewController(controller, animated:true)
   end

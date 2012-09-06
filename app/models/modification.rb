@@ -1,23 +1,14 @@
 class Modification
   attr_accessor :data, :key
-  attr_accessor :brand_key, :model_key, :body, :engine_vol, :fuel, :power, :transmission, :drive, :version_subkey
+  attr_accessor :model, :body, :engine_vol, :fuel, :power, :transmission, :drive, :version_subkey
   
   def initialize(key, data)
-    @key = key
-    @data = data
+    @key, @data = key, data
     parse_key
   end
   
-  def branded_model_name
-    @branded_model_name ||= begin
-      brand_name = Model.brand_names[@brand_key]
-      model_name = Model.model_names[@model_key]
-      "#{brand_name} #{model_name}"
-    end
-  end
-  
   def full_name
-    "#{branded_model_name} #{nameNoBody}"
+    "#{model.name} #{nameNoBody}"
   end
   
   def nameNoBody
@@ -33,7 +24,7 @@ class Modification
   end
   
   def category
-    Model.metadata['model_classes'][model_key]
+    Model.metadata['model_classes'][model.key]
   end
   
   def body_name
@@ -56,10 +47,6 @@ class Modification
     data['compressor'] && fuel != 'd' ? "T" : ""
   end
   
-  def premium?
-    Model.premium_brands.containsObject(brand_key)
-  end
-
   def gas?
     fuel == 'i'
   end
@@ -68,13 +55,12 @@ class Modification
     fuel == 'd'
   end
   
-  AutomaticTransmissions = %w(AT AMT CVT)
   def automatic?
-    AutomaticTransmissions.include?(@transmission)
+    AutomaticTransmissions.include?(transmission)
   end
 
   def manual?
-    @transmission == "MT"
+    transmission == "MT"
   end
 
   def sedan?
@@ -93,21 +79,56 @@ class Modification
     data[key]
   end
   
+  def toggle
+    Model.toggleMod(key)
+  end
+  
   private
   
   # alfa_romeo--159--2005--sedan---1.8i-140ps-MT-FWD
   # [alfa_romeo, 159, 2005, sedan, 1.8, i, 140, MT, FWD]
   # [alfa_romeo--159]
   def parse_key
-    @brand_key, model_version, years, @body, agregate = key.split(' ')
+    brand_key, model_version, years, @body, agregate = key.split(' ')
     model_subkey, @version_subkey = model_version.split('.')
-    @model_key = [@brand_key, model_subkey].join('--')
+    model_key = [brand_key, model_subkey].join('--')
     
-    @brand_key = @brand_key.to_sym
+    @model = Make.get(model_key)
     
     engine, power, @transmission, @drive = agregate.split('-')
     @engine_vol = engine[0..-2]
     @fuel = engine[-1]
     @power = power.to_i
+  end
+  
+  AutomaticTransmissions = %w(AT AMT CVT)  
+
+  class << self
+    def get(key)
+      @@map[key]
+    end
+
+    def getMany(keys)
+      keys.map { |k| get(k) }
+    end
+  
+    def all
+      @@all
+    end
+  
+    def map
+      @@map
+    end
+  
+    def load
+      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
+      @@all = plist.map { |key, data| new(key, data) }
+  
+      @@map = {}
+      @@all.each do |mod|
+        @@map[mod.key] = mod
+        mod.model.modifications << mod
+      end        
+    end    
   end
 end

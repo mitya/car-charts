@@ -72,8 +72,8 @@ class BarView < UIView
     detailRect = CGRectMake(BarLabelsLeftMargin, item.first?? BarTitleHeight : 0, BarLabelsWidth, BarDetailHeight)
 
     if item.first?
-      modelNameColor = mod.premium? ? BarPremiumBrandColor : UIColor.blackColor
-      Helper.drawStringInRect mod.branded_model_name, modelRect, modelNameColor, 11, UILineBreakModeClip, UITextAlignmentRight
+      modelNameColor = mod.model.premium? ? BarPremiumBrandColor : UIColor.blackColor
+      Helper.drawStringInRect mod.model.name, modelRect, modelNameColor, 11, UILineBreakModeClip, UITextAlignmentRight
     end
 
     Helper.drawStringInRect mod.mod_name, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight

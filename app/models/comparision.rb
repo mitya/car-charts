@@ -55,11 +55,11 @@ class ComparisionItem
   end
 
   def first?
-    index == 0 || mods[index - 1].model_key != mod.model_key
+    index == 0 || mods[index - 1].model != mod.model
   end
   
   def next?
-    index != 0 && mods[index - 1].model_key == mod.model_key
+    index != 0 && mods[index - 1].model == mod.model
   end
   
   def mid?
@@ -67,6 +67,6 @@ class ComparisionItem
   end
   
   def last?
-    mod == mods.last || mods[index + 1].model_key != mod.model_key
+    mod == mods.last || mods[index + 1].model != mod.model
   end
 end

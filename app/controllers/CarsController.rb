@@ -41,7 +41,7 @@ class CarsController < UITableViewController
       controller = RecentModificationsController.alloc.initWithStyle(UITableViewStyleGrouped)
     when :all
       controller = ModelsController.alloc.initWithStyle(UITableViewStyleGrouped)
-      controller.model_keys = Model.all_model_keys
+      controller.models = Make.all
     when :categories
       controller = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
     end

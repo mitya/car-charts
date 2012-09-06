@@ -1,14 +1,14 @@
 class ModificationsController < UITableViewController
-  attr_accessor :model_key, :mods, :modsByBody, :filteredMods
+  attr_accessor :model, :mods, :modsByBody, :filteredMods
 
   def viewDidLoad
     super
     
-    self.title = Model.model_names_branded[@model_key]
-
-    self.mods = Model.modifications_by_model_key[@model_key].sort_by { |m| m.key }
+    self.title = model.name
+    self.mods = model.modifications    
+    
     applyFilter
-
+    
     availableOptions = Model.availableFilterOptionsFor(mods)
 
     @transmissionFilter = MultisegmentView.new
@@ -54,7 +54,7 @@ class ModificationsController < UITableViewController
     if section == tableView.numberOfSections - 1
       hiddenModsCount = mods.count - filteredMods.count
       if @modsByBody.count == 0
-        "#{hiddenModsCount} models available\n Relax filter settings to view it"
+        "#{hiddenModsCount} models available\n Relax the filter settings to view it"
       else
         hiddenModsCount > 0 ? "There are also #{hiddenModsCount} models hidden" : nil
       end
@@ -67,7 +67,7 @@ class ModificationsController < UITableViewController
 
     cell = table.dequeueReusableCell
     cell.textLabel.text = mod.nameWithVersion
-    cell.accessoryType = Model.current_mod_keys.include?(mod.key) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.accessoryType = Model.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end
 
@@ -79,7 +79,7 @@ class ModificationsController < UITableViewController
 
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmark
-    Model.toggleModWithKey(mod.key)
+    mod.toggle
   end
   
   private

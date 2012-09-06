@@ -32,7 +32,7 @@ StaticData = {
    "pickup_2d"=>"pickup 2-dr",
    "pickup_4d"=>"pickup 4-dr",
   },
-  premium_brands: %w(mercedes_benz audi bmw lexus infinity acura volvo cadillac range_rover),
+  premiumBrandKeys: %w(mercedes_benz audi bmw lexus infinity acura volvo cadillac range_rover),
   parameter_names: {
     top_speed: "Top Speed",
     acceleration_0_100_kmh: "Acelleration",

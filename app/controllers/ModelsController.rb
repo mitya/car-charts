@@ -1,11 +1,11 @@
 class ModelsController < UITableViewController
-  attr_accessor :model_keys, :searchBar
+  attr_accessor :models, :searchBar
 
   def viewDidLoad
     super
     self.title = "Car Models"
 
-    @filteredModelKeys = @model_keys.dup
+    @filteredModels = @models.dup
     
     self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 45))
     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
@@ -21,27 +21,26 @@ class ModelsController < UITableViewController
   end
 
   def tableView(tv, numberOfRowsInSection:section)
-    @filteredModelKeys.count
+    @filteredModels.count
   end
 
   def tableView(table, cellForRowAtIndexPath:indexPath)
-    model_key = @filteredModelKeys[indexPath.row]
-    model_name = Model.model_names_branded[model_key] || model_key
-    model_selected_mods_count = Model.current_mods.map(&:model_key).select{ |key| key == model_key}.count
+    model = @filteredModels[indexPath.row]
+    modelSelectedModsCount = model.selectedModsCount
 
     cell = table.dequeueReusableCell(klass: BadgeViewCell)
-    cell.textLabel.text = model_name
+    cell.textLabel.text = model.name || model.key
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.badgeText = model_selected_mods_count.to_s if model_selected_mods_count > 0
+    cell.badgeText = modelSelectedModsCount.to_s if modelSelectedModsCount > 0
     cell
   end
 
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
-    model_key = @filteredModelKeys[indexPath.row]
+    model = @filteredModels[indexPath.row]
 
     controller = ModificationsController.alloc.initWithStyle(UITableViewStyleGrouped)
-    controller.model_key = model_key
+    controller.model = model
     navigationController.pushViewController(controller, animated:true)
   end
   
@@ -50,11 +49,9 @@ class ModelsController < UITableViewController
   end
   
   def searchBar(sb, textDidChange:text)
-    if text.empty?
-      @filteredModelKeys = @model_keys.dup 
-    else
-      @filteredModelKeys = @model_keys.select { |k| title = k.split(/--?|_/).join(' '); title =~ /\b#{text.downcase}/ }
-    end
+    text.empty? ? 
+      @filteredModels = @models.dup :
+      @filteredModels = @models.select { |model| model.name =~ /\b#{text.downcase}/i }
     tableView.reloadData
   end
 end
