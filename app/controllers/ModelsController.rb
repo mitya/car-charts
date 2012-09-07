@@ -5,14 +5,18 @@ class ModelsController < UITableViewController
     super
     self.title = "Car Models"
 
-    @filteredModels = @models.dup
+    @filteredModels = @models
     
     self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 45))
     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
     searchBar.placeholder = "Search"
     searchBar.delegate = self
-    searchBar.sizeToFit
     tableView.tableHeaderView = searchBar
+    
+    searchController = UISearchDisplayController.alloc.initWithSearchBar(searchBar, contentsController:self)
+    searchController.delegate = self
+    searchController.searchResultsDataSource = self
+    searchController.searchResultsDelegate = self    
   end
 
   def viewWillAppear(animated)
@@ -44,14 +48,12 @@ class ModelsController < UITableViewController
     navigationController.pushViewController(controller, animated:true)
   end
   
-  def scrollViewWillBeginDragging(scrollView)
-    searchBar.resignFirstResponder
-  end
-  
-  def searchBar(sb, textDidChange:text)
-    text.empty? ? 
-      @filteredModels = @models.dup :
-      @filteredModels = @models.select { |model| model.name =~ /\b#{text.downcase}/i }
-    tableView.reloadData
+  def searchDisplayController(controller, shouldReloadTableForSearchString:searchString)
+    previousFilteredModels = @filteredModels
+    @filteredModels = searchString.empty? ? 
+      @models :
+      @models.select { |model| model.name =~ /\b#{searchString.downcase}/i }
+    p [previousFilteredModels.count, @filteredModels.count, previousFilteredModels != @filteredModels]
+    previousFilteredModels != @filteredModels
   end
 end
