@@ -54,9 +54,9 @@ class ModificationsController < UITableViewController
     if section == tableView.numberOfSections - 1
       hiddenModsCount = mods.count - filteredMods.count
       if @modsByBody.count == 0
-        "#{hiddenModsCount} models available\n Relax the filter settings to view it"
+        "#{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} available\n Relax the filter settings to view it"
       else
-        hiddenModsCount > 0 ? "There are also #{hiddenModsCount} models hidden" : nil
+        hiddenModsCount > 0 ? "There are also #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} hidden" : nil
       end
     end
   end

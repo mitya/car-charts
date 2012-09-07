@@ -30,6 +30,18 @@ class NSMutableDictionary
   end  
 end
 
+PluralizationRules = { }
+
+class NSString
+  def pluralizeFor(count)
+    count == 1 ? self : pluralize
+  end
+  
+  def pluralize
+    PluralizationRules[self] || self + "s"
+  end
+end
+
 class Class
   def attr_delegated(target, *attrs)
     @attrs_delegated ||= {}
