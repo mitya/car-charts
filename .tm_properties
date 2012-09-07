@@ -1,1 +1,1 @@
-exclude = "build"
+exclude = {build,resources,tmp}

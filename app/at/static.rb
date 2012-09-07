@@ -1,10 +1,3 @@
-Static = Object.new
-class << Static
-  def method_missing(selector, *args, &block)
-    StaticData.has_key?(selector.to_sym) ? StaticData[selector.to_sym] : super
-  end
-end
-
 StaticData = {
   bodyNames: {
    "sedan"=>"sedan",

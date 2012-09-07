@@ -76,11 +76,12 @@ class Modification
   end
   
   def [](key)
+    key = key.key if Parameter === key
     data[key]
   end
   
   def toggle
-    Model.toggleMod(key)
+    Model.toggleMod(self)
   end
   
   private
@@ -104,24 +105,14 @@ class Modification
   AutomaticTransmissions = %w(AT AMT CVT)  
 
   class << self
-    def get(key)
-      @@map[key]
-    end
-
-    def getMany(keys)
-      keys.map { |k| get(k) }
-    end
-  
-    def all
-      @@all
-    end
-  
-    def map
-      @@map
-    end
+    def get(key) @@map[key] end
+    def getMany(keys) keys.map { |k| get(k) } end
+    def all() @@all end
+    def map() @@map end
   
     def load
       plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
+      $plist = plist
       @@all = plist.map { |key, data| new(key, data) }
   
       @@map = {}

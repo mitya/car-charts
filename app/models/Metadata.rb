@@ -1,12 +1,14 @@
 class Metadata
   class << self
+    attr_reader :store
+    
     def load
       @store = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-metadata", ofType:"plist"))
     end
 
     def method_missing(selector, *args, &block)
       case 
-        when StaticData.has_key?(selector.to_sym) then StaticData[selector.to_sym]
+        when StaticData.has_key?(selector) then StaticData[selector]
         when @store.has_key?(selector) then @store[selector]
         else super
       end

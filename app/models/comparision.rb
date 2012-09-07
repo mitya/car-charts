@@ -24,7 +24,7 @@ class Comparision
   
   def range_for(param)
     @ranges ||= {}
-    @ranges[param] ||= max_value_for(param) - min_value_for(param)    
+    @ranges[param] ||= max_value_for(param) - min_value_for(param)
   end
   
   def items
@@ -33,9 +33,8 @@ class Comparision
   
   def title
     return "Select some cars..." if params.count == 0
-    return Metadata.parameter_names[params.first.to_sym] if params.count == 1
-    "#{Metadata.parameter_names[params.first.to_sym]} +#{params.count - 1}"
-    # params.map { |p| Metadata.parameter_names[p.to_sym] }.join(' - ')
+    return params.first.name if params.count == 1
+    "#{params.first.name} +#{params.count - 1}"
   end
 end
 

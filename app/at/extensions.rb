@@ -13,6 +13,23 @@ class NSArray
   end
 end
 
+class NSDictionary
+  def symbolizeKeys
+    copy = {}
+    each_pair { |key, value| copy[key.to_sym] = value }
+    copy
+  end  
+end
+
+class NSMutableDictionary
+  def symbolizeKeys!
+    keys.each do |key|
+      self[(key.to_sym rescue key) || key] = delete(key)
+    end
+    self
+  end  
+end
+
 class Class
   def attr_delegated(target, *attrs)
     @attrs_delegated ||= {}

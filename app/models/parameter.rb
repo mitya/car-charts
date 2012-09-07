@@ -2,15 +2,28 @@ class Parameter
   attr_accessor :key, :name
 
   def initialize(key, name)
-    @key, @name = key, name
+    @key, @name = key.to_sym, name
+    @@map[@key] = self
   end
 
-  def unit
+  def unitKey
     Metadata.parameter_units[key]
   end
   
-  def unit_name
-    Metadata.parameter_unit_names[unit]
+  def unitName
+    Metadata.parameter_unit_names[unitKey]
+  end  
+  
+  class << self
+    def get(key) @@map[key] end
+    def getMany(keys) keys.map { |k| get(k) } end
+    def all() @@all end
+    def map() @@map end
+    
+    def load
+      @@map = {}
+      @@all = Metadata.parameter_names.map { |key, name| Parameter.new(key, name) }
+    end
   end
 end
 

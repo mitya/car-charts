@@ -24,8 +24,12 @@ class Make
   end
   
   def premium?
-    Model.premiumBrandKeys.containsObject(brandKey)
+    self.class.premiumBrandKeys.containsObject(brandKey)
   end  
+  
+  def inspect
+    "#<Make:#{key} mods=#{modifications.count}>"
+  end
   
   class << self
     def get(key)
@@ -47,6 +51,10 @@ class Make
     def all
       @@all ||= self.getMany(allKeys)
     end
+    
+    def premiumBrandKeys
+      @@premiumBrandKeys ||= NSSet.setWithArray(Metadata.premiumBrandKeys)
+    end    
 
     @@map = {}    
   end  

@@ -25,7 +25,7 @@ class BarViewInfo
   end
     
   def text
-    "#{param_text} #{Model.unit_name_for(param)}"
+    "#{param_text} #{param.unitName}"
   end
 end
 

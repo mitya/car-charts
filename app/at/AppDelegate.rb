@@ -3,7 +3,7 @@ class AppDelegate
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     Model.load
-    Model.currentParameters ||= [:max_power]
+    Model.currentParameters ||= [Parameter.get(:max_power)]
     Model.currentMods ||= []
 
     self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)

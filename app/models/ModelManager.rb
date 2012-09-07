@@ -1,20 +1,5 @@
 class ModelManager
-  attr_accessor :metadata
-
-  def premiumBrandKeys
-    @premiumBrandKeys ||= NSSet.setWithArray(Metadata.premiumBrandKeys)
-  end
-
-  def unit_name_for(param)
-    unit = Metadata.parameter_units[param.to_sym]
-    Metadata.parameter_unit_names[unit]
-  end
-  
-  def parameters
-    @parameters ||= Metadata.parameter_names.map { |key, name| Parameter.new(key, name) }
-  end
-  
-  ### Things stored in defaults
+  ### Things stored in the defaults
 
   def filterOptions
     NSUserDefaults.standardUserDefaults["filterOptions"] || {}
@@ -48,11 +33,12 @@ class ModelManager
   end
   
   def currentParameters
-    NSUserDefaults.standardUserDefaults["parameters"] || []
+    @currentParameters ||= Parameter.getMany( NSUserDefaults.standardUserDefaults["parameters"].map(&:to_sym) || [] )
   end
   
   def currentParameters=(array)
-    NSUserDefaults.standardUserDefaults["parameters"] = array
+    NSUserDefaults.standardUserDefaults["parameters"] = array.map { |p| p.key.to_s }
+    @currentParameters = array
   end
   
   #### Initialization
@@ -60,6 +46,7 @@ class ModelManager
   def load
     Metadata.load
     Modification.load
+    Parameter.load
   end
 end
 
