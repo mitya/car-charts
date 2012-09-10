@@ -19,11 +19,6 @@ class ModelsController < UITableViewController
     searchController.searchResultsDelegate = self    
   end
 
-  def viewWillAppear(animated)
-    super
-    tableView.reloadData
-  end
-
   def tableView(tv, numberOfRowsInSection:section)
     @filteredModels.count
   end
