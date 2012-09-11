@@ -2,10 +2,8 @@ class AppDelegate
   attr_accessor :window, :navigationController
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    NSSetUncaughtExceptionHandler nil do |exception|
-      NSLog "the handler block"
-      applicationFailedWithException(exception)
-    end
+    @exceptionHandler = proc { |exception| applicationFailedWithException(exception) }
+    NSSetUncaughtExceptionHandler(@exceptionHandler)
     
     Model.load
     Model.currentParameters ||= [Parameter.get(:max_power)]
@@ -36,10 +34,8 @@ class AppDelegate
   end
   
   def applicationFailedWithException(exception)
-    NSLog "applicationFailedWithException"
     NSUserDefaults.standardUserDefaults["crashed"] = true
     stack = exception.callStackReturnAddresses
-    NSLog "Disaster: #{exception}\nStack: #{stack}"
+    NSLog "Disaster: #{exception.inspect}\nStack: #{stack}"
   end
 end
-

@@ -8,8 +8,10 @@ class ChartController < UITableViewController
     self.tableView.rowHeight = 25
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
 
-    self.navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil)
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bar-button-options.png"), style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
+    self.navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", 
+      style:UIBarButtonItemStyleBordered, target:nil, action:nil)
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bar-button-options.png"), 
+      style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
   end
 
   def viewWillAppear(animated)
@@ -20,23 +22,9 @@ class ChartController < UITableViewController
     self.title = comparision.title
 
     if comparision.mods.empty? || comparision.params.empty?
-      @messageView || begin
-        text = "To start – select some car models and some parameters to compare"
-        if $lastLaunchFailed
-          text = "Something weird happened, the parameters and models were reset. Sorry :("
-          $lastLaunchFailed = nil
-        end
-                  
-        @messageView = UILabel.alloc.initWithFrame(view.bounds.withXMargins(15))
-        @messageView.text = text
-        @messageView.textAlignment = UITextAlignmentCenter
-        @messageView.textColor = Color.grayShade(0.7)
-        @messageView.font = UIFont.systemFontOfSize(20)
-        @messageView.numberOfLines = 0
-      end
-      view.addSubview(@messageView)
+      view.addSubview(@placeholderView ||= createPlaceholderView)
     else
-      @messageView.removeFromSuperview if @messageView && @messageView.superview
+      @placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
     end
 
   end
@@ -67,17 +55,14 @@ class ChartController < UITableViewController
     height += 4
     height
   end
-  
-  def showParameters
-    controller = ParametersController.alloc.initWithStyle(UITableViewStyleGrouped)
-    navigationController.pushViewController(controller, animated:true)
-  end  
 
-  def showCategories
-    controller = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
-    navigationController.pushViewController(controller, animated:true)
-  end  
-  
+  def navigationController(navController, willShowViewController:viewController, animated:animated)
+    @closeSettingsButton ||= UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone,
+      target:self, action:"closeSettings")
+    viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
+    navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
+  end
+
   def showSettings
     @settingsTabBarController || begin
       carsCon = CarsController.alloc.initWithStyle(UITableViewStyleGrouped)
@@ -100,10 +85,19 @@ class ChartController < UITableViewController
   def closeSettings
     dismissModalViewControllerAnimated true
   end
-
-  def navigationController(navController, willShowViewController:viewController, animated:animated)
-    @closeSettingsButton ||= UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone, target:self, action:"closeSettings")
-    viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
-    navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
+  
+  def createPlaceholderView
+    text = $lastLaunchFailed ?
+      "Something weird happened, the parameters and models were reset. Sorry :(" :
+      "To start – select some car models and some parameters to compare"
+    $lastLaunchFailed = nil
+                  
+    placeholder = UILabel.alloc.initWithFrame(view.bounds.withXMargins(15))
+    placeholder.text = text
+    placeholder.textAlignment = UITextAlignmentCenter
+    placeholder.textColor = Color.grayShade(0.7)
+    placeholder.font = UIFont.systemFontOfSize(20)    
+    placeholder.numberOfLines = 0    
+    placeholder
   end
 end

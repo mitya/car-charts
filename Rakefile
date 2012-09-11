@@ -5,7 +5,7 @@ Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
   app.version = "0.1"
-  app.icons = ["icon-app-iphone.png", "icon-app-iphone@2x.png"]
+  app.icons = ["ico-app-iphone.png", "ico-app-iphone@2x.png"]
   # app.deployment_target = "5.0"
   # app.frameworks += ['AVFoundation']
   # app.device_family = [:ipad, :iphone]
