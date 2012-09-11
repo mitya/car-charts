@@ -6,7 +6,7 @@ class ChartController < UITableViewController
     @comparision = Comparision.new(Model.currentMods, Model.currentParameters)
 
     self.tableView.rowHeight = 25
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone # UITableViewCellSeparatorStyleSingleLine
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone
 
     self.navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", 
       style:UIBarButtonItemStyleBordered, target:nil, action:nil)
@@ -41,7 +41,6 @@ class ChartController < UITableViewController
     cell = tv.dequeueReusableCell klass:BarTableViewCell do |cell|
       cell.selectionStyle = UITableViewCellSelectionStyleNone
     end
-
     cell.item = comparision.items[ip.row]
     cell
   end
@@ -65,12 +64,12 @@ class ChartController < UITableViewController
 
   def showSettings
     @settingsTabBarController || begin
-      carsCon = CarsController.alloc.initWithStyle(UITableViewStyleGrouped)
+      carsCon = CarsController.new
       carsCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
       carsNavCon = UINavigationController.alloc.initWithRootViewController(carsCon)
       carsNavCon.delegate = self
 
-      parametersCon = ParametersController.alloc.initWithStyle(UITableViewStyleGrouped)
+      parametersCon = ParametersController.new
       parametersCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
       parametersNavCon = UINavigationController.alloc.initWithRootViewController(parametersCon)
       parametersNavCon.delegate = self

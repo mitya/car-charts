@@ -38,7 +38,7 @@ class ModelsController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
     model = @filteredModels[indexPath.row]
 
-    controller = ModificationsController.alloc.initWithStyle(UITableViewStyleGrouped)
+    controller = ModificationsController.new
     controller.model = model
     navigationController.pushViewController(controller, animated:true)
   end

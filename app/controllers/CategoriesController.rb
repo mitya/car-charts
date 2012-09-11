@@ -1,42 +1,35 @@
 class CategoriesController < UITableViewController
-  def initWithStyle(style)
-    super
+  def initialize
     self.title = "Car Classes"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)
-    @category_names = Metadata.category_names
-    self
-  end  
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)    
+  end
   
   def viewWillAppear(animated)
     super
-    tableView.reloadData
+    tableView.reloadData # refresh badges
   end
   
   def tableView(tv, numberOfRowsInSection:section)
-    @category_names.count
+    Metadata.categoryNames.count
   end
   
   def tableView(table, cellForRowAtIndexPath:indexPath)
+    categoryKey = Metadata.categoryNames.keys[indexPath.row]
+    categorySelectedModsCount = Model.currentMods.select { |mod| mod.category.to_sym == categoryKey }.count
+
     cell = table.dequeueReusableCell(klass: BadgeViewCell)
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-
-    category_key = @category_names.keys[indexPath.row]
-    category_name = Metadata.category_names[category_key]
-    category_models = Make.inCategory(category_key)
-    category_selected_mods_count = Model.currentMods.map(&:category).map(&:to_sym).select{ |c| c == category_key}.count
-
-    cell.textLabel.text = category_name
-    cell.badgeText = category_selected_mods_count.to_s if category_selected_mods_count > 0
-    
+    cell.textLabel.text = Metadata.categoryNames[categoryKey]
+    cell.badgeText = categorySelectedModsCount.to_s if categorySelectedModsCount > 0
     cell
   end
 
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
-    category_key = @category_names.keys[indexPath.row]
-    controller = ModelsController.alloc.initWithStyle(UITableViewStyleGrouped)
-    controller.models = Make.inCategory(category_key)
+    categoryKey = Metadata.categoryNames.keys[indexPath.row]
+    controller = ModelsController.new
+    controller.models = Make.inCategory(categoryKey)
 
     navigationController.pushViewController(controller, animated:true)
   end

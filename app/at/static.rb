@@ -113,7 +113,7 @@ StaticData = {
     date: "",
     rouble: "",  
   },
-  category_names: {
+  categoryNames: {
      A: "City (A class)",
      B: "Supermini (B class)",
      C: "Compact (C/Golf class) ",

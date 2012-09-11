@@ -10,7 +10,7 @@ class AppDelegate
     Model.currentMods ||= []
 
     if NSUserDefaults.standardUserDefaults["crashed"]
-      NSLog "Recoivering after crash"
+      NSLog "Recovering after crash ..."
       Model.recentMods = Model.currentMods + Model.recentMods
       Model.currentMods = []
       Model.currentParameters = []
@@ -32,7 +32,7 @@ class AppDelegate
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navigationController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
   end
-  
+
   def applicationFailedWithException(exception)
     NSUserDefaults.standardUserDefaults["crashed"] = true
     stack = exception.callStackReturnAddresses

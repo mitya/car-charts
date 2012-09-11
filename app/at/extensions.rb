@@ -66,6 +66,16 @@ end
 
 ###############################################################################
 
+class UITableViewController
+  def self.initAsRubyObject
+    alloc.initWithStyle(UITableViewStyleGrouped).tap { |this| this.send(:initialize) }
+  end
+  
+  def self.new
+    initAsRubyObject
+  end  
+end
+
 class UITableView
   def dequeueReusableCell(options = {})
     klass = options[:klass] || UITableViewCell

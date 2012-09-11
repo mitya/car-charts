@@ -4,15 +4,12 @@ class CarsController < UITableViewController
     {key: :all, title: "All"},
     {key: :categories, title: "Categories"},
   ]
-  
-  def initWithStyle(style)
-    super
+
+  def initialize
     self.title = "Cars"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)
-    @category_names = Metadata.category_names
-    self
-  end  
-  
+  end
+
   def viewWillAppear(animated)
     super
     tableView.reloadData
@@ -38,12 +35,12 @@ class CarsController < UITableViewController
     item = Items[indexPath.row]
     case item[:key]
     when :recent
-      controller = RecentModificationsController.alloc.initWithStyle(UITableViewStyleGrouped)
+      controller = RecentModificationsController.new
     when :all
-      controller = ModelsController.alloc.initWithStyle(UITableViewStyleGrouped)
+      controller = ModelsController.new
       controller.models = Make.all
     when :categories
-      controller = CategoriesController.alloc.initWithStyle(UITableViewStyleGrouped)
+      controller = CategoriesController.new
     end
 
     navigationController.pushViewController(controller, animated:true)
