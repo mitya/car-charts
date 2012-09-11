@@ -33,7 +33,7 @@ class ModelManager
   end
   
   def currentParameters
-    @currentParameters ||= Parameter.getMany( NSUserDefaults.standardUserDefaults["parameters"].map(&:to_sym) || [] )
+    @currentParameters ||= Parameter.getMany( (NSUserDefaults.standardUserDefaults["parameters"] || []).map(&:to_sym) )
   end
   
   def currentParameters=(array)

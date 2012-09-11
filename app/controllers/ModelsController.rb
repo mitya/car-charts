@@ -48,7 +48,6 @@ class ModelsController < UITableViewController
     @filteredModels = searchString.empty? ? 
       @models :
       @models.select { |model| model.name =~ /\b#{searchString.downcase}/i }
-    p [previousFilteredModels.count, @filteredModels.count, previousFilteredModels != @filteredModels]
     previousFilteredModels != @filteredModels
   end
 end

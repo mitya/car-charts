@@ -21,8 +21,14 @@ class ChartController < UITableViewController
 
     if comparision.mods.empty? || comparision.params.empty?
       @messageView || begin
+        text = "To start – select some car models and some parameters to compare"
+        if $lastLaunchFailed
+          text = "Something weird happened, the parameters and models were reset. Sorry :("
+          $lastLaunchFailed = nil
+        end
+                  
         @messageView = UILabel.alloc.initWithFrame(view.bounds.withXMargins(15))
-        @messageView.text = "To start – select some car models and some parameters to compare"
+        @messageView.text = text
         @messageView.textAlignment = UITextAlignmentCenter
         @messageView.textColor = Color.grayShade(0.7)
         @messageView.font = UIFont.systemFontOfSize(20)

@@ -89,6 +89,8 @@ class BarView < UIView
       Helper.drawGradientRect context, rect, bgColors
       Helper.drawStringInRect bar.text, CGRectMake(rect.x, rect.y - 1, textWidth, rect.height), textColor, textFont, UILineBreakModeClip, UITextAlignmentRight
     end
+  # rescue => e
+  #   puts "Bar view rendering failed: #{e}"
   end
   
   def self.colors
