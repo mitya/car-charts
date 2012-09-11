@@ -24,9 +24,9 @@ class ParametersController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
     cell = tableView.cellForRowAtIndexPath(indexPath)
-    cell.toggleCheckmark
+    cell.toggleCheckmarkAccessory
 
     parameter = Parameter.all[indexPath.row]
-    Model.currentParameters = Model.currentParameters.copyWithToggled(parameter)
+    Model.currentParameters = Model.currentParameters.dupWithToggledObject(parameter)
   end
 end

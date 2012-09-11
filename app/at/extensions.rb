@@ -4,7 +4,7 @@ NO = false
 NULL = nil
 
 class NSArray
-  def copyWithToggled(item)
+  def dupWithToggledObject(item)
     if include?(item)
       self - [item]
     else
@@ -93,7 +93,7 @@ class UITableView
 end
 
 class UITableViewCell
-  def toggleCheckmark
+  def toggleCheckmarkAccessory
     if self.accessoryType == UITableViewCellAccessoryCheckmark
       self.accessoryType = UITableViewCellAccessoryNone
       true

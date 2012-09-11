@@ -80,10 +80,6 @@ class Modification
     data[key]
   end
   
-  def toggle
-    Model.toggleMod(self)
-  end
-  
   private
   
   # alfa_romeo--159--2005--sedan---1.8i-140ps-MT-FWD

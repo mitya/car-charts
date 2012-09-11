@@ -76,10 +76,10 @@ class ModificationsController < UITableViewController
 
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
+    Model.toggleModInCurrentList(mod)
 
     cell = tableView.cellForRowAtIndexPath(indexPath)
-    cell.toggleCheckmark
-    mod.toggle
+    cell.toggleCheckmarkAccessory
   end
   
   private

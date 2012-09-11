@@ -11,13 +11,10 @@ class RecentModificationsController < UITableViewController
   end
 
   def tableView(tv, numberOfRowsInSection:section)
-    case section
-      when 0 then Model.currentMods.count
-      when 1 then Model.recentMods.count
-    end
+    collectionForSection(section).count
   end
 
-  def tableView(tview, titleForHeaderInSection:section)
+  def tableView(tv, titleForHeaderInSection:section)
     case section
       when 0 then "Selected"
       when 1 then "Recent"
@@ -25,8 +22,7 @@ class RecentModificationsController < UITableViewController
   end
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
-    collection = indexPath.section == 0 ? Model.currentMods : Model.recentMods
-    mod = collection[-indexPath.row - 1]
+    mod = modForIndexPath(indexPath)
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle)
     cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.mod_name
@@ -37,14 +33,25 @@ class RecentModificationsController < UITableViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
-    collection = indexPath.section == 0 ? Model.currentMods : Model.recentMods
-    
     cell = tableView.cellForRowAtIndexPath(indexPath)
-    cell.toggleCheckmark
+    cell.toggleCheckmarkAccessory
 
-    mod = collection[-indexPath.row - 1]
-    mod.toggle
+    mod = modForIndexPath(indexPath)
+    Model.toggleModInCurrentList(mod)
     
+    tableView.beginUpdates
     tableView.moveRowAtIndexPath(indexPath, toIndexPath:(NSIndexPath.indexPathForRow(0, inSection: indexPath.section == 0 ? 1 : 0)))
+    tableView.endUpdates
+  end
+  
+private
+
+  def collectionForSection(index)
+    collection = index == 0 ? Model.currentMods : Model.recentMods
+  end
+
+  def modForIndexPath(indexPath)
+    collection = collectionForSection(indexPath.section)
+    collection[-indexPath.row - 1]
   end
 end

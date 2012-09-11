@@ -27,9 +27,9 @@ class ModelManager
     @recentMods = array
   end
   
-  def toggleMod(mod)
-    self.recentMods = recentMods.copyWithToggled(mod) if currentMods.include?(mod) || recentMods.include?(mod)
-    self.currentMods = currentMods.copyWithToggled(mod)
+  def toggleModInCurrentList(mod)
+    self.recentMods = recentMods.dupWithToggledObject(mod) if currentMods.include?(mod) || recentMods.include?(mod)
+    self.currentMods = currentMods.dupWithToggledObject(mod)
   end
   
   def currentParameters
