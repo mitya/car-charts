@@ -13,6 +13,7 @@ class BarTableViewCell < UITableViewCell
   end
 end
 
+
 class BarViewInfo
   attr_accessor :param, :value, :width, :rect, :index, :mod
     
@@ -29,19 +30,20 @@ class BarViewInfo
   end
 end
 
-BarHeight = 10
-BarFullHeight = 11
-BarTitleHeight = 13 # 14
-BarDetailHeight = 11
-BarLabelsLeftMargin = 5
-BarLabelsWidth = 120
-BarRightMargin = 7
-BarPremiumBrandColor = Helper.rgbColor(202, 0, 50)
 
 class BarView < UIView  
   attr_accessor :item
   attr_delegated 'item', :mod, :mods, :index, :comparision
-    
+
+  BarHeight = 10
+  BarFullHeight = 11
+  BarTitleHeight = 13 # 14
+  BarDetailHeight = 11
+  BarLabelsLeftMargin = 5
+  BarLabelsWidth = 120
+  BarRightMargin = 7
+  BarPremiumBrandColor = Hel.rgb(202, 0, 50)
+
   def initWithFrame(frame)
     if super(frame)
       self.opaque = true
@@ -73,10 +75,10 @@ class BarView < UIView
 
     if item.first?
       modelNameColor = mod.model.premium? ? BarPremiumBrandColor : UIColor.blackColor
-      Helper.drawStringInRect mod.model.name, modelRect, modelNameColor, 11, UILineBreakModeClip, UITextAlignmentRight
+      Hel.drawStringInRect mod.model.name, modelRect, modelNameColor, 11, UILineBreakModeClip, UITextAlignmentRight
     end
 
-    Helper.drawStringInRect mod.mod_name, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
+    Hel.drawStringInRect mod.mod_name, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
 
     bars.each do |bar|
       rect = bar.rect
@@ -86,20 +88,18 @@ class BarView < UIView
       textFont = oversized ? UIFont.boldSystemFontOfSize(9) : UIFont.systemFontOfSize(8)
       bgColors = self.class.colors[bar.index]
       
-      Helper.drawGradientRect context, rect, bgColors
-      Helper.drawStringInRect bar.text, CGRectMake(rect.x, rect.y - 1, textWidth, rect.height), textColor, textFont, UILineBreakModeClip, UITextAlignmentRight
+      Hel.drawGradientRect context, rect, bgColors
+      Hel.drawStringInRect bar.text, CGRectMake(rect.x, rect.y - 1, textWidth, rect.height), textColor, textFont, UILineBreakModeClip, UITextAlignmentRight
     end
-  # rescue => e
-  #   puts "Bar view rendering failed: #{e}"
   end
   
   def self.colors
     @@colors ||= [
-      [Helper.rgbColor(0, 90, 180), Helper.rgbColor(108, 164, 220)].reverse,
-      [Helper.rgbColor(2, 120, 2), Helper.rgbColor(63, 153, 63)].reverse,
-      [Helper.rgbColor(120, 2, 2), Helper.rgbColor(153, 63, 63)].reverse,
-      [Helper.rgbColor(2, 2, 120), Helper.rgbColor(63, 63, 153)].reverse,
-      [Helper.rgbColor(120, 120, 2), Helper.rgbColor(153, 153, 63)].reverse,
+      [Hel.rgb(0, 90, 180), Hel.rgb(108, 164, 220)].reverse,
+      [Hel.rgb(2, 120, 2), Hel.rgb(63, 153, 63)].reverse,
+      [Hel.rgb(120, 2, 2), Hel.rgb(153, 63, 63)].reverse,
+      [Hel.rgb(2, 2, 120), Hel.rgb(63, 63, 153)].reverse,
+      [Hel.rgb(120, 120, 2), Hel.rgb(153, 153, 63)].reverse,
     ]    
   end
 end

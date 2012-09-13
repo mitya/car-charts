@@ -47,10 +47,10 @@ class ChartController < UITableViewController
   
   def tableView(tv, heightForRowAtIndexPath:ip)
     item = comparision.items[ip.row]
-    height = BarDetailHeight
-    height += BarTitleHeight if item.first?
+    height = BarView::BarDetailHeight
+    height += BarView::BarTitleHeight if item.first?
     height += 2 if item.last?
-    height += (comparision.params.count - 1) * BarFullHeight
+    height += (comparision.params.count - 1) * BarView::BarFullHeight
     height += 4
     height
   end
@@ -91,10 +91,10 @@ class ChartController < UITableViewController
       "To start – select some car models and some parameters to compare"
     $lastLaunchFailed = nil
                   
-    placeholder = UILabel.alloc.initWithFrame(view.bounds.withXMargins(15))
+    placeholder = UILabel.alloc.initWithFrame(view.bounds.withHMargins(15))
     placeholder.text = text
     placeholder.textAlignment = UITextAlignmentCenter
-    placeholder.textColor = Color.grayShade(0.7)
+    placeholder.textColor = Hel.grayShade(0.7)
     placeholder.font = UIFont.systemFontOfSize(20)    
     placeholder.numberOfLines = 0    
     placeholder

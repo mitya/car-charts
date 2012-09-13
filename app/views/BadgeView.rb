@@ -50,7 +50,7 @@ class BadgeView < UIView
 
     currentSummaryColor = Color.black
     currentDetailColor = Color.gray
-    currentBadgeColor = cell.badgeColor || Color.rgba(0.53, 0.6, 0.738, 1)
+    currentBadgeColor = cell.badgeColor || Hel.rgbf(0.53, 0.6, 0.738)
     
   	if cell.isHighlighted || cell.isSelected
       currentSummaryColor = Color.white
@@ -61,19 +61,18 @@ class BadgeView < UIView
   	if cell.isEditing
       if cell.summary
         currentSummaryColor.set
-        cell.summary.drawAtPoint Point(10, 10), forWidth:rect.width, withFont:BoldSystemFont(18), lineBreakMode:UILineBreakModeTailTruncation
+        cell.summary.drawAtPoint CGPointMake(10, 10), forWidth:rect.width, withFont:UIFont.boldSystemFontOfSize(18), lineBreakMode:UILineBreakModeTailTruncation
       end
 
       if cell.detail
         currentDetailColor.set
-        cell.detail.drawAtPoint Point(10, 32), forWidth:rect.width, withFont:SystemFont(14), lineBreakMode:UILineBreakModeTailTruncation 
+        cell.detail.drawAtPoint CGPointMake(10, 32), forWidth:rect.width, withFont:UIFont.systemFontOfSize(14), lineBreakMode:UILineBreakModeTailTruncation 
       end
   	else
-  		badgeTextSize = cell.badgeText.to_s.sizeWithFont(BoldSystemFont(13))
+  		badgeTextSize = cell.badgeText.to_s.sizeWithFont(UIFont.boldSystemFontOfSize(13))
   		badgeViewFrame = CGRectIntegral(CGRectMake(
         rect.width - badgeTextSize.width - 24, (rect.height - badgeTextSize.height - 4) / 2, 
-        badgeTextSize.width + 14, badgeTextSize.height + 4
-      ))
+        badgeTextSize.width + 14, badgeTextSize.height + 4))
 
       if cell.badgeText
     		CGContextSaveGState(context)
@@ -81,30 +80,30 @@ class BadgeView < UIView
     		path = CGPathCreateMutable()
     		CGPathAddArc(path, nil, 
           badgeViewFrame.x + badgeViewFrame.width - badgeViewFrame.height / 2, badgeViewFrame.y + badgeViewFrame.height / 2, 
-          badgeViewFrame.height / 2, M_PI / 2, M_PI * 3 / 2, true
-        )
+          badgeViewFrame.height / 2, M_PI / 2, M_PI * 3 / 2, true)
     		CGPathAddArc(path, nil, 
           badgeViewFrame.x + badgeViewFrame.height / 2, badgeViewFrame.y + badgeViewFrame.height / 2, 
-          badgeViewFrame.height / 2, M_PI * 3 / 2, M_PI / 2, true
-        )
+          badgeViewFrame.height / 2, M_PI * 3 / 2, M_PI / 2, true)
     		CGContextAddPath(context, path)
     		CGContextDrawPath(context, KCGPathFill)
     		CGContextRestoreGState(context)
 
     		CGContextSaveGState(context)
     		CGContextSetBlendMode(context, KCGBlendModeClear)
-    		cell.badgeText.drawInRect CGRectInset(badgeViewFrame, 7, 2), withFont:BoldSystemFont(13)
+    		cell.badgeText.drawInRect CGRectInset(badgeViewFrame, 7, 2), withFont:UIFont.boldSystemFontOfSize(13)
     		CGContextRestoreGState(context)
       end
 
       if cell.summary
         currentSummaryColor.set
-        cell.summary.drawAtPoint Point(10, 10), forWidth:(rect.width - badgeViewFrame.width - 24), withFont:BoldSystemFont(18), lineBreakMode:UILineBreakModeTailTruncation
+        cell.summary.drawAtPoint CGPointMake(10, 10), forWidth:(rect.width - badgeViewFrame.width - 24), 
+          withFont:UIFont.boldSystemFontOfSize(18), lineBreakMode:UILineBreakModeTailTruncation
       end
 
       if cell.detail
         currentDetailColor.set
-        cell.detail.drawAtPoint Point(10, 32), forWidth:(rect.width - badgeViewFrame.width - 24), withFont:SystemFont(14), lineBreakMode:UILineBreakModeTailTruncation
+        cell.detail.drawAtPoint CGPointMake(10, 32), forWidth:(rect.width - badgeViewFrame.width - 24), 
+          withFont:UIFont.systemFontOfSize(14), lineBreakMode:UILineBreakModeTailTruncation
       end
     end
   end
