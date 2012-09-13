@@ -44,9 +44,9 @@ class ModelManager
   #### Initialization
   
   def load
-    Metadata.load
-    Modification.load
-    Parameter.load
+    Helper.benchmark("Metadata Load") { Metadata.load }
+    Helper.benchmark("Modification Load") { Modification.load }
+    Helper.benchmark("Parameter Load") { Parameter.load }
   end
 end
 

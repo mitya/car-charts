@@ -43,6 +43,13 @@ module Helper
   def rectWithChangedWidth(rect, widthDelta)
     CGRectMake(rect.x, rect.y, rect.width + widthDelta, rect.height)
   end
+  
+  def benchmark(actionName = "Action", &block)
+    startTime = Time.now
+    block.call
+    elapsed = (Time.now - startTime) * 1_000
+    NSLog "@time #{actionName}: #{"%.3f" % elapsed}ms"
+  end
 end
 
 class CGRect

@@ -45,9 +45,11 @@ class ModelsController < UITableViewController
   
   def searchDisplayController(controller, shouldReloadTableForSearchString:searchString)
     previousFilteredModels = @filteredModels
-    @filteredModels = searchString.empty? ? 
-      @models :
-      @models.select { |model| model.name =~ /\b#{searchString.downcase}/i }
+    Helper.benchmark "Model Search" do
+      @filteredModels = searchString.empty? ? 
+        @models :
+        @models.select { |model| model.name =~ regex }
+    end
     previousFilteredModels != @filteredModels
   end
 end
