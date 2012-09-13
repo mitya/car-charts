@@ -19,7 +19,7 @@ class ChartController < UITableViewController
     
     @comparision = Comparision.new(Model.currentMods.sort_by(&:key), Model.currentParameters)
     tableView.reloadData
-    self.title = comparision.title
+    self.title = "CarCharts"
 
     if comparision.mods.empty? || comparision.params.empty?
       view.addSubview(@placeholderView ||= createPlaceholderView)
