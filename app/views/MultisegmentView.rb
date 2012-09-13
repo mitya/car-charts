@@ -1,7 +1,8 @@
 class MultisegmentView < UIView
   attr_accessor :segmentButtons, :segmentHandlers
   
-  SIZE = 30
+  WH = 39
+  HT = 30
   MARGIN = 0 # right/left margins of the button group
   SPACING = 0 # between buttons
   HEIGHT = 44
@@ -18,13 +19,13 @@ class MultisegmentView < UIView
   def addButton(label, unselected = true, &handler)
     button = UIButton.buttonWithType(UIButtonTypeCustom)
     button.setTitle(label, forState:UIControlStateNormal)
-    button.frame = CGRectMake(MARGIN + segmentButtons.count * (SIZE + SPACING), (HEIGHT - SIZE) / 2 + 1, SIZE, SIZE)
+    button.frame = CGRectMake(MARGIN + segmentButtons.count * (WH + SPACING), (HEIGHT - HT) / 2 + 1, WH, HT)
     button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
     button.selected = !unselected
     button.addTarget self, action:'segmentButtonDown:', forControlEvents:UIControlEventTouchDown
     button.addTarget self, action:'segmentButtonUp:', forControlEvents:UIControlEventTouchUpInside
 
-    self.frame = CGRectMake(frame.x, frame.y, frame.width + SIZE + SPACING, frame.height)
+    self.frame = CGRectMake(frame.x, frame.y, frame.width + WH + SPACING, frame.height)
     addSubview button
     segmentHandlers[button] = handler
     segmentButtons << button

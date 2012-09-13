@@ -1,5 +1,5 @@
-class ModificationsController < UITableViewController
-  attr_accessor :model, :mods, :modsByBody, :filteredMods
+class ModificationsController < UIViewController
+  attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
 
   def viewDidLoad
     super
@@ -7,24 +7,28 @@ class ModificationsController < UITableViewController
     self.title = model.name
     self.mods = model.modifications    
     
-    applyFilter
+    self.tableView = UITableView.alloc.initWithFrame(CGRectMake(0,44,320,480), style: UITableViewStylePlain)
+    tableView.dataSource = self
+    tableView.delegate = self
     
-    availableOptions = Modification.availableFilterOptionsFor(mods)
+    applyFilter
+    availableFilterOptions = Modification.availableFilterOptionsFor(mods)
 
     @transmissionFilter = MultisegmentView.new
-    @transmissionFilter.addButton("MT", Model.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableOptions[:mt]
-    @transmissionFilter.addButton("AT", Model.filterOptions[:at]) { |state| applyFilter(at: state) } if availableOptions[:at]
+    @transmissionFilter.addButton("MT", Model.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
+    @transmissionFilter.addButton("AT", Model.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
 
     @bodyFilter = MultisegmentView.new
-    @bodyFilter.addButton("Sed", Model.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableOptions[:sedan]
-    @bodyFilter.addButton("Wag", Model.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableOptions[:wagon]
-    @bodyFilter.addButton("Hat", Model.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableOptions[:hatch]
+    @bodyFilter.addButton("Sed", Model.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
+    @bodyFilter.addButton("Wag", Model.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
+    @bodyFilter.addButton("Hat", Model.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
 
     @fuelFilter = MultisegmentView.new
-    @fuelFilter.addButton("Gas", Model.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableOptions[:gas]
-    @fuelFilter.addButton("Di", Model.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableOptions[:diesel]
-
-    self.toolbarItems = [
+    @fuelFilter.addButton("Gas", Model.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
+    @fuelFilter.addButton("Di", Model.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
+    
+    self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0,0,320, 44))
+    toolbar.items = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
@@ -32,7 +36,12 @@ class ModificationsController < UITableViewController
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@fuelFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),      
-    ]    
+    ]
+    toolbar.sizeToFit
+    toolbar.setBackgroundImage(UIImage.imageNamed("bg-toolbar-under"), forToolbarPosition:UIToolbarPositionAny, barMetrics:UIBarMetricsDefault)
+    
+    view.addSubview(toolbar)
+    view.addSubview(tableView)    
   end
   
   def numberOfSectionsInTableView(tview)

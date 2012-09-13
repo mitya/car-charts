@@ -1,5 +1,7 @@
 $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
+require 'rubygems'
+require 'color'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -11,10 +13,22 @@ Motion::Project::App.setup do |app|
   # app.device_family = [:ipad, :iphone]
 end
 
-src_dir = "assets"
-dst_dir = "resources"
-tmp_dir = "tmp"
+src_dir = "assets"; dst_dir = "resources"; tmp_dir = "tmp"
 icons = %w(categories parameters)
+
+def hsb(hue, sat, val)
+  hue = hue / 360.0; sat = sat / 100.0; val = val / 100.0
+
+  lum = (2 - sat) * val
+  sat = sat * val
+  sat /= lum <= 1.0 ? lum : 2 - lum
+  lum /= 2.0
+
+  color = Color::HSL.new(hue * 360, sat * 100, lum * 100)
+
+  # "hsb(#{h}, #{(s / 100.0 * 255).to_i}, #{(b / 100.0 * 255).to_i})"
+  color.to_rgb.html
+end
 
 task :icons do
   icons.each do |icon|
@@ -33,17 +47,19 @@ task :appicon do
 end
 
 task :letters do
-  letters = ENV['TEXT']
-  size = ENV['SIZE'] || '60'
-  # -pointsize 40
-  # color = size == '60' ? "'rgb(230,80,70)'" : "white"
-  color = "white"
-  system "convert -background transparent -fill #{color} -font Bookman-Demi -gravity center -size #{size}x#{size} label:#{letters} #{dst_dir}/#{letters}@2x.png"
+  letters = ENV['TEXT']; size = ENV['SIZE'] || '60'
+  # -pointsize 40 # color = size == '60' ? "'rgb(230,80,70)'" : "white"
+  system "convert -background transparent -fill white -font Bookman-Demi -gravity center -size #{size}x#{size} label:#{letters} #{dst_dir}/#{letters}@2x.png"
+end
+
+task :toolbar_bg do
+  # colors = [hsb(214, 32, 63), hsb(214, 32, 50)] # blue
+  colors = [hsb(200, 5, 88), hsb(203, 9, 78)] # gray
+  system "convert -size 2x86 -colorspace hsb gradient:'#{colors.join("-")}' -size 2x2 xc:#333 -append resources/bg-toolbar-under@2x.png"
 end
 
 task :buttons do
-  size = 60
-  corners = 10
+  size = 60; corners = 10
   
   items = [
     %w(blue #8aa1bf-#6682aa #466999-#486b9b #3b4f6b),
@@ -51,11 +67,7 @@ task :buttons do
   ]    
   
   items.each do |data|
-    name = data[0]
-    gradient1 = data[1]
-    gradient2 = data[2]
-    border = data[3]
-  
+    name, gradient1, gradient2, border = data  
     cmd = %{ convert
       -size #{size}x#{size/2} gradient:#{gradient1} -size #{size}x#{size/2} gradient:#{gradient2} -append
       ( +clone -threshold -1
@@ -71,8 +83,6 @@ task :buttons do
 end
 
 task :split_images do
-  # convert resources/UISegmentOptionsDivider@2x.png -gravity East -crop 50%x100%+0+0 +repage resources/UISegmentOptionsDivider@2x.png
-  
   [
     %w(resources/ui-multisegment resources/ui-multisegment-divider@2x.png),
     %w(resources/ui-multisegment-selected resources/ui-multisegment-selected-divider@2x.png)
@@ -82,72 +92,3 @@ task :split_images do
     system "convert #{border} #{file}-base@2x.png -gravity East  -crop 50%x100%+0+0 +repage +append #{file}-right@2x.png"
   end
 end
-
-# $images = "data/images"
-# $sources = "artefacts/images"
-# 
-# $gradients = {
-#   red: %w(f00 e00),
-#   green: %w(0c0 0b0),
-#   yellow: %w(ff0 ee0),  
-#   gray: %w(ccc eee)
-# }
-# 
-# task :cellbg do
-#   colors = {
-#     red: %w(f00 c00),
-#     green: %w(0a0 080),
-#     yellow: %w(ff0 dd0),
-#     gray: %w(eee ddd),
-#     blue: %w(daeafa e0f0ff)
-#   }
-# 
-#   basename = "cell-bg"
-#   height = 45
-#   
-#   colors.each_pair do |name, color|
-#     gradient = "gradient:##{color.first}-##{color.last}"
-#     system %[convert -size 1x#{height} #{gradient} #{$images}/#{basename}-#{name}.png]
-#     system %[convert -size 1x#{height*2} #{gradient} #{$images}/#{basename}-#{name}@2x.png]
-#   end  
-# 
-#   colors.each_pair do |name, color| 
-#     # gradient = "radial-gradient:##{color.first}-##{color.last}"
-#     gradient = "radial-gradient:##{color.last}-##{color.first}"
-#     system %[convert -size 1x#{height} #{gradient} #{$images}/#{basename}r-#{name}.png]
-#     system %[convert -size 1x#{height*2} #{gradient} #{$images}/#{basename}r-#{name}@2x.png]
-#   end
-# end
-# 
-# task :pins do
-#   basename = "crossing-pin"
-#   # `cp ~/desktop/marker.001.png artefacts/images/#{basename}-red.png`
-#   # `cp ~/desktop/marker.002.png artefacts/images/#{basename}-yellow.png`
-#   # `cp ~/desktop/marker.003.png artefacts/images/#{basename}-green.png`
-#   
-#   colors = %w(red green yellow)
-#   colors.each do |color|
-#     source = "#{$sources}/#{basename}-#{color}.png"
-#     `convert #{source} -fuzz 15% -transparent "rgb(213, 250, 128)" #{source}`
-#     `convert #{source} -background transparent -gravity north -extent 200x400 #{source}`
-#     `convert #{source} -resize 30x60 #{$images}/#{basename}-#{color}.png`
-#     `convert #{source} -resize 60x120 #{$images}/#{basename}-#{color}@2x.png`
-#   end 
-# end
-# 
-# task :stripes do
-#   gradients = {
-#     red: %w(f00 e00),
-#     green: %w(0c0 0b0),
-#     yellow: %w(ff0 ee0),  
-#   }
-#   gradients.each_pair do |color_name, color_string| 
-#     `convert -size 15x44 xc:transparent -fill radial-gradient:##{color_string.first}-##{color_string.last} -draw 'rectangle 8,0 15,44' data/images/cell-stripe-#{color_name}.png`
-#     `convert -size 30x88 xc:transparent -fill radial-gradient:##{color_string.first}-##{color_string.last} -draw 'rectangle 16,0 30,88' data/images/cell-stripe-#{color_name}@2x.png`
-# 
-#     # `convert -size 6x44 xc:transparent -fill gradient:##{color_string.last}-##{color_string.first} -draw 'roundRectangle 0,5 5,38 1,1' data/images/cell-gradient-#{color_name}.png`
-#     # `convert -size 30x44 xc:transparent -fill gradient:##{color_string.last}-##{color_string.first} -draw 'circle 15,22 2,22' data/images/cell-gradient-#{color_name}.png`
-#     # `convert -size 20x44 radial-gradient:##{color_string.last}-##{color_string.first} data/images/cell-gradient-#{color_name}.png`
-#     # `convert -size 6x44 radial-gradient:##{color_string.first}-##{color_string.last} data/images/cell-gradient-#{color_name}.png`    
-#   end
-# end
