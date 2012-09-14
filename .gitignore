@@ -3,7 +3,7 @@ build
 resources/*.nib
 resources/*.momd
 resources/*.storyboardc
-resources/final-models.bin.plist
+resources/tmp/*
 carchartscrawler
 .dat*
 tmp/*

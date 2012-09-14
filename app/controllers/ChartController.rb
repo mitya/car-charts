@@ -5,12 +5,13 @@ class ChartController < UITableViewController
     super
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
 
-    self.tableView.rowHeight = 25
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone
+    tableView.backgroundColor = Hel.pattern("bg-chart")
+    tableView.rowHeight = 25
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone
 
-    self.navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", 
+    navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", 
       style:UIBarButtonItemStyleBordered, target:nil, action:nil)
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bar-button-options.png"), 
+    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bar-button-options.png"), 
       style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
   end
 

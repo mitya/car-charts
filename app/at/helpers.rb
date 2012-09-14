@@ -65,6 +65,10 @@ module Helper
     rgb(r, g, b)
   end 
   
+  def pattern(imageName)
+    UIColor.colorWithPatternImage(UIImage.imageNamed(imageName))
+  end
+  
   # Other
   
   def benchmark(actionName = "Action", &block)

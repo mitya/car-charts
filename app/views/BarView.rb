@@ -47,7 +47,7 @@ class BarView < UIView
   def initWithFrame(frame)
     if super(frame)
       self.opaque = true
-      self.backgroundColor = UIColor.whiteColor
+      self.backgroundColor = Hel.pattern("bg-chart")
     end
     self
   end
