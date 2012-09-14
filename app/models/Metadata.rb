@@ -17,5 +17,13 @@ class Metadata
     def [](key)
       StaticData[key] || @store[key]
     end
+    
+    def brandNamesList
+      @brandNamesList ||= brandNames.values
+    end
+    
+    def brandKeys
+      @brandKeys ||= brandNames.keys
+    end
   end
 end

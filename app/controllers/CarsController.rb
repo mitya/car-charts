@@ -4,6 +4,8 @@ class CarsController < UITableViewController
     {key: :all, title: "All"},
     {key: :categories, title: "Categories"},
   ]
+  DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
+
 
   def initialize
     self.title = "Cars"
@@ -37,8 +39,7 @@ class CarsController < UITableViewController
     when :recent
       controller = RecentModificationsController.new
     when :all
-      controller = ModelsController.new
-      controller.models = Make.all
+      controller = ModelsController.new(Make.all)
     when :categories
       controller = CategoriesController.new
     end

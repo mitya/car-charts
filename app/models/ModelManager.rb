@@ -45,6 +45,7 @@ class ModelManager
   
   def load
     Hel.benchmark("Metadata Load") { Metadata.load }
+    Hel.benchmark("Make Load") { Make.load }
     Hel.benchmark("Modification Load") { Modification.load }
     Hel.benchmark("Parameter Load") { Parameter.load }
   end

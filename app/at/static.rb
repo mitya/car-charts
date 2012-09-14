@@ -135,7 +135,7 @@ StaticData = {
     Pc: "Compact Pickup",
     Pd: "Full-Size Pickup",  
   },
-  brand_names: {
+  brandNames: {
 		acura: "Acura",
 		alfa_romeo: "Alfa Romeo",
 		audi: "Audi",

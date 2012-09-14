@@ -37,6 +37,16 @@ class NSArray
       self + [item]
     end
   end
+  
+  def indexBy
+    index = {}
+    each do |object|
+      key = yield(object)
+      index[key] ||= []
+      index[key] << object
+    end
+    index
+  end
 end
 
 class NSDictionary
@@ -95,12 +105,15 @@ end
 ###############################################################################
 
 class UITableViewController
-  def self.initAsRubyObject
-    alloc.initWithStyle(UITableViewStyleGrouped).tap { |this| this.send(:initialize) }
+  DefaultTableViewStyleForRubyInit = UITableViewStylePlain
+  
+  def self.initAsRubyObject(*args)
+    style = const_get(:DefaultTableViewStyleForRubyInit)    
+    alloc.initWithStyle(style).tap { |this| this.send(:initialize, *args) }
   end
   
-  def self.new
-    initAsRubyObject
+  def self.new(*args)
+    initAsRubyObject(*args)
   end  
 end
 

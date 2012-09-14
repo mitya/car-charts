@@ -4,7 +4,7 @@ class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     @exceptionHandler = proc { |exception| applicationFailedWithException(exception) }
     NSSetUncaughtExceptionHandler(@exceptionHandler)
-    
+
     Model.load
     Model.currentParameters ||= [Parameter.get(:max_power)]
     Model.currentMods ||= []

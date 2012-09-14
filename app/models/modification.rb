@@ -115,7 +115,7 @@ class Modification
       @@all.each do |mod|
         @@map[mod.key] = mod
         mod.model.modifications << mod
-      end        
+      end
     end
     
     def availableFilterOptionsFor(mods)

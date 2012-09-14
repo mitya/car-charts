@@ -12,11 +12,11 @@ class Make
   end
   
   def unbrandedName
-    @unbrandedName ||= Metadata.model_names
+    @unbrandedName ||= Metadata.model_names[key]
   end
   
   def brandKey
-    @brandKey ||= @key.split("--").first
+    @brandKey ||= @key.split("--").first.to_sym
   end
   
   def selectedModsCount
@@ -31,31 +31,37 @@ class Make
     "#<Make:#{key} mods=#{modifications.count}>"
   end
   
-  class << self
+  class << self 
+    attr_reader :map, :all, :indexByBrand
+       
     def get(key)
-      @@map[key] ||= new(key)
+      @map[key] ||= new(key)
     end
 
     def getMany(keys)
       keys.map { |k| get(k) }
     end
 
-    def inCategory(categoryKey)
+    def byCategoryKey(categoryKey)
       getMany Metadata.model_classes_inverted[categoryKey]
     end
+    
+    def byBrandKey(brandKey)
+      @indexByBrand[brandKey]
+    end
 
-    def allKeys
-      @@allKeys ||= Metadata.model_names.keys.sort
-    end  
-
-    def all
-      @@all ||= self.getMany(allKeys)
+    def keys
+      @keys ||= Metadata.model_names.keys.sort
     end
     
     def premiumBrandKeys
-      @@premiumBrandKeys ||= NSSet.setWithArray(Metadata.premiumBrandKeys)
+      @premiumBrandKeys ||= NSSet.setWithArray(Metadata.premiumBrandKeys)
+    end
+    
+    def load
+      @map = {}
+      @all = getMany(keys)
+      @indexByBrand = all.indexBy(&:brandKey)
     end    
-
-    @@map = {}    
   end  
 end
