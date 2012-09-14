@@ -10,7 +10,7 @@ class ModelManager
   end
   
   def currentMods
-    @currentMods ||= Modification.getMany( NSUserDefaults.standardUserDefaults["mods"] || [] )
+    @currentMods ||= NSUserDefaults.standardUserDefaults["mods"].to_a.map { |key| Modification.by(key) }
   end
 
   def currentMods=(array)
@@ -19,7 +19,7 @@ class ModelManager
   end
   
   def recentMods
-    @recentMods ||= Modification.getMany( NSUserDefaults.standardUserDefaults["recentMods"] || [] )
+    @recentMods ||= NSUserDefaults.standardUserDefaults["recentMods"].to_a.map { |key| Modification.by(key) }
   end
 
   def recentMods=(array)
@@ -33,7 +33,7 @@ class ModelManager
   end
   
   def currentParameters
-    @currentParameters ||= Parameter.getMany( (NSUserDefaults.standardUserDefaults["parameters"] || []).map(&:to_sym) )
+    @currentParameters ||= NSUserDefaults.standardUserDefaults["parameters"].to_a.map { |key| Parameter.by(key.to_sym) }
   end
   
   def currentParameters=(array)
@@ -45,6 +45,7 @@ class ModelManager
   
   def load
     Hel.benchmark("Metadata Load") { Metadata.load }
+    Hel.benchmark("Brand Load") { Brand.load }
     Hel.benchmark("Make Load") { Make.load }
     Hel.benchmark("Modification Load") { Modification.load }
     Hel.benchmark("Parameter Load") { Parameter.load }

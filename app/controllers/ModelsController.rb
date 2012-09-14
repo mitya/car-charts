@@ -9,11 +9,11 @@ class ModelsController < UITableViewController
     self.title = "Car Models"
 
     isAllModelsView = @initialModels == Make.all
-    @initialModelsIndex = isAllModelsView ? Make.indexByBrand : @initialModels.indexBy(&:brandKey)
-    @initialBrandKeys = isAllModelsView ? Metadata.brandKeys : @initialModelsIndex.keys.sort
+    @initialModelsIndex = isAllModelsView ? Make.indexByBrandKey : @initialModels.indexBy { |m| m.brand.key }
+    @initialBrands = isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
     @models = @initialModels
     @modelsIndex = @initialModelsIndex
-    @brandKeys = @initialBrandKeys
+    @brands = @initialBrands
     
     @searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 45))
     @searchBar.autocorrectionType = UITextAutocorrectionTypeNo
@@ -26,22 +26,19 @@ class ModelsController < UITableViewController
   end
 
   def numberOfSectionsInTableView(tv)
-    @brandKeys.count
+    @brands.count
   end
 
   def tableView(tv, titleForHeaderInSection:section)
-    brandKey = @brandKeys[section]
-    Metadata.brandNames[brandKey]
+    @brands[section].name
   end
   
   def tableView(tv, numberOfRowsInSection:section)
-    brandKey = @brandKeys[section]
-    @modelsIndex[brandKey].count
+    @modelsIndex[@brands[section].key].count
   end
 
-  def tableView(table, cellForRowAtIndexPath:indexPath)
-    brandKey = @brandKeys[indexPath.section]
-    model = @modelsIndex[brandKey][indexPath.row]
+  def tableView(table, cellForRowAtIndexPath:indexPath)  
+    model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
     modelSelectedModsCount = model.selectedModsCount
 
     cell = table.dequeueReusableCell(klass: BadgeViewCell)
@@ -52,23 +49,18 @@ class ModelsController < UITableViewController
   end
 
   def tableView(table, didSelectRowAtIndexPath:indexPath)
+    model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
-
-    brandKey = @brandKeys[indexPath.section]
-    model = @modelsIndex[brandKey][indexPath.row]
-
-    controller = ModificationsController.new
-    controller.model = model
-    navigationController.pushViewController(controller, animated:YES)
+    navigationController.pushViewController(ModificationsController.new(model), animated:YES)
   end
   
   def sectionIndexTitlesForTableView(tv)
-    [UITableViewIndexSearch] + @brandKeys.map { |bk| Metadata.brandNames[bk].chr }.uniq    
+    [UITableViewIndexSearch] + @brands.map { |brand| brand.name.chr }.uniq    
   end
   
   def tableView(tableView, sectionForSectionIndexTitle:letter, atIndex:index)
     tableView.scrollRectToVisible(@searchBar.frame, animated:NO) and return -1 if letter == UITableViewIndexSearch
-    @brandKeys.map { |bk| Metadata.brandNames[bk] }.index { |name| name.chr == letter }
+    @brands.index { |brand| brand.name.chr == letter }
   end  
   
   def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
@@ -77,14 +69,13 @@ class ModelsController < UITableViewController
     if newSearchString.empty?
       @models = @initialModels
       @modelsIndex = @initialModelsIndex
-      @brandKeys = @initialBrandKeys
+      @brands = @initialBrands
     else
       Helper.benchmark "Model Search" do
-        regex = /\b#{newSearchString.downcase}/i
         collectionForSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
-        @models = collectionForSearch.select { |model| model.name =~ regex }
-        @modelsIndex = @models.indexBy(&:brandKey)
-        @brandKeys = @modelsIndex.keys.sort
+        @models = Make.searchInCollectionByName(collectionForSearch, newSearchString)
+        @modelsIndex = @models.indexBy { |m| m.brand.key }
+        @brands = @modelsIndex.keys.sort.map { |k| Brand[k] }
       end
     end
     @currentSearchString = newSearchString

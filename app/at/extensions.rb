@@ -37,7 +37,13 @@ class NSArray
       self + [item]
     end
   end
-  
+
+  def uniqueIndexBy
+    index = {}
+    each { |object| index[yield(object)] = object }
+    index
+  end
+    
   def indexBy
     index = {}
     each do |object|

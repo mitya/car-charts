@@ -1,6 +1,10 @@
 class ModificationsController < UIViewController
   attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
 
+  def initialize(model = nil)
+    @model = model
+  end
+
   def viewDidLoad
     super
     

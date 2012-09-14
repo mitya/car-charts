@@ -3,7 +3,6 @@ class Parameter
 
   def initialize(key, name)
     @key, @name = key.to_sym, name
-    @@map[@key] = self
   end
 
   def unitKey
@@ -15,14 +14,15 @@ class Parameter
   end  
   
   class << self
-    def get(key) @@map[key] end
-    def getMany(keys) keys.map { |k| get(k) } end
-    def all() @@all end
-    def map() @@map end
+    attr_reader :all
+
+    def by(key)
+      @index[key]
+    end
     
     def load
-      @@map = {}
-      @@all = Metadata.parameter_names.map { |key, name| Parameter.new(key, name) }
+      @all = Metadata.parameter_names.map { |key, name| new(key, name) }
+      @index = @all.uniqueIndexBy(&:key)
     end
   end
 end

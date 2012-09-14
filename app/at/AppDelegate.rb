@@ -6,7 +6,7 @@ class AppDelegate
     NSSetUncaughtExceptionHandler(@exceptionHandler)
 
     Model.load
-    Model.currentParameters ||= [Parameter.get(:max_power)]
+    Model.currentParameters ||= [Parameter.by(:max_power)]
     Model.currentMods ||= []
 
     if NSUserDefaults.standardUserDefaults["crashed"]

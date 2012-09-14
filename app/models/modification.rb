@@ -90,7 +90,7 @@ class Modification
     model_subkey, @version_subkey = model_version.split('.')
     model_key = [brand_key, model_subkey].join('--')
     
-    @model = Make.get(model_key)
+    @model = Make.by(model_key)
     
     engine, power, @transmission, @drive = agregate.split('-')
     @engine_vol = engine[0..-2]
@@ -101,19 +101,19 @@ class Modification
   AutomaticTransmissions = %w(AT AMT CVT)  
 
   class << self
-    def get(key) @@map[key] end
-    def getMany(keys) keys.map { |k| get(k) } end
-    def all() @@all end
-    def map() @@map end
+    attr_reader :all
+    
+    def by(key) 
+      @index[key] 
+    end
   
     def load
       plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
-      $plist = plist
-      @@all = plist.map { |key, data| new(key, data) }
-  
-      @@map = {}
-      @@all.each do |mod|
-        @@map[mod.key] = mod
+      @all = plist.map { |key, data| new(key, data) }
+
+      @index = {}
+      @all.each do |mod|
+        @index[mod.key] = mod
         mod.model.modifications << mod
       end
     end
