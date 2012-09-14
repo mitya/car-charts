@@ -20,7 +20,7 @@ class Make
   end
   
   def selectedModsCount
-    Model.currentMods.select { |mod| mod.model == self }.count
+    Disk.currentMods.select { |mod| mod.model == self }.count
   end
   
   def inspect

@@ -26,7 +26,7 @@ class RecentModificationsController < UITableViewController
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle)
     cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.mod_name
-    cell.accessoryType = Model.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.accessoryType = Disk.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end
 
@@ -37,7 +37,7 @@ class RecentModificationsController < UITableViewController
     cell.toggleCheckmarkAccessory
 
     mod = modForIndexPath(indexPath)
-    Model.toggleModInCurrentList(mod)
+    Disk.toggleModInCurrentList(mod)
     
     tableView.beginUpdates
     tableView.moveRowAtIndexPath(indexPath, toIndexPath:(NSIndexPath.indexPathForRow(0, inSection: indexPath.section == 0 ? 1 : 0)))
@@ -47,7 +47,7 @@ class RecentModificationsController < UITableViewController
 private
 
   def collectionForSection(index)
-    collection = index == 0 ? Model.currentMods : Model.recentMods
+    collection = index == 0 ? Disk.currentMods : Disk.recentMods
   end
 
   def modForIndexPath(indexPath)

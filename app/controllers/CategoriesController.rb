@@ -15,7 +15,7 @@ class CategoriesController < UITableViewController
   
   def tableView(table, cellForRowAtIndexPath:indexPath)
     categoryKey = Metadata.categoryNames.keys[indexPath.row]
-    categorySelectedModsCount = Model.currentMods.select { |mod| mod.category.to_sym == categoryKey }.count
+    categorySelectedModsCount = Disk.currentMods.select { |mod| mod.category.to_sym == categoryKey }.count
 
     cell = table.dequeueReusableCell(klass: BadgeViewCell)
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator

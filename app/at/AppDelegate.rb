@@ -5,15 +5,15 @@ class AppDelegate
     @exceptionHandler = proc { |exception| applicationFailedWithException(exception) }
     NSSetUncaughtExceptionHandler(@exceptionHandler)
 
-    Model.load
-    Model.currentParameters ||= [Parameter.by(:max_power)]
-    Model.currentMods ||= []
+    Disk.load
+    Disk.currentParameters ||= [Parameter.by(:max_power)]
+    Disk.currentMods ||= []
 
     if NSUserDefaults.standardUserDefaults["crashed"]
       NSLog "Recovering after crash ..."
-      Model.recentMods = Model.currentMods + Model.recentMods
-      Model.currentMods = []
-      Model.currentParameters = []
+      Disk.recentMods = Disk.currentMods + Disk.recentMods
+      Disk.currentMods = []
+      Disk.currentParameters = []
       NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
       $lastLaunchFailed = true
     end    

@@ -16,7 +16,7 @@ class ParametersController < UITableViewController
     end
 
     cell.textLabel.text = parameter.name
-    cell.accessoryType = Model.currentParameters.include?(parameter) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.accessoryType = Disk.currentParameters.include?(parameter) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end  
   
@@ -27,6 +27,6 @@ class ParametersController < UITableViewController
     cell.toggleCheckmarkAccessory
 
     parameter = Parameter.all[indexPath.row]
-    Model.currentParameters = Model.currentParameters.dupWithToggledObject(parameter)
+    Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(parameter)
   end
 end

@@ -3,7 +3,7 @@ class ChartController < UITableViewController
 
   def viewDidLoad
     super
-    @comparision = Comparision.new(Model.currentMods, Model.currentParameters)
+    @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
 
     self.tableView.rowHeight = 25
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone
@@ -17,7 +17,7 @@ class ChartController < UITableViewController
   def viewWillAppear(animated)
     super
     
-    @comparision = Comparision.new(Model.currentMods.sort_by(&:key), Model.currentParameters)
+    @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
     self.title = "CarCharts"
 

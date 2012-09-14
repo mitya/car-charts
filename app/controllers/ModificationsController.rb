@@ -19,17 +19,17 @@ class ModificationsController < UIViewController
     availableFilterOptions = Modification.availableFilterOptionsFor(mods)
 
     @transmissionFilter = MultisegmentView.new
-    @transmissionFilter.addButton("MT", Model.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
-    @transmissionFilter.addButton("AT", Model.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
+    @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
+    @transmissionFilter.addButton("AT", Disk.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
 
     @bodyFilter = MultisegmentView.new
-    @bodyFilter.addButton("Sed", Model.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
-    @bodyFilter.addButton("Wag", Model.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
-    @bodyFilter.addButton("Hat", Model.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
+    @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
+    @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
+    @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
 
     @fuelFilter = MultisegmentView.new
-    @fuelFilter.addButton("Gas", Model.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
-    @fuelFilter.addButton("Di", Model.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
+    @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
+    @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
     
     self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0,0,320, 44))
     toolbar.items = [
@@ -80,7 +80,7 @@ class ModificationsController < UIViewController
 
     cell = table.dequeueReusableCell
     cell.textLabel.text = mod.nameWithVersion
-    cell.accessoryType = Model.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.accessoryType = Disk.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end
 
@@ -89,7 +89,7 @@ class ModificationsController < UIViewController
 
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
-    Model.toggleModInCurrentList(mod)
+    Disk.toggleModInCurrentList(mod)
 
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmarkAccessory
@@ -98,15 +98,15 @@ class ModificationsController < UIViewController
   private
   
   def applyFilter(options = {})
-    Model.filterOptions = Model.filterOptions.merge(options) if options.any?
-    self.filteredMods = Model.filterOptions.empty? ? mods : mods.select do |mod|
-      next false if Model.filterOptions[:at] && mod.automatic?
-      next false if Model.filterOptions[:mt] && mod.manual?
-      next false if Model.filterOptions[:sedan] && mod.sedan?
-      next false if Model.filterOptions[:hatch] && mod.hatch?
-      next false if Model.filterOptions[:wagon] && mod.wagon?
-      next false if Model.filterOptions[:gas] && mod.gas?
-      next false if Model.filterOptions[:diesel] && mod.diesel?
+    Disk.filterOptions = Disk.filterOptions.merge(options) if options.any?
+    self.filteredMods = Disk.filterOptions.empty? ? mods : mods.select do |mod|
+      next false if Disk.filterOptions[:at] && mod.automatic?
+      next false if Disk.filterOptions[:mt] && mod.manual?
+      next false if Disk.filterOptions[:sedan] && mod.sedan?
+      next false if Disk.filterOptions[:hatch] && mod.hatch?
+      next false if Disk.filterOptions[:wagon] && mod.wagon?
+      next false if Disk.filterOptions[:gas] && mod.gas?
+      next false if Disk.filterOptions[:diesel] && mod.diesel?
       next true
     end
     self.modsByBody = filteredMods.group_by { |m| m.body }    
