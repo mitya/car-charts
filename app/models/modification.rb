@@ -90,7 +90,7 @@ class Modification
     model_subkey, @version_subkey = model_version.split('.')
     model_key = [brand_key, model_subkey].join('--')
     
-    @model = Make.by(model_key)
+    @model = Model.by(model_key)
     
     engine, power, @transmission, @drive = agregate.split('-')
     @engine_vol = engine[0..-2]

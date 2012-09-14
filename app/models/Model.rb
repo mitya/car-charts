@@ -1,5 +1,5 @@
 # It should be named Model, but the model is already used as a name of the entire model layer.
-class Make
+class Model
   attr_reader :key, :modifications
   
   def initialize(key)
@@ -24,7 +24,7 @@ class Make
   end
   
   def inspect
-    "#<Make:#{key} mods=#{modifications.count}>"
+    "#<Model:#{key} mods=#{modifications.count}>"
   end
   
   class << self 

@@ -8,8 +8,8 @@ class ModelsController < UITableViewController
     
     self.title = "Car Models"
 
-    isAllModelsView = @initialModels == Make.all
-    @initialModelsIndex = isAllModelsView ? Make.indexByBrandKey : @initialModels.indexBy { |m| m.brand.key }
+    isAllModelsView = @initialModels == Model.all
+    @initialModelsIndex = isAllModelsView ? Model.indexByBrandKey : @initialModels.indexBy { |m| m.brand.key }
     @initialBrands = isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
     @models = @initialModels
     @modelsIndex = @initialModelsIndex
@@ -73,7 +73,7 @@ class ModelsController < UITableViewController
     else
       Helper.benchmark "Model Search" do
         collectionForSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
-        @models = Make.searchInCollectionByName(collectionForSearch, newSearchString)
+        @models = Model.searchInCollectionByName(collectionForSearch, newSearchString)
         @modelsIndex = @models.indexBy { |m| m.brand.key }
         @brands = @modelsIndex.keys.sort.map { |k| Brand[k] }
       end

@@ -39,7 +39,7 @@ class CarsController < UITableViewController
     when :recent
       controller = RecentModificationsController.new
     when :all
-      controller = ModelsController.new(Make.all)
+      controller = ModelsController.new(Model.all)
     when :categories
       controller = CategoriesController.new
     end
