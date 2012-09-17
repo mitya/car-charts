@@ -11,8 +11,9 @@ class ChartController < UITableViewController
 
     navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", 
       style:UIBarButtonItemStyleBordered, target:nil, action:nil)
-    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bar-button-options.png"), 
-      style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
+      
+    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bar-button-options"), 
+      style:UIBarButtonItemStylePlain, target:self, action:"showSettings")
   end
 
   def viewWillAppear(animated)

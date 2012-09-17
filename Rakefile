@@ -52,10 +52,16 @@ task :letters do
   system "convert -background transparent -fill white -font Bookman-Demi -gravity center -size #{size}x#{size} label:#{letters} #{dst_dir}/#{letters}@2x.png"
 end
 
-task :toolbar_bg do
+task :toolbarbg do
   # colors = [hsb(214, 32, 63), hsb(214, 32, 50)] # blue
   colors = [hsb(200, 5, 88), hsb(203, 9, 78)] # gray
   system "convert -size 2x86 -colorspace hsb gradient:'#{colors.join("-")}' -size 2x2 xc:#333 -append resources/bg-toolbar-under@2x.png"
+end
+
+# convert noun_project_1329.svg -resize 44x44 noun_project_1329.png
+task :bbicon do
+  input = ENV['in']
+  system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input.gsub('.png', 'BB@2x.png')}"
 end
 
 task :buttons do
