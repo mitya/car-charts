@@ -69,6 +69,7 @@ task :bbiconrun do
   # system "convert assets/ico-gears.svg -resize 40x40 resources/ico-gears.png"
   # system "convert assets/ico-car.svg -resize 60x60 resources/ico-car.png"
   # system "convert assets/ico-weight.svg -resize 60x60 resources/ico-weight.png"
+  
   %w(weight gears car).each do |icon|
     input = "resources/ico-#{icon}.png"
     system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input}"  

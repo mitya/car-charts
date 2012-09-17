@@ -9,11 +9,23 @@ class ChartController < UITableViewController
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
 
-    navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", 
-      style:UIBarButtonItemStyleBordered, target:nil, action:nil)
+    navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil)
+
+    segmentedControl = UISegmentedControl.alloc.initWithItems([])
+    segmentedControl.momentary = YES
+    segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleWidth
+    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
+    segmentedControl.insertSegmentWithImage(UIImage.imageNamed("ico-bbi-gears"), atIndex:0, animated:NO)
+    segmentedControl.insertSegmentWithTitle("Pr", atIndex:1, animated:NO)
+    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithCustomView(segmentedControl)
+
+    # navigationItem.rightBarButtonItems = [
+    #   UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bbi-gears"), style:UIBarButtonItemStyleBordered, target:self, action:"showSettings"),
+    #   UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bbi-gears"), style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
+    # ]
       
-    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bbi-gears"), 
-      style:UIBarButtonItemStylePlain, target:self, action:"showSettings")
+    # navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bbi-gears"), 
+    #   style:UIBarButtonItemStylePlain, target:self, action:"showSettings")
   end
 
   def viewWillAppear(animated)
