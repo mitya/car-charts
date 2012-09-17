@@ -12,7 +12,7 @@ class ChartController < UITableViewController
     navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", 
       style:UIBarButtonItemStyleBordered, target:nil, action:nil)
       
-    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bar-button-options"), 
+    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bbi-gears"), 
       style:UIBarButtonItemStylePlain, target:self, action:"showSettings")
   end
 

@@ -9,7 +9,7 @@ class CarsController < UITableViewController
 
   def initialize
     self.title = "Cars"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tbi-car"), tag:1)
   end
 
   def viewWillAppear(animated)

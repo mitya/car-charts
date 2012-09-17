@@ -58,10 +58,21 @@ task :toolbarbg do
   system "convert -size 2x86 -colorspace hsb gradient:'#{colors.join("-")}' -size 2x2 xc:#333 -append resources/bg-toolbar-under@2x.png"
 end
 
-# convert noun_project_1329.svg -resize 44x44 noun_project_1329.png
+# convert noun_project_2542.svg -resize 44x44 noun_project_2542.png
+# convert in.png -background white -flatten out.png
 task :bbicon do
   input = ENV['in']
   system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input.gsub('.png', 'BB@2x.png')}"
+end
+
+task :bbiconrun do
+  # system "convert assets/ico-gears.svg -resize 40x40 resources/ico-gears.png"
+  # system "convert assets/ico-car.svg -resize 60x60 resources/ico-car.png"
+  # system "convert assets/ico-weight.svg -resize 60x60 resources/ico-weight.png"
+  %w(weight gears car).each do |icon|
+    input = "resources/ico-#{icon}.png"
+    system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input}"  
+  end
 end
 
 task :buttons do
