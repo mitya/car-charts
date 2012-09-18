@@ -65,15 +65,22 @@ task :bbicon do
   system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input.gsub('.png', 'BB@2x.png')}"
 end
 
+def rasterizeSVG(basename, size = 40)
+  system "convert assets/#{basename}.svg -resize #{size}x#{size} resources/tmp/#{basename}@2x.png"
+end
+
+def makeBBIcon(input)
+  system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input}"    
+end
+
 task :bbiconrun do
-  # system "convert assets/ico-gears.svg -resize 40x40 resources/ico-gears.png"
-  # system "convert assets/ico-car.svg -resize 60x60 resources/ico-car.png"
-  # system "convert assets/ico-weight.svg -resize 60x60 resources/ico-weight.png"
+  rasterizeSVG "ico-gears", 40
+  rasterizeSVG "ico-car", 40
+  rasterizeSVG "ico-weight", 40
   
-  %w(weight gears car).each do |icon|
-    input = "resources/ico-#{icon}.png"
-    system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input}"  
-  end
+  makeBBIcon "resources/tmp/ico-gears@2x.png"
+  makeBBIcon "resources/tmp/ico-car@2x.png"
+  makeBBIcon "resources/tmp/ico-weight@2x.png"  
 end
 
 task :buttons do

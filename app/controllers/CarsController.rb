@@ -8,7 +8,7 @@ class CarsController < UITableViewController
 
 
   def initialize
-    self.title = "Cars"
+    self.title = "Select Cars"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tbi-car"), tag:1)
   end
 

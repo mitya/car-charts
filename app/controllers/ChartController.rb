@@ -15,17 +15,10 @@ class ChartController < UITableViewController
     segmentedControl.momentary = YES
     segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleWidth
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
-    segmentedControl.insertSegmentWithImage(UIImage.imageNamed("ico-bbi-gears"), atIndex:0, animated:NO)
-    segmentedControl.insertSegmentWithTitle("Pr", atIndex:1, animated:NO)
+    segmentedControl.insertSegmentWithImage(UIImage.imageNamed("ico-bbi-car"), atIndex:0, animated:NO)
+    segmentedControl.insertSegmentWithImage(UIImage.imageNamed("ico-bbi-weight"), atIndex:1, animated:NO)
+    segmentedControl.addTarget(self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged)
     navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithCustomView(segmentedControl)
-
-    # navigationItem.rightBarButtonItems = [
-    #   UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bbi-gears"), style:UIBarButtonItemStyleBordered, target:self, action:"showSettings"),
-    #   UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bbi-gears"), style:UIBarButtonItemStyleBordered, target:self, action:"showSettings")
-    # ]
-      
-    # navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed("ico-bbi-gears"), 
-    #   style:UIBarButtonItemStylePlain, target:self, action:"showSettings")
   end
 
   def viewWillAppear(animated)
@@ -75,26 +68,39 @@ class ChartController < UITableViewController
     viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
     navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
   end
+  
+  def settingsSegmentTouched(segmentControl)
+    case segmentControl.selectedSegmentIndex 
+    when 0 then showCars
+    when 1 then showParameters
+    end
+  end
+  
+  
+private
 
-  def showSettings
-    @settingsTabBarController || begin
+  def showCars
+    @carsNavigationController ||= begin
       carsCon = CarsController.new
       carsCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
       carsNavCon = UINavigationController.alloc.initWithRootViewController(carsCon)
-      carsNavCon.delegate = self
-
+      carsNavCon.delegate = self  
+      carsNavCon
+    end
+    presentViewController @carsNavigationController, animated:YES, completion:NIL
+  end
+  
+  def showParameters
+    @parametersNavigationController ||= begin
       parametersCon = ParametersController.new
       parametersCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
       parametersNavCon = UINavigationController.alloc.initWithRootViewController(parametersCon)
       parametersNavCon.delegate = self
-      
-      @settingsTabBarController = UITabBarController.new
-      @settingsTabBarController.viewControllers = [carsNavCon, parametersNavCon]
+      parametersNavCon
     end
-    
-    presentViewController @settingsTabBarController, animated:true, completion:nil
+    presentViewController @parametersNavigationController, animated:YES, completion:NIL
   end
-  
+
   def closeSettings
     dismissModalViewControllerAnimated true
   end

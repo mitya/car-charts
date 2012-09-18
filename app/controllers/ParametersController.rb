@@ -1,7 +1,7 @@
 class ParametersController < UITableViewController
   def initialize
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tbi-weight"), tag:1)
-    self.title = "Parameters"
+    self.title = "Select Parameters"
   end
   
   def tableView(tv, numberOfRowsInSection:section)
