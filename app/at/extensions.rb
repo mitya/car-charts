@@ -106,6 +106,10 @@ class CGRect
   def withHMargins(margin)
     CGRectMake(x + margin, y, width - margin * 2, height)
   end
+  
+  def inspect
+    "<CGRect #{x}, #{y}, #{width}, #{height}>"
+  end
 end
 
 ###############################################################################

@@ -9,6 +9,10 @@ class CategoriesController < UITableViewController
     tableView.reloadData # refresh badges
   end
   
+  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+    true
+  end
+  
   def tableView(tv, numberOfRowsInSection:section)
     Metadata.categoryNames.count
   end

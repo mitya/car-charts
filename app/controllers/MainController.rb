@@ -1,5 +1,9 @@
 class MainViewController < UITableViewController
   attr_accessor :data
+
+  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+    true
+  end
   
   def viewDidLoad
     super
@@ -8,7 +12,7 @@ class MainViewController < UITableViewController
     dataPath = NSBundle.mainBundle.pathForResource("final-models.bin", ofType:"plist")
     self.data = NSMutableArray.alloc.initWithContentsOfFile(dataPath)
   end
-  
+
   def tableView(tv, numberOfRowsInSection:section)
     return data.count
   end

@@ -9,15 +9,15 @@ class ChartController < UITableViewController
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
 
-    navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil)
+    navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle "Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil
 
     segmentedControl = UISegmentedControl.alloc.initWithItems([])
     segmentedControl.momentary = YES
-    segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleWidth
+    segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleHeight
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
-    segmentedControl.insertSegmentWithImage(UIImage.imageNamed("ico-bbi-car"), atIndex:0, animated:NO)
-    segmentedControl.insertSegmentWithImage(UIImage.imageNamed("ico-bbi-weight"), atIndex:1, animated:NO)
-    segmentedControl.addTarget(self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged)
+    segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-car"), atIndex:0, animated:NO
+    segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:1, animated:NO
+    segmentedControl.addTarget self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged
     navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithCustomView(segmentedControl)
   end
 
@@ -38,6 +38,10 @@ class ChartController < UITableViewController
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
+  end
+
+  def didRotateFromInterfaceOrientation(fromInterfaceOrientation)
+    tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end
 
   def tableView(tv, numberOfRowsInSection:section)
@@ -66,17 +70,16 @@ class ChartController < UITableViewController
     @closeSettingsButton ||= UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone,
       target:self, action:"closeSettings")
     viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
-    navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
+    navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated
   end
-  
+
   def settingsSegmentTouched(segmentControl)
-    case segmentControl.selectedSegmentIndex 
+    case segmentControl.selectedSegmentIndex
     when 0 then showCars
     when 1 then showParameters
     end
   end
-  
-  
+
 private
 
   def showCars

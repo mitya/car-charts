@@ -35,7 +35,7 @@ class Model
     end
 
     def byCategoryKey(categoryKey)
-      Metadata.model_classes_inverted[categoryKey].map { |modelKey| self[modelKey] }
+      Metadata.model_classes_inverted[categoryKey].map { |modelKey| self.by(modelKey) }
     end
     
     def byBrandKey(brandKey)

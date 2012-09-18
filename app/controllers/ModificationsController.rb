@@ -2,6 +2,7 @@ class ModificationsController < UIViewController
   attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
 
   def initialize(model = nil)
+    init
     @model = model
   end
 
@@ -11,7 +12,8 @@ class ModificationsController < UIViewController
     self.title = model.name
     self.mods = model.modifications    
     
-    self.tableView = UITableView.alloc.initWithFrame(CGRectMake(0,44,320,480), style: UITableViewStylePlain)
+    self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 44, view.bounds.width, view.bounds.height - 44), style: UITableViewStylePlain
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth #| UIViewAutoresizingFlexibleHeight
     tableView.dataSource = self
     tableView.delegate = self
     
@@ -31,7 +33,9 @@ class ModificationsController < UIViewController
     @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
     @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
     
-    self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0,0,320, 44))
+    self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0, 0, view.bounds.width, 44))
+    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth
+    toolbar.setBackgroundImage UIImage.imageNamed("bg-toolbar-under"), forToolbarPosition:UIToolbarPositionAny, barMetrics:UIBarMetricsDefault
     toolbar.items = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
@@ -39,13 +43,15 @@ class ModificationsController < UIViewController
       UIBarButtonItem.alloc.initWithCustomView(@bodyFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@fuelFilter),
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),      
+      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil)
     ]
-    toolbar.sizeToFit
-    toolbar.setBackgroundImage(UIImage.imageNamed("bg-toolbar-under"), forToolbarPosition:UIToolbarPositionAny, barMetrics:UIBarMetricsDefault)
     
-    view.addSubview(toolbar)
-    view.addSubview(tableView)    
+    view.addSubview toolbar
+    view.addSubview tableView
+  end
+  
+  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+    true
   end
   
   def numberOfSectionsInTableView(tview)

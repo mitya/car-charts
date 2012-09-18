@@ -16,6 +16,10 @@ class CarsController < UITableViewController
     super
     tableView.reloadData
   end
+
+  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+    true
+  end
   
   def tableView(tv, numberOfRowsInSection:section)
     Items.count

@@ -25,6 +25,10 @@ class ModelsController < UITableViewController
     @searchController.delegate = @searchController.searchResultsDataSource = @searchController.searchResultsDelegate = self
   end
 
+  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+    true
+  end
+
   def numberOfSectionsInTableView(tv)
     @brands.count
   end
@@ -50,8 +54,8 @@ class ModelsController < UITableViewController
 
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
-    tableView.deselectRowAtIndexPath(indexPath, animated:YES)
-    navigationController.pushViewController(ModificationsController.new(model), animated:YES)
+    tableView.deselectRowAtIndexPath indexPath, animated:YES
+    navigationController.pushViewController ModificationsController.new(model), animated:YES
   end
   
   def sectionIndexTitlesForTableView(tv)

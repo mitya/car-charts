@@ -3,6 +3,10 @@ class ParametersController < UITableViewController
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tbi-weight"), tag:1)
     self.title = "Select Parameters"
   end
+
+  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+    true
+  end
   
   def tableView(tv, numberOfRowsInSection:section)
     Parameter.all.count

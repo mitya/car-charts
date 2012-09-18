@@ -5,7 +5,11 @@ class RecentModificationsController < UITableViewController
     super
     self.title = "Recent Models"
   end
-  
+
+  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+    true
+  end
+
   def numberOfSectionsInTableView(tv)
     2
   end
