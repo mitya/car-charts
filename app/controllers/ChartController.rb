@@ -5,6 +5,8 @@ class ChartController < UITableViewController
     super
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
 
+    self.title = "CarCharts"
+
     tableView.backgroundColor = Hel.pattern("bg-chart")
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
@@ -13,7 +15,6 @@ class ChartController < UITableViewController
 
     segmentedControl = UISegmentedControl.alloc.initWithItems([])
     segmentedControl.momentary = YES
-    segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleHeight
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
     segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-car"), atIndex:0, animated:NO
     segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:1, animated:NO
@@ -26,7 +27,6 @@ class ChartController < UITableViewController
     
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
-    self.title = "CarCharts"
 
     if comparision.mods.empty? || comparision.params.empty?
       view.addSubview(@placeholderView ||= createPlaceholderView)
@@ -40,7 +40,7 @@ class ChartController < UITableViewController
     true
   end
 
-  def didRotateFromInterfaceOrientation(fromInterfaceOrientation)
+  def didRotateFromInterfaceOrientation(fromInterfaceOrientation)    
     tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end
 

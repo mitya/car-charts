@@ -60,16 +60,17 @@ class MultisegmentView < UIView
     
   def self.buttonBackgrounds    
     @@buttonBackgrounds ||= begin
-      h, corner, border = 10, 4.5, 0.5
+      basename = "xui-multisegment"
+      h, corner, border = 10, 6, 0.5
       {
-        one: UIImage.imageNamed("ui-multisegment-base.png").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner)),
-        oneSelected: UIImage.imageNamed("ui-multisegment-selected-base.png").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner)),
-        left: UIImage.imageNamed("ui-multisegment-left.png").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border)),
-        leftSelected: UIImage.imageNamed("ui-multisegment-selected-left.png").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border)),
-        mid: UIImage.imageNamed("ui-multisegment-mid.png").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border)),
-        midSelected: UIImage.imageNamed("ui-multisegment-selected-mid.png").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border)),
-        right: UIImage.imageNamed("ui-multisegment-right.png").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner)),
-        rightSelected: UIImage.imageNamed("ui-multisegment-selected-right.png").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner)),
+        one: UIImage.imageNamed("#{basename}-normal-base").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner)),
+        oneSelected: UIImage.imageNamed("#{basename}-selected-base").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner)),
+        left: UIImage.imageNamed("#{basename}-normal-left").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border)),
+        leftSelected: UIImage.imageNamed("#{basename}-selected-left").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border)),
+        mid: UIImage.imageNamed("#{basename}-normal-mid").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border)),
+        midSelected: UIImage.imageNamed("#{basename}-selected-mid").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border)),
+        right: UIImage.imageNamed("#{basename}-normal-right").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner)),
+        rightSelected: UIImage.imageNamed("#{basename}-selected-right").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner)),
       }    
     end
   end

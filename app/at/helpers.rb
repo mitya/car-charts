@@ -77,6 +77,14 @@ module Helper
     elapsed = (Time.now - startTime) * 1_000
     NSLog "@time #{actionName}: #{"%.3f" % elapsed}ms"
   end
+  
+  def landscape?(orientation)
+     orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight
+  end
+
+  def portrait?(orientation)
+     orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown
+  end
 end
 
 Hel = Helper

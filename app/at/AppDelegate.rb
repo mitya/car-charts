@@ -21,6 +21,8 @@ class AppDelegate
     self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
     navigationController.delegate = self
 
+    navigationController.pushViewController ModificationsController.new(Model.all[25]), animated:YES
+
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     window.backgroundColor = UIColor.whiteColor
     window.rootViewController = navigationController
