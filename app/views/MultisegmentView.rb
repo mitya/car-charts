@@ -17,11 +17,11 @@ class MultisegmentView < UIView
     self
   end
   
-  def addButton(label, unselected = true, &handler)
+  def addButton(label, selected = nil, &handler)
     button = UIButton.buttonWithType(UIButtonTypeCustom)
     button.setTitle(label, forState:UIControlStateNormal)
     button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
-    button.selected = !unselected
+    button.selected = selected
     button.addTarget self, action:'segmentButtonDown:', forControlEvents:UIControlEventTouchDown
     button.addTarget self, action:'segmentButtonUp:', forControlEvents:UIControlEventTouchUpInside
 
@@ -33,11 +33,12 @@ class MultisegmentView < UIView
   
   def segmentButtonDown(button)
     button.selected = !button.isSelected
+    reapplyButtonBackgrounds
   end
   
   def segmentButtonUp(button)
     handler = segmentHandlers[button]
-    handler.call(!button.isSelected) if handler
+    handler.call(button.isSelected) if handler
   end
   
   def tapRecognized(recognizer)
@@ -57,28 +58,49 @@ class MultisegmentView < UIView
     relayoutButtons
   end
   
-  def relayoutButtons
+  def active?
+    segmentButtons.any? { |b| b.isSelected }
+  end
+  
+  def reapplyButtonBackgrounds
     orientationKey = Hel.orientationKey
-    dim = self.class.buttonDimensions[orientationKey]
-    
+    dim = self.class.buttonDimensions[orientationKey]    
+    groupIsActive = active?
+
     segmentButtons.each_with_index do |button, index|
-      button.frame = CGRectMake(dim.margin + index * (dim.width + dim.spacing), (dim.barHeight - dim.height) / 2 + 1, dim.width, dim.height)
-      
-      imageKey = case
-        when segmentButtons.count == 1 then :one
+      side = case
+        when segmentButtons.count == 1 then :base
         when button == segmentButtons.last then :right
         when button == segmentButtons.first then :left
         else :mid
       end
-      imageForDefault = self.class.buttonBackgroundFor(orientationKey, imageKey)
-      imageForSelected = self.class.buttonBackgroundFor(orientationKey, "#{imageKey}Selected")
-      button.setBackgroundImage imageForDefault, forState:UIControlStateNormal
-      button.setBackgroundImage imageForDefault, forState:UIControlStateHighlighted
-      button.setBackgroundImage imageForSelected, forState:UIControlStateSelected
-      button.setBackgroundImage imageForSelected, forState:UIControlStateSelected | UIControlStateHighlighted
-    end
+
+      if groupIsActive
+        imageForDefault = self.class.buttonBackgroundFor(orientationKey, "off-#{side}")
+        imageForSelected = self.class.buttonBackgroundFor(orientationKey, "on-#{side}")
+        button.setBackgroundImage imageForDefault, forState:UIControlStateNormal
+        button.setBackgroundImage imageForDefault, forState:UIControlStateHighlighted
+        button.setBackgroundImage imageForSelected, forState:UIControlStateSelected
+        button.setBackgroundImage imageForSelected, forState:UIControlStateSelected | UIControlStateHighlighted
+      else
+        imageForDefault = self.class.buttonBackgroundFor(orientationKey, "none-#{side}")
+        button.setBackgroundImage imageForDefault, forState:UIControlStateNormal
+        button.setBackgroundImage imageForDefault, forState:UIControlStateHighlighted
+        button.setBackgroundImage nil, forState:UIControlStateSelected
+        button.setBackgroundImage nil, forState:UIControlStateSelected | UIControlStateHighlighted
+      end
+    end    
+  end
+  
+  def relayoutButtons
+    dim = self.class.buttonDimensions[Hel.orientationKey]
     
+    segmentButtons.each_with_index do |button, index|
+      button.frame = CGRectMake(dim.margin + index * (dim.width + dim.spacing), (dim.barHeight - dim.height) / 2 + 1, dim.width, dim.height)
+    end
     self.frame = CGRectMake(0, 0, segmentButtons.count * (dim.width + dim.spacing), dim.barHeight)
+
+    reapplyButtonBackgrounds
   end    
   
   class ButtonDimensions
@@ -100,24 +122,22 @@ class MultisegmentView < UIView
   def self.buttonBackgroundFor(orientationKey, imageKey)  
     @backgroundImages ||= {}
     @backgroundImages[orientationKey] ||= loadBackgroundImagesFor(orientationKey)
-    @backgroundImages[orientationKey][imageKey.to_sym]
+    @backgroundImages[orientationKey][imageKey]
   end
 
   def self.loadBackgroundImagesFor(orientationKey)  
     if orientationKey == :portrait
-      basename, h, corner, border = "xui-multisegment", 10, 6, 0.5
+      basename, h, corner, border = "ui-multisegment", 10, 6, 0.5
     else
-      basename, h, corner, border = "xui-multisegmentmini", 10, 5, 0.5
+      basename, h, corner, border = "ui-multisegmentmini", 10, 5, 0.5
     end
-    { 
-      one: UIImage.imageNamed("#{basename}-normal-base").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner)),
-      oneSelected: UIImage.imageNamed("#{basename}-selected-base").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner)),
-      left: UIImage.imageNamed("#{basename}-normal-left").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border)),
-      leftSelected: UIImage.imageNamed("#{basename}-selected-left").resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border)),
-      mid: UIImage.imageNamed("#{basename}-normal-mid").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border)),
-      midSelected: UIImage.imageNamed("#{basename}-selected-mid").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border)),
-      right: UIImage.imageNamed("#{basename}-normal-right").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner)),
-      rightSelected: UIImage.imageNamed("#{basename}-selected-right").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner)),
-    }
+    images = {}
+    %w(on off none).each do |state|
+      images["#{state}-base"]  = UIImage.imageNamed("#{basename}-#{state}-base") .resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner))
+      images["#{state}-left"]  = UIImage.imageNamed("#{basename}-#{state}-left") .resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border))
+      images["#{state}-mid"]   = UIImage.imageNamed("#{basename}-#{state}-mid")  .resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border))
+      images["#{state}-right"] = UIImage.imageNamed("#{basename}-#{state}-right").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner))
+    end    
+    images
   end
 end

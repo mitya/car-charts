@@ -36,7 +36,7 @@ class ModificationsController < UIViewController
     # segmentedControl = UISegmentedControl.alloc.initWithItems(%w(MT AT))
     # segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
     # segmentedControl.momentary = YES
-        
+
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
       # UIBarButtonItem.alloc.initWithTitle("MT", style:UIBarButtonItemStyleBordered, target:nil, action:nil),
@@ -106,16 +106,22 @@ class ModificationsController < UIViewController
   private
   
   def applyFilter(options = {})
-    puts "applyFilter #{options.inspect}"
     Disk.filterOptions = Disk.filterOptions.merge(options) if options.any?
+    Disk.filterOptions = Disk.filterOptions.dup.delete_if { |k,v| v == false }
+    opts = Disk.filterOptions
     self.filteredMods = Disk.filterOptions.empty? ? mods : mods.select do |mod|
-      next false if Disk.filterOptions[:at] && mod.automatic?
-      next false if Disk.filterOptions[:mt] && mod.manual?
-      next false if Disk.filterOptions[:sedan] && mod.sedan?
-      next false if Disk.filterOptions[:hatch] && mod.hatch?
-      next false if Disk.filterOptions[:wagon] && mod.wagon?
-      next false if Disk.filterOptions[:gas] && mod.gas?
-      next false if Disk.filterOptions[:diesel] && mod.diesel?
+      unless opts[:at].nil? && opts[:mt].nil?
+        next false if !(opts[:at] && mod.automatic? || opts[:mt] && mod.manual?)
+      end
+
+      unless opts[:sedan].nil? && opts[:hatch].nil? && opts[:wagon].nil?
+        next false if !(opts[:sedan] && mod.sedan? || opts[:hatch] && mod.hatch? || opts[:wagon] && mod.wagon?)
+      end
+
+      unless opts[:gas].nil? && opts[:diesel].nil?
+        next false if !(opts[:gas] && mod.gas? || opts[:diesel] && mod.diesel?)        
+      end
+      
       next true
     end
     self.modsByBody = filteredMods.group_by { |m| m.body }    
