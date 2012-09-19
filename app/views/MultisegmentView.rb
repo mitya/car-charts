@@ -3,19 +3,17 @@ class MultisegmentView < UIView
   
   def init
     super
-
-    dim = self.class.buttonDimensions[Hel.orientationKey]
-    self.frame = CGRectMake(0, 0, dim.margin * 2, dim.barHeight)
-
     self.backgroundColor = UIColor.clearColor
-    self.layer.borderColor = UIColor.redColor.CGColor
-    self.layer.borderWidth = 0.5
     self.segmentButtons = []
     self.segmentHandlers = {}
 
     UIDevice.currentDevice.beginGeneratingDeviceOrientationNotifications
     NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', name:UIApplicationDidChangeStatusBarOrientationNotification, object:nil
 
+    tapRecognizer = UITapGestureRecognizer.alloc.initWithTarget(self, action:'tapRecognized:')
+    tapRecognizer.delegate = self
+    addGestureRecognizer tapRecognizer
+    
     self
   end
   
@@ -40,6 +38,19 @@ class MultisegmentView < UIView
   def segmentButtonUp(button)
     handler = segmentHandlers[button]
     handler.call(!button.isSelected) if handler
+  end
+  
+  def tapRecognized(recognizer)
+    tapPoint = recognizer.locationInView(self)
+    adjustedPoint = CGPointMake(tapPoint.x, bounds.height / 2)
+    if button = segmentButtons.detect { |button| CGRectContainsPoint(button.frame, adjustedPoint) }
+      button.sendActionsForControlEvents UIControlEventTouchDown 
+      button.sendActionsForControlEvents UIControlEventTouchUpInside
+    end
+  end
+  
+  def gestureRecognizer(gestureRecognizer, shouldReceiveTouch:touch)
+    touch.view.is_a?(MultisegmentView)
   end
   
   def orientationChanged(notification)

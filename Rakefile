@@ -111,7 +111,7 @@ task :buttons do
   ]
   
   items = [
-    ['normal', '214 18 76 - 213 24 71', '213 28 69 - 213 28 69', '213 25 46', '214 27 38 - 214 27 38'],
+    ['normal', '214 18 76 - 213 24 71', '213 28 69 - 213 28 69', '213 25 46', '215 31 56 - 215 31 56'],
     ['inactive', '220 49 90 - 220 75 88', '220 85 87 - 220 85 87', '220 74 56', '220 74 56 - 220 74 56'],
     ['selected', '201 05 90 - 201 05 83', '206 08 80 - 206 08 80', '210 17 58', '210 17 58 - 210 17 58']
   ]    
@@ -126,7 +126,7 @@ task :buttons do
       gradient2 = parseHSVGradient(gradient2)
       border = parseHSV(border)
       divider = parseHSVGradient(divider)
-      suffix = "xui-multisegment#{sizeName}-#{name}"
+      suffix = "ui-multisegment#{sizeName}-#{name}"
       baseFile = "resources/#{suffix}-base@2x.png"
       borderFile = "tmp/#{suffix}-divider@2x.png"
     

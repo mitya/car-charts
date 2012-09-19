@@ -13,7 +13,7 @@ class ModificationsController < UIViewController
     self.mods = model.modifications    
     
     self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height - 44), style: UITableViewStylePlain
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth #| UIViewAutoresizingFlexibleHeight
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth
     tableView.dataSource = self
     tableView.delegate = self
     
@@ -33,14 +33,14 @@ class ModificationsController < UIViewController
     @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
     @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
     
-    segmentedControl = UISegmentedControl.alloc.initWithItems(%w(MT AT))
-    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
-    segmentedControl.momentary = YES
+    # segmentedControl = UISegmentedControl.alloc.initWithItems(%w(MT AT))
+    # segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
+    # segmentedControl.momentary = YES
         
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-      UIBarButtonItem.alloc.initWithTitle("MT", style:UIBarButtonItemStyleBordered, target:nil, action:nil),
-      UIBarButtonItem.alloc.initWithCustomView(segmentedControl),
+      # UIBarButtonItem.alloc.initWithTitle("MT", style:UIBarButtonItemStyleBordered, target:nil, action:nil),
+      # UIBarButtonItem.alloc.initWithCustomView(segmentedControl),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@bodyFilter),
@@ -106,6 +106,7 @@ class ModificationsController < UIViewController
   private
   
   def applyFilter(options = {})
+    puts "applyFilter #{options.inspect}"
     Disk.filterOptions = Disk.filterOptions.merge(options) if options.any?
     self.filteredMods = Disk.filterOptions.empty? ? mods : mods.select do |mod|
       next false if Disk.filterOptions[:at] && mod.automatic?
