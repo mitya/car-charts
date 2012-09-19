@@ -33,12 +33,13 @@ class ModificationsController < UIViewController
     @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
     @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
     
-    segmentedControl = UISegmentedControl.alloc.initWithItems(%w(AT MT))
+    segmentedControl = UISegmentedControl.alloc.initWithItems(%w(MT AT))
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
+    segmentedControl.momentary = YES
         
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-      # UIBarButtonItem.alloc.initWithTitle("MT", style:UIBarButtonItemStyleBordered, target:nil, action:nil),        
+      UIBarButtonItem.alloc.initWithTitle("MT", style:UIBarButtonItemStyleBordered, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(segmentedControl),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
@@ -54,27 +55,6 @@ class ModificationsController < UIViewController
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
-  
-  # def didRotateFromInterfaceOrientation(fromInterfaceOrientation)    
-  #   navigationBarFrame = navigationController.navigationBar.frame
-  #   toolbarFrame = CGRectOffset(navigationBarFrame, 0, navigationBarFrame.size.height)
-  #   p [:did, navigationBarFrame, toolbarFrame]
-  #   toolbar.frame = toolbarFrame
-  # end
-  #   
-  # def willRotateToInterfaceOrientation(toInterfaceOrientation, duration:duration)
-  #   navigationBarFrame = navigationController.navigationBar.frame
-  #   toolbarFrame = CGRectOffset(navigationBarFrame, 0, navigationBarFrame.size.height)
-  #   p [:rotate, navigationBarFrame, toolbarFrame]
-  #   toolbar.frame = toolbarFrame
-  # end
-  
-  # def willAnimateRotationToInterfaceOrientation(toInterfaceOrientation, duration:duration)
-  #   navigationBarFrame = navigationController.navigationBar.frame
-  #   toolbarFrame = CGRectOffset(navigationBarFrame, 0, navigationBarFrame.size.height)
-  #   p [:animate, navigationBarFrame, toolbarFrame]
-  #   UIView.animateWithDuration duration, animations: -> { toolbar.frame = toolbarFrame }
-  # end
   
   def numberOfSectionsInTableView(tview)
     @modsByBody.count > 0 ? @modsByBody.count : 1

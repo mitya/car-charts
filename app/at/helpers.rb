@@ -85,6 +85,11 @@ module Helper
   def portrait?(orientation)
      orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown
   end
+  
+  def orientationKey
+    orientation = UIApplication.sharedApplication.statusBarOrientation
+    portrait?(orientation) ? :portrait : :landscape
+  end
 end
 
 Hel = Helper

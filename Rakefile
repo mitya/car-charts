@@ -105,70 +105,53 @@ def parseHSVGradient(string)
 end
 
 task :buttons do
-  size = 60; width = 26; corners = 12
-  height = 60
-  heightNoShadow = height - 2
-  hw = 14
+  sizes = [
+    [nil, 60, 26, 12, 14],
+    ["mini", 48, 24, 10, 12]
+  ]
   
-  
-  # 214 27 38 - segment control border (one of)
-  # 214 18 76 - segment control default top top
-  # 213 24 71 - segment control default top bottom
-  # 213 28 69 - segment control default bottom
-  # 213 28 75 - segment control selected top top
-  # 214 45 65 - segment control selected top bottom
-  # 215 53 60 - segment control selected bottom
-  # 215 41 61 - segment control border top half (act. light gradient)
-  # 215 68 49 - segment control border bottom half
-
-  # 220 49 90 - Done button top top
-  # 220 75 88 - Done button top bottom
-  # 220 85 87 - Done button bottom
-  # 220 74 56 - Done button border
-  
-  # 201 05 87 - gray top
-  # 206 08 80 - gray bottom
-  # 210 17 58 - gray border
-  # 240 00 78 - gray border 2 top
-  # 000 00 59 - gray border 2 bottom
-
   items = [
-    ['normal', '214 18 76 - 213 24 71', '213 28 69 - 213 28 69', '214 27 38', '214 27 38 - 214 27 38'],
+    ['normal', '214 18 76 - 213 24 71', '213 28 69 - 213 28 69', '213 25 46', '214 27 38 - 214 27 38'],
     ['inactive', '220 49 90 - 220 75 88', '220 85 87 - 220 85 87', '220 74 56', '220 74 56 - 220 74 56'],
     ['selected', '201 05 90 - 201 05 83', '206 08 80 - 206 08 80', '210 17 58', '210 17 58 - 210 17 58']
   ]    
   
-  items.each do |data|
-    name, gradient1, gradient2, border, divider = data
-    gradient1 = parseHSVGradient(gradient1)
-    gradient2 = parseHSVGradient(gradient2)
-    border = parseHSV(border)
-    divider = parseHSVGradient(divider)
-    name = "xui-multisegment-#{name}"
-    baseFile = "resources/#{name}-base@2x.png"
-    borderFile = "tmp/#{name}-divider@2x.png"
+  sizes.each do |sizeData|
+    sizeName, height, width, corners, halfwidth = sizeData
+    selfheight = height - 2
     
-    shadow = parseHSV('214 18 76')
-    borderShadow = parseHSV('214 25 70')
+    items.each do |data|
+      name, gradient1, gradient2, border, divider = data
+      gradient1 = parseHSVGradient(gradient1)
+      gradient2 = parseHSVGradient(gradient2)
+      border = parseHSV(border)
+      divider = parseHSVGradient(divider)
+      suffix = "xui-multisegment#{sizeName}-#{name}"
+      baseFile = "resources/#{suffix}-base@2x.png"
+      borderFile = "tmp/#{suffix}-divider@2x.png"
     
-    cmd = %{ convert
-      -size #{width}x#{heightNoShadow/2} gradient:#{gradient1} -size #{width}x#{heightNoShadow/2} gradient:#{gradient2} -append
-      ( +clone -threshold -1
-         -draw "fill black polygon 0,0 0,#{corners} #{corners},0 fill white circle #{corners},#{corners} #{corners},0"
-         ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
-      +matte -compose CopyOpacity -composite
-      -size #{width}x#{heightNoShadow} xc:transparent +swap -gravity North -compose src-over -composite
-      -stroke #{border} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{width-1},#{heightNoShadow-1} #{corners},#{corners}" 
-      ( +clone -background #{shadow} -shadow 50x0+0+2 ) +swap
-      -background none -mosaic
-      #{baseFile}
-      }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
+      shadow = parseHSV('214 18 76')
+      borderShadow = parseHSV('214 25 70')
+    
+      cmd = %{ convert
+        -size #{width}x#{selfheight/2} gradient:#{gradient1} -size #{width}x#{selfheight/2} gradient:#{gradient2} -append
+        ( +clone -threshold -1
+           -draw "fill black polygon 0,0 0,#{corners} #{corners},0 fill white circle #{corners},#{corners} #{corners},0"
+           ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
+        +matte -compose CopyOpacity -composite
+        -size #{width}x#{selfheight} xc:transparent +swap -gravity North -compose src-over -composite
+        -stroke #{border} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{width-1},#{selfheight-1} #{corners},#{corners}" 
+        ( +clone -background #{shadow} -shadow 50x0+0+2 ) +swap
+        -background none -mosaic
+        #{baseFile}
+        }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
 
-    run cmd
-    run "convert -size 1x#{height-2} -colorspace hsb gradient:'#{divider}' -size 1x2 xc:#{borderShadow} -append #{borderFile}"
+      run cmd
+      run "convert -size 1x#{height-2} -colorspace hsb gradient:'#{divider}' -size 1x2 xc:#{borderShadow} -append #{borderFile}"
     
-    run "convert #{baseFile} -gravity West -crop #{hw}x#{height}+0+0 +repage #{borderFile} +append resources/#{name}-left@2x.png"
-    run "convert #{borderFile} #{baseFile} -gravity North -crop 4x#{size}+0+0  +repage #{borderFile} +append resources/#{name}-mid@2x.png"
-    run "convert #{borderFile} #{baseFile} -gravity East -crop #{hw}x#{height}+0+0 +repage +append resources/#{name}-right@2x.png"
+      run "convert #{baseFile} -gravity West -crop #{halfwidth}x#{height}+0+0 +repage #{borderFile} +append resources/#{suffix}-left@2x.png"
+      run "convert #{borderFile} #{baseFile} -gravity North -crop 4x#{height}+0+0  +repage #{borderFile} +append resources/#{suffix}-mid@2x.png"
+      run "convert #{borderFile} #{baseFile} -gravity East -crop #{halfwidth}x#{height}+0+0 +repage +append resources/#{suffix}-right@2x.png"
+    end
   end
 end
