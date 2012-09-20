@@ -12,8 +12,8 @@ class ModificationsController < UIViewController
     self.title = model.name
     self.mods = model.modifications    
     
-    self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height - 44), style: UITableViewStylePlain
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth
+    self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height), style: UITableViewStylePlain
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
     tableView.dataSource = self
     tableView.delegate = self
     
@@ -50,7 +50,7 @@ class ModificationsController < UIViewController
     true
   end
   
-  def numberOfSectionsInTableView(tview)
+  def numberOfSectionsInTableView(tv)
     @modsByBody.count > 0 ? @modsByBody.count : 1
   end
 
@@ -60,12 +60,12 @@ class ModificationsController < UIViewController
     @modsByBody[bodyKey].count
   end
 
-  def tableView(tview, titleForHeaderInSection:section)
+  def tableView(tv, titleForHeaderInSection:section)
     bodyKey = modsByBody.keys[section]
     Metadata.bodyNames[bodyKey]
   end
 
-  def tableView(tview, titleForFooterInSection:section)
+  def tableView(tv, titleForFooterInSection:section)
     if section == tableView.numberOfSections - 1
       hiddenModsCount = mods.count - filteredMods.count
       if @modsByBody.count == 0
@@ -76,24 +76,24 @@ class ModificationsController < UIViewController
     end
   end
 
-  def tableView(table, cellForRowAtIndexPath:indexPath)
+  def tableView(tv, cellForRowAtIndexPath:indexPath)
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
 
-    cell = table.dequeueReusableCell
+    cell = tv.dequeueReusableCell
     cell.textLabel.text = mod.nameWithVersion
     cell.accessoryType = Disk.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end
 
-  def tableView(table, didSelectRowAtIndexPath:indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated:true)
+  def tableView(tv, didSelectRowAtIndexPath:indexPath)
+    tv.deselectRowAtIndexPath(indexPath, animated:true)
 
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
     Disk.toggleModInCurrentList(mod)
 
-    cell = tableView.cellForRowAtIndexPath(indexPath)
+    cell = tv.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmarkAccessory
   end
   
