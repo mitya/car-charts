@@ -33,14 +33,8 @@ class ModificationsController < UIViewController
     @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
     @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
     
-    # segmentedControl = UISegmentedControl.alloc.initWithItems(%w(MT AT))
-    # segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
-    # segmentedControl.momentary = YES
-
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-      # UIBarButtonItem.alloc.initWithTitle("MT", style:UIBarButtonItemStyleBordered, target:nil, action:nil),
-      # UIBarButtonItem.alloc.initWithCustomView(segmentedControl),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@bodyFilter),

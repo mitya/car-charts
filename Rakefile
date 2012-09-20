@@ -35,9 +35,22 @@ def hsbg(h1, s1, v1, h2, s2, v2)
   "#{hsb(h1, s1, v1)}-#{hsb(h2, s2, v2)}"
 end
 
+def lastGradientColor(colorString)
+  colorString.split('-').last
+end
+
 def run(command, options = {})
   # puts command
   system command
+end
+
+def parseHSV(string)
+  hsb(*string.split(/\s|\./).map(&:to_f))
+end
+
+def parseHSVGradient(string)
+  color1, color2 = string.include?('-') ? string.split(/\s*\-\s*/) : [string, string]
+  "#{parseHSV(color1)}-#{parseHSV(color2)}"
 end
 
 def rasterizeSVG(basename, size = 40)
@@ -95,15 +108,6 @@ task :bbiconrun do
   makeBBIcon "resources/tmp/ico-weight@2x.png"  
 end
 
-def parseHSV(string)
-  hsb(*string.split(' ').map(&:to_f))
-end
-
-def parseHSVGradient(string)
-  color1, color2 = string.split(' - ')
-  "#{parseHSV(color1)}-#{parseHSV(color2)}"
-end
-
 task :buttons do
   sizes = [
     [nil, 60, 26, 12, 14],
@@ -111,21 +115,24 @@ task :buttons do
   ]
   
   items = [
-    ['none', '214 18 76 - 213 24 71', '213 28 69 - 213 28 69', '213 25 46', '215 31 56 - 215 31 56'],
-    ['on', '220 49 90 - 220 75 88', '220 85 87 - 220 85 87', '220 74 56', '220 74 56 - 220 74 56'],
-    ['off', '201 05 90 - 201 05 83', '206 08 80 - 206 08 80', '210 17 58', '210 17 58 - 210 17 58']
+    ['none', '214.18.76-213.24.71', '213.28.69', '213.25.46', '215.31.56'],
+    ['on', '220.49.90-220.75.88', '220.85.87', '220.74.56', '220.74.56'],
+    ['off', '000.00.45-000.00.15', '000.00.00', '000.00.18', '000.00.25-000.00.10'],
+    # ['off', '201 05 90 - 201 05 83', '206 08 80', '210 17 58', '210 17 58'], gray
   ]    
   
   sizes.each do |sizeData|
-    sizeName, height, width, corners, halfwidth = sizeData
-    selfheight = height - 2
-    
+    sizeName, height, width, cornerRad, halfWidth = sizeData
+    heightWoShadow = height - 2
+    halfHeightWoShadow = heightWoShadow / 2
+        
     items.each do |data|
-      name, gradient1, gradient2, border, divider = data
-      gradient1 = parseHSVGradient(gradient1)
-      gradient2 = parseHSVGradient(gradient2)
-      border = parseHSV(border)
-      divider = parseHSVGradient(divider)
+      name, topGr, bottomGr, borderCl, dividerGr = data
+      topGr = parseHSVGradient(topGr)
+      bottomGr = parseHSVGradient(bottomGr)
+      borderCl = parseHSV(borderCl)
+      dividerGr = parseHSVGradient(dividerGr)
+      dividerBottomCl = lastGradientColor(dividerGr)
       suffix = "ui-multisegment#{sizeName}-#{name}"
       baseFile = "resources/#{suffix}-base@2x.png"
       borderFile = "tmp/#{suffix}-divider@2x.png"
@@ -134,24 +141,25 @@ task :buttons do
       borderShadow = parseHSV('214 25 70')
     
       cmd = %{ convert
-        -size #{width}x#{selfheight/2} gradient:#{gradient1} -size #{width}x#{selfheight/2} gradient:#{gradient2} -append
+        -size #{width}x#{halfHeightWoShadow} gradient:#{topGr} -size #{width}x#{halfHeightWoShadow} gradient:#{bottomGr} -append
         ( +clone -threshold -1
-           -draw "fill black polygon 0,0 0,#{corners} #{corners},0 fill white circle #{corners},#{corners} #{corners},0"
+           -draw "fill black polygon 0,0 0,#{cornerRad} #{cornerRad},0 fill white circle #{cornerRad},#{cornerRad} #{cornerRad},0"
            ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
         +matte -compose CopyOpacity -composite
-        -size #{width}x#{selfheight} xc:transparent +swap -gravity North -compose src-over -composite
-        -stroke #{border} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{width-1},#{selfheight-1} #{corners},#{corners}" 
+        -size #{width}x#{heightWoShadow} xc:transparent +swap -gravity North -compose src-over -composite
+        -stroke #{borderCl} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{width-1},#{heightWoShadow-1} #{cornerRad},#{cornerRad}" 
         ( +clone -background #{shadow} -shadow 50x0+0+2 ) +swap
         -background none -mosaic
         #{baseFile}
         }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
 
       run cmd
-      run "convert -size 1x#{height-2} -colorspace hsb gradient:'#{divider}' -size 1x2 xc:#{borderShadow} -append #{borderFile}"
+      run "convert -size 1x1 xc:#{borderCl} -size 1x#{halfHeightWoShadow-1} gradient:#{dividerGr} -size 1x#{halfHeightWoShadow-1} xc:#{dividerBottomCl} \
+          -size 1x1 xc:#{borderCl} -size 1x2 xc:#{borderShadow} -append #{borderFile}"
     
-      run "convert #{baseFile} -gravity West -crop #{halfwidth}x#{height}+0+0 +repage #{borderFile} +append resources/#{suffix}-left@2x.png"
+      run "convert #{baseFile} -gravity West -crop #{halfWidth}x#{height}+0+0 +repage #{borderFile} +append resources/#{suffix}-left@2x.png"
       run "convert #{borderFile} #{baseFile} -gravity North -crop 4x#{height}+0+0  +repage #{borderFile} +append resources/#{suffix}-mid@2x.png"
-      run "convert #{borderFile} #{baseFile} -gravity East -crop #{halfwidth}x#{height}+0+0 +repage +append resources/#{suffix}-right@2x.png"
+      run "convert #{borderFile} #{baseFile} -gravity East -crop #{halfWidth}x#{height}+0+0 +repage +append resources/#{suffix}-right@2x.png"
     end
   end
 end
