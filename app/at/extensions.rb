@@ -53,6 +53,19 @@ class NSArray
     end
     index
   end
+  
+  def uniqBy
+    uniqObjects = []
+    uniqKeys = []
+    each do |object|
+      key = yield(object)
+      if !uniqKeys.include?(key)
+        uniqObjects << object
+        uniqKeys << key
+      end
+    end
+    uniqObjects
+  end
 end
 
 class NSDictionary

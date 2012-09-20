@@ -21,7 +21,7 @@ class AppDelegate
     self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
     navigationController.delegate = self
 
-    navigationController.pushViewController ModificationsController.new(Model.by("ford--focus")), animated:YES
+    # navigationController.pushViewController ModificationsController.new(Model.by("ford--focus")), animated:YES
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     window.backgroundColor = UIColor.whiteColor

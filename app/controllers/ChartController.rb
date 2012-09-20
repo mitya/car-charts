@@ -33,9 +33,10 @@ class ChartController < UITableViewController
     else
       @placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
     end
-
   end
 
+  ###
+  
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
@@ -43,6 +44,8 @@ class ChartController < UITableViewController
   def didRotateFromInterfaceOrientation(fromInterfaceOrientation)    
     tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end
+
+  ###
 
   def tableView(tv, numberOfRowsInSection:section)
     @comparision.mods.count
@@ -66,6 +69,8 @@ class ChartController < UITableViewController
     height
   end
 
+  ###
+
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     @closeSettingsButton ||= UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone,
       target:self, action:"closeSettings")
@@ -80,7 +85,7 @@ class ChartController < UITableViewController
     end
   end
 
-private
+  private
 
   def showCars
     @carsNavigationController ||= begin

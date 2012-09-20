@@ -25,6 +25,8 @@ class Parameter
       @index = @all.uniqueIndexBy(&:key)
     end
   end
+  
+  BodyParameters = NSSet.setWithArray([:length, :width, :height])
 end
 
 # "skoda fabia 2010 hatch_5d 1.6i-105ps-AT-FWD": {

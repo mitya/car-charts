@@ -30,11 +30,24 @@ class Comparision
   def items
     @items ||= (0...mods.count).map { |index| ComparisionItem.new(self, index) }
   end
+
+  def mods
+    @activeMods ||= onlyBodyParams? ? uniqMods : @mods
+  end
+
+  def uniqMods
+    @uniqMods ||= @mods.uniqBy { |m| "#{m.model.key}-#{m.body}" }
+  end
   
   def title
     return "Select some cars..." if params.count == 0
     return params.first.name if params.count == 1
     "#{params.first.name} +#{params.count - 1}"
+  end
+  
+  def onlyBodyParams?
+    return @onlyBodyParams unless @onlyBodyParams == nil
+    @onlyBodyParams = params.all? { |param| Parameter::BodyParameters.containsObject(param.key) }
   end
 end
 
