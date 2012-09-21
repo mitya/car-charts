@@ -6,6 +6,17 @@
   next letters .2 / 2 (only if consequent search is used)
 * Without grouping - almost the same, so indexation takes almost no time.
 
+* Modification Loading
+   (after RM update)
+   42 /  335 ms - plist hash loading
+   19 /  160 ms - plist array loading
+    x /    x ms - json loading
+   47 /    x ms - json array loading
+   53 /  460 ms - Modification instantiation
+   12 /  115 ms - Modification instantiation without key parsing
+    7 /   70 ms - indexing
+   55 /  450 ms - load all
+    2 /    x ms - load metadata
 
 == Colors
   214 27 38 - segment control border (one of)

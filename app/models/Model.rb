@@ -49,13 +49,16 @@ class Model
     end
 
     def keys
-      @keys ||= Metadata.model_names.keys.sort
+      @keys ||= Metadata[:model_names].keys.sort
     end
     
     def load
       @all = keys.map { |k| new(k) }
       @index = @all.uniqueIndexBy(&:key)
-      @indexByBrandKey = @all.indexBy { |m| m.brand.key }
+      # Hel.benchmark("Model Index 2") do
+        @indexByBrandKey = @all.indexBy { |m| m.brand.key }
+        # @indexByBrandKey = Hash[ Metadata.brand_models.map { |brandKey, modelKeys| [brandKey, modelKeys.map { |mk| Model.by(mk) }] } ]
+      # end
       @indexByBrandKey.each { |brandKey, models| Brand[brandKey].instance_variable_set(:@models, models) }
     end    
   end  

@@ -45,7 +45,9 @@ class Disk
     #### Initialization
   
     def load
-      [Metadata, Brand, Model, Modification, Parameter].each { |klass| Hel.benchmark("#{klass.name} Load") { klass.load } }
+      Hel.benchmark "Load All" do
+        [Metadata, Brand, Model, Modification, Parameter].each { |klass| Hel.benchmark("Load #{klass.name}") { klass.load } }
+      end
     end
   end
 end

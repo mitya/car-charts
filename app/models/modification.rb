@@ -4,8 +4,17 @@ class Modification
   
   def initialize(key, data)
     @key, @data = key, data
-    parse_key
+    @model = Model.by(self['model_key'])
   end
+  
+  def body() self['body'] end
+  def engine_vol() self['engine_vol'] end
+  def fuel() self['fuel'] end
+  def power() self['power'] end
+  def transmission() self['transmission'] end
+  def drive() self['drive'] end
+  def version_subkey() self['version_subkey'] end
+  def model_key() self['model_key'] end
   
   def full_name
     "#{model.name} #{nameNoBody}"
@@ -36,7 +45,7 @@ class Modification
   end
   
   def version_name
-    data['version_name']
+    self['version_name']
   end
   
   def fuel_suffix
@@ -44,7 +53,7 @@ class Modification
   end
   
   def compressor_suffix
-    data['compressor'] && fuel != 'd' ? "T" : ""
+    self['compressor'] && fuel != 'd' ? "T" : ""
   end
   
   def gas?
@@ -77,25 +86,8 @@ class Modification
   
   def [](key)
     key = key.key if Parameter === key
-    data[key]
-  end
-  
-  private
-  
-  # alfa_romeo--159--2005--sedan---1.8i-140ps-MT-FWD
-  # [alfa_romeo, 159, 2005, sedan, 1.8, i, 140, MT, FWD]
-  # [alfa_romeo--159]
-  def parse_key
-    brand_key, model_version, years, @body, agregate = key.split(' ')
-    model_subkey, @version_subkey = model_version.split('.')
-    model_key = [brand_key, model_subkey].join('--')
-    
-    @model = Model.by(model_key)
-    
-    engine, power, @transmission, @drive = agregate.split('-')
-    @engine_vol = engine[0..-2]
-    @fuel = engine[-1]
-    @power = power.to_i
+    index = self.class.indexForKey(key.to_s)
+    data[index]
   end
   
   AutomaticTransmissions = %w(AT AMT CVT)  
@@ -109,6 +101,7 @@ class Modification
   
     def load
       plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
+      
       @all = plist.map { |key, data| new(key, data) }
 
       @index = {}
@@ -126,10 +119,31 @@ class Modification
         options[:sedan] = true if options[:sedan].nil? && mod.sedan?
         options[:hatch] = true if options[:hatch].nil? && mod.hatch?
         options[:wagon] = true if options[:wagon].nil? && mod.wagon?
-        options[:gas] = true if options[:gas].nil? && mod.gas?      
-        options[:diesel] = true if options[:diesel].nil? && mod.diesel?      
+        options[:gas] = true if options[:gas].nil? && mod.gas?
+        options[:diesel] = true if options[:diesel].nil? && mod.diesel?
       end
       options
+    end
+
+    def indexForKey(key)
+      @keyIndex || begin
+        @keyIndex = {}
+        Keys.each_with_index { |key, index| @keyIndex[key] ||= index }
+      end
+      @keyIndex[key]
     end    
   end
+  
+  Keys = %w(body version_subkey transmission drive engine_vol fuel power model_key
+    valves_per_cylinder consumption_city max_power_kw cylinder_placement compression gross_mass bore doors compressor
+    injection tires max_torque_range_start rear_brakes max_torque max_power stroke seats acceleration_0_100_kmh consumption_highway
+    engine_spec consumption_mixed countries fuel_rating height drive_config produced_since rear_tire_rut engine_title luggage_min
+    length engine_volume body_type max_power_range_start kerbweight fuel car_class ground_clearance luggage_max front_suspension
+    price tank_capacity wheelbase model_title front_brakes engine_placement rear_suspension top_speed gears width front_tire_rut
+    cylinder_count transmission body_title produced_till max_torque_range_end max_power_range_end version base_model_key fixed_model_name)
+
+  # Keys = %w(body version_subkey transmission drive engine_vol fuel power model_key compressor drive_config body_type fuel car_class version base_model_key
+  #  top_speed acceleration_0_100_kmh consumption_city consumption_highway consumption_mixed engine_volume cylinder_count valves_per_cylinder compression bore
+  #  max_power max_power_kw max_torque gears length width height ground_clearance tires front_tire_rut rear_tire_rut wheelbase luggage_min luggage_max
+  #  tank_capacity gross_mass kerbweight doors seats produced_since price)
 end

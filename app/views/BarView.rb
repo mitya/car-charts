@@ -95,12 +95,12 @@ class BarView < UIView
   end
   
   def self.colors
-    @@colors ||= [
+    @colors ||= [
       [Hel.rgb(0, 90, 180), Hel.rgb(108, 164, 220)].reverse,
       [Hel.rgb(2, 120, 2), Hel.rgb(63, 153, 63)].reverse,
       [Hel.rgb(120, 2, 2), Hel.rgb(153, 63, 63)].reverse,
       [Hel.rgb(2, 2, 120), Hel.rgb(63, 63, 153)].reverse,
       [Hel.rgb(120, 120, 2), Hel.rgb(153, 153, 63)].reverse,
-    ]    
+    ]
   end
 end

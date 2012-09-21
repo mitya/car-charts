@@ -73,9 +73,10 @@ module Helper
   
   def benchmark(actionName = "Action", &block)
     startTime = Time.now
-    block.call
+    result = block.call
     elapsed = (Time.now - startTime) * 1_000
-    NSLog "@time #{actionName}: #{"%.3f" % elapsed}ms"
+    NSLog "TIMING #{actionName}: #{"%.3f" % elapsed}ms"
+    result
   end
   
   def landscape?(orientation)
@@ -89,6 +90,12 @@ module Helper
   def orientationKey
     orientation = UIApplication.sharedApplication.statusBarOrientation
     portrait?(orientation) ? :portrait : :landscape
+  end
+  
+  def loadJSON(file, type)
+    path = NSBundle.mainBundle.pathForResource(file, ofType:type)
+    error = Pointer.new(:object)
+    NSJSONSerialization.JSONObjectWithData(NSData.dataWithContentsOfFile(path), options:0, error:error)
   end
 end
 
