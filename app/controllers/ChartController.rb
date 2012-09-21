@@ -123,6 +123,7 @@ class ChartController < UITableViewController
     placeholder.text = text
     placeholder.textAlignment = UITextAlignmentCenter
     placeholder.textColor = Hel.grayShade(0.7)
+    placeholder.backgroundColor = UIColor.clearColor
     placeholder.font = UIFont.systemFontOfSize(20)    
     placeholder.numberOfLines = 0    
     placeholder

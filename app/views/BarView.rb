@@ -55,8 +55,10 @@ class BarView < UIView
   def drawRect(rect)
     context = UIGraphicsGetCurrentContext()
     
+    labelWidth = bounds.width * 0.4    
+  
     minWidth = 40
-    pixelRange = bounds.width - BarLabelsWidth - BarLabelsLeftMargin - minWidth - BarRightMargin
+    pixelRange = bounds.width - labelWidth - BarLabelsLeftMargin - minWidth - BarRightMargin
     
     bars = comparision.params.map do |param|
       firstBarShift = item.first?? BarTitleHeight : 0
@@ -66,12 +68,12 @@ class BarView < UIView
       bar.param = param
       bar.mod = mod
       bar.width = (bar.value - comparision.min_value_for(param)) * pixelRange / comparision.range_for(param) + minWidth
-      bar.rect = CGRectMake(BarLabelsWidth + 10, 1 + firstBarShift + bar.index * BarFullHeight, bar.width, BarHeight)
+      bar.rect = CGRectMake(labelWidth + 10, 1 + firstBarShift + bar.index * BarFullHeight, bar.width, BarHeight)
       bar
     end
     
-    modelRect = CGRectMake(BarLabelsLeftMargin, 0, BarLabelsWidth, BarHeight)
-    detailRect = CGRectMake(BarLabelsLeftMargin, item.first?? BarTitleHeight : 0, BarLabelsWidth, BarDetailHeight)
+    modelRect = CGRectMake(BarLabelsLeftMargin, 0, labelWidth, BarHeight)
+    detailRect = CGRectMake(BarLabelsLeftMargin, item.first?? BarTitleHeight : 0, labelWidth, BarDetailHeight)
 
     if item.first?
       modelNameColor = UIColor.blackColor # mod.model.brand.premium? ? BarPremiumBrandColor : UIColor.blackColor
@@ -83,8 +85,8 @@ class BarView < UIView
 
     bars.each do |bar|
       rect = bar.rect
-      oversized = rect.width >= (bounds.width - BarLabelsWidth - 5)
-      textWidth = oversized ? (bounds.width - BarLabelsWidth - 12) : rect.width - 4
+      oversized = rect.width >= (bounds.width - labelWidth - 5)
+      textWidth = oversized ? (bounds.width - labelWidth - 12) : rect.width - 4
       textColor = UIColor.whiteColor
       textFont = oversized ? UIFont.boldSystemFontOfSize(9) : UIFont.systemFontOfSize(8)
       bgColors = self.class.colors[bar.index]
