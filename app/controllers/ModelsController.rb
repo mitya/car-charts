@@ -15,14 +15,13 @@ class ModelsController < UITableViewController
     @modelsIndex = @initialModelsIndex
     @brands = @initialBrands
     
-    # tableView.backgroundColor = UIColor.lightGrayColor
-    
     @searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44))
     @searchBar.autocorrectionType = UITextAutocorrectionTypeNo
     @searchBar.placeholder = "Search"
     @searchBar.delegate = self
     tableView.tableHeaderView = @searchBar
     tableView.contentOffset = CGPointMake(0, @searchBar.frame.height)
+    tableView.addSubview Hel.grayTableViewTop
     
     @searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self)
     @searchController.delegate = @searchController.searchResultsDataSource = @searchController.searchResultsDelegate = self    

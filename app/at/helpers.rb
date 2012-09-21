@@ -36,7 +36,7 @@ module Helper
     color.set
     font = UIFont.systemFontOfSize(font) if font.is_a?(Numeric)
     string.drawInRect rect, withFont:font, lineBreakMode:lineBreakMode, alignment:alignment
-  end  
+  end
 
   # Geometry
 
@@ -100,6 +100,13 @@ module Helper
     path = NSBundle.mainBundle.pathForResource(file, ofType:type)
     error = Pointer.new(:object)
     NSJSONSerialization.JSONObjectWithData(NSData.dataWithContentsOfFile(path), options:0, error:error)
+  end
+  
+  def grayTableViewTop
+    topview = UIView.alloc.initWithFrame(CGRectMake(0,-480,320,480))
+    topview.backgroundColor = Hel.rgb(226, 231, 238)    
+    topview.autoresizingMask = UIViewAutoresizingFlexibleWidth
+    topview
   end
 end
 
