@@ -33,10 +33,10 @@ class ModificationsController < UIViewController
     @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
     @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
 
-    # UIBarButtonItem.alloc.initWithTitle("MT", style:UIBarButtonItemStyleBordered, target:nil, action:nil)
-    
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
+      # Hel.textBBI("MT"),
+      # Hel.customBBI(Hel.segmentedControl(%w(AT MT))),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@bodyFilter),
@@ -71,7 +71,7 @@ class ModificationsController < UIViewController
     if section == tableView.numberOfSections - 1
       hiddenModsCount = mods.count - filteredMods.count
       if @modsByBody.count == 0
-        "#{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} available\n Relax the filter settings to view it"
+        "All #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} are filtered out"
       else
         hiddenModsCount > 0 ? "There are also #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} hidden" : nil
       end
@@ -102,22 +102,16 @@ class ModificationsController < UIViewController
   private
   
   def applyFilter(options = {})
-    Disk.filterOptions = Disk.filterOptions.merge(options) if options.any?
-    Disk.filterOptions = Disk.filterOptions.dup.delete_if { |k,v| v == false }
+    Disk.filterOptions = Disk.filterOptions.merge(options).delete_if { |k,v| !v }
     opts = Disk.filterOptions
     self.filteredMods = Disk.filterOptions.empty? ? mods : mods.select do |mod|
-      unless opts[:at].nil? && opts[:mt].nil?
-        next false if !(opts[:at] && mod.automatic? || opts[:mt] && mod.manual?)
-      end
-
-      unless opts[:sedan].nil? && opts[:hatch].nil? && opts[:wagon].nil?
-        next false if !(opts[:sedan] && mod.sedan? || opts[:hatch] && mod.hatch? || opts[:wagon] && mod.wagon?)
-      end
-
-      unless opts[:gas].nil? && opts[:diesel].nil?
-        next false if !(opts[:gas] && mod.gas? || opts[:diesel] && mod.diesel?)        
-      end
-      
+      next false if Disk.filterOptions[:at] && mod.automatic?
+      next false if Disk.filterOptions[:mt] && mod.manual?
+      next false if Disk.filterOptions[:sedan] && mod.sedan?
+      next false if Disk.filterOptions[:hatch] && mod.hatch?
+      next false if Disk.filterOptions[:wagon] && mod.wagon?
+      next false if Disk.filterOptions[:gas] && mod.gas?
+      next false if Disk.filterOptions[:diesel] && mod.diesel?      
       next true
     end
     self.modsByBody = filteredMods.group_by { |m| m.body }    

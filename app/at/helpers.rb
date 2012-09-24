@@ -54,6 +54,10 @@ module Helper
     UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
   end
   
+  def hsb(h, s, v, a = 1.0)
+    UIColor.colorWithHue(h / 360.0, saturation: s / 100.0,  brightness: v / 100.0, alpha: a)
+  end
+  
   def grayShade(level)
     rgbf(level, level, level, 1.0)
   end
@@ -142,6 +146,12 @@ module Helper
   
   def textBBI(text, target:target, action:action)
     UIBarButtonItem.alloc.initWithTitle(text, style:UIBarButtonItemStyleBordered, target:target, action:action)
+  end
+  
+  def segmentedControl(items)
+    segmentedControl = UISegmentedControl.alloc.initWithItems(items)
+    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
+    segmentedControl
   end
 end
 

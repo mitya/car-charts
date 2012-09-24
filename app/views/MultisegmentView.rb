@@ -17,11 +17,13 @@ class MultisegmentView < UIView
     self
   end
   
-  def addButton(label, selected = nil, &handler)
+  def addButton(label, unselected = nil, &handler)
     button = UIButton.buttonWithType(UIButtonTypeCustom)
+    button.selected = unselected
     button.setTitle(label, forState:UIControlStateNormal)
+    button.setTitleShadowColor(Hel.hsb(212,22,46), forState:UIControlStateNormal)
     button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
-    button.selected = selected
+    button.titleLabel.shadowOffset = CGSizeMake(0, -1)
     button.addTarget self, action:'segmentButtonDown:', forControlEvents:UIControlEventTouchDown
     button.addTarget self, action:'segmentButtonUp:', forControlEvents:UIControlEventTouchUpInside
 
@@ -75,20 +77,12 @@ class MultisegmentView < UIView
         else :mid
       end
 
-      if groupIsActive
-        imageForDefault = self.class.buttonBackgroundFor(orientationKey, "off-#{side}")
-        imageForSelected = self.class.buttonBackgroundFor(orientationKey, "on-#{side}")
-        button.setBackgroundImage imageForDefault, forState:UIControlStateNormal
-        button.setBackgroundImage imageForDefault, forState:UIControlStateHighlighted
-        button.setBackgroundImage imageForSelected, forState:UIControlStateSelected
-        button.setBackgroundImage imageForSelected, forState:UIControlStateSelected | UIControlStateHighlighted
-      else
-        imageForDefault = self.class.buttonBackgroundFor(orientationKey, "none-#{side}")
-        button.setBackgroundImage imageForDefault, forState:UIControlStateNormal
-        button.setBackgroundImage imageForDefault, forState:UIControlStateHighlighted
-        button.setBackgroundImage nil, forState:UIControlStateSelected
-        button.setBackgroundImage nil, forState:UIControlStateSelected | UIControlStateHighlighted
-      end
+      imageForDefault = self.class.buttonBackgroundFor(orientationKey, "on-#{side}")
+      imageForSelected = self.class.buttonBackgroundFor(orientationKey, "off-#{side}")
+      button.setBackgroundImage imageForDefault, forState:UIControlStateNormal
+      button.setBackgroundImage imageForDefault, forState:UIControlStateHighlighted
+      button.setBackgroundImage imageForSelected, forState:UIControlStateSelected
+      button.setBackgroundImage imageForSelected, forState:UIControlStateSelected | UIControlStateHighlighted
     end    
   end
   
@@ -114,7 +108,7 @@ class MultisegmentView < UIView
   
   def self.buttonDimensions
     @buttonDimensions ||= { 
-      portrait:  ButtonDimensions.new(39, 30, 0, 0, 44),
+      portrait:  ButtonDimensions.new(35, 30, 0, 0, 44),
       landscape: ButtonDimensions.new(33.5, 24, 0, 0, 32)
     }
   end

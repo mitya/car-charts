@@ -42,3 +42,13 @@
   000 00 00 - black segment button botom
   000 00 18 - black segment button border
   000 00 56 : 000 00 24 - black segment button divider  
+
+  218.42.91-219.80.85 - ios 6 Done button t-b / mid = 218.60.85
+  218.78.54-218.75.55 - ios 6 Done button border t-b
+  214.22.76-215.54.56 - ios 6 Back button t-b  
+  214.27.45-213.50.36 - ios 6 Back button border t-b  
+
+  212.16.80-212.37.64 - ios 6 segment button t-b  / mid 214.29.69
+  216.26.66-215.44.56 - ios 6 segment divider t-b  
+  211.18.46-213.35.42 - ios 6 segment button border t-b  
+

@@ -27,6 +27,18 @@ class Class
   end  
 end
 
+class NilClass
+  def blank?
+    true
+  end
+end
+
+class NSString
+  def blank?
+    empty?
+  end
+end
+
 ###############################################################################
 
 class NSArray

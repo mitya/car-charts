@@ -113,12 +113,20 @@ task :buttons do
     [nil, 60, 26, 12, 14],
     ["mini", 48, 24, 10, 12]
   ]
-  
+
   items = [
-    ['none', '214.18.76-213.24.71', '213.28.69', '213.25.46', '215.31.56'],
-    ['on', '220.49.90-220.75.88', '220.85.87', '220.74.56', '220.74.56'],
-    ['off', '000.00.45-000.00.15', '000.00.00', '000.00.18', '000.00.25-000.00.10'],
-    # ['off', '201 05 90 - 201 05 83', '206 08 80', '210 17 58', '210 17 58'], gray
+    ## blue - br.blue
+    ['on',   '218.42.90-219.80.85', '218.75.55', '218.60.75-218.75.60'],
+    ['off',  '212.16.80-212.37.64', '213.35.42', '216.26.66-215.44.56'],
+
+    ## br.blue - black
+    # ['on',   '218.42.91-219.80.85', '218.75.55', '218.78.54-218.75.55'],
+    # ['off',  '000.00.45-000.00.12', '000.00.18', '000.00.25-000.00.10'],
+
+    ## red-green-yellow
+    # ['none', '050.50.85-050.70.50', '050.50.50', '050.50.70-050.50.50'],
+    # ['on',   '150.40.60-150.80.40', '150.70.40', '150.70.50-150.70.35'],
+    # ['off',  '000.60.70-000.80.45', '000.70.50', '000.70.55-000.70.50'],
   ]    
   
   sizes.each do |sizeData|
@@ -127,9 +135,8 @@ task :buttons do
     halfHeightWoShadow = heightWoShadow / 2
         
     items.each do |data|
-      name, topGr, bottomGr, borderCl, dividerGr = data
-      topGr = parseHSVGradient(topGr)
-      bottomGr = parseHSVGradient(bottomGr)
+      name, gradient, borderCl, dividerGr = data
+      gradient = parseHSVGradient(gradient)
       borderCl = parseHSV(borderCl)
       dividerGr = parseHSVGradient(dividerGr)
       dividerBottomCl = lastGradientColor(dividerGr)
@@ -139,9 +146,11 @@ task :buttons do
     
       shadow = parseHSV('214 18 76')
       borderShadow = parseHSV('214 25 70')
-    
+
+      # -size #{width}x#{halfHeightWoShadow} gradient:#{topGr} -size #{width}x#{halfHeightWoShadow} gradient:#{bottomGr} -append
+
       cmd = %{ convert
-        -size #{width}x#{halfHeightWoShadow} gradient:#{topGr} -size #{width}x#{halfHeightWoShadow} gradient:#{bottomGr} -append
+        -size #{width}x#{heightWoShadow} gradient:#{gradient} -sigmoidal-contrast 3,50%
         ( +clone -threshold -1
            -draw "fill black polygon 0,0 0,#{cornerRad} #{cornerRad},0 fill white circle #{cornerRad},#{cornerRad} #{cornerRad},0"
            ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
@@ -154,8 +163,8 @@ task :buttons do
         }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
 
       run cmd
-      run "convert -size 1x1 xc:#{borderCl} -size 1x#{halfHeightWoShadow-1} gradient:#{dividerGr} -size 1x#{halfHeightWoShadow-1} xc:#{dividerBottomCl} \
-          -size 1x1 xc:#{borderCl} -size 1x2 xc:#{borderShadow} -append #{borderFile}"
+
+      run "convert -size 1x1 xc:#{borderCl} -size 1x#{heightWoShadow-2} gradient:#{dividerGr} -size 1x1 xc:#{borderCl} -size 1x2 xc:#{borderShadow} -append #{borderFile}"
     
       run "convert #{baseFile} -gravity West -crop #{halfWidth}x#{height}+0+0 +repage #{borderFile} +append resources/#{suffix}-left@2x.png"
       run "convert #{borderFile} #{baseFile} -gravity North -crop 4x#{height}+0+0  +repage #{borderFile} +append resources/#{suffix}-mid@2x.png"
