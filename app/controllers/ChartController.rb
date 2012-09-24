@@ -11,7 +11,7 @@ class ChartController < UITableViewController
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
 
-    navigationItem.backBarButtonItem = UIBarButtonItem.alloc.initWithTitle "Chart", style:UIBarButtonItemStyleBordered, target:nil, action:nil
+    navigationItem.backBarButtonItem = Hel.textBBI "Chart"
 
     segmentedControl = UISegmentedControl.alloc.initWithItems([])
     segmentedControl.momentary = YES
@@ -19,7 +19,7 @@ class ChartController < UITableViewController
     segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-car"), atIndex:0, animated:NO
     segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:1, animated:NO
     segmentedControl.addTarget self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged
-    navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithCustomView(segmentedControl)
+    navigationItem.rightBarButtonItem = Hel.customBBI(segmentedControl)
   end
 
   def viewWillAppear(animated)
@@ -28,7 +28,7 @@ class ChartController < UITableViewController
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
 
-    if comparision.mods.empty? || comparision.params.empty?
+    if @comparision.incomplete?
       view.addSubview(@placeholderView ||= createPlaceholderView)
     else
       @placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
@@ -52,9 +52,7 @@ class ChartController < UITableViewController
   end
   
   def tableView(tv, cellForRowAtIndexPath:ip)
-    cell = tv.dequeueReusableCell klass:BarTableViewCell do |cell|
-      cell.selectionStyle = UITableViewCellSelectionStyleNone
-    end
+    cell = tv.dequeueReusableCell(klass:BarTableViewCell) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
     cell.item = comparision.items[ip.row]
     cell
   end
@@ -72,8 +70,7 @@ class ChartController < UITableViewController
   ###
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
-    @closeSettingsButton ||= UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemDone,
-      target:self, action:"closeSettings")
+    @closeSettingsButton ||= Hel.systemBBI(UIBarButtonSystemItemDone, target:self, action:"closeSettings")
     viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
     navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated
   end
@@ -97,7 +94,7 @@ class ChartController < UITableViewController
     end
     presentViewController @carsNavigationController, animated:YES, completion:NIL
   end
-  
+
   def showParameters
     @parametersNavigationController ||= begin
       parametersCon = ParametersController.new
@@ -112,20 +109,14 @@ class ChartController < UITableViewController
   def closeSettings
     dismissModalViewControllerAnimated true
   end
-  
+
   def createPlaceholderView
-    text = $lastLaunchFailed ?
-      "Something weird happened, the parameters and models were reset. Sorry :(" :
-      "To start – select some car models and some parameters to compare"
-    $lastLaunchFailed = nil
-                  
-    placeholder = UILabel.alloc.initWithFrame(view.bounds.withHMargins(15))
-    placeholder.text = text
-    placeholder.textAlignment = UITextAlignmentCenter
-    placeholder.textColor = Hel.grayShade(0.7)
-    placeholder.backgroundColor = UIColor.clearColor
-    placeholder.font = UIFont.systemFontOfSize(20)    
-    placeholder.numberOfLines = 0    
-    placeholder
+    text = "Select some cars and parameters to compare"
+    if $lastLaunchFailed
+      text = "Something weird happened, the parameters and models were reset. Sorry :("
+      $lastLaunchFailed = nil
+    end
+
+    Hel.tableViewPlaceholder(text, view.bounds.withHMargins(15))
   end
 end

@@ -108,6 +108,41 @@ module Helper
     topview.autoresizingMask = UIViewAutoresizingFlexibleWidth
     topview
   end
+  
+  def setDevBorder(view)
+    view.layer.borderColor = UIColor.redColor.CGColor
+    view.layer.borderWidth = 1
+    view.layer.cornerRadius = 8
+    view.layer.masksToBounds = true    
+  end
+  
+  def tableViewPlaceholder(text, bounds)
+    placeholder = UILabel.alloc.initWithFrame(bounds)
+    placeholder.autoresizingMask = UIViewAutoresizingFlexibleAllMargins
+    placeholder.text = text
+    placeholder.textAlignment = UITextAlignmentCenter
+    placeholder.textColor = Hel.grayShade(0.7)
+    placeholder.backgroundColor = UIColor.clearColor
+    placeholder.font = UIFont.systemFontOfSize(20)
+    placeholder.numberOfLines = 0
+    placeholder
+  end
+  
+  def customBBI(view)
+    UIBarButtonItem.alloc.initWithCustomView(view)
+  end
+  
+  def systemBBI(style, target:target, action:action)
+    UIBarButtonItem.alloc.initWithBarButtonSystemItem(style, target:target, action:action)
+  end
+
+  def textBBI(text)
+    UIBarButtonItem.alloc.initWithTitle(text, style:UIBarButtonItemStyleBordered, target:nil, action:nil)
+  end
+  
+  def textBBI(text, target:target, action:action)
+    UIBarButtonItem.alloc.initWithTitle(text, style:UIBarButtonItemStyleBordered, target:target, action:action)
+  end
 end
 
 Hel = Helper

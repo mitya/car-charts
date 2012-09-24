@@ -49,6 +49,10 @@ class Comparision
     return @onlyBodyParams unless @onlyBodyParams == nil
     @onlyBodyParams = params.all? { |param| Parameter::BodyParameters.containsObject(param.key) }
   end
+  
+  def incomplete?
+    mods.empty? || params.empty?
+  end
 end
 
 class ComparisionItem
