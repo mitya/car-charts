@@ -25,5 +25,9 @@ class Metadata
     def brandKeys
       @brandKeys ||= brandNames.keys
     end
+    
+    def categoryKeys
+      @categoryKeys ||= Metadata.categoryNames.keys
+    end
   end
 end

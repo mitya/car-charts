@@ -1,4 +1,4 @@
-class RecentModificationsController < UITableViewController
+class ModificationsRecentController < UITableViewController
   attr_accessor :current, :recent
   
   def viewDidLoad

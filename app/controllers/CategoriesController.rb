@@ -1,6 +1,6 @@
 class CategoriesController < UITableViewController
   def initialize
-    self.title = "Car Classes"
+    self.title = "Categories"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)    
   end
   
@@ -14,11 +14,11 @@ class CategoriesController < UITableViewController
   end
   
   def tableView(tv, numberOfRowsInSection:section)
-    Metadata.categoryNames.count
+    Metadata.categoryKeys.count
   end
   
   def tableView(table, cellForRowAtIndexPath:indexPath)
-    categoryKey = Metadata.categoryNames.keys[indexPath.row]
+    categoryKey = Metadata.categoryKeys[indexPath.row]
     categorySelectedModsCount = Disk.currentMods.select { |mod| mod.category.to_sym == categoryKey }.count
 
     cell = table.dequeueReusableCell(klass: BadgeViewCell)
@@ -31,7 +31,7 @@ class CategoriesController < UITableViewController
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
-    categoryKey = Metadata.categoryNames.keys[indexPath.row]
+    categoryKey = Metadata.categoryKeys[indexPath.row]
     controller = ModelsController.new(Model.byCategoryKey(categoryKey))
 
     navigationController.pushViewController(controller, animated:true)

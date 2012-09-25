@@ -8,7 +8,7 @@ class CarsController < UITableViewController
 
 
   def initialize
-    self.title = "Select Cars"
+    self.title = "Cars"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tbi-car"), tag:1)
   end
 
@@ -41,9 +41,9 @@ class CarsController < UITableViewController
     item = Items[indexPath.row]
     case item[:key]
     when :recent
-      controller = RecentModificationsController.new
+      controller = ModificationsRecentController.new
     when :all
-      controller = ModelsController.new(Model.all)
+      controller = ModelsIndexedController.new(Model.all)
     when :categories
       controller = CategoriesController.new
     end

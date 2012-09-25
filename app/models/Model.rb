@@ -1,4 +1,3 @@
-# It should be named Model, but the model is already used as a name of the entire model layer.
 class Model
   attr_reader :key, :modifications
   
