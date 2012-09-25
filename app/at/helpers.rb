@@ -112,6 +112,11 @@ module Helper
     topview.autoresizingMask = UIViewAutoresizingFlexibleWidth
     topview
   end
+
+  def applyRoundCorners(view, cornerRadius = 8)
+    view.layer.cornerRadius = cornerRadius
+    view.layer.masksToBounds = true
+  end
   
   def setDevBorder(view)
     view.layer.borderColor = UIColor.redColor.CGColor

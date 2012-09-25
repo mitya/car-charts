@@ -15,11 +15,8 @@ class ParametersController < UITableViewController
   def tableView(table, cellForRowAtIndexPath:indexPath)
     parameter = Parameter.all[indexPath.row]
 
-    cell = table.dequeueReusableCell do |cell|
-      cell.selectionStyle = UITableViewCellSelectionStyleNone
-    end
-
-    cell.textLabel.text = parameter.name
+    cell = table.dequeueReusableCell { |cell| cell.selectionStyle = UITableViewCellSelectionStyleNone }
+    cell.textLabel.text = parameter.name  
     cell.accessoryType = Disk.currentParameters.include?(parameter) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end  

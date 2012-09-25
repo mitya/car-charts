@@ -89,7 +89,7 @@ class BarView < UIView
       textWidth = oversized ? (bounds.width - labelWidth - 12) : rect.width - 4
       textColor = UIColor.whiteColor
       textFont = oversized ? UIFont.boldSystemFontOfSize(9) : UIFont.systemFontOfSize(8)
-      bgColors = self.class.colors[bar.index]
+      bgColors = self.class.colors[bar.index.remainder(self.class.colors.count)]
       
       Hel.drawGradientRect context, rect, bgColors
       Hel.drawStringInRect bar.text, CGRectMake(rect.x, rect.y - 1, textWidth, rect.height), textColor, textFont, UILineBreakModeClip, UITextAlignmentRight
@@ -97,12 +97,9 @@ class BarView < UIView
   end
   
   def self.colors
-    @colors ||= [
-      [Hel.rgb(0, 90, 180), Hel.rgb(108, 164, 220)].reverse,
-      [Hel.rgb(2, 120, 2), Hel.rgb(63, 153, 63)].reverse,
-      [Hel.rgb(120, 2, 2), Hel.rgb(153, 63, 63)].reverse,
-      [Hel.rgb(2, 2, 120), Hel.rgb(63, 63, 153)].reverse,
-      [Hel.rgb(120, 120, 2), Hel.rgb(153, 153, 63)].reverse,
-    ]
+    @colors ||= Metadata.colors.map do |values|
+      h,s,b = values
+      [Hel.hsb(h, s - 10, b + 5), Hel.hsb(h, s + 10, b - 5)]
+    end
   end
 end
