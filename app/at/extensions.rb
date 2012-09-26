@@ -25,6 +25,10 @@ class Class
     
     include(extmod)
   end  
+  
+  def to_proc
+    Proc.new { |obj| self === obj }
+  end
 end
 
 class NilClass
@@ -177,6 +181,12 @@ class UITableViewCell
       self.accessoryType = UITableViewCellAccessoryCheckmark
       false
     end    
+  end
+end
+
+class UIView
+  def xSetDevBorder
+    Hel.setDevBorder(self)
   end
 end
 

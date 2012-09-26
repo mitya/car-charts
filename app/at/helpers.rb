@@ -120,9 +120,9 @@ module Helper
   
   def setDevBorder(view)
     view.layer.borderColor = UIColor.redColor.CGColor
-    view.layer.borderWidth = 1
-    view.layer.cornerRadius = 8
-    view.layer.masksToBounds = true    
+    view.layer.borderWidth = 0.5
+    # view.layer.cornerRadius = 8
+    # view.layer.masksToBounds = true    
   end
   
   def tableViewPlaceholder(text, bounds)

@@ -10,6 +10,7 @@ class ChartController < UITableViewController
     tableView.backgroundColor = Hel.pattern("bg-chart")
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
+    tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
 
     navigationItem.backBarButtonItem = Hel.textBBI "Chart"
 
@@ -27,6 +28,7 @@ class ChartController < UITableViewController
     
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
+    tableView.tableFooterView.parameters = @comparision.params
 
     if @comparision.incomplete?
       view.addSubview(@placeholderView ||= createPlaceholderView)
@@ -118,5 +120,9 @@ class ChartController < UITableViewController
     end
 
     Hel.tableViewPlaceholder(text, view.bounds.withHMargins(15))
+  end
+  
+  def createParametersLegendView
+    # ParamtersLegendView.alloc.initWithParameters(@comparision.params)
   end
 end
