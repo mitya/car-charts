@@ -24,7 +24,6 @@ class ParametersLegendView < UIView
   end
   
   def parameters=(array)
-    puts "LegendView.parameters="    
     @parameters = array
 
     subviews.each { |view| view.removeFromSuperview }
@@ -34,8 +33,6 @@ class ParametersLegendView < UIView
   end
   
   def drawRect(rect)
-    puts "LegendView.draw"
-    
     rows = [[]]
     x, y = ContainerHM, ContainerVM
     subviews.select(&ItemView).each_with_index do |item, index|
@@ -65,13 +62,11 @@ class ParametersLegendView < UIView
     def initialize(param, index)
       initWithFrame CGRectNull
       self.backgroundColor = UIColor.whiteColor
-      # self.xSetDevBorder
       @param = param
       @index = index
     end
 
     def drawRect(rect)
-      puts "LegendViewItem.draw"
       context = UIGraphicsGetCurrentContext()
       colorGradient = BarView.colors[index]
       colorFrame = CGRectMake(0, (ItemH - ColorH) / 2.0, ColorW, ColorH)
@@ -82,7 +77,6 @@ class ParametersLegendView < UIView
     end
 
     def sizeThatFits(oldSize)
-      puts "LegendViewItem.sizeThatFits"
       size = param.name.sizeWithFont(textFont)
       CGSizeMake(size.width + ColorW + ColorRM, ItemH)
     end

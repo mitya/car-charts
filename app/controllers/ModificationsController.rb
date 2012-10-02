@@ -114,7 +114,7 @@ class ModificationsController < UIViewController
       next false if Disk.filterOptions[:diesel] && mod.diesel?      
       next true
     end
-    self.modsByBody = filteredMods.group_by { |m| m.body }    
+    self.modsByBody = filteredMods.group_by { |m| m.body }
     tableView.reloadData
   end
 end

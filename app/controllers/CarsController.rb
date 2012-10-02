@@ -3,9 +3,9 @@ class CarsController < UITableViewController
     {key: :recent, title: "Selected & Recent"},
     {key: :all, title: "All"},
     {key: :categories, title: "Categories"},
+    {key: :sets, title: "Sets"},
   ]
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
-
 
   def initialize
     self.title = "Cars"
@@ -39,13 +39,11 @@ class CarsController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
     item = Items[indexPath.row]
-    case item[:key]
-    when :recent
-      controller = ModificationsRecentController.new
-    when :all
-      controller = ModelsIndexedController.new(Model.all)
-    when :categories
-      controller = CategoriesController.new
+    controller = case item[:key]
+      when :recent then ModificationsRecentController.new
+      when :all then ModelsIndexedController.new(Model.all)
+      when :categories then CategoriesController.new
+      when :sets then ModificationSetsController.new
     end
 
     navigationController.pushViewController(controller, animated:true)
