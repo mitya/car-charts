@@ -9,6 +9,10 @@ class ModificationSet
     NSUserDefaults.standardUserDefaults["modSets"] = NSUserDefaults.standardUserDefaults["modSets"].merge(@name => mods)
   end
   
+  def delete
+    NSUserDefaults.standardUserDefaults["modSets"] = NSUserDefaults.standardUserDefaults["modSets"].reject { |k,v| k == name }
+  end
+  
   def mods
     @mods ||= begin 
       modKeys = NSUserDefaults.standardUserDefaults["modSets"][name]

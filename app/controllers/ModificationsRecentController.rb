@@ -43,9 +43,7 @@ class ModificationsRecentController < UITableViewController
     mod = modForIndexPath(indexPath)
     Disk.toggleModInCurrentList(mod)
     
-    tableView.beginUpdates
     tableView.moveRowAtIndexPath(indexPath, toIndexPath:(NSIndexPath.indexPathForRow(0, inSection: indexPath.section == 0 ? 1 : 0)))
-    tableView.endUpdates
   end
   
 private
