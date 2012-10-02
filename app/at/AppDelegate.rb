@@ -24,6 +24,7 @@ class AppDelegate
     # navigationController.pushViewController ModificationsController.new(Model.by("ford--focus")), animated:NO
     # navigationController.pushViewController ModelsIndexedController.new(Model.byCategoryKey("C")), animated:NO
     # navigationController.pushViewController ParametersController.new, animated:NO
+    navigationController.pushViewController ModificationSetsController.new, animated:NO
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     window.backgroundColor = UIColor.whiteColor
