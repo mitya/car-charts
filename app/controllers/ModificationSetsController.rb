@@ -56,14 +56,9 @@ class ModificationSetsController < UITableViewController
     @sets = ModificationSet.all
   end
   
-  # def tableView(tv, didSelectRowAtIndexPath:indexPath)
-  #   tv.deselectRowAtIndexPath(indexPath, animated:true)
-  # 
-  #   bodyKey = modsByBody.keys[indexPath.section]
-  #   mod = modsByBody[bodyKey][indexPath.row]
-  #   Disk.toggleModInCurrentList(mod)
-  # 
-  #   cell = tv.cellForRowAtIndexPath(indexPath)
-  #   cell.toggleCheckmarkAccessory
-  # end
+  def tableView(tv, didSelectRowAtIndexPath:indexPath)
+    set = @sets[indexPath.row]
+    tableView.deselectRowAtIndexPath indexPath, animated:YES    
+    navigationController.pushViewController ModificationSetController.new(set), animated:YES
+  end
 end
