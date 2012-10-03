@@ -8,13 +8,14 @@ class ModificationSetController < UITableViewController
   def viewDidLoad
     super
     self.title = set.name
-    self.toolbarItems = [
-      Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace),      
-      Hel.textBBI("Replace Selected", target:self, action:'replaceCurrent'),
-      Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace),      
-      Hel.textBBI("Add to Selected", target:self, action:'addToCurrent'),
-      Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace)
-    ]
+    navigationItem.rightBarButtonItem = Hel.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showSetActionsSheet:')
+    # self.toolbarItems = [
+      # Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace),      
+      # Hel.textBBI("Replace Selected", target:self, action:'replaceCurrent'),
+      # Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace),      
+      # Hel.textBBI("Add to Selected", target:self, action:'addToCurrent'),
+      # Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace)
+    # ]
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -43,5 +44,20 @@ class ModificationSetController < UITableViewController
   
   def addToCurrent
     @set.addToCurrentMods
+  end
+  
+  def showSetActionsSheet(bbi)
+    sheet = UIActionSheet.alloc.initWithTitle("Add or replace the currently selected models with the models from this set.", 
+      delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
+    sheet.addButtonWithTitle "Replace Current Models"
+    sheet.addButtonWithTitle "Add to Current Models"
+    sheet.showFromBarButtonItem bbi, animated:YES
+  end
+  
+  def actionSheet(sheet, clickedButtonAtIndex:buttonIndex)
+    case sheet.buttonTitleAtIndex(buttonIndex)
+      when "Replace Current Models" then @set.replaceCurrentMods
+      when "Add to Current Models" then @set.addToCurrentMods
+    end
   end
 end
