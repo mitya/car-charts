@@ -87,8 +87,12 @@ task :letters do
 end
 
 task :toolbarbg do
-  colors = [hsb(200, 5, 88), hsb(203, 9, 78)] # [hsb(214, 32, 63), hsb(214, 32, 50)]
-  run "convert -size 2x86 -colorspace hsb gradient:'#{colors.join("-")}' -size 2x2 xc:#333 -append resources/bg-toolbar-under@2x.png"
+  # colors = [hsb(200, 5, 88), hsb(203, 9, 78)] # [hsb(214, 32, 63), hsb(214, 32, 50)]
+  # run "convert -size 2x86 -colorspace hsb gradient:'#{colors.join("-")}' -size 2x2 xc:#333 -append resources/bg-toolbar-under@2x.png"
+  
+  
+  gradient = parseHSVGradient('214.21.75-214.53.55')
+  run "convert -size 2x86 -colorspace hsb gradient:'#{gradient}' -size 2x2 xc:#333 -append resources/bg-button-1@2x.png"
 end
 
 # convert noun_project_2542.svg -resize 44x44 noun_project_2542.png

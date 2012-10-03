@@ -81,7 +81,7 @@ class ModificationsController < UIViewController
     mod = modsByBody[bodyKey][indexPath.row]
 
     cell = tv.dequeueReusableCell do |cl|
-      button = UIButton.alloc.initWithFrame CGRectMake(200, 0, 30, 44)
+      button = UIButton.alloc.initWithFrame CGRectMake(200, 0, 44, 44)
       button.setBackgroundImage Hel.capImage("bg-button-blue", 10, 9.5, 10, 9.5), forState:UIControlStateNormal
       button.setImage UIImage.imageNamed("ico-bbi-weight"), forState:UIControlStateNormal
       button.titleLabel.font = UIFont.systemFontOfSize(11)
