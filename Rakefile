@@ -108,6 +108,16 @@ task :bbiconrun do
   makeBBIcon "resources/tmp/ico-weight@2x.png"  
 end
 
+task :cellbutton do
+  [
+    %w[blue   214.21.75-214.53.55 218.75.55 214.18.76],
+    %w[yellow 050.50.85-050.70.50 050.50.50 214.18.76],
+  ].each do |name, gradient, borderClr, shadowClr|
+    makeButton 26, 50, 12, parseHSVGradient(gradient), parseHSV(borderClr), parseHSV(shadowClr), "resources/bg-button-#{name}@2x.png",
+      fullWidth:40, fullHeight:88
+  end
+end
+
 task :buttons do
   sizes = [
     [nil, 60, 26, 12, 14],
@@ -146,7 +156,7 @@ task :buttons do
       dividerGr = parseHSVGradient(dividerGr)
       dividerBottomCl = lastGradientColor(dividerGr)
       suffix = "ui-multisegment#{sizeName}-#{name}"
-      baseFile = "resources/#{suffix}-base@2x.png"
+      baseFile = "resources/xx-#{suffix}-base@2x.png"
       borderFile = "tmp/#{suffix}-divider@2x.png"
     
       shadow = parseHSV('214 18 76')
@@ -154,23 +164,9 @@ task :buttons do
 
       # -size #{width}x#{halfHeightWoShadow} gradient:#{topGr} -size #{width}x#{halfHeightWoShadow} gradient:#{bottomGr} -append
 
-      cmd = %{ convert
-        -size #{width}x#{heightWoShadow} gradient:#{gradient} -sigmoidal-contrast 3,50%
-        ( +clone -threshold -1
-           -draw "fill black polygon 0,0 0,#{cornerRad} #{cornerRad},0 fill white circle #{cornerRad},#{cornerRad} #{cornerRad},0"
-           ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
-        +matte -compose CopyOpacity -composite
-        -size #{width}x#{heightWoShadow} xc:transparent +swap -gravity North -compose src-over -composite
-        -stroke #{borderCl} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{width-1},#{heightWoShadow-1} #{cornerRad},#{cornerRad}" 
-        ( +clone -background #{shadow} -shadow 50x0+0+2 ) +swap
-        -background none -mosaic
-        #{baseFile}
-        }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
-
-      run cmd
+      makeButton width, height, cornerRad, gradient, borderCl, shadow, baseFile
 
       run "convert -size 1x1 xc:#{borderCl} -size 1x#{heightWoShadow-2} gradient:#{dividerGr} -size 1x1 xc:#{borderCl} -size 1x2 xc:#{borderShadow} -append #{borderFile}"
-    
       run "convert #{baseFile} -gravity West -crop #{halfWidth}x#{height}+0+0 +repage #{borderFile} +append resources/#{suffix}-left@2x.png"
       run "convert #{borderFile} #{baseFile} -gravity North -crop 4x#{height}+0+0  +repage #{borderFile} +append resources/#{suffix}-mid@2x.png"
       run "convert #{borderFile} #{baseFile} -gravity East -crop #{halfWidth}x#{height}+0+0 +repage +append resources/#{suffix}-right@2x.png"
@@ -182,4 +178,25 @@ task :d => :device
 task :s do
   ENV['retina'] = '4'
   Rake::Task['simulator'].invoke
+end
+
+def makeButton(width, height, cornerRad, gradient, borderCl, shadowCl, file, options = {})
+  heightWoShadow = height - 2
+  fullWidth  = options[:fullWidth] || width
+  fullHeight = options[:fullHeight] || height
+  
+  cmd = %{ convert
+    -size #{width}x#{heightWoShadow} gradient:#{gradient} -sigmoidal-contrast 3,50%
+    ( +clone -threshold -1
+       -draw "fill black polygon 0,0 0,#{cornerRad} #{cornerRad},0 fill white circle #{cornerRad},#{cornerRad} #{cornerRad},0"
+       ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
+    +matte -compose CopyOpacity -composite
+    -size #{width}x#{heightWoShadow} xc:transparent +swap -gravity North -compose src-over -composite
+    -stroke #{borderCl} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{width-1},#{heightWoShadow-1} #{cornerRad},#{cornerRad}" 
+    ( +clone -background #{shadowCl} -shadow 50x0+0+2 ) +swap
+    -background none -mosaic
+    -size #{fullWidth}x#{fullHeight} xc:transparent +swap -gravity Center -compose src-over -composite
+    #{file}
+    }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
+  run cmd
 end

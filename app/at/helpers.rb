@@ -158,6 +158,10 @@ module Helper
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
     segmentedControl
   end
+  
+  def capImage(imageName, top, left, bottom, right)
+    UIImage.imageNamed(imageName).resizableImageWithCapInsets(UIEdgeInsetsMake(top, left, bottom, right))
+  end
 end
 
 Hel = Helper

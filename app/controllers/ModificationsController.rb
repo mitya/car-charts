@@ -82,7 +82,15 @@ class ModificationsController < UIViewController
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
 
-    cell = tv.dequeueReusableCell
+    cell = tv.dequeueReusableCell do |cl|
+      button = UIButton.alloc.initWithFrame CGRectMake(200, 0, 30, 44)
+      button.setBackgroundImage Hel.capImage("bg-button-blue", 10, 9.5, 10, 9.5), forState:UIControlStateNormal
+      button.setImage UIImage.imageNamed("ico-bbi-weight"), forState:UIControlStateNormal
+      button.titleLabel.font = UIFont.systemFontOfSize(11)
+      button.addTarget self, action:'addToSetButtonTouched:', forControlEvents:UIControlEventTouchUpInside
+      button.tag = 1
+      cl.insertSubview button, atIndex:3
+    end
     cell.textLabel.text = mod.nameWithVersion
     cell.accessoryType = Disk.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
@@ -116,5 +124,12 @@ class ModificationsController < UIViewController
     end
     self.modsByBody = filteredMods.group_by { |m| m.body }
     tableView.reloadData
+  end
+  
+  def addToSetButtonTouched(button)
+    indexPath = tableView.indexPathForCell(button.superview)
+    bodyKey = modsByBody.keys[indexPath.section]
+    mod = modsByBody[bodyKey][indexPath.row]
+    p mod.key    
   end
 end
