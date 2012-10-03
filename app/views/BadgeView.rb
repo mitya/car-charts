@@ -18,6 +18,10 @@ class BadgeViewCell < UITableViewCell
     super
   end
   
+  def badgeText=(value)
+    @badgeText = value && value != 0 ? value.to_s : nil
+  end
+  
   def setSelected(selected, animated:animated)
     super
   	badgeView.setNeedsDisplay

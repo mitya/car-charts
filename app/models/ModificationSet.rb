@@ -6,7 +6,7 @@ class ModificationSet
   end
   
   def save
-    NSUserDefaults.standardUserDefaults["modSets"] = NSUserDefaults.standardUserDefaults["modSets"].merge(@name => mods)
+    NSUserDefaults.standardUserDefaults["modSets"] = NSUserDefaults.standardUserDefaults["modSets"].merge(@name => mods.map(&:key))
   end
   
   def delete
@@ -18,6 +18,19 @@ class ModificationSet
       modKeys = NSUserDefaults.standardUserDefaults["modSets"][name]
       modKeys.to_a.map { |key| Modification.by(key) }
     end
+  end
+  
+  def mods=(objects)
+    @mods = objects
+    save
+  end
+  
+  def replaceCurrentMods
+    Disk.currentMods = mods
+  end
+  
+  def addToCurrentMods
+    Disk.currentMods = Disk.currentMods | mods
   end
   
   class << self

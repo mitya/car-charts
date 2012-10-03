@@ -35,8 +35,6 @@ class ModificationsController < UIViewController
 
     self.toolbarItems = [
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-      # Hel.textBBI("MT"),
-      # Hel.customBBI(Hel.segmentedControl(%w(AT MT))),
       UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
       UIBarButtonItem.alloc.initWithCustomView(@bodyFilter),
@@ -130,6 +128,5 @@ class ModificationsController < UIViewController
     indexPath = tableView.indexPathForCell(button.superview)
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
-    p mod.key    
   end
 end

@@ -36,9 +36,8 @@ class ModelsController < UITableViewController
     model = @filteredModels[indexPath.row]
     modelSelectedModsCount = model.selectedModsCount
 
-    cell = table.dequeueReusableCell(klass: BadgeViewCell)
-    cell.textLabel.text = model.name
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell = table.dequeueReusableCell(klass: BadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+    cell.text = model.name
     cell.badgeText = modelSelectedModsCount.to_s if modelSelectedModsCount > 0
     cell
   end

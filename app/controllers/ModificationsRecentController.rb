@@ -4,6 +4,9 @@ class ModificationsRecentController < UITableViewController
   def viewDidLoad
     super
     self.title = "Recent Models"
+    self.toolbarItems = [
+      Hel.textBBI("Save", target:self, action:'saveAsSet')
+    ]
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -55,5 +58,10 @@ private
   def modForIndexPath(indexPath)
     collection = collectionForSection(indexPath.section)
     collection[-indexPath.row - 1]
+  end
+  
+  def saveAsSet
+     dialogNavController = UINavigationController.alloc.initWithRootViewController(ModificationSetSelectionController.new)
+     presentViewController dialogNavController, animated:YES, completion:NIL
   end
 end

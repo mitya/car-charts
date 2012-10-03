@@ -140,13 +140,17 @@ module Helper
   def customBBI(view)
     UIBarButtonItem.alloc.initWithCustomView(view)
   end
+
+  def systemBBI(style)
+    systemBBI(style, target:NIL, action:NIL)
+  end
   
   def systemBBI(style, target:target, action:action)
     UIBarButtonItem.alloc.initWithBarButtonSystemItem(style, target:target, action:action)
   end
 
   def textBBI(text)
-    UIBarButtonItem.alloc.initWithTitle(text, style:UIBarButtonItemStyleBordered, target:nil, action:nil)
+    textBBI(text, target:NIL, action:NIL)
   end
   
   def textBBI(text, target:target, action:action)

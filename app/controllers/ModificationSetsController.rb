@@ -18,8 +18,9 @@ class ModificationSetsController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    cell = tv.dequeueReusableCell { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
-    cell.textLabel.text = set.name
+    cell = tv.dequeueReusableCell(klass: BadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+    cell.text = set.name
+    cell.badgeText = set.mods.count
     cell
   end
 

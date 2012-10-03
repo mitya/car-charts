@@ -21,10 +21,12 @@ class AppDelegate
     self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
     navigationController.delegate = self
 
-    navigationController.pushViewController ModificationsController.new(Model.by("ford--focus")), animated:NO
-    # navigationController.pushViewController ModelsIndexedController.new(Model.byCategoryKey("C")), animated:NO
-    # navigationController.pushViewController ParametersController.new, animated:NO
-    # navigationController.pushViewController ModificationSetsController.new, animated:NO
+    # controller = ModificationsController.new(Model.by("ford--focus"))
+    # controller = ModelsIndexedController.new(Model.byCategoryKey("C"))
+    # controller = ParametersController.new
+    # controller = ModificationsRecentController.new
+    controller = ModificationSetsController.new
+    navigationController.pushViewController controller, animated:NO if controller
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     window.backgroundColor = UIColor.whiteColor
@@ -41,6 +43,6 @@ class AppDelegate
   def applicationFailedWithException(exception)
     NSUserDefaults.standardUserDefaults["crashed"] = true
     stack = exception.callStackReturnAddresses
-    NSLog "Disaster: #{exception.inspect}\nStack: #{stack}"
+    NSLog "FATAL ERROR: #{exception}"
   end
 end

@@ -8,6 +8,13 @@ class ModificationSetController < UITableViewController
   def viewDidLoad
     super
     self.title = set.name
+    self.toolbarItems = [
+      Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace),      
+      Hel.textBBI("Replace Selected", target:self, action:'replaceCurrent'),
+      Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace),      
+      Hel.textBBI("Add to Selected", target:self, action:'addToCurrent'),
+      Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace)
+    ]
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -22,17 +29,19 @@ class ModificationSetController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     mod = @set.mods[indexPath.row]
-    cell = tv.dequeueReusableCell { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
-    cell.textLabel.text = mod.nameWithVersion
+    cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
+    cell.textLabel.text = mod.model.name
+    cell.detailTextLabel.text = mod.mod_name
     cell
   end
-
-  # def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
-  #   if editingStyle == UITableViewCellEditingStyleDelete
-  #     set = @sets[indexPath.row]
-  #     set.delete
-  #     reloadSets
-  #     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
-  #   end 
-  # end
+  
+  ####
+  
+  def replaceCurrent
+    @set.replaceCurrentMods
+  end
+  
+  def addToCurrent
+    @set.addToCurrentMods
+  end
 end
