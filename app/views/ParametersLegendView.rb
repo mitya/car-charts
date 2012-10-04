@@ -27,7 +27,7 @@ class ParametersLegendView < UIView
     @parameters = array
 
     subviews.each { |view| view.removeFromSuperview }
-    @parameters.each_with_index { |param, index| addSubview ItemView.new(param, index) }
+    @parameters.each_with_index { |param, index| addSubview Item.new(param, index) }
 
     setNeedsDisplay
   end
@@ -35,7 +35,7 @@ class ParametersLegendView < UIView
   def drawRect(rect)
     rows = [[]]
     x, y = ContainerHM, ContainerVM
-    subviews.select(&ItemView).each_with_index do |item, index|
+    subviews.select(&Item).each_with_index do |item, index|
       item.sizeToFit
       fitsInRow = x + item.bounds.width + ItemRM <= bounds.width - ContainerHM
       if !fitsInRow
@@ -56,7 +56,7 @@ class ParametersLegendView < UIView
     self.frame = CGRectMake(frame.x, frame.y, frame.width, y + ItemFH + ContainerVM)
   end
   
-  class ItemView < UIView
+  class Item < UIView
     attr_accessor :param, :index
 
     def initialize(param, index)

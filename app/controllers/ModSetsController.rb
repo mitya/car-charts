@@ -75,7 +75,7 @@ class ModSetsController < UITableViewController
     index = tableView.indexPathForCell(cell)
     @set = set = @sets[index.row]
     set.renameTo(textField.text)
-    textField.text = set.name # name will not be changed if the rename failed
+    textField.text = set.name # set.name will not be changed if the rename failed
     reloadSets
     tableView.moveRowAtIndexPath index, toIndexPath:Hel.indexPath(set.position, index.section)
   end
