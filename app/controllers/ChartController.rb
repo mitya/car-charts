@@ -29,6 +29,7 @@ class ChartController < UITableViewController
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
     tableView.tableFooterView.parameters = @comparision.params
+    tableView.tableFooterView.hidden = @comparision.incomplete?
 
     if @comparision.incomplete?
       view.addSubview(@placeholderView ||= createPlaceholderView)
@@ -120,9 +121,5 @@ class ChartController < UITableViewController
     end
 
     Hel.tableViewPlaceholder(text, view.bounds.withHMargins(15))
-  end
-  
-  def createParametersLegendView
-    # ParamtersLegendView.alloc.initWithParameters(@comparision.params)
   end
 end

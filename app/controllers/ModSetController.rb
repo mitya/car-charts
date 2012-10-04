@@ -56,8 +56,8 @@ class ModSetController < UITableViewController
   
   def actionSheet(sheet, clickedButtonAtIndex:buttonIndex)
     case sheet.buttonTitleAtIndex(buttonIndex)
-      when "Replace Current Models" then @set.replaceCurrentMods
-      when "Add to Current Models" then @set.addToCurrentMods
+      when "Replace Current Models" then @set.replaceCurrentMods; dismissModalViewControllerAnimated(true)
+      when "Add to Current Models" then @set.addToCurrentMods; dismissModalViewControllerAnimated(true)
     end
   end
 end
