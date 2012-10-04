@@ -1,4 +1,4 @@
-class ModificationSetsController < UITableViewController
+class ModSetsController < UITableViewController
   attr_accessor :sets
 
   def viewDidLoad
@@ -60,6 +60,6 @@ class ModificationSetsController < UITableViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
     tableView.deselectRowAtIndexPath indexPath, animated:YES    
-    navigationController.pushViewController ModificationSetController.new(set), animated:YES
+    navigationController.pushViewController ModSetController.new(set), animated:YES
   end
 end

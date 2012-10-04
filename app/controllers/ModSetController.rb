@@ -1,4 +1,4 @@
-class ModificationSetController < UITableViewController
+class ModSetController < UITableViewController
   attr_accessor :set
 
   def initialize(set)

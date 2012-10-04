@@ -21,11 +21,11 @@ class AppDelegate
     self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
     navigationController.delegate = self
 
-    controller = ModificationsController.new(Model.by("ford--focus"))
-    # controller = ModelsIndexedController.new(Model.byCategoryKey("C"))
+    controller = ModsController.new(Model.by("ford--focus"))
+    # controller = IndexedModelsController.new(Model.byCategoryKey("C"))
     # controller = ParametersController.new
-    # controller = ModificationsRecentController.new
-    # controller = ModificationSetsController.new
+    # controller = RecentModsController.new
+    # controller = ModSetsController.new
     navigationController.pushViewController controller, animated:NO if controller
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)

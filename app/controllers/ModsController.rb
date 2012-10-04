@@ -1,4 +1,4 @@
-class ModificationsController < UIViewController
+class ModsController < UIViewController
   attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
 
   def initialize(model = nil)

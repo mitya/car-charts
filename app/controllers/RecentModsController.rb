@@ -1,4 +1,4 @@
-class ModificationsRecentController < UITableViewController
+class RecentModsController < UITableViewController
   attr_accessor :current, :recent
   
   def viewDidLoad
@@ -61,7 +61,7 @@ private
   end
   
   def saveAsSet
-     dialogNavController = UINavigationController.alloc.initWithRootViewController(ModificationSetSelectionController.new)
+     dialogNavController = UINavigationController.alloc.initWithRootViewController(SelectModSetController.new)
      presentViewController dialogNavController, animated:YES, completion:NIL
   end
 end

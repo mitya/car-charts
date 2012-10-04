@@ -45,7 +45,7 @@ class ModelsController < UITableViewController
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     model = @filteredModels[indexPath.row]
     tableView.deselectRowAtIndexPath indexPath, animated:YES
-    navigationController.pushViewController ModificationsController.new(model), animated:YES
+    navigationController.pushViewController ModsController.new(model), animated:YES
   end
   
   ####

@@ -1,4 +1,4 @@
-class ModificationSetSelectionController < UITableViewController
+class SelectModSetController < UITableViewController
   attr_accessor :sets
 
   def viewDidLoad

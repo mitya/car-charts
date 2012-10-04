@@ -1,4 +1,4 @@
-class ModelsIndexedController < UITableViewController
+class IndexedModelsController < UITableViewController
   def initialize(models)
     @initialModels = models
   end
@@ -59,7 +59,7 @@ class ModelsIndexedController < UITableViewController
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
     tableView.deselectRowAtIndexPath indexPath, animated:YES
-    navigationController.pushViewController ModificationsController.new(model), animated:YES
+    navigationController.pushViewController ModsController.new(model), animated:YES
   end
   
   def sectionIndexTitlesForTableView(tv)
