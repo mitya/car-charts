@@ -13,11 +13,6 @@ class BadgeViewCell < UITableViewCell
     self
   end
   
-  def dealloc
-    self.summary = self.detail = self.badgeView = self.badgeText = self.badgeColor = self.badgeHighlightedColor = nil
-    super
-  end
-  
   def badgeText=(value)
     @badgeText = value && value != 0 ? value.to_s : nil
   end

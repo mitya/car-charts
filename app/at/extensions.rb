@@ -113,6 +113,12 @@ class NSString
   end
 end
 
+class NSIndexPath
+  def inspect
+    "<NSIndexPath section=#{section} row=#{row}>"
+  end
+end
+
 ###############################################################################
 
 class CGRect
@@ -185,7 +191,7 @@ class UITableViewCell
 end
 
 class UIView
-  def xSetDevBorder
+  def xdBorder
     Hel.setDevBorder(self)
   end
 end

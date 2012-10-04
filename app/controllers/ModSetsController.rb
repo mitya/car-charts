@@ -18,10 +18,26 @@ class ModSetsController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    cell = tv.dequeueReusableCell(klass: BadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
-    cell.text = set.name
-    cell.badgeText = set.mods.count
-    cell
+    if isEditing
+      cell = tv.dequeueReusableCell(id: "EditorCell") do |cell|
+        textField = UITextField.alloc.initWithFrame(CGRectMake(40, 0, 200, 43))
+        textField.font = UIFont.boldSystemFontOfSize(20)
+        textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter
+        textField.placeholder = "Set Title"
+        textField.tag = 1
+        textField.delegate = self
+        textField.returnKeyType = UIReturnKeyDone
+        textField.enablesReturnKeyAutomatically = true
+        cell.addSubview textField
+      end
+      textField = cell.viewWithTag(1)
+      textField.text = set.name
+    else
+      cell = tv.dequeueReusableCell(klass: BadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell.text = set.name
+      cell.badgeText = set.mods.count
+    end
+    cell    
   end
 
   def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
@@ -33,9 +49,16 @@ class ModSetsController < UITableViewController
     end 
   end
 
-  # def tableView(tableView, moveRowAtIndexPath:fromIndexPath, toIndexPath:toIndexPath)
-  #   ModificationSet.swap(fromIndexPath.row, toIndexPath.row)
-  # end
+  def tableView(tv, didSelectRowAtIndexPath:indexPath)
+    set = @sets[indexPath.row]
+    tableView.deselectRowAtIndexPath indexPath, animated:YES
+    navigationController.pushViewController ModSetController.new(set), animated:YES
+  end
+
+  def setEditing(editing, animated:animated)
+    super
+    tableView.reloadData # force cells to redraw
+  end
 
   ####
   
@@ -45,6 +68,21 @@ class ModSetsController < UITableViewController
       ModificationSet.new(setTitle).save
       tableView.reloadData
     end
+  end
+  
+  def textFieldDidEndEditing(textField)
+    cell = textField.superview
+    index = tableView.indexPathForCell(cell)
+    @set = set = @sets[index.row]
+    set.renameTo(textField.text)
+    textField.text = set.name # name will not be changed if the rename failed
+    reloadSets
+    tableView.moveRowAtIndexPath index, toIndexPath:Hel.indexPath(set.position, index.section)
+  end
+  
+  def textFieldShouldReturn(textField)
+    textField.resignFirstResponder
+    true
   end
   
   private
@@ -59,11 +97,5 @@ class ModSetsController < UITableViewController
   
   def reloadSets
     @sets = ModificationSet.all
-  end
-  
-  def tableView(tv, didSelectRowAtIndexPath:indexPath)
-    set = @sets[indexPath.row]
-    tableView.deselectRowAtIndexPath indexPath, animated:YES    
-    navigationController.pushViewController ModSetController.new(set), animated:YES
-  end
+  end  
 end

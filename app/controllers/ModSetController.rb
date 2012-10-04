@@ -9,13 +9,6 @@ class ModSetController < UITableViewController
     super
     self.title = set.name
     navigationItem.rightBarButtonItem = Hel.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showSetActionsSheet:')
-    # self.toolbarItems = [
-      # Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace),      
-      # Hel.textBBI("Replace Selected", target:self, action:'replaceCurrent'),
-      # Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace),      
-      # Hel.textBBI("Add to Selected", target:self, action:'addToCurrent'),
-      # Hel.systemBBI(UIBarButtonSystemItemFlexibleSpace)
-    # ]
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)

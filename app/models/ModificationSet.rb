@@ -5,6 +5,10 @@ class ModificationSet
     @name = name
   end
   
+  def position
+    Hel.defaults["modSetNames"].index(@name)
+  end
+  
   def save
     Hel.defaults["modSets"] = Hel.defaults["modSets"].merge(@name => mods.map(&:key))
     Hel.defaults["modSetNames"] = (Hel.defaults["modSetNames"] + [name]).sort unless Hel.defaults["modSetNames"].include?(name)
@@ -15,6 +19,19 @@ class ModificationSet
     Hel.defaults["modSetNames"] = Hel.defaults["modSetNames"].reject { |n| n == name }
   end
   
+  def renameTo(newName)
+    return if newName.blank? || Hel.defaults["modSets"].include?(newName)
+    
+    modSets = Hel.defaults["modSets"].reject { |k,v| k == name }
+    modSets[newName] = mods.map(&:key)
+    modSetNames = Hel.defaults["modSetNames"].dup
+    modSetNames[modSetNames.index(name)] = newName
+    
+    @name = newName
+    Hel.defaults["modSets"] = modSets
+    Hel.defaults["modSetNames"] = modSetNames.sort
+  end
+  
   def mods
     @mods ||= Hel.defaults["modSets"][name].to_a.map { |key| Modification.by(key) }
   end
@@ -23,7 +40,7 @@ class ModificationSet
     @mods = objects
     save
   end
-  
+    
   def replaceCurrentMods
     Disk.currentMods = mods
   end

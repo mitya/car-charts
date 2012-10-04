@@ -9,6 +9,10 @@ module Helper
     NSUserDefaults.standardUserDefaults
   end
   
+  def indexPath(row, section = 0)
+    NSIndexPath.indexPathForRow(row, inSection: section)
+  end
+  
   # Drawing
 
   def drawGradientRect(context, rect, colors)
@@ -79,6 +83,10 @@ module Helper
   
   def pattern(imageName)
     UIColor.colorWithPatternImage(UIImage.imageNamed(imageName))
+  end
+  
+  def blueTextColor
+    rgb(81, 102, 145)
   end
   
   # Other
