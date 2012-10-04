@@ -1,6 +1,14 @@
 module Helper
   module_function
   
+  def delegate
+    UIApplication.sharedApplication.delegate
+  end
+  
+  def defaults
+    NSUserDefaults.standardUserDefaults
+  end
+  
   # Drawing
 
   def drawGradientRect(context, rect, colors)

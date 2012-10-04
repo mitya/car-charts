@@ -3,7 +3,7 @@ class CarsController < UITableViewController
     {key: :recent, title: "Selected & Recent"},
     {key: :all, title: "All"},
     {key: :categories, title: "Categories"},
-    {key: :sets, title: "Sets"},
+    {key: :sets, title: "Saved Sets"},
   ]
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
 

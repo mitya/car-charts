@@ -4,7 +4,7 @@ class ModSetsController < UITableViewController
   def viewDidLoad
     super
     self.title = "Model Sets"
-    navigationItem.rightBarButtonItem = Hel.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'addNew')
+    navigationItem.rightBarButtonItems = [editButtonItem, Hel.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'addNew')]
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -25,13 +25,17 @@ class ModSetsController < UITableViewController
   end
 
   def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
-    if editingStyle == UITableViewCellEditingStyleDelete
+    case editingStyle when UITableViewCellEditingStyleDelete
       set = @sets[indexPath.row]
       set.delete
       reloadSets
       tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
     end 
   end
+
+  # def tableView(tableView, moveRowAtIndexPath:fromIndexPath, toIndexPath:toIndexPath)
+  #   ModificationSet.swap(fromIndexPath.row, toIndexPath.row)
+  # end
 
   ####
   

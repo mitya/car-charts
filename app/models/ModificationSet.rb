@@ -6,18 +6,17 @@ class ModificationSet
   end
   
   def save
-    NSUserDefaults.standardUserDefaults["modSets"] = NSUserDefaults.standardUserDefaults["modSets"].merge(@name => mods.map(&:key))
+    Hel.defaults["modSets"] = Hel.defaults["modSets"].merge(@name => mods.map(&:key))
+    Hel.defaults["modSetNames"] = (Hel.defaults["modSetNames"] + [name]).sort unless Hel.defaults["modSetNames"].include?(name)
   end
   
   def delete
-    NSUserDefaults.standardUserDefaults["modSets"] = NSUserDefaults.standardUserDefaults["modSets"].reject { |k,v| k == name }
+    Hel.defaults["modSets"] = Hel.defaults["modSets"].reject { |k,v| k == name }
+    Hel.defaults["modSetNames"] = Hel.defaults["modSetNames"].reject { |n| n == name }
   end
   
   def mods
-    @mods ||= begin 
-      modKeys = NSUserDefaults.standardUserDefaults["modSets"][name]
-      modKeys.to_a.map { |key| Modification.by(key) }
-    end
+    @mods ||= Hel.defaults["modSets"][name].to_a.map { |key| Modification.by(key) }
   end
   
   def mods=(objects)
@@ -35,8 +34,16 @@ class ModificationSet
   
   class << self
     def all
-      plistItems = (NSUserDefaults.standardUserDefaults["modSets"] ||= {})
-      plistItems.keys.map { |name| ModificationSet.new(name) }
+      Hel.defaults["modSetNames"] ||= []
+      Hel.defaults["modSets"] ||= {}
+      Hel.defaults["modSetNames"].sort.map { |name| ModificationSet.new(name) }
+    end
+    
+    def swap(from, to)
+      list = Hel.defaults["modSetNames"].dup
+      a, b = list[to], list[from]
+      list[to], list[from] = b, a
+      Hel.defaults["modSetNames"] = list
     end
   end
 end
