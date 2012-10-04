@@ -8,7 +8,10 @@ class ModSetController < UITableViewController
   def viewDidLoad
     super
     self.title = set.name
-    navigationItem.rightBarButtonItem = Hel.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showSetActionsSheet:')
+    self.navigationItem.rightBarButtonItem = editButtonItem
+    self.toolbarItems = [
+      Hel.textBBI("Apply", target:self, action:'showSetActionsSheet:')
+    ]
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -27,6 +30,18 @@ class ModSetController < UITableViewController
     cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.mod_name
     cell
+  end
+
+  def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
+    case editingStyle when UITableViewCellEditingStyleDelete
+      mod = @set.mods[indexPath.row]
+      @set.deleteMod(mod)
+      tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
+    end
+  end
+
+  def tableView(tableView, moveRowAtIndexPath:fromIndexPath, toIndexPath:toIndexPath)
+    set.swapMods(fromIndexPath.row, toIndexPath.row)
   end
   
   ####

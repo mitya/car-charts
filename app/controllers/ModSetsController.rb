@@ -6,10 +6,22 @@ class ModSetsController < UITableViewController
     self.title = "Model Sets"
     navigationItem.rightBarButtonItems = [editButtonItem, Hel.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'addNew')]
   end
+  
+  def viewWillAppear(animated)
+    super
+    tableView.reloadData # update badges
+  end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
+
+  def setEditing(editing, animated:animated)
+    super
+    tableView.reloadData # redraw cells
+  end
+
+  ####
 
   def tableView(tv, numberOfRowsInSection:section)
     reloadSets
@@ -53,11 +65,6 @@ class ModSetsController < UITableViewController
     set = @sets[indexPath.row]
     tableView.deselectRowAtIndexPath indexPath, animated:YES
     navigationController.pushViewController ModSetController.new(set), animated:YES
-  end
-
-  def setEditing(editing, animated:animated)
-    super
-    tableView.reloadData # force cells to redraw
   end
 
   ####

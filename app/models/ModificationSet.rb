@@ -40,6 +40,17 @@ class ModificationSet
     @mods = objects
     save
   end
+  
+  def deleteMod(mod)
+    @mods.delete(mod)
+    save
+  end
+  
+  def swapMods(from, to)
+    a, b = mods[from], mods[to]
+    @mods[from], @mods[to] = b, a
+    save
+  end
     
   def replaceCurrentMods
     Disk.currentMods = mods
