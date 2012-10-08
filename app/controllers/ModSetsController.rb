@@ -73,6 +73,7 @@ class ModSetsController < UITableViewController
     if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
       setTitle = alertView.textFieldAtIndex(0).text
       ModificationSet.new(setTitle).save
+      # ModificationSet.create(setTitle)
       tableView.reloadData
     end
   end

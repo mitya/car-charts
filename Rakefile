@@ -9,7 +9,7 @@ Motion::Project::App.setup do |app|
   app.version = "0.1"
   app.icons = ["ico-app-iphone.png", "ico-app-iphone@2x.png"]
   app.deployment_target = "6.0"
-  # app.frameworks += ['AVFoundation']
+  app.frameworks += ['CoreData']
   # app.device_family = [:ipad, :iphone]
 end
 
@@ -180,7 +180,7 @@ end
 
 task :d => :device
 task :s do
-  ENV['retina'] = '4'
+  ENV['retina'] = '3.5'
   Rake::Task['simulator'].invoke
 end
 

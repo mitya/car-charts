@@ -1,7 +1,7 @@
 class CategoriesController < UITableViewController
   def initialize
     self.title = "Categories"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)    
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)
   end
   
   def viewWillAppear(animated)

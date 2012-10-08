@@ -92,11 +92,13 @@ module Helper
   # Other
   
   def benchmark(actionName = "Action", &block)
-    startTime = Time.now
     result = block.call
-    elapsed = (Time.now - startTime) * 1_000
-    NSLog "TIMING #{actionName}: #{"%.3f" % elapsed}ms"
-    result
+    
+    # startTime = Time.now
+    # result = block.call
+    # elapsed = (Time.now - startTime) * 1_000
+    # NSLog "TIMING #{actionName}: #{"%.3f" % elapsed}ms"
+    # result
   end
   
   def landscape?(orientation)

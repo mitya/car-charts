@@ -18,8 +18,9 @@ class SelectModSetController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    cell = tv.dequeueReusableCell
+    cell = tv.dequeueReusableCell(klass: BadgeViewCell)
     cell.textLabel.text = set.name
+    cell.badgeText = set.mods.count
     cell
   end
 
