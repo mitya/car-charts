@@ -13,6 +13,10 @@ module Helper
     NSIndexPath.indexPathForRow(row, inSection: section)
   end
   
+  def newErr
+    Pointer.new(:object)
+  end
+  
   # Drawing
 
   def drawGradientRect(context, rect, colors)

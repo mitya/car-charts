@@ -82,6 +82,16 @@ class NSArray
     end
     uniqObjects
   end
+  
+  def pluck(method)
+    map { |obj| obj.send(method) }
+  end
+  
+  def swap(i, j)
+    a, b = self[i], self[j]
+    self[i], self[j] = b, a
+    self
+  end
 end
 
 class NSDictionary
@@ -197,3 +207,4 @@ class UIView
 end
 
 UIViewAutoresizingFlexibleAllMargins = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
+

@@ -81,9 +81,9 @@ class AppDelegate
 
   def saveObjectContext
     errorPtr = Pointer.new(:object)
-    ok = objectContext.save(errorPtr)
-    raise "Error when saving the model: #{errorPtr[0].description}" unless ok
-    ok
+    unless objectContext.save(errorPtr)
+      raise "Error when saving the model: #{errorPtr[0].description}"
+    end
   end
 
   def objectContext
@@ -96,13 +96,32 @@ class AppDelegate
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(objectModel)
       storeURL = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', 'database.sqlite'))
       errorPtr = Pointer.new(:object)
-
-      ok = storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:nil, error:errorPtr)
-      raise "Can't add persistent SQLite store: #{errorPtr[0].description}" unless ok
+      unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:nil, error:errorPtr)
+        raise "Can't add persistent SQLite store: #{errorPtr[0].description}"
+      end
 
       objectContext = NSManagedObjectContext.alloc.init
       objectContext.persistentStoreCoordinator = storeCoordinator
       objectContext
     end
   end  
+
+  def objectContext
+    @objectContext ||= NSManagedObjectContext.alloc.init.tap do |objectContext|
+      objectModel = NSManagedObjectModel.alloc.init
+      objectModel.entities = [ModSet.entity]
+
+      # homeDir = NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).lastObject
+
+      storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(objectModel)
+      storeURL = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', 'database.sqlite'))
+      err = Hel.newErr
+
+      unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:nil, error:err)
+        raise "Can't add persistent SQLite store: #{err[0].description}"
+      end
+
+      objectContext.persistentStoreCoordinator = storeCoordinator
+    end
+  end
 end

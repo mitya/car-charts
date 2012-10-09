@@ -180,7 +180,7 @@ end
 
 task :d => :device
 task :s do
-  ENV['retina'] = '3.5'
+  ENV['retina'] = '4'
   Rake::Task['simulator'].invoke
 end
 
