@@ -6,39 +6,43 @@ class ModSet < DSCoreModel
   @defaultSortField = 'name'
 
   def position
-    realClass.all.index(self)
+    klass.all.index(self)
   end
   
   def renameTo(newName)
-    return if newName.blank? || all.pluck(:name).include?(newName)
-    updateAttributes name:newName
+    return if newName == name || newName.blank? || klass.all.pluck(:name).include?(newName)
+    updateAttributes name:newName, reset:YES
   end
-  
+
   def modKeys
     @modKeys ||= (modKeysString || "").split(',')
   end
-  
+
+  def modCount
+    modKeys.count
+  end
+
   def mods
     @mods ||= modKeys.map { |key| Modification.by(key) }
   end
-  
+
   def mods=(objects)
     @modKeys = @mods = nil
     updateAttributes modKeysString:objects.pluck(:key).join(',')
   end
-  
+
   def deleteMod(mod)
     updateAttributes mods:mods.reject{ |obj| obj == mod }
   end
-  
+
   def swapMods(index1, index2)
     updateAttributes mods:mods.swap(index1, index2)
   end
-    
+
   def replaceCurrentMods
     Disk.currentMods = mods
   end
-  
+
   def addToCurrentMods
     Disk.currentMods = Disk.currentMods | mods
   end
@@ -54,7 +58,3 @@ class ModSet < DSCoreModel
     results.first
   end
 end
-
-# ModSet.create(name: "set 1"); ModSet.create(name: "set 2"); ModSet.create(name: "set 3");
-# ModSet.all
-# ModSet.all.first.class

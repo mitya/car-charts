@@ -47,7 +47,7 @@ class ModSetsController < UITableViewController
     else
       cell = tv.dequeueReusableCell(klass: BadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
       cell.text = set.name
-      cell.badgeText = set.mods.count
+      cell.badgeText = set.modCount
     end
     cell    
   end
@@ -72,8 +72,7 @@ class ModSetsController < UITableViewController
   def alertView(alertView, clickedButtonAtIndex:buttonIndex)
     if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
       setTitle = alertView.textFieldAtIndex(0).text
-      ModificationSet.new(setTitle).save
-      # ModificationSet.create(name: setTitle)
+      ModSet.create(name: setTitle)
       tableView.reloadData
     end
   end
@@ -83,7 +82,7 @@ class ModSetsController < UITableViewController
     index = tableView.indexPathForCell(cell)
     @set = set = @sets[index.row]
     set.renameTo(textField.text)
-    textField.text = set.name # set.name will not be changed if the rename failed
+    textField.text = set.name # set.name will not be changed if the rename fails
     reloadSets
     tableView.moveRowAtIndexPath index, toIndexPath:Hel.indexPath(set.position, index.section)
   end
@@ -104,6 +103,6 @@ class ModSetsController < UITableViewController
   end
   
   def reloadSets
-    @sets = ModificationSet.all
+    @sets = ModSet.all
   end  
 end

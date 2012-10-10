@@ -20,7 +20,7 @@ class SelectModSetController < UITableViewController
     set = @sets[indexPath.row]
     cell = tv.dequeueReusableCell(klass: BadgeViewCell)
     cell.textLabel.text = set.name
-    cell.badgeText = set.mods.count
+    cell.badgeText = set.modCount
     cell
   end
 
@@ -34,7 +34,7 @@ class SelectModSetController < UITableViewController
   ####
   
   def reloadSets
-    @sets = ModificationSet.all
+    @sets = ModSet.all
   end
   
   def cancel

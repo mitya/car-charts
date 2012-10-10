@@ -46,14 +46,6 @@ class ModSetController < UITableViewController
   
   ####
   
-  def replaceCurrent
-    @set.replaceCurrentMods
-  end
-  
-  def addToCurrent
-    @set.addToCurrentMods
-  end
-  
   def showSetActionsSheet(bbi)
     sheet = UIActionSheet.alloc.initWithTitle("Add or replace the currently selected models with the models from this set.", 
       delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)

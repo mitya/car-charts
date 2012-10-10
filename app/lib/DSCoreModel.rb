@@ -59,7 +59,7 @@ class DSCoreModel < NSManagedObject
       @all ||= begin
         request = NSFetchRequest.alloc.init
         request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
-        request.sortDescriptors = [NSSortDescriptor.alloc.initWithKey(defaultSortField, ascending:NO)]
+        request.sortDescriptors = [NSSortDescriptor.alloc.initWithKey(defaultSortField, ascending:YES)]
         err = Hel.newErr
         unless results = context.executeFetchRequest(request, error:err)
           raise "Error when fetching data: #{err[0].description}"
@@ -81,20 +81,23 @@ class DSCoreModel < NSManagedObject
     end
   end
 
-  def realClass
+  # the instances returned by Core Data methods belongs to a proxy class that is derived from the real class
+  def klass
     NSClassFromString(entity.managedObjectClassName)
   end
 
   def delete
-    realClass.delete(self)
+    klass.delete(self)
   end
   
   def save
-    realClass.save
+    klass.save
   end  
   
   def updateAttributes(attributes = {})
+    shouldReset = attributes.delete(:reset)
     attributes.each { |attr, val| send("#{attr}=", val) }
     save
+    klass.reset if shouldReset
   end
 end

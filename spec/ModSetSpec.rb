@@ -12,8 +12,6 @@ describe "ModSet" do
     @set1 = ModSet.create(name: "set 1")
     @set2 = ModSet.create(name: "set 2")
     @set3 = ModSet.create(name: "set 3", modKeysString:@modKeys.join(','))
-    
-    puts "BEFORE"
   end
 
   it "search by name" do

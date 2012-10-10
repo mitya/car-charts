@@ -204,3 +204,20 @@ def makeButton(width, height, cornerRad, gradient, borderCl, shadowCl, file, opt
     }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
   run cmd
 end
+
+
+task :foo do
+  list = %w(
+  body version_subkey transmission drive engine_vol fuel power model_key
+      valves_per_cylinder consumption_city max_power_kw cylinder_placement compression gross_mass bore doors compressor
+      injection tires max_torque_range_start rear_brakes max_torque max_power stroke seats acceleration_0_100_kmh consumption_highway
+      engine_spec consumption_mixed countries fuel_rating height drive_config produced_since rear_tire_rut engine_title luggage_min
+      length engine_volume body_type max_power_range_start kerbweight fuel car_class ground_clearance luggage_max front_suspension
+      price tank_capacity wheelbase model_title front_brakes engine_placement rear_suspension top_speed gears width front_tire_rut
+      cylinder_count transmission body_title produced_till max_torque_range_end max_power_range_end version base_model_key fixed_model_name
+  )
+  
+  list.each do |prop|
+    puts "[#{"'#{prop}',".ljust(25)} NSStringAttributeType, false],"
+  end
+end
