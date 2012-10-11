@@ -1,17 +1,16 @@
 class Model
-  attr_reader :key, :modifications
+  attr_reader :key
   
   def initialize(key)
     @key = key
-    @modifications = []
   end
   
   def name
-    @name ||= Metadata.model_names_branded[key]
+    @name ||= Metadata[:model_info][key][1]
   end
   
   def unbrandedName
-    @unbrandedName ||= Metadata.model_names[key]
+    @unbrandedName ||= Metadata[:model_info][key][0]
   end
 
   def brand
@@ -31,38 +30,44 @@ class Model
   end
   
   class << self 
-    attr_reader :all, :indexByBrandKey
+    attr_reader :all
        
     def by(key)
       @index[key]
     end
 
     def byCategoryKey(categoryKey)
-      Metadata.model_classes_inverted[categoryKey].map { |modelKey| self.by(modelKey) }
+      Metadata[:models_by_class][categoryKey].map { |modelKey| by(modelKey) }
     end
     
     def byBrandKey(brandKey)
-      @indexByBrandKey[brandKey]
+      Metadata[:models_by_brand][brandKey].map { |modelKey| by(modelKey) }
     end
     
     # Search by: land, land cruiser, toyota, toyota land, toyota land cruiser
+    # def modelsInCollectionForName(collection, name)
     def searchInCollectionByName(collection, name)
       pattern = /\b#{name.downcase}/i
       collection.select { |m| m.name =~ pattern }
     end
 
     def keys
-      @keys ||= Metadata[:model_names].keys.sort
+      @keys ||= Metadata[:model_keys]
     end
     
     def load
       @all = keys.map { |k| new(k) }
       @index = @all.uniqueIndexBy(&:key)
-      # Hel.benchmark("Model Index 2") do
-        @indexByBrandKey = @all.indexBy { |m| m.brand.key }
-        # @indexByBrandKey = Hash[ Metadata.brand_models.map { |brandKey, modelKeys| [brandKey, modelKeys.map { |mk| Model.by(mk) }] } ]
-      # end
-      @indexByBrandKey.each { |brandKey, models| Brand[brandKey].instance_variable_set(:@models, models) }
     end    
   end  
+  
+  class IndexByBrand
+    def [](brandKey)
+      Model.byBrandKey(brandKey)
+    end
+    
+    def keys
+      Brand.keys
+    end
+  end
 end

@@ -10,10 +10,7 @@ class ModsController < UIViewController
     super
     
     self.title = model.name
-    
-    Hel.benchmark "Load Mods" do
-      self.mods = model.modifications
-    end    
+    self.mods = model.modifications
     
     self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height), style: UITableViewStylePlain
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight

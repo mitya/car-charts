@@ -33,7 +33,7 @@ class Modification
   end
   
   def category
-    Metadata.model_classes[model.key]
+    Metadata[:model_info][model_key][3]    
   end
   
   def body_name

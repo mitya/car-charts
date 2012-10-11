@@ -9,7 +9,7 @@ class IndexedModelsController < UITableViewController
     self.title = "Models"
 
     isAllModelsView = @initialModels == Model.all
-    @initialModelsIndex = isAllModelsView ? Model.indexByBrandKey : @initialModels.indexBy { |m| m.brand.key }
+    @initialModelsIndex = isAllModelsView ? Model::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }
     @initialBrands = isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
     @models = @initialModels
     @modelsIndex = @initialModelsIndex

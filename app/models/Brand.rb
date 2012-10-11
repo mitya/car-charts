@@ -1,5 +1,5 @@
 class Brand
-  attr_reader :key, :models
+  attr_reader :key
   
   def initialize(key)
     @key = key
@@ -15,6 +15,10 @@ class Brand
   
   def inspect
     "#<Brand:#{key} models=#{models.count}>"
+  end
+  
+  def models
+    @model ||= Model.byBrandKey(key)
   end
   
   class << self 
