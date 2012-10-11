@@ -34,10 +34,15 @@ class DSCoreModel < NSManagedObject
       Hel.delegate.saveObjectContext
     end
     
-    def create(attributes = {})
+    def build(attributes = nil)
       # object = NSManagedObject.alloc.initWithEntity(entity, insertIntoManagedObjectContext:context)
       object = NSEntityDescription.insertNewObjectForEntityForName(entityName, inManagedObjectContext:context)
-      attributes.each { |name, value| object.send("#{name}=", value)}
+      attributes.each { |name, value| object.set(name, value) } if attributes
+      object
+    end
+    
+    def create(attributes = nil)
+      object = build(attributes)
       save
       reset
       object
@@ -94,9 +99,17 @@ class DSCoreModel < NSManagedObject
     klass.save
   end  
   
-  def updateAttributes(attributes = {})
+  def get(attr)
+    valueForKey(attr)
+  end
+  
+  def set(attr, value)
+    setValue(value, forKey:attr)
+  end
+  
+  def update(attributes = {})
     shouldReset = attributes.delete(:reset)
-    attributes.each { |attr, val| send("#{attr}=", val) }
+    attributes.each { |attr, val| set(attr, val) }
     save
     klass.reset if shouldReset
   end

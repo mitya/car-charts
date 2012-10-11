@@ -88,40 +88,22 @@ class AppDelegate
 
   def objectContext
     @objectContext ||= begin
-      objectModel = NSManagedObjectModel.alloc.init
-      objectModel.entities = [ModSet.entity]
+      model = NSManagedObjectModel.alloc.init
+      model.entities = [Mod, ModSet].map(&:entity)
 
       # homeDir = NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).lastObject
 
-      storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(objectModel)
-      storeURL = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', 'database.sqlite'))
-      errorPtr = Pointer.new(:object)
-      unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:nil, error:errorPtr)
-        raise "Can't add persistent SQLite store: #{errorPtr[0].description}"
-      end
-
-      objectContext = NSManagedObjectContext.alloc.init
-      objectContext.persistentStoreCoordinator = storeCoordinator
-      objectContext
-    end
-  end  
-
-  def objectContext
-    @objectContext ||= NSManagedObjectContext.alloc.init.tap do |objectContext|
-      objectModel = NSManagedObjectModel.alloc.init
-      objectModel.entities = [ModSet.entity]
-
-      # homeDir = NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).lastObject
-
-      storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(objectModel)
-      storeURL = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', 'database.sqlite'))
+      coordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
+      storeURL = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', 'database3.sqlite'))
+      storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
       err = Hel.newErr
-
-      unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:nil, error:err)
+      unless coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
         raise "Can't add persistent SQLite store: #{err[0].description}"
       end
 
-      objectContext.persistentStoreCoordinator = storeCoordinator
+      context = NSManagedObjectContext.alloc.init
+      context.persistentStoreCoordinator = coordinator
+      context
     end
-  end
+  end  
 end

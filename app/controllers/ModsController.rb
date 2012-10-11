@@ -10,7 +10,10 @@ class ModsController < UIViewController
     super
     
     self.title = model.name
-    self.mods = model.modifications    
+    
+    Hel.benchmark "Load Mods" do
+      self.mods = model.modifications
+    end    
     
     self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height), style: UITableViewStylePlain
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
@@ -18,7 +21,7 @@ class ModsController < UIViewController
     tableView.delegate = self
     
     applyFilter
-    availableFilterOptions = Modification.availableFilterOptionsFor(mods)
+    availableFilterOptions = Mod.availableFilterOptionsFor(mods)
 
     @transmissionFilter = MultisegmentView.new
     @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]

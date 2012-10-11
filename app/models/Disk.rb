@@ -11,7 +11,7 @@ class Disk
     end
   
     def currentMods
-      @currentMods ||= NSUserDefaults.standardUserDefaults["mods"].to_a.map { |key| Modification.by(key) }
+      @currentMods ||= Mod.byKeys NSUserDefaults.standardUserDefaults["mods"]
     end
 
     def currentMods=(array)
@@ -20,7 +20,7 @@ class Disk
     end
   
     def recentMods
-      @recentMods ||= NSUserDefaults.standardUserDefaults["recentMods"].to_a.map { |key| Modification.by(key) }
+      @recentMods ||= Mod.byKeys NSUserDefaults.standardUserDefaults["recentMods"]
     end
 
     def recentMods=(array)
@@ -46,8 +46,23 @@ class Disk
   
     def load
       Hel.benchmark "Load All" do
-        [Metadata, Brand, Model, Modification, Parameter].each { |klass| Hel.benchmark("Load #{klass.name}") { klass.load } }
+        [Metadata, Brand, Model, Parameter].each { |klass| Hel.benchmark("Load #{klass.name}") { klass.load } }
       end
+      
+      # keys = Modification.all.pluck(:key).sample(30)
+      # 
+      # Hel.benchmark "Search in-memory" do
+      #   keys.map { |key| Mod.by(key) }.map { |m| m.body }
+      # end
+      # 
+      # Hel.benchmark "Search DB" do
+      #   keys.map { |key| Mod.by(key) }.map { |m| m.body }
+      # end
+      # 
+      # Hel.benchmark "Search DB Mass" do
+      #   Mod.byKeys(keys).map { |m| m.body }
+      # end
+      
     end
   end
 end

@@ -221,3 +221,6 @@ task :foo do
     puts "[#{"'#{prop}',".ljust(25)} NSStringAttributeType, false],"
   end
 end
+
+
+# -com.apple.CoreData.SQLDebug 1

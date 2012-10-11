@@ -33,7 +33,7 @@ class ModificationSet
   end
   
   def mods
-    @mods ||= Hel.defaults["modSets"][name].to_a.map { |key| Modification.by(key) }
+    @mods ||= Mod.byKeys Hel.defaults["modSets"][name]
   end
   
   def mods=(objects)

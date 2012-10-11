@@ -96,13 +96,13 @@ module Helper
   # Other
   
   def benchmark(actionName = "Action", &block)
+    return block.call unless $benchmarking
+
+    startTime = Time.now
     result = block.call
-    
-    # startTime = Time.now
-    # result = block.call
-    # elapsed = (Time.now - startTime) * 1_000
-    # NSLog "TIMING #{actionName}: #{"%.3f" % elapsed}ms"
-    # result
+    elapsed = (Time.now - startTime) * 1_000
+    NSLog "TIMING #{actionName}: #{"%.3f" % elapsed}ms"
+    result
   end
   
   def landscape?(orientation)
@@ -201,3 +201,5 @@ module Color
     end
   end
 end
+
+$benchmarking = true

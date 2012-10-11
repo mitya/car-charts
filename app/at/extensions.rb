@@ -5,6 +5,12 @@ NULL = nil
 
 ###############################################################################
 
+class Object
+  def presence
+    self == nil || self == "" ? nil : self 
+  end
+end
+
 class Class
   def attr_delegated(target, *attrs)
     @attrs_delegated ||= {}

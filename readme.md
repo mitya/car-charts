@@ -1,4 +1,4 @@
-== Performance
+## Performance
 
 * Search: 445 objects, all in memory
 * When groups are used both for non-filtered list and for fitlered one
@@ -6,8 +6,7 @@
   next letters .2 / 2 (only if consequent search is used)
 * Without grouping - almost the same, so indexation takes almost no time.
 
-* Modification Loading
-   (after RM update)
+* Modification Loading (after RM update)
    42 /  335 ms - plist hash loading
    19 /  160 ms - plist array loading
     x /    x ms - json loading
@@ -17,8 +16,10 @@
     7 /   70 ms - indexing
    55 /  450 ms - load all
     2 /    x ms - load metadata
+    
+* App Initialization — 10ms : 50ms (Core Data : plist)
 
-== Colors
+## Colors
   214 27 38 - segment control border (one of)
   214 18 76 : 213 24 71 - segment control default top
   213 28 69 - segment control default bottom
@@ -52,3 +53,16 @@
   216.26.66-215.44.56 - ios 6 segment divider t-b  
   211.18.46-213.35.42 - ios 6 segment button border t-b  
 
+## Model
+* Mod         - RO, 2500 objects, many fields
+* Model       - RO,  250 objects, few fields
+* Brand       - RO,   50 objects, few fields
+* Parameter   - RO,   20 objects, few fields
+* ModSet      - RW, 0-20 objects, 2 fields, one 0-3kb clob
+* Comparision - VT,    1 object at time, lots of subobjects
+
+Conclusion
+- Mods should be stored in the r/o database, because it's too time consuming to load them all at once
+  and storing them all in memory is a bit too much.
+- ModSets should be stored in the r/w database.
+- Everything else can be loaded from code / data files.

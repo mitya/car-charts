@@ -11,7 +11,7 @@ class ModSet < DSCoreModel
   
   def renameTo(newName)
     return if newName == name || newName.blank? || klass.all.pluck(:name).include?(newName)
-    updateAttributes name:newName, reset:YES
+    update name:newName, reset:YES
   end
 
   def modKeys
@@ -23,20 +23,20 @@ class ModSet < DSCoreModel
   end
 
   def mods
-    @mods ||= modKeys.map { |key| Modification.by(key) }
+    @mods ||= modKeys.map { |key| Mod.by(key) }
   end
 
   def mods=(objects)
     @modKeys = @mods = nil
-    updateAttributes modKeysString:objects.pluck(:key).join(',')
+    update modKeysString:objects.pluck(:key).join(',')
   end
 
   def deleteMod(mod)
-    updateAttributes mods:mods.reject{ |obj| obj == mod }
+    update mods:mods.reject{ |obj| obj == mod }
   end
 
   def swapMods(index1, index2)
-    updateAttributes mods:mods.swap(index1, index2)
+    update mods:mods.swap(index1, index2)
   end
 
   def replaceCurrentMods
@@ -46,7 +46,7 @@ class ModSet < DSCoreModel
   def addToCurrentMods
     Disk.currentMods = Disk.currentMods | mods
   end
-  
+    
   def self.byName(name)
     request = NSFetchRequest.alloc.init
     request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
