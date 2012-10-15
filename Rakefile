@@ -222,5 +222,49 @@ task :foo do
   end
 end
 
+desc "Run the simulator"
+task :simulator2 => ['build:simulator'] do
+  app = App.config.app_bundle('iPhoneSimulator')
+  target = ENV['target'] || App.config.sdk_version
+
+  # Cleanup the simulator application sandbox, to avoid having old resource files there.
+  if ENV['clean']
+    sim_apps = File.expand_path("~/Library/Application Support/iPhone Simulator/#{target}/Applications")
+    Dir.glob("#{sim_apps}/**/*.app").each do |app_bundle|
+      if File.basename(app_bundle) == File.basename(app)
+        rm_rf File.dirname(app_bundle)
+        break
+      end  
+    end
+  end
+
+  # Prepare the device family.
+  family_int =
+    if family = ENV['device_family']
+      App.config.device_family_int(family.downcase.intern)
+    else
+      App.config.device_family_ints[0]
+    end
+  retina = ENV['retina']
+
+  # Configure the SimulateDevice variable (the only way to specify if we want to run in retina mode or not).
+  simulate_device = App.config.device_family_string(family_int, target, retina)
+  if `/usr/bin/defaults read com.apple.iphonesimulator "SimulateDevice"`.strip != simulate_device
+    system("/usr/bin/killall \"iPhone Simulator\" >& /dev/null")
+    system("/usr/bin/defaults write com.apple.iphonesimulator \"SimulateDevice\" \"'#{simulate_device}'\"")
+  end
+
+  # Launch the simulator.
+  xcode = App.config.xcode_dir
+  env = xcode.match(/^\/Applications/) ? "DYLD_FRAMEWORK_PATH=\"#{xcode}/../Frameworks\":\"#{xcode}/../OtherFrameworks\"" : ''
+  env << ' SIM_SPEC_MODE=1' if App.config.spec_mode
+  sim = File.join(App.config.bindir, 'sim')
+  debug = (ENV['debug'] ? 1 : (App.config.spec_mode ? '0' : '2'))
+  App.info 'Simulate', app
+  at_exit { system("stty echo") } if $stdout.tty? # Just in case the simulator launcher crashes and leaves the terminal without echo.
+  command = "#{env} #{sim} #{debug} #{family_int} #{target} \"#{xcode}\" \"#{app}\" \"-com.apple.CoreData.SQLDebug 1\""
+  puts command
+  sh command
+end
 
 # -com.apple.CoreData.SQLDebug 1

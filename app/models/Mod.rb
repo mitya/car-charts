@@ -197,12 +197,24 @@ class Mod < DSCoreModel
     ['width', NSInteger32AttributeType, false],
   ]
     
-  def self.import
+  def self.importFromObjects
     fields = @fields.map { |field, _| field }.reject { |field| field == 'key' }
     Modification.all.each do |m|
       mod = Mod.build
       mod.key = m.key
       fields.each { |field| mod.set(field, m[field].presence) }
+    end
+    Mod.save
+  end
+  
+  def self.importFromPlist
+    fields = @fields.map(&:first).reject { |field| field == 'key' }
+    plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
+
+    plist.each do |key, data|
+      mod = Mod.build
+      mod.key = key
+      fields.each { |field| mod.set(field, data[Modification.indexForKey(field)].presence) }
     end
     Mod.save
   end
