@@ -17,6 +17,10 @@ module Helper
     Pointer.new(:object)
   end
   
+  def documentsURL
+    NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).first
+  end
+  
   # Drawing
 
   def drawGradientRect(context, rect, colors)

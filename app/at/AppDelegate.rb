@@ -79,31 +79,48 @@ class AppDelegate
 
   ####
 
-  def saveObjectContext
-    errorPtr = Pointer.new(:object)
-    unless objectContext.save(errorPtr)
-      raise "Error when saving the model: #{errorPtr[0].description}"
+  def staticContext
+    @staticContext ||= begin
+      model = NSManagedObjectModel.alloc.init
+      model.entities = [Mod.entity]
+
+      # storeURL = Hel.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
+      storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
+      storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
+      err = Hel.newErr
+      unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:{}, error:err)
+        raise "Can't add persistent SQLite store: #{err[0].description}"
+      end
+
+      context = NSManagedObjectContext.alloc.init
+      context.persistentStoreCoordinator = storeCoordinator
+      context
     end
   end
 
   def objectContext
     @objectContext ||= begin
       model = NSManagedObjectModel.alloc.init
-      model.entities = [Mod, ModSet].map(&:entity)
+      model.entities = [ModSet.entity]
 
-      # homeDir = NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).lastObject
-
-      coordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
-      storeURL = NSURL.fileURLWithPath(File.join(NSHomeDirectory(), 'Documents', 'database3.sqlite'))
+      storeURL = Hel.documentsURL.URLByAppendingPathComponent('db-users.sqlite')      
       storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
+      storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = Hel.newErr
-      unless coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
+      unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
         raise "Can't add persistent SQLite store: #{err[0].description}"
       end
 
       context = NSManagedObjectContext.alloc.init
-      context.persistentStoreCoordinator = coordinator
+      context.persistentStoreCoordinator = storeCoordinator
       context
     end
   end  
+
+  def saveObjectContext(context = objectContext)
+    errorPtr = Pointer.new(:object)
+    unless context.save(errorPtr)
+      raise "Error when saving the model: #{errorPtr[0].description}"
+    end
+  end
 end

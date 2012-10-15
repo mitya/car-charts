@@ -27,11 +27,11 @@ class DSCoreModel < NSManagedObject
     end
     
     def context
-      Hel.delegate.objectContext
+      Hel.delegate.send(@contextName || :objectContext)
     end
     
     def save
-      Hel.delegate.saveObjectContext
+      Hel.delegate.saveObjectContext(context)
     end
     
     def build(attributes = nil)

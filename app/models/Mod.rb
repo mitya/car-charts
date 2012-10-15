@@ -127,6 +127,7 @@ class Mod < DSCoreModel
     end
   end
 
+  @contextName = :staticContext
   @defaultSortField = 'key'
   @fields = [
     ['key', NSStringAttributeType, true],
