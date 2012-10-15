@@ -25,8 +25,8 @@ class AppDelegate
     # controller = IndexedModelsController.new(Model.byCategoryKey("C"))
     # controller = ParametersController.new
     # controller = RecentModsController.new
-    controller = ModSetsController.new
-    navigationController.pushViewController controller, animated:NO if controller
+    # controller = ModSetsController.new
+    navigationController.pushViewController controller, animated:NO if defined?(controller)
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     window.backgroundColor = UIColor.whiteColor
@@ -98,12 +98,12 @@ class AppDelegate
     end
   end
 
-  def objectContext
-    @objectContext ||= begin
+  def userContext
+    @userContext ||= begin
       model = NSManagedObjectModel.alloc.init
       model.entities = [ModSet.entity]
 
-      storeURL = Hel.documentsURL.URLByAppendingPathComponent('db-users.sqlite')      
+      storeURL = Hel.documentsURL.URLByAppendingPathComponent('db-user.sqlite')      
       storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = Hel.newErr
@@ -117,10 +117,27 @@ class AppDelegate
     end
   end  
 
-  def saveObjectContext(context = objectContext)
+  def saveObjectContext(context = userContext)
     errorPtr = Pointer.new(:object)
     unless context.save(errorPtr)
       raise "Error when saving the model: #{errorPtr[0].description}"
     end
   end
+  
+  # def testSQL
+  #   db = Pointer.new(:object)
+  #   dbPath = NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite")
+  #   
+  #   if sqlite3_open(dbPath.UTF8String, db) == SQLITE_OK
+  #     sqlStatement = "select zmodel_title from zmod limit 20".UTF8String
+  #     compiledStatement = Pointer.new(:object)
+  #     if sqlite3_prepare_v2(db, sqlStatement, -1, compiledStatement, NULL) == SQLITE_OK
+  #       while sqlite3_step(compiledStatement) == SQLITE_ROW
+  #         p NSString.stringWithUTF8String(sqlite3_column_text(compiledStatement, 1))
+  #       end
+  #     end
+  #     sqlite3_finalize(compiledStatement)
+  #   end
+  #   sqlite3_close(db)
+  # end
 end

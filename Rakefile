@@ -9,8 +9,13 @@ Motion::Project::App.setup do |app|
   app.version = "0.1"
   app.icons = ["ico-app-iphone.png", "ico-app-iphone@2x.png"]
   app.deployment_target = "6.0"
+  app.libs += ['/usr/lib/libsqlite3.dylib']
   app.frameworks += ['CoreData']
   # app.device_family = [:ipad, :iphone]
+  
+  # app.pods do
+  #   pod 'FMDB'
+  # end  
 end
 
 ######################################################################################################
