@@ -40,10 +40,10 @@ class UITableViewController
 end
 
 class UITableView
-  def dequeueReusableCell(options = {})
-    klass = options[:klass] || UITableViewCell
-    style = options[:style] || UITableViewCellStyleDefault 
-    id = options[:id] || "cell"
+  def dequeueReusableCell(options = nil)
+    klass = options && options[:klass] || UITableViewCell
+    style = options && options[:style] || UITableViewCellStyleDefault
+    id = options && options[:id] || "cell"
 
     unless cell = dequeueReusableCellWithIdentifier(id)
       cell = klass.alloc.initWithStyle(style, reuseIdentifier:id)
