@@ -23,7 +23,7 @@ class ModSet < DSCoreModel
   end
 
   def mods
-    @mods ||= modKeys.map { |key| Mod.by(key) }
+    @mods ||= modKeys.map { |key| Mod.modForKey(key) }
   end
 
   def mods=(objects)

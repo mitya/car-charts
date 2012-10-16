@@ -22,7 +22,7 @@ class Model
   end
   
   def modifications
-    Mod.byModelKey(key)
+    Mod.modsForModelKey(key)
   end
   
   def inspect
@@ -32,22 +32,21 @@ class Model
   class << self 
     attr_reader :all
        
-    def by(key)
+    def modelForKey(key)
       @index[key]
     end
 
-    def byCategoryKey(categoryKey)
-      Metadata[:models_by_class][categoryKey].map { |modelKey| by(modelKey) }
+    def modelsForCategoryKey(categoryKey)
+      Metadata[:models_by_class][categoryKey].map { |k| modelForKey(k) }
     end
     
-    def byBrandKey(brandKey)
-      Metadata[:models_by_brand][brandKey].map { |modelKey| by(modelKey) }
+    def modelsForBrandKey(brandKey)
+      Metadata[:models_by_brand][brandKey].map { |k| modelForKey(k) }
     end
     
     # Search by: land, land cruiser, toyota, toyota land, toyota land cruiser
-    # def modelsInCollectionForName(collection, name)
-    def searchInCollectionByName(collection, name)
-      pattern = /\b#{name.downcase}/i
+    def modelsInCollectionForText(collection, text)
+      pattern = /\b#{text.downcase}/i
       collection.select { |m| m.name =~ pattern }
     end
 
@@ -63,7 +62,7 @@ class Model
   
   class IndexByBrand
     def [](brandKey)
-      Model.byBrandKey(brandKey)
+      Model.modelsForBrandKey(brandKey)
     end
     
     def keys

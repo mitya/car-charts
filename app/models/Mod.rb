@@ -1,41 +1,41 @@
 class Mod < DSCoreModel
   def model
-    @model ||= Model.by(model_key)
+    @model ||= Model.modelForKey(model_key)
   end
   
-  def full_name
-    "#{model.name} #{nameNoBody}"
+  def fullName
+    "#{model.name} #{basicName}"
   end
   
-  def nameNoBody
-    "#{engine_vol}#{fuel_suffix}#{compressor_suffix} #{power}ps #{transmission}"
+  def basicName
+    "#{engine_vol}#{fuelSuffix}#{compressorSuffix} #{power}ps #{transmission}"
   end
   
   def nameWithVersion
-    !version_subkey.blank? ? "#{nameNoBody}, #{version_subkey}" : nameNoBody
+    !version_subkey.blank? ? "#{basicName}, #{version_subkey}" : basicName
   end
   
-  def mod_name
-    "#{nameNoBody}, #{version}"
+  def modName
+    "#{basicName}, #{version}"
   end
   
   def category
     Metadata[:model_info][model_key][3]
   end
   
-  def body_name
+  def bodyName
     Metadata.bodyNames[body] || "!!! #{body}"
   end
   
   def version
-    @version ||= [body_name, version_subkey].join(' ')
+    @version ||= [bodyName, version_subkey].join(' ')
   end
   
-  def fuel_suffix
+  def fuelSuffix
     fuel == 'i' ? '' : 'd'
   end
   
-  def compressor_suffix
+  def compressorSuffix
     compressor && fuel != 'd' ? "T" : ""
   end
   
@@ -75,44 +75,34 @@ class Mod < DSCoreModel
   AutomaticTransmissions = %w(AT AMT CVT)  
 
   class << self
-    def keyRequest
-      return @request if @request
-      @request = NSFetchRequest.alloc.init
-      @request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
-      @request
+    def modForKey(key)
+      fetchRequest.predicate = NSPredicate.predicateWithFormat("key = %@", argumentArray:[key])
+      err = ES.newErr
+      unless results = context.executeFetchRequest(fetchRequest, error:err)
+        raise "Error when fetching data: #{err.value.description}"
+      end
+      results.first      
     end
 
-    def byKeys(keys) 
-      keyRequest.predicate = NSPredicate.predicateWithFormat("key in %@", argumentArray:[keys])
+    def modsForKeys(keys) 
+      fetchRequest.predicate = NSPredicate.predicateWithFormat("key in %@", argumentArray:[keys])
       err = ES.newErr
-      unless results = context.executeFetchRequest(keyRequest, error:err)
+      unless results = context.executeFetchRequest(fetchRequest, error:err)
         raise "Error when fetching data: #{err.value.description}"
       end
       results      
     end
     
-    def byModelKey(modelKey)
-      keyRequest.predicate = NSPredicate.predicateWithFormat("model_key = %@", argumentArray:[modelKey])
+    def modsForModelKey(modelKey)
+      fetchRequest.predicate = NSPredicate.predicateWithFormat("model_key = %@", argumentArray:[modelKey])
       err = ES.newErr
-      unless results = context.executeFetchRequest(keyRequest, error:err)
+      unless results = context.executeFetchRequest(fetchRequest, error:err)
         raise "Error when fetching data: #{err.value.description}"
       end
       results
     end
     
-    def by(key) 
-      # where(key: key).first
-            
-      keyRequest.predicate = NSPredicate.predicateWithFormat("key = %@", argumentArray:[key])
-      err = ES.newErr
-      unless results = context.executeFetchRequest(keyRequest, error:err)
-        raise "Error when fetching data: #{err.value.description}"
-      end
-      results.first
-      
-    end
-  
-    def availableFilterOptionsFor(mods)
+    def filterOptionsForMods(mods)
       options = {}
       mods.each do |mod|
         options[:mt] = true if options[:mt].nil? && mod.manual?
@@ -125,6 +115,13 @@ class Mod < DSCoreModel
       end
       options
     end
+    
+    def fetchRequest
+      return @request if @request
+      @request = NSFetchRequest.alloc.init
+      @request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
+      @request
+    end    
   end
 
   @contextName = :staticContext

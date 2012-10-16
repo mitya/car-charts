@@ -18,7 +18,7 @@ class ModsController < UIViewController
     tableView.delegate = self
     
     applyFilter
-    availableFilterOptions = Mod.availableFilterOptionsFor(mods)
+    availableFilterOptions = Mod.filterOptionsForMods(mods)
 
     @transmissionFilter = MultisegmentView.new
     @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]

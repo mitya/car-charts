@@ -39,7 +39,7 @@ class BadgeView < UIView
   def init(frame, cell)
     initWithFrame(frame)
     self.cell = cell
-    self.backgroundColor = Color.clear
+    self.backgroundColor = UIColor.clearColor
     self.layer.masksToBounds = true
     self
   end
@@ -47,14 +47,14 @@ class BadgeView < UIView
   def drawRect(rect)
     context = UIGraphicsGetCurrentContext()
 
-    currentSummaryColor = Color.black
-    currentDetailColor = Color.gray
+    currentSummaryColor = UIColor.blackColor
+    currentDetailColor = UIColor.grayColor
     currentBadgeColor = cell.badgeColor || ES.rgbf(0.53, 0.6, 0.738)
     
   	if cell.isHighlighted || cell.isSelected
-      currentSummaryColor = Color.white
-      currentDetailColor = Color.white
-  		currentBadgeColor = cell.badgeHighlightedColor || Color.white
+      currentSummaryColor = UIColor.whiteColor
+      currentDetailColor = UIColor.whiteColor
+  		currentBadgeColor = cell.badgeHighlightedColor || UIColor.whiteColor
     end
 
   	if cell.isEditing

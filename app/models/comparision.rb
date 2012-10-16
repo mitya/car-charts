@@ -6,25 +6,25 @@ class Comparision
     @params = params
   end
   
-  def values_for(param)
+  def valuesFor(param)
     @values ||= {}
     @values[param] ||= mods.map { |mod| mod[param] }.compact
   end
   
-  def max_value_for(param)
+  def maxValueFor(param)
     @max_values ||= {}
-    @max_values[param] ||= values_for(param).max
+    @max_values[param] ||= valuesFor(param).max
   end
 
-  def min_value_for(param)
+  def minValueFor(param)
     # @min_values ||= {}
-    # @min_values[param] ||= values_for(param).min
+    # @min_values[param] ||= valuesFor(param).min
     0
   end
   
-  def range_for(param)
+  def rangeFor(param)
     @ranges ||= {}
-    @ranges[param] ||= max_value_for(param) - min_value_for(param)
+    @ranges[param] ||= maxValueFor(param) - minValueFor(param)
   end
   
   def items
@@ -32,7 +32,7 @@ class Comparision
   end
 
   def mods
-    @activeMods ||= onlyBodyParams? ? uniqMods : @mods
+    @activeMods ||= containsOnlyBodyParams? ? uniqMods : @mods
   end
 
   def uniqMods
@@ -45,9 +45,8 @@ class Comparision
     "#{params.first.name} +#{params.count - 1}"
   end
   
-  def onlyBodyParams?
-    return @onlyBodyParams unless @onlyBodyParams == nil
-    @onlyBodyParams = params.all? { |param| Parameter::BodyParameters.containsObject(param.key) }
+  def containsOnlyBodyParams?
+    @containsOnlyBodyParams ||= params.all? { |param| Parameter::BodyParameters.containsObject(param.key) } unless defined?(@containsOnlyBodyParams)
   end
   
   def incomplete?

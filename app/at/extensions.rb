@@ -154,7 +154,7 @@ class CGRect
     size.height
   end
   
-  def withHMargins(margin)
+  def rectWithHorizMargins(margin)
     CGRectMake(x + margin, y, width - margin * 2, height)
   end
   

@@ -6,7 +6,7 @@ class AppDelegate
     NSSetUncaughtExceptionHandler(@exceptionHandler)
 
     Disk.load
-    Disk.currentParameters ||= [Parameter.by(:max_power)]
+    Disk.currentParameters ||= [Parameter.parameterForKey(:max_power)]
     Disk.currentMods ||= []
 
     if NSUserDefaults.standardUserDefaults["crashed"]
@@ -15,14 +15,14 @@ class AppDelegate
       Disk.currentMods = []
       Disk.currentParameters = []
       NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
-      $lastLaunchFailed = true
+      $lastLaunchDidFail = true
     end    
 
     self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
     navigationController.delegate = self
 
-    # controller = ModsController.new(Model.by("ford--focus"))
-    # controller = IndexedModelsController.new(Model.byCategoryKey("C"))
+    # controller = ModsController.new(Model.modelForKey("ford--focus"))
+    # controller = IndexedModelsController.new(Model.modelsForCategoryKey("C"))
     # controller = ParametersController.new
     # controller = RecentModsController.new
     # controller = ModSetsController.new
@@ -103,7 +103,7 @@ class AppDelegate
       model = NSManagedObjectModel.alloc.init
       model.entities = [ModSet.entity]
 
-      storeURL = ES.documentsURL.URLByAppendingPathComponent('db-user.sqlite')      
+      storeURL = ES.documentsURL.URLByAppendingPathComponent('db-user.sqlite')
       storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = ES.newErr
@@ -118,10 +118,7 @@ class AppDelegate
   end  
 
   def saveObjectContext(context = userContext)
-    errorPtr = Pointer.new(:object)
-    unless context.save(errorPtr)
-      raise "Error when saving the model: #{errorPtr[0].description}"
-    end
+    context.save(NULL)
   end
   
   # def testSQL

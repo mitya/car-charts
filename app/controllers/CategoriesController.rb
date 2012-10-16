@@ -32,7 +32,7 @@ class CategoriesController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
     categoryKey = Metadata.categoryKeys[indexPath.row]
-    controller = ModelsController.new(Model.byCategoryKey(categoryKey))
+    controller = ModelsController.new(Model.modelsForCategoryKey(categoryKey))
 
     navigationController.pushViewController(controller, animated:true)
   end

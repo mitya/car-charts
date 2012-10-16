@@ -1,7 +1,5 @@
 class Disk
   class << self
-    ### Things stored in the defaults
-
     def filterOptions
       NSUserDefaults.standardUserDefaults["filterOptions"] || {}
     end
@@ -11,7 +9,7 @@ class Disk
     end
   
     def currentMods
-      @currentMods ||= Mod.byKeys NSUserDefaults.standardUserDefaults["mods"]
+      @currentMods ||= Mod.modsForKeys NSUserDefaults.standardUserDefaults["mods"]
     end
 
     def currentMods=(array)
@@ -20,7 +18,7 @@ class Disk
     end
   
     def recentMods
-      @recentMods ||= Mod.byKeys NSUserDefaults.standardUserDefaults["recentMods"]
+      @recentMods ||= Mod.modsForKeys NSUserDefaults.standardUserDefaults["recentMods"]
     end
 
     def recentMods=(array)
@@ -32,9 +30,9 @@ class Disk
       self.recentMods = recentMods.dupWithToggledObject(mod) if currentMods.include?(mod) || recentMods.include?(mod)
       self.currentMods = currentMods.dupWithToggledObject(mod)
     end
-  
+
     def currentParameters
-      @currentParameters ||= NSUserDefaults.standardUserDefaults["parameters"].to_a.map { |key| Parameter.by(key.to_sym) }
+      @currentParameters ||= NSUserDefaults.standardUserDefaults["parameters"].to_a.map { |key| Parameter.parameterForKey(key.to_sym) }
     end
   
     def currentParameters=(array)
@@ -42,27 +40,11 @@ class Disk
       @currentParameters = array
     end
   
-    #### Initialization
-  
+
     def load
       ES.benchmark "Load All" do
         [Metadata, Brand, Model, Parameter].each { |klass| ES.benchmark("Load #{klass.name}") { klass.load } }
       end
-      
-      # keys = Modification.all.pluck(:key).sample(30)
-      # 
-      # ES.benchmark "Search in-memory" do
-      #   keys.map { |key| Mod.by(key) }.map { |m| m.body }
-      # end
-      # 
-      # ES.benchmark "Search DB" do
-      #   keys.map { |key| Mod.by(key) }.map { |m| m.body }
-      # end
-      # 
-      # ES.benchmark "Search DB Mass" do
-      #   Mod.byKeys(keys).map { |m| m.body }
-      # end
-      
     end
   end
 end

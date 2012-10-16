@@ -67,7 +67,7 @@ class BarView < UIView
       bar.index = comparision.params.index(param)
       bar.param = param
       bar.mod = mod
-      bar.width = (bar.value - comparision.min_value_for(param)) * pixelRange / comparision.range_for(param) + minWidth
+      bar.width = (bar.value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + minWidth
       bar.rect = CGRectMake(labelWidth + 10, 1 + firstBarShift + bar.index * BarFullHeight, bar.width, BarHeight)
       bar
     end
@@ -80,7 +80,7 @@ class BarView < UIView
       ES.drawStringInRect mod.model.name, modelRect, modelNameColor, 11, UILineBreakModeClip, UITextAlignmentRight
     end
 
-    modTitle = comparision.onlyBodyParams?? mod.version : mod.mod_name
+    modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
     ES.drawStringInRect modTitle, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
 
     bars.each do |bar|

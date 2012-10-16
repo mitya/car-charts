@@ -4,7 +4,7 @@ class Modification
   
   def initialize(key, data)
     @key, @data = key, data
-    @model = Model.by(self['model_key'])
+    @model = Model.modelForKey(self['model_key'])
   end
   
   def body() self['body'] end
@@ -16,43 +16,43 @@ class Modification
   def version_subkey() self['version_subkey'] end
   def model_key() self['model_key'] end
   
-  def full_name
-    "#{model.name} #{nameNoBody}"
+  def fullName
+    "#{model.name} #{basicName}"
   end
   
-  def nameNoBody
-    "#{engine_vol}#{fuel_suffix}#{compressor_suffix} #{power}ps #{transmission}"
+  def basicName
+    "#{engine_vol}#{fuelSuffix}#{compressorSuffix} #{power}ps #{transmission}"
   end
   
   def nameWithVersion
-    !version_subkey.blank? ? "#{nameNoBody}, #{version_subkey}" : nameNoBody
+    !version_subkey.blank? ? "#{basicName}, #{version_subkey}" : basicName
   end
   
-  def mod_name
-    "#{nameNoBody}, #{version}"
+  def modName
+    "#{basicName}, #{version}"
   end
   
   def category
     Metadata[:model_info][model_key][3]    
   end
   
-  def body_name
+  def bodyName
     Metadata.bodyNames[body] || "!!! #{body}"
   end
   
   def version
-    @version ||= [body_name, version_subkey].join(' ')
+    @version ||= [bodyName, version_subkey].join(' ')
   end
   
   def version_name
     self['version_name']
   end
   
-  def fuel_suffix
+  def fuelSuffix
     fuel == 'i' ? '' : 'd'
   end
   
-  def compressor_suffix
+  def compressorSuffix
     self['compressor'] && fuel != 'd' ? "T" : ""
   end
   
@@ -111,7 +111,7 @@ class Modification
       end
     end
     
-    def availableFilterOptionsFor(mods)
+    def filterOptionsForMods(mods)
       options = {}
       mods.each do |mod|
         options[:mt] = true if options[:mt].nil? && mod.manual?

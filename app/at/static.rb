@@ -26,7 +26,7 @@ StaticData = {
    "pickup_4d"=>"pickup 4-dr",
   },
   premiumBrandKeys: %w(mercedes_benz audi bmw lexus infinity acura volvo cadillac range_rover),
-  parameter_names: {
+  parameterNames: {
     top_speed: "Top Speed",
     acceleration_0_100_kmh: "Acelleration",
     consumption_city: "Consumption (city)",
@@ -61,7 +61,7 @@ StaticData = {
     produced_since: "Produced Since",
     price: "Price",
   },
-  parameter_units: {
+  parameterUnits: {
     top_speed: :kmh,
     acceleration_0_100_kmh: :s,
     consumption_city: :l100km,
@@ -96,7 +96,7 @@ StaticData = {
     produced_since: :date,
     price: :rouble,
   },
-  parameter_unit_names: {
+  parameterUnitNames: {
     kmh: "km/h",
     s: "s",
     l100km: "l/100km",

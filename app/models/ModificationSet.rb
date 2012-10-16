@@ -33,7 +33,7 @@ class ModificationSet
   end
   
   def mods
-    @mods ||= Mod.byKeys ES.defaults["modSets"][name]
+    @mods ||= Mod.modsForKeys ES.defaults["modSets"][name]
   end
   
   def mods=(objects)

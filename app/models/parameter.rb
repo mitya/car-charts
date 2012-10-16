@@ -6,22 +6,22 @@ class Parameter
   end
 
   def unitKey
-    Metadata.parameter_units[key]
+    Metadata.parameterUnits[key]
   end
   
   def unitName
-    Metadata.parameter_unit_names[unitKey]
+    Metadata.parameterUnitNames[unitKey]
   end  
   
   class << self
     attr_reader :all
 
-    def by(key)
+    def parameterForKey(key)
       @index[key]
     end
     
     def load
-      @all = Metadata.parameter_names.map { |key, name| new(key, name) }
+      @all = Metadata.parameterNames.map { |key, name| new(key, name) }
       @index = @all.uniqueIndexBy(&:key)
     end
   end

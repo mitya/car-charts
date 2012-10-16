@@ -115,11 +115,11 @@ class ChartController < UITableViewController
 
   def createPlaceholderView
     text = "Select some cars and parameters to compare"
-    if $lastLaunchFailed
+    if $lastLaunchDidFail
       text = "Something weird happened, the parameters and models were reset. Sorry :("
-      $lastLaunchFailed = nil
+      $lastLaunchDidFail = nil
     end
 
-    ES.tableViewPlaceholder(text, view.bounds.withHMargins(15))
+    ES.tableViewPlaceholder(text, view.bounds.rectWithHorizMargins(15))
   end
 end

@@ -32,7 +32,7 @@ class RecentModsController < UITableViewController
     mod = modForIndexPath(indexPath)
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle)
     cell.textLabel.text = mod.model.name
-    cell.detailTextLabel.text = mod.mod_name
+    cell.detailTextLabel.text = mod.modName
     cell.accessoryType = Disk.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end

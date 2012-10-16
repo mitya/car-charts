@@ -54,7 +54,7 @@ class ModelsController < UITableViewController
     currentModels = @filteredModels
     Helper.benchmark "Model Search" do
       collectionForSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
-      @filteredModels = newSearchString.empty? ? @initialModels : Model.searchInCollectionByName(@initialModels, newSearchString)
+      @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsInCollectionForText(@initialModels, newSearchString)
     end
     currentModels != @filteredModels
   end
