@@ -74,56 +74,6 @@ class Mod < DSCoreModel
   
   AutomaticTransmissions = %w(AT AMT CVT)  
 
-  class << self
-    def modForKey(key)
-      fetchRequest.predicate = NSPredicate.predicateWithFormat("key = %@", argumentArray:[key])
-      err = ES.newErr
-      unless results = context.executeFetchRequest(fetchRequest, error:err)
-        raise "Error when fetching data: #{err.value.description}"
-      end
-      results.first      
-    end
-
-    def modsForKeys(keys) 
-      fetchRequest.predicate = NSPredicate.predicateWithFormat("key in %@", argumentArray:[keys])
-      err = ES.newErr
-      unless results = context.executeFetchRequest(fetchRequest, error:err)
-        raise "Error when fetching data: #{err.value.description}"
-      end
-      results      
-    end
-    
-    def modsForModelKey(modelKey)
-      fetchRequest.predicate = NSPredicate.predicateWithFormat("model_key = %@", argumentArray:[modelKey])
-      err = ES.newErr
-      unless results = context.executeFetchRequest(fetchRequest, error:err)
-        raise "Error when fetching data: #{err.value.description}"
-      end
-      results
-    end
-    
-    def filterOptionsForMods(mods)
-      options = {}
-      mods.each do |mod|
-        options[:mt] = true if options[:mt].nil? && mod.manual?
-        options[:at] = true if options[:at].nil? && mod.automatic?
-        options[:sedan] = true if options[:sedan].nil? && mod.sedan?
-        options[:hatch] = true if options[:hatch].nil? && mod.hatch?
-        options[:wagon] = true if options[:wagon].nil? && mod.wagon?
-        options[:gas] = true if options[:gas].nil? && mod.gas?
-        options[:diesel] = true if options[:diesel].nil? && mod.diesel?
-      end
-      options
-    end
-    
-    def fetchRequest
-      return @request if @request
-      @request = NSFetchRequest.alloc.init
-      @request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
-      @request
-    end    
-  end
-
   @contextName = :staticContext
   @defaultSortField = 'key'
   @fields = [
@@ -194,36 +144,6 @@ class Mod < DSCoreModel
     ['wheelbase', NSInteger32AttributeType, false],
     ['width', NSInteger32AttributeType, false],
   ]
-    
-  # def self.importFromObjects
-  #   fields = @fields.map { |field, _| field }.reject { |field| field == 'key' }
-  #   Modification.all.each do |m|
-  #     mod = Mod.build
-  #     mod.key = m.key
-  #     fields.each { |field| mod.set(field, m[field].presence) }
-  #   end
-  #   Mod.save
-  # end
-  
-  def self.importFromPlist
-    fields = @fields.map(&:first).reject { |field| field == 'key' }
-    plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
-
-    plist.each do |key, data|
-      mod = Mod.build
-      mod.key = key
-      fields.each { |field| mod.set(field, data[indexForKey(field)].presence) }
-    end
-    Mod.save
-  end
-  
-  def self.indexForKey(key)
-    @keyIndex || begin
-      @keyIndex = {}
-      Keys.each_with_index { |key, index| @keyIndex[key] ||= index }
-    end
-    @keyIndex[key]
-  end    
 
   Keys = %w(body version_subkey transmission drive engine_vol fuel power model_key
     valves_per_cylinder consumption_city max_power_kw cylinder_placement compression gross_mass bore doors compressor
@@ -232,4 +152,50 @@ class Mod < DSCoreModel
     length engine_volume body_type max_power_range_start kerbweight car_class ground_clearance luggage_max front_suspension
     price tank_capacity wheelbase model_title front_brakes engine_placement rear_suspension top_speed gears width front_tire_rut
     cylinder_count body_title produced_till max_torque_range_end max_power_range_end version base_model_key fixed_model_name)
+
+  class << self
+    def modForKey(key)
+      context.fetchEntity(entity, predicate:["key = %@", key]).first
+    end
+
+    def modsForKeys(keys) 
+      context.fetchEntity(entity, predicate:["key in %@", keys])
+    end
+    
+    def modsForModelKey(modelKey)
+      context.fetchEntity(entity, predicate:["model_key = %@", modelKey])
+    end
+
+    def filterOptionsForMods(mods)
+      mods.reduce({}) do |options, mod|
+        options[:mt] = true if options[:mt].nil? && mod.manual?
+        options[:at] = true if options[:at].nil? && mod.automatic?
+        options[:sedan] = true if options[:sedan].nil? && mod.sedan?
+        options[:hatch] = true if options[:hatch].nil? && mod.hatch?
+        options[:wagon] = true if options[:wagon].nil? && mod.wagon?
+        options[:gas] = true if options[:gas].nil? && mod.gas?
+        options[:diesel] = true if options[:diesel].nil? && mod.diesel?
+        options
+      end
+    end
+  
+    def importFromPlist
+      fields = @fields.map(&:first).reject { |field| field == 'key' }
+      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
+
+      plist.each do |key, data|
+        mod = Mod.build(key: key)
+        fields.each { |field| mod.set(field, data[indexForKey(field)].presence) }
+      end
+      Mod.save
+    end
+  
+    def indexForKey(key)
+      @keyIndex || begin
+        @keyIndex = {}
+        Keys.each_with_index { |key, index| @keyIndex[key] ||= index }
+      end
+      @keyIndex[key]
+    end    
+  end
 end

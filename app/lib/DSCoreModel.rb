@@ -39,8 +39,7 @@ class DSCoreModel < NSManagedObject
     end
     
     def build(attributes = nil)
-      # object = NSManagedObject.alloc.initWithEntity(entity, insertIntoManagedObjectContext:context)
-      object = NSEntityDescription.insertNewObjectForEntityForName(entityName, inManagedObjectContext:context)
+      object = alloc.initWithEntity(entity, insertIntoManagedObjectContext:context)
       attributes.each { |name, value| object.set(name, value) } if attributes
       object
     end
@@ -69,7 +68,7 @@ class DSCoreModel < NSManagedObject
         request = NSFetchRequest.alloc.init
         request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
         request.sortDescriptors = [NSSortDescriptor.alloc.initWithKey(defaultSortField, ascending:YES)]
-        err = ES.newErr
+        err = ES.ptr
         unless results = context.executeFetchRequest(request, error:err)
           raise "Error when fetching data: #{err[0].description}"
         end

@@ -48,10 +48,6 @@ class ModSet < DSCoreModel
   end
     
   def self.modSetForName(name)
-    request = NSFetchRequest.alloc.init
-    request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
-    request.predicate = NSPredicate.predicateWithFormat("name = %@", argumentArray:[name])
-    results = context.executeFetchRequest(request, error:NULL)
-    results.first
+    context.fetchEntity(entity, predicate:["name = %@", name]).first
   end
 end

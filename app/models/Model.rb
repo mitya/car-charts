@@ -45,7 +45,7 @@ class Model
     end
     
     # Search by: land, land cruiser, toyota, toyota land, toyota land cruiser
-    def modelsInCollectionForText(collection, text)
+    def modelsForText(text, inCollection:collection)
       pattern = /\b#{text.downcase}/i
       collection.select { |m| m.name =~ pattern }
     end

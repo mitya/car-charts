@@ -58,6 +58,10 @@ class NSArray
     end
   end
 
+  def tail
+    self[1..-1]
+  end
+
   def uniqueIndexBy
     index = {}
     each { |object| index[yield(object)] = object }

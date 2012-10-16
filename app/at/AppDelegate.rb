@@ -87,7 +87,7 @@ class AppDelegate
       # storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
       storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
-      err = ES.newErr
+      err = ES.ptr
       unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:{}, error:err)
         raise "Can't add persistent SQLite store: #{err[0].description}"
       end
@@ -106,7 +106,7 @@ class AppDelegate
       storeURL = ES.documentsURL.URLByAppendingPathComponent('db-user.sqlite')
       storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
-      err = ES.newErr
+      err = ES.ptr
       unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
         raise "Can't add persistent SQLite store: #{err[0].description}"
       end

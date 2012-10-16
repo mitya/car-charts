@@ -83,7 +83,7 @@ class IndexedModelsController < UITableViewController
     else
       Helper.benchmark "Model Search" do
         collectionForSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
-        @models = Model.modelsInCollectionForText(collectionForSearch, newSearchString)
+        @models = Model.modelsForText(newSearchString, inCollection:collectionForSearch)
         @modelsIndex = @models.indexBy { |m| m.brand.key }
         @brands = @modelsIndex.keys.sort.map { |k| Brand[k] }
       end

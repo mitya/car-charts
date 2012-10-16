@@ -12,8 +12,8 @@ class Helper
       NSIndexPath.indexPathForRow(row, inSection: section)
     end
   
-    def newErr
-      Pointer.new(:object)
+    def ptr(type = :object)
+      Pointer.new(type)
     end
   
     def documentsURL
