@@ -1,4 +1,4 @@
-class GradientRectView < UIView  
+class DSGradientRectView < UIView  
   attr_accessor :colors
   
   def drawRect(rect)

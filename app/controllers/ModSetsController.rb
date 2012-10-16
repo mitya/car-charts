@@ -45,7 +45,7 @@ class ModSetsController < UITableViewController
       textField = cell.viewWithTag(1)
       textField.text = set.name
     else
-      cell = tv.dequeueReusableCell(klass: BadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell = tv.dequeueReusableCell(klass: DSBadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
       cell.text = set.name
       cell.badgeText = set.modCount
     end

@@ -21,7 +21,7 @@ class CategoriesController < UITableViewController
     categoryKey = Metadata.categoryKeys[indexPath.row]
     categorySelectedModsCount = Disk.currentMods.select { |mod| mod.category.to_sym == categoryKey }.count
 
-    cell = table.dequeueReusableCell(klass: BadgeViewCell)
+    cell = table.dequeueReusableCell(klass: DSBadgeViewCell)
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell.textLabel.text = Metadata.categoryNames[categoryKey]
     cell.badgeText = categorySelectedModsCount.to_s if categorySelectedModsCount > 0

@@ -1,10 +1,10 @@
-# https://github.com/digdog/DDBadgeViewCell
-class BadgeViewCell < UITableViewCell
+# https://github.com/digdog/DDDSBadgeViewCell
+class DSBadgeViewCell < UITableViewCell
   attr_accessor :summary, :detail, :badgeView, :badgeText, :badgeColor, :badgeHighlightedColor
 
   def initWithStyle(style, reuseIdentifier:reuseIdentifier)
     if super(style, reuseIdentifier:reuseIdentifier)
-      self.badgeView = BadgeView.alloc.init(contentView.bounds, self)
+      self.badgeView = DSBadgeView.alloc.init(contentView.bounds, self)
       badgeView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
       badgeView.contentMode = UIViewContentModeRedraw
       badgeView.contentStretch = CGRectMake(1, 0, 0, 0)
@@ -33,7 +33,7 @@ class BadgeViewCell < UITableViewCell
   end
 end
 
-class BadgeView < UIView
+class DSBadgeView < UIView
   attr_accessor :cell
   
   def init(frame, cell)

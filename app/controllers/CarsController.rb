@@ -26,7 +26,7 @@ class CarsController < UITableViewController
   end
   
   def tableView(table, cellForRowAtIndexPath:indexPath)
-    cell = table.dequeueReusableCell(klass: BadgeViewCell)
+    cell = table.dequeueReusableCell(klass: DSBadgeViewCell)
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
 
     item = Items[indexPath.row]

@@ -21,7 +21,11 @@ class Helper
     end    
   end
   
-  module Drawing
+  module Graphics
+    def rectWithChangedWidth(rect, widthDelta)
+      CGRectMake(rect.x, rect.y, rect.width + widthDelta, rect.height)
+    end    
+
     def drawGradientRect(context, rect, colors)
       # locationsPtr = Pointer.new(:float, 2)
       # locationsPtr[0] = 0.0
@@ -57,45 +61,6 @@ class Helper
       string.drawInRect rect, withFont:font, lineBreakMode:lineBreakMode, alignment:alignment
     end    
   end
-  
-  module Geometry
-    def rectWithChangedWidth(rect, widthDelta)
-      CGRectMake(rect.x, rect.y, rect.width + widthDelta, rect.height)
-    end    
-  end
-
-  module Colors
-    def rgb(red, green, blue, alpha = 1.0)
-      UIColor.colorWithRed(red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: alpha)
-    end
-
-    def rgbf(r, g, b, a = 1.0)
-      UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
-    end
-  
-    def hsb(h, s, v, a = 1.0)
-      UIColor.colorWithHue(h / 360.0, saturation: s / 100.0,  brightness: v / 100.0, alpha: a)
-    end
-  
-    def grayShade(level)
-      rgbf(level, level, level, 1.0)
-    end
-
-    def hex(value)
-      r = value >> 16 & 0xFF
-      g = value >> 8 & 0xFF
-      b = value & 0xFF
-      rgb(r, g, b)
-    end 
-  
-    def pattern(imageName)
-      UIColor.colorWithPatternImage(UIImage.imageNamed(imageName))
-    end
-  
-    def blueTextColor
-      rgb(81, 102, 145)
-    end
-  end  
   
   module Device
     def landscape?(orientation)
@@ -146,6 +111,39 @@ class Helper
       # view.layer.cornerRadius = 8
       # view.layer.masksToBounds = true    
     end    
+  end
+
+  module Colors
+    def rgb(red, green, blue, alpha = 1.0)
+      UIColor.colorWithRed(red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: alpha)
+    end
+
+    def rgbf(r, g, b, a = 1.0)
+      UIColor.colorWithRed(r, green:g, blue:b, alpha:a)
+    end
+  
+    def hsb(h, s, v, a = 1.0)
+      UIColor.colorWithHue(h / 360.0, saturation: s / 100.0,  brightness: v / 100.0, alpha: a)
+    end
+  
+    def grayShade(level)
+      rgbf(level, level, level, 1.0)
+    end
+
+    def hex(value)
+      r = value >> 16 & 0xFF
+      g = value >> 8 & 0xFF
+      b = value & 0xFF
+      rgb(r, g, b)
+    end 
+  
+    def pattern(imageName)
+      UIColor.colorWithPatternImage(UIImage.imageNamed(imageName))
+    end
+  
+    def blueTextColor
+      rgb(81, 102, 145)
+    end
   end
   
   module UI
@@ -199,7 +197,7 @@ class Helper
     end    
   end
   
-  include Common, Drawing, Geometry, Colors, Device, Operations, Development, UI
+  include Common, Graphics, Device, Operations, Development, Colors, UI
 end
 
 ES = Helper.new

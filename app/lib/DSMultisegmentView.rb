@@ -1,4 +1,4 @@
-class MultisegmentView < UIView
+class DSMultisegmentView < UIView
   attr_accessor :segmentButtons, :segmentHandlers
   
   def init
@@ -54,7 +54,7 @@ class MultisegmentView < UIView
   end
   
   def gestureRecognizer(gestureRecognizer, shouldReceiveTouch:touch)
-    touch.view.is_a?(MultisegmentView)
+    touch.view.is_a?(DSMultisegmentView)
   end
   
   def orientationChanged(notification)

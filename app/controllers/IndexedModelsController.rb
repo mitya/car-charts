@@ -49,7 +49,7 @@ class IndexedModelsController < UITableViewController
     model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
     modelSelectedModsCount = model.selectedModsCount
 
-    cell = table.dequeueReusableCell(klass: BadgeViewCell)
+    cell = table.dequeueReusableCell(klass: DSBadgeViewCell)
     cell.textLabel.text = model.unbrandedName
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
     cell.badgeText = modelSelectedModsCount.to_s if modelSelectedModsCount > 0

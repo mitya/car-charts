@@ -20,16 +20,16 @@ class ModsController < UIViewController
     applyFilter
     availableFilterOptions = Mod.filterOptionsForMods(mods)
 
-    @transmissionFilter = MultisegmentView.new
+    @transmissionFilter = DSMultisegmentView.new
     @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
     @transmissionFilter.addButton("AT", Disk.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
 
-    @bodyFilter = MultisegmentView.new
+    @bodyFilter = DSMultisegmentView.new
     @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
     @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
     @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
 
-    @fuelFilter = MultisegmentView.new
+    @fuelFilter = DSMultisegmentView.new
     @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
     @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
 
