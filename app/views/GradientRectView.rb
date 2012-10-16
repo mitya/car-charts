@@ -4,7 +4,7 @@ class GradientRectView < UIView
   def drawRect(rect)
     context = UIGraphicsGetCurrentContext()    
     colors = @colors || self.class.defaultColors
-    Hel.drawGradientRect context, bounds, colors
+    ES.drawGradientRect context, bounds, colors
   end
   
   def colors=(array)
@@ -13,6 +13,6 @@ class GradientRectView < UIView
   end
   
   def self.defaultColors
-    @defaultColors ||= [Hel.rgb(120,   2,   2), Hel.rgb(153,  63,  63)].reverse
+    @defaultColors ||= [ES.rgb(120,   2,   2), ES.rgb(153,  63,  63)].reverse
   end
 end

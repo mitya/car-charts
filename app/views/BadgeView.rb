@@ -49,7 +49,7 @@ class BadgeView < UIView
 
     currentSummaryColor = Color.black
     currentDetailColor = Color.gray
-    currentBadgeColor = cell.badgeColor || Hel.rgbf(0.53, 0.6, 0.738)
+    currentBadgeColor = cell.badgeColor || ES.rgbf(0.53, 0.6, 0.738)
     
   	if cell.isHighlighted || cell.isSelected
       currentSummaryColor = Color.white

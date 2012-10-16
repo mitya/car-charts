@@ -134,7 +134,7 @@ module Helper
   
   def grayTableViewTop
     topview = UIView.alloc.initWithFrame(CGRectMake(0,-480,320,480))
-    topview.backgroundColor = Hel.rgb(226, 231, 238)    
+    topview.backgroundColor = ES.rgb(226, 231, 238)    
     topview.autoresizingMask = UIViewAutoresizingFlexibleWidth
     topview
   end
@@ -156,7 +156,7 @@ module Helper
     placeholder.autoresizingMask = UIViewAutoresizingFlexibleAllMargins
     placeholder.text = text
     placeholder.textAlignment = UITextAlignmentCenter
-    placeholder.textColor = Hel.grayShade(0.7)
+    placeholder.textColor = ES.grayShade(0.7)
     placeholder.backgroundColor = UIColor.clearColor
     placeholder.font = UIFont.systemFontOfSize(20)
     placeholder.numberOfLines = 0
@@ -194,7 +194,7 @@ module Helper
   end
 end
 
-Hel = Helper
+ES = Helper
 
 module Color  
   def self.method_missing(selector, *args)

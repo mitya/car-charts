@@ -7,12 +7,12 @@ class ChartController < UITableViewController
 
     self.title = "CarCharts"
 
-    tableView.backgroundColor = Hel.pattern("bg-chart")
+    tableView.backgroundColor = ES.pattern("bg-chart")
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
 
-    navigationItem.backBarButtonItem = Hel.textBBI "Chart"
+    navigationItem.backBarButtonItem = ES.textBBI "Chart"
 
     segmentedControl = UISegmentedControl.alloc.initWithItems([])
     segmentedControl.momentary = YES
@@ -20,7 +20,7 @@ class ChartController < UITableViewController
     segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-car"), atIndex:0, animated:NO
     segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:1, animated:NO
     segmentedControl.addTarget self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged
-    navigationItem.rightBarButtonItem = Hel.customBBI(segmentedControl)
+    navigationItem.rightBarButtonItem = ES.customBBI(segmentedControl)
   end
 
   def viewWillAppear(animated)
@@ -73,7 +73,7 @@ class ChartController < UITableViewController
   ###
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
-    @closeSettingsButton ||= Hel.systemBBI(UIBarButtonSystemItemDone, target:self, action:"closeSettings")
+    @closeSettingsButton ||= ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:"closeSettings")
     viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
     navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated
   end
@@ -120,6 +120,6 @@ class ChartController < UITableViewController
       $lastLaunchFailed = nil
     end
 
-    Hel.tableViewPlaceholder(text, view.bounds.withHMargins(15))
+    ES.tableViewPlaceholder(text, view.bounds.withHMargins(15))
   end
 end

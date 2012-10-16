@@ -21,8 +21,8 @@ class MultisegmentView < UIView
     button = UIButton.buttonWithType(UIButtonTypeCustom)
     button.selected = unselected
     button.setTitle(label, forState:UIControlStateNormal)
-    button.setTitleShadowColor(Hel.hsb(212,22,46), forState:UIControlStateSelected)
-    button.setTitleShadowColor(Hel.hsb(212,22,42), forState:UIControlStateNormal)
+    button.setTitleShadowColor(ES.hsb(212,22,46), forState:UIControlStateSelected)
+    button.setTitleShadowColor(ES.hsb(212,22,42), forState:UIControlStateNormal)
     button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
     button.titleLabel.shadowOffset = CGSizeMake(0, -1)
     button.addTarget self, action:'segmentButtonDown:', forControlEvents:UIControlEventTouchDown
@@ -66,7 +66,7 @@ class MultisegmentView < UIView
   end
   
   def reapplyButtonBackgrounds
-    orientationKey = Hel.orientationKey
+    orientationKey = ES.orientationKey
     dim = self.class.buttonDimensions[orientationKey]    
     groupIsActive = active?
 
@@ -88,7 +88,7 @@ class MultisegmentView < UIView
   end
   
   def relayoutButtons
-    dim = self.class.buttonDimensions[Hel.orientationKey]
+    dim = self.class.buttonDimensions[ES.orientationKey]
     
     segmentButtons.each_with_index do |button, index|
       button.frame = CGRectMake(dim.margin + index * (dim.width + dim.spacing), (dim.barHeight - dim.height) / 2 + 1, dim.width, dim.height)

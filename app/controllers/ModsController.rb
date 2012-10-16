@@ -82,7 +82,7 @@ class ModsController < UIViewController
 
     cell = tv.dequeueReusableCell do |cl|
       button = UIButton.alloc.initWithFrame CGRectMake(200, 0, 44, 44)
-      button.setBackgroundImage Hel.capImage("bg-button-blue", 10, 9.5, 10, 9.5), forState:UIControlStateNormal
+      button.setBackgroundImage ES.capImage("bg-button-blue", 10, 9.5, 10, 9.5), forState:UIControlStateNormal
       button.setImage UIImage.imageNamed("ico-bbi-weight"), forState:UIControlStateNormal
       button.titleLabel.font = UIFont.systemFontOfSize(11)
       button.addTarget self, action:'addToSetButtonTouched:', forControlEvents:UIControlEventTouchUpInside

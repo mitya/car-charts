@@ -42,12 +42,12 @@ class BarView < UIView
   BarLabelsLeftMargin = 5
   BarLabelsWidth = 120
   BarRightMargin = 7
-  BarPremiumBrandColor = Hel.rgb(202, 0, 50)
+  BarPremiumBrandColor = ES.rgb(202, 0, 50)
 
   def initWithFrame(frame)
     if super(frame)
       self.opaque = true
-      self.backgroundColor = Hel.pattern("bg-chart")
+      self.backgroundColor = ES.pattern("bg-chart")
     end
     self
   end
@@ -77,11 +77,11 @@ class BarView < UIView
 
     if item.first?
       modelNameColor = UIColor.blackColor # mod.model.brand.premium? ? BarPremiumBrandColor : UIColor.blackColor
-      Hel.drawStringInRect mod.model.name, modelRect, modelNameColor, 11, UILineBreakModeClip, UITextAlignmentRight
+      ES.drawStringInRect mod.model.name, modelRect, modelNameColor, 11, UILineBreakModeClip, UITextAlignmentRight
     end
 
     modTitle = comparision.onlyBodyParams?? mod.version : mod.mod_name
-    Hel.drawStringInRect modTitle, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
+    ES.drawStringInRect modTitle, detailRect, UIColor.darkGrayColor, 8, UILineBreakModeClip, UITextAlignmentRight
 
     bars.each do |bar|
       rect = bar.rect
@@ -91,15 +91,15 @@ class BarView < UIView
       textFont = oversized ? UIFont.boldSystemFontOfSize(9) : UIFont.systemFontOfSize(8)
       bgColors = self.class.colors[bar.index.remainder(self.class.colors.count)]
       
-      Hel.drawGradientRect context, rect, bgColors
-      Hel.drawStringInRect bar.text, CGRectMake(rect.x, rect.y - 1, textWidth, rect.height), textColor, textFont, UILineBreakModeClip, UITextAlignmentRight
+      ES.drawGradientRect context, rect, bgColors
+      ES.drawStringInRect bar.text, CGRectMake(rect.x, rect.y - 1, textWidth, rect.height), textColor, textFont, UILineBreakModeClip, UITextAlignmentRight
     end
   end
   
   def self.colors
     @colors ||= Metadata.colors.map do |values|
       h,s,b = values
-      [Hel.hsb(h, s - 10, b + 5), Hel.hsb(h, s + 10, b - 5)]
+      [ES.hsb(h, s - 10, b + 5), ES.hsb(h, s + 10, b - 5)]
     end
   end
 end

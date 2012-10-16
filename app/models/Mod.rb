@@ -84,7 +84,7 @@ class Mod < DSCoreModel
 
     def byKeys(keys) 
       keyRequest.predicate = NSPredicate.predicateWithFormat("key in %@", argumentArray:[keys])
-      err = Hel.newErr
+      err = ES.newErr
       unless results = context.executeFetchRequest(keyRequest, error:err)
         raise "Error when fetching data: #{err.value.description}"
       end
@@ -93,7 +93,7 @@ class Mod < DSCoreModel
     
     def byModelKey(modelKey)
       keyRequest.predicate = NSPredicate.predicateWithFormat("model_key = %@", argumentArray:[modelKey])
-      err = Hel.newErr
+      err = ES.newErr
       unless results = context.executeFetchRequest(keyRequest, error:err)
         raise "Error when fetching data: #{err.value.description}"
       end
@@ -104,7 +104,7 @@ class Mod < DSCoreModel
       # where(key: key).first
             
       keyRequest.predicate = NSPredicate.predicateWithFormat("key = %@", argumentArray:[key])
-      err = Hel.newErr
+      err = ES.newErr
       unless results = context.executeFetchRequest(keyRequest, error:err)
         raise "Error when fetching data: #{err.value.description}"
       end

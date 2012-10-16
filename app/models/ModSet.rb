@@ -51,7 +51,7 @@ class ModSet < DSCoreModel
     request = NSFetchRequest.alloc.init
     request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
     request.predicate = NSPredicate.predicateWithFormat("name = %@", argumentArray:[name])
-    err = Hel.newErr
+    err = ES.newErr
     unless results = context.executeFetchRequest(request, error:err)
       raise "Error when fetching data: #{err[0].description}"
     end

@@ -208,7 +208,7 @@ end
 
 class UIView
   def xdBorder
-    Hel.setDevBorder(self)
+    ES.setDevBorder(self)
   end
 end
 

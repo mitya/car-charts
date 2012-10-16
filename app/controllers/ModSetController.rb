@@ -10,7 +10,7 @@ class ModSetController < UITableViewController
     self.title = set.name
     self.navigationItem.rightBarButtonItem = editButtonItem
     self.toolbarItems = [
-      Hel.textBBI("Apply", target:self, action:'showSetActionsSheet:')
+      ES.textBBI("Apply", target:self, action:'showSetActionsSheet:')
     ]
   end
 

@@ -4,7 +4,7 @@ class ModSetsController < UITableViewController
   def viewDidLoad
     super
     self.title = "Model Sets"
-    navigationItem.rightBarButtonItems = [editButtonItem, Hel.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'addNew')]
+    navigationItem.rightBarButtonItems = [editButtonItem, ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'addNew')]
   end
   
   def viewWillAppear(animated)
@@ -84,7 +84,7 @@ class ModSetsController < UITableViewController
     set.renameTo(textField.text)
     textField.text = set.name # set.name will not be changed if the rename fails
     reloadSets
-    tableView.moveRowAtIndexPath index, toIndexPath:Hel.indexPath(set.position, index.section)
+    tableView.moveRowAtIndexPath index, toIndexPath:ES.indexPath(set.position, index.section)
   end
   
   def textFieldShouldReturn(textField)

@@ -72,8 +72,8 @@ class ParametersLegendView < UIView
       colorFrame = CGRectMake(0, (ItemH - ColorH) / 2.0, ColorW, ColorH)
       textSize = param.name.sizeWithFont(textFont)
       textFrame  = CGRectMake(ColorW + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
-      Hel.drawGradientRect context, colorFrame, colorGradient
-      Hel.drawStringInRect param.name, textFrame, UIColor.darkGrayColor, textFont, UILineBreakModeClip, UITextAlignmentLeft
+      ES.drawGradientRect context, colorFrame, colorGradient
+      ES.drawStringInRect param.name, textFrame, UIColor.darkGrayColor, textFont, UILineBreakModeClip, UITextAlignmentLeft
     end
 
     def sizeThatFits(oldSize)

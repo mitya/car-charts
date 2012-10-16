@@ -31,11 +31,11 @@ class DSCoreModel < NSManagedObject
     end
     
     def context
-      Hel.delegate.send(contextName)
+      ES.delegate.send(contextName)
     end
     
     def save
-      Hel.delegate.saveObjectContext(context)
+      ES.delegate.saveObjectContext(context)
     end
     
     def build(attributes = nil)
@@ -69,7 +69,7 @@ class DSCoreModel < NSManagedObject
         request = NSFetchRequest.alloc.init
         request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
         request.sortDescriptors = [NSSortDescriptor.alloc.initWithKey(defaultSortField, ascending:YES)]
-        err = Hel.newErr
+        err = ES.newErr
         unless results = context.executeFetchRequest(request, error:err)
           raise "Error when fetching data: #{err[0].description}"
         end

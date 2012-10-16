@@ -4,7 +4,7 @@ class SelectModSetController < UITableViewController
   def viewDidLoad
     super
     self.title = "Select Model Set"
-    navigationItem.leftBarButtonItem = Hel.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
+    navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)

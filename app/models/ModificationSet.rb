@@ -6,34 +6,34 @@ class ModificationSet
   end
   
   def position
-    Hel.defaults["modSetNames"].index(@name)
+    ES.defaults["modSetNames"].index(@name)
   end
   
   def save
-    Hel.defaults["modSets"] = Hel.defaults["modSets"].merge(@name => mods.map(&:key))
-    Hel.defaults["modSetNames"] = (Hel.defaults["modSetNames"] + [name]).sort unless Hel.defaults["modSetNames"].include?(name)
+    ES.defaults["modSets"] = ES.defaults["modSets"].merge(@name => mods.map(&:key))
+    ES.defaults["modSetNames"] = (ES.defaults["modSetNames"] + [name]).sort unless ES.defaults["modSetNames"].include?(name)
   end
   
   def delete
-    Hel.defaults["modSets"] = Hel.defaults["modSets"].reject { |k,v| k == name }
-    Hel.defaults["modSetNames"] = Hel.defaults["modSetNames"].reject { |n| n == name }
+    ES.defaults["modSets"] = ES.defaults["modSets"].reject { |k,v| k == name }
+    ES.defaults["modSetNames"] = ES.defaults["modSetNames"].reject { |n| n == name }
   end
   
   def renameTo(newName)
-    return if newName.blank? || Hel.defaults["modSets"].include?(newName)
+    return if newName.blank? || ES.defaults["modSets"].include?(newName)
     
-    modSets = Hel.defaults["modSets"].reject { |k,v| k == name }
+    modSets = ES.defaults["modSets"].reject { |k,v| k == name }
     modSets[newName] = mods.map(&:key)
-    modSetNames = Hel.defaults["modSetNames"].dup
+    modSetNames = ES.defaults["modSetNames"].dup
     modSetNames[modSetNames.index(name)] = newName
     
     @name = newName
-    Hel.defaults["modSets"] = modSets
-    Hel.defaults["modSetNames"] = modSetNames.sort
+    ES.defaults["modSets"] = modSets
+    ES.defaults["modSetNames"] = modSetNames.sort
   end
   
   def mods
-    @mods ||= Mod.byKeys Hel.defaults["modSets"][name]
+    @mods ||= Mod.byKeys ES.defaults["modSets"][name]
   end
   
   def mods=(objects)
@@ -62,16 +62,16 @@ class ModificationSet
   
   class << self
     def all
-      Hel.defaults["modSetNames"] ||= []
-      Hel.defaults["modSets"] ||= {}
-      Hel.defaults["modSetNames"].sort.map { |name| ModificationSet.new(name) }
+      ES.defaults["modSetNames"] ||= []
+      ES.defaults["modSets"] ||= {}
+      ES.defaults["modSetNames"].sort.map { |name| ModificationSet.new(name) }
     end
     
     def swap(from, to)
-      list = Hel.defaults["modSetNames"].dup
+      list = ES.defaults["modSetNames"].dup
       a, b = list[to], list[from]
       list[to], list[from] = b, a
-      Hel.defaults["modSetNames"] = list
+      ES.defaults["modSetNames"] = list
     end
   end
 end

@@ -5,7 +5,7 @@ class RecentModsController < UITableViewController
     super
     self.title = "Recent Models"
     self.toolbarItems = [
-      Hel.textBBI("Save", target:self, action:'saveAsSet')
+      ES.textBBI("Save", target:self, action:'saveAsSet')
     ]
   end
 
