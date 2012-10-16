@@ -10,7 +10,7 @@ class ModSetController < UITableViewController
     self.title = set.name
     self.navigationItem.rightBarButtonItem = editButtonItem
     self.toolbarItems = [
-      ES.textBBI("Apply", target:self, action:'showSetActionsSheet:')
+      ES.textBBI("Apply", target:self, action:'showSetActionSheet:')
     ]
   end
 
@@ -46,7 +46,7 @@ class ModSetController < UITableViewController
   
   ####
   
-  def showSetActionsSheet(bbi)
+  def showSetActionSheet(bbi)
     sheet = UIActionSheet.alloc.initWithTitle("Add or replace the currently selected models with the models from this set.", 
       delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
     sheet.addButtonWithTitle "Replace Current Models"

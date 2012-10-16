@@ -15,7 +15,7 @@ describe "ModSet" do
   end
 
   it "search by name" do
-    result = ModSet.byName("set 2")
+    result = ModSet.modSetForName("set 2")
     result.should == @set2
     result.name.should == "set 2"
   end

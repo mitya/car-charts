@@ -47,14 +47,11 @@ class ModSet < DSCoreModel
     Disk.currentMods = Disk.currentMods | mods
   end
     
-  def self.byName(name)
+  def self.modSetForName(name)
     request = NSFetchRequest.alloc.init
     request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
     request.predicate = NSPredicate.predicateWithFormat("name = %@", argumentArray:[name])
-    err = ES.newErr
-    unless results = context.executeFetchRequest(request, error:err)
-      raise "Error when fetching data: #{err[0].description}"
-    end
+    results = context.executeFetchRequest(request, error:NULL)
     results.first
   end
 end

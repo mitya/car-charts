@@ -49,7 +49,7 @@ class RecentModsController < UITableViewController
     tableView.moveRowAtIndexPath(indexPath, toIndexPath:(NSIndexPath.indexPathForRow(0, inSection: indexPath.section == 0 ? 1 : 0)))
   end
   
-private
+  ####
 
   def collectionForSection(index)
     collection = index == 0 ? Disk.currentMods : Disk.recentMods

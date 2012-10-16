@@ -195,15 +195,15 @@ class Mod < DSCoreModel
     ['width', NSInteger32AttributeType, false],
   ]
     
-  def self.importFromObjects
-    fields = @fields.map { |field, _| field }.reject { |field| field == 'key' }
-    Modification.all.each do |m|
-      mod = Mod.build
-      mod.key = m.key
-      fields.each { |field| mod.set(field, m[field].presence) }
-    end
-    Mod.save
-  end
+  # def self.importFromObjects
+  #   fields = @fields.map { |field, _| field }.reject { |field| field == 'key' }
+  #   Modification.all.each do |m|
+  #     mod = Mod.build
+  #     mod.key = m.key
+  #     fields.each { |field| mod.set(field, m[field].presence) }
+  #   end
+  #   Mod.save
+  # end
   
   def self.importFromPlist
     fields = @fields.map(&:first).reject { |field| field == 'key' }
@@ -212,8 +212,24 @@ class Mod < DSCoreModel
     plist.each do |key, data|
       mod = Mod.build
       mod.key = key
-      fields.each { |field| mod.set(field, data[Modification.indexForKey(field)].presence) }
+      fields.each { |field| mod.set(field, data[indexForKey(field)].presence) }
     end
     Mod.save
   end
+  
+  def self.indexForKey(key)
+    @keyIndex || begin
+      @keyIndex = {}
+      Keys.each_with_index { |key, index| @keyIndex[key] ||= index }
+    end
+    @keyIndex[key]
+  end    
+
+  Keys = %w(body version_subkey transmission drive engine_vol fuel power model_key
+    valves_per_cylinder consumption_city max_power_kw cylinder_placement compression gross_mass bore doors compressor
+    injection tires max_torque_range_start rear_brakes max_torque max_power stroke seats acceleration_0_100_kmh consumption_highway
+    engine_spec consumption_mixed countries fuel_rating height drive_config produced_since rear_tire_rut engine_title luggage_min
+    length engine_volume body_type max_power_range_start kerbweight car_class ground_clearance luggage_max front_suspension
+    price tank_capacity wheelbase model_title front_brakes engine_placement rear_suspension top_speed gears width front_tire_rut
+    cylinder_count body_title produced_till max_torque_range_end max_power_range_end version base_model_key fixed_model_name)
 end

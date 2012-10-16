@@ -21,12 +21,12 @@ class Model
     Disk.currentMods.select { |mod| mod.model == self }.count
   end
   
-  def modifications
+  def mods
     Mod.modsForModelKey(key)
   end
   
   def inspect
-    "#<Model:#{key} mods=#{modifications.count}>"
+    "#<Model:#{key} mods=#{mods.count}>"
   end
   
   class << self 

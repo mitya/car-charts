@@ -32,13 +32,13 @@ class ChartController < UITableViewController
     tableView.tableFooterView.hidden = @comparision.incomplete?
 
     if @comparision.incomplete?
-      view.addSubview(@placeholderView ||= createPlaceholderView)
+      view.addSubview(@placeholderView ||= placeholderView)
     else
       @placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
     end
   end
 
-  ###
+  ####
   
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
@@ -48,7 +48,7 @@ class ChartController < UITableViewController
     tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end
 
-  ###
+  ####
 
   def tableView(tv, numberOfRowsInSection:section)
     @comparision.mods.count
@@ -70,7 +70,7 @@ class ChartController < UITableViewController
     height
   end
 
-  ###
+  ####
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     @closeSettingsButton ||= ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:"closeSettings")
@@ -85,7 +85,7 @@ class ChartController < UITableViewController
     end
   end
 
-  private
+  ####
 
   def showCars
     @carsNavigationController ||= begin
@@ -113,13 +113,15 @@ class ChartController < UITableViewController
     dismissModalViewControllerAnimated true
   end
 
-  def createPlaceholderView
-    text = "Select some cars and parameters to compare"
-    if $lastLaunchDidFail
-      text = "Something weird happened, the parameters and models were reset. Sorry :("
-      $lastLaunchDidFail = nil
-    end
+  ####
 
+  def placeholderView
+    text = if $lastLaunchDidFail
+      $lastLaunchDidFail = nil
+      "Something weird happened, the parameters and models were reset. Sorry :("
+    else
+      "Select some cars and parameters to compare"
+    end
     ES.tableViewPlaceholder(text, view.bounds.rectWithHorizMargins(15))
   end
 end

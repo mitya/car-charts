@@ -10,7 +10,7 @@ class ModsController < UIViewController
     super
     
     self.title = model.name
-    self.mods = model.modifications
+    self.mods = model.mods
     
     self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height), style: UITableViewStylePlain
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
@@ -85,7 +85,7 @@ class ModsController < UIViewController
       button.setBackgroundImage ES.capImage("bg-button-blue", 10, 9.5, 10, 9.5), forState:UIControlStateNormal
       button.setImage UIImage.imageNamed("ico-bbi-weight"), forState:UIControlStateNormal
       button.titleLabel.font = UIFont.systemFontOfSize(11)
-      button.addTarget self, action:'addToSetButtonTouched:', forControlEvents:UIControlEventTouchUpInside
+      button.addTarget self, action:'addToModSet:', forControlEvents:UIControlEventTouchUpInside
       button.tag = 1
       cl.insertSubview button, atIndex:3
     end
@@ -105,7 +105,7 @@ class ModsController < UIViewController
     cell.toggleCheckmarkAccessory
   end
   
-  private
+  ####
   
   def applyFilter(options = {})
     Disk.filterOptions = Disk.filterOptions.merge(options).delete_if { |k,v| !v }
@@ -124,9 +124,10 @@ class ModsController < UIViewController
     tableView.reloadData
   end
   
-  def addToSetButtonTouched(button)
+  def addToModSet(button)
     indexPath = tableView.indexPathForCell(button.superview)
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
+    # nothing for now
   end
 end

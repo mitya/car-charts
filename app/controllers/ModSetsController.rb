@@ -4,7 +4,7 @@ class ModSetsController < UITableViewController
   def viewDidLoad
     super
     self.title = "Model Sets"
-    navigationItem.rightBarButtonItems = [editButtonItem, ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'addNew')]
+    navigationItem.rightBarButtonItems = [editButtonItem, ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')]
   end
   
   def viewWillAppear(animated)
@@ -92,9 +92,9 @@ class ModSetsController < UITableViewController
     true
   end
   
-  private
+  ####
 
-  def addNew
+  def showNewSetDialog
     alertView = UIAlertView.alloc.initWithTitle("New Model Set",
       message:"Enter the set title", delegate:self, cancelButtonTitle:"Cancel", otherButtonTitles:nil)
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput
