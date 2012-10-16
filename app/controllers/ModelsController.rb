@@ -52,9 +52,9 @@ class ModelsController < UITableViewController
   
   def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
     currentModels = @filteredModels
-    Helper.benchmark "Model Search" do
-      collectionForSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
-      @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsForText(newSearchString, inCollection:@initialModels)
+    ES.benchmark "Model Search" do
+      collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
+      @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsForText(newSearchString, inCollection:collectionToSearch)
     end
     currentModels != @filteredModels
   end
