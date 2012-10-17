@@ -182,6 +182,10 @@ class Helper
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(style, target:target, action:action)
     end
 
+    def imageBBI(imageName, style:style, target:target, action:action)
+      UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed(imageName), style:style, target:target, action:action)      
+    end
+
     def textBBI(text)
       textBBI(text, target:NIL, action:NIL)
     end

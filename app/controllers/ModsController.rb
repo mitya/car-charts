@@ -7,8 +7,6 @@ class ModsController < UIViewController
   end
 
   def viewDidLoad
-    super
-    
     self.title = model.name
     self.mods = model.mods
     

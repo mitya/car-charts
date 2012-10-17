@@ -11,15 +11,19 @@ class ChartController < UITableViewController
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
 
-    navigationItem.backBarButtonItem = ES.textBBI "Chart"
-
     segmentedControl = UISegmentedControl.alloc.initWithItems([])
     segmentedControl.momentary = YES
     segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
-    segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-car"), atIndex:0, animated:NO
-    segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:1, animated:NO
+    segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-car"), atIndex:1, animated:NO
+    segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:0, animated:NO
     segmentedControl.addTarget self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged
+    
+    navigationItem.backBarButtonItem = ES.textBBI "Chart"
     navigationItem.rightBarButtonItem = ES.customBBI(segmentedControl)
+    # navigationItem.rightBarButtonItems = [
+    #   ES.imageBBI('ico-bbi-gears', style:UIBarButtonItemStyleBordered, target:self, action:'showCars'),
+    #   ES.imageBBI('ico-bbi-weight', style:UIBarButtonItemStyleBordered, target:self, action:'showParameters')
+    # ]
   end
 
   def viewWillAppear(animated)
@@ -86,27 +90,19 @@ class ChartController < UITableViewController
 
   def settingsSegmentTouched(segmentControl)
     case segmentControl.selectedSegmentIndex
-    when 0 then showCars
-    when 1 then showParameters
+      when 1 then showCars
+      when 0 then showParameters
     end
   end
 
   ####
 
   def showCars
-    # @carsNavigationController ||= begin
-    #   carsCon = CarsController.new
-    #   carsCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
-    #   carsNavCon = UINavigationController.alloc.initWithRootViewController(carsCon)
-    #   carsNavCon.delegate = self  
-    #   carsNavCon
-    # end
-    # presentViewController @carsNavigationController, animated:YES, completion:NIL
-
     @settingsTabBarController ||= begin
-      controllers = [RecentModsController.new, IndexedModelsController.new(Model.all), CategoriesController.new, ModSetsController.new]
+      controllers = [RecentModsController.new, CarsController.new, ModSetsController.new]
       controllers.map! { |ctl| UINavigationController.alloc.initWithRootViewController(ctl).tap { |nav| nav.delegate = self } }
       controllers.unshift ChartTabStubController.new
+      controllers[2].viewControllers = controllers[2].viewControllers + [IndexedModelsController.new(Model.all)]
 
       tabsController = UITabBarController.new
       tabsController.delegate = self

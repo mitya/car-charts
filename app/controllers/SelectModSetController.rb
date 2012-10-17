@@ -2,7 +2,6 @@ class SelectModSetController < UITableViewController
   attr_accessor :sets
 
   def viewDidLoad
-    super
     self.title = "Select Model Set"
     navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
   end

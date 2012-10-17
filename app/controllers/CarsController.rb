@@ -1,15 +1,14 @@
 class CarsController < UITableViewController
   Items = [
-    {key: :recent, title: "Selected & Recent"},
     {key: :all, title: "All"},
     {key: :categories, title: "Categories"},
-    {key: :sets, title: "Saved Sets"},
   ]
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
 
   def initialize
-    self.title = "Cars"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tbi-car"), tag:1)
+    self.title = "Models"
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car"), tag:1)
+    navigationItem.backBarButtonItem = ES.textBBI("Back")
   end
 
   def viewWillAppear(animated)

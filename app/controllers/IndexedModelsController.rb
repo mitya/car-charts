@@ -6,8 +6,6 @@ class IndexedModelsController < UITableViewController
   end
 
   def viewDidLoad
-    super
-    
     isAllModelsView = @initialModels == Model.all
     @initialModelsIndex = isAllModelsView ? Model::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }
     @initialBrands = isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
@@ -49,10 +47,9 @@ class IndexedModelsController < UITableViewController
     model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
     modelSelectedModsCount = model.selectedModsCount
 
-    cell = table.dequeueReusableCell(klass: DSBadgeViewCell)
+    cell = table.dequeueReusableCell(klass: DSBadgeViewCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
     cell.textLabel.text = model.unbrandedName
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-    cell.badgeText = modelSelectedModsCount.to_s if modelSelectedModsCount > 0
+    cell.badgeText = modelSelectedModsCount
     cell
   end
 

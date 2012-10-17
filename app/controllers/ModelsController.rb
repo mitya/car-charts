@@ -6,8 +6,6 @@ class ModelsController < UITableViewController
   end
 
   def viewDidLoad
-    super
-
     self.title = categoryKey ? Metadata.categoryNames[categoryKey] : "Models"
     
     @filteredModels = @initialModels

@@ -20,15 +20,14 @@ class CategoriesController < UITableViewController
   def tableView(tv, numberOfRowsInSection:section)
     Metadata.categoryKeys.count
   end
-  
+
   def tableView(table, cellForRowAtIndexPath:indexPath)
     categoryKey = Metadata.categoryKeys[indexPath.row]
     categorySelectedModsCount = Disk.currentMods.select { |mod| mod.category.to_sym == categoryKey }.count
 
-    cell = table.dequeueReusableCell(klass: DSBadgeViewCell)
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    cell = table.dequeueReusableCell(klass: DSBadgeViewCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
     cell.textLabel.text = Metadata.categoryNames[categoryKey]
-    cell.badgeText = categorySelectedModsCount.to_s if categorySelectedModsCount > 0
+    cell.badgeText = categorySelectedModsCount
     cell
   end
 
