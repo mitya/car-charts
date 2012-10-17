@@ -2,7 +2,6 @@ class ChartController < UITableViewController
   attr_accessor :mods, :params, :comparision, :data, :settingsNavigationController
 
   def viewDidLoad
-    super
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
 
     self.title = "CarCharts"
@@ -73,9 +72,16 @@ class ChartController < UITableViewController
   ####
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
-    @closeSettingsButton ||= ES.textBBI("Chart", style:UIBarButtonItemStyleDone, target:self, action:'closeSettings')
-    viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
     navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated
+  end
+
+  def tabBarController(tabBarController, shouldSelectViewController:viewController)
+    if viewController.is_a?(ChartTabStubController)
+      closeSettings
+      false
+    else
+      true
+    end
   end
 
   def settingsSegmentTouched(segmentControl)
@@ -100,9 +106,12 @@ class ChartController < UITableViewController
     @settingsTabBarController ||= begin
       controllers = [RecentModsController.new, IndexedModelsController.new(Model.all), CategoriesController.new, ModSetsController.new]
       controllers.map! { |ctl| UINavigationController.alloc.initWithRootViewController(ctl).tap { |nav| nav.delegate = self } }
+      controllers.unshift ChartTabStubController.new
 
       tabsController = UITabBarController.new
+      tabsController.delegate = self
       tabsController.viewControllers = controllers
+      tabsController.selectedIndex = 2
       tabsController
     end
     
@@ -134,5 +143,11 @@ class ChartController < UITableViewController
       "Select some cars and parameters to compare"
     end
     ES.tableViewPlaceholder(text, view.bounds.rectWithHorizMargins(15))
+  end
+end
+
+class ChartTabStubController < UITableViewController  
+  def initialize
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-car"), tag:0)
   end
 end

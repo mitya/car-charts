@@ -4,6 +4,10 @@ class ParametersController < UITableViewController
     self.title = "Select Parameters"
   end
 
+  def viewDidLoad
+    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:'closeSelf')
+  end
+
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
@@ -29,5 +33,9 @@ class ParametersController < UITableViewController
 
     parameter = Parameter.all[indexPath.row]
     Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(parameter)
+  end
+  
+  def closeSelf
+    dismissModalViewControllerAnimated true
   end
 end

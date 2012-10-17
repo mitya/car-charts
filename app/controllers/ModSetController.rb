@@ -6,7 +6,6 @@ class ModSetController < UITableViewController
   end
 
   def viewDidLoad
-    super
     self.title = set.name
     self.navigationItem.rightBarButtonItem = editButtonItem
     self.toolbarItems = [
