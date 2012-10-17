@@ -23,6 +23,8 @@ class IndexedModelsController < UITableViewController
     
     @searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self)
     @searchController.delegate = @searchController.searchResultsDataSource = @searchController.searchResultsDelegate = self    
+    
+    navigationItem.backBarButtonItem = ES.textBBI("Back")    
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)

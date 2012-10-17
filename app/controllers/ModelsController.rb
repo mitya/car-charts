@@ -1,13 +1,12 @@
 class ModelsController < UITableViewController
-  attr_accessor :categoryKey
+  attr_accessor :category
   
   def initialize(models)
     @initialModels = models
+    self.title = "Models"
   end
 
   def viewDidLoad
-    self.title = categoryKey ? Metadata.categoryNames[categoryKey] : "Models"
-    
     @filteredModels = @initialModels
     
     @searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44))
@@ -20,6 +19,8 @@ class ModelsController < UITableViewController
     
     @searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self)
     @searchController.delegate = @searchController.searchResultsDataSource = @searchController.searchResultsDelegate = self    
+    
+    navigationItem.backBarButtonItem = ES.textBBI("Back")
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)

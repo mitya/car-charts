@@ -6,17 +6,29 @@ class Model
   end
   
   def name
-    @name ||= Metadata[:model_info][key][1]
+    metadataRow[1]
   end
   
   def unbrandedName
-    @unbrandedName ||= Metadata[:model_info][key][0]
+    metadataRow[0]
+  end
+
+  def brandKey
+    metadataRow[2].to_sym
+  end
+
+  def categoryKey
+    metadataRow[3].to_sym
   end
 
   def brand
-    @brand ||= Brand[key.split("--").first.to_sym]
+    Brand[brandKey]
   end
-  
+
+  def category
+    Category[categoryKey]
+  end
+
   def selectedModsCount
     Disk.currentMods.select { |mod| mod.model == self }.count
   end
@@ -27,6 +39,12 @@ class Model
   
   def inspect
     "#<Model:#{key} mods=#{mods.count}>"
+  end
+  
+  private
+  
+  def metadataRow
+    @metadataRow ||= Metadata[:model_info][key]
   end
   
   class << self 

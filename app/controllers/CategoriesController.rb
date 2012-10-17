@@ -18,25 +18,25 @@ class CategoriesController < UITableViewController
   end
   
   def tableView(tv, numberOfRowsInSection:section)
-    Metadata.categoryKeys.count
+    Category.all.count
   end
 
   def tableView(table, cellForRowAtIndexPath:indexPath)
-    categoryKey = Metadata.categoryKeys[indexPath.row]
-    categorySelectedModsCount = Disk.currentMods.select { |mod| mod.category.to_sym == categoryKey }.count
-
-    cell = table.dequeueReusableCell(klass: DSBadgeViewCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
-    cell.textLabel.text = Metadata.categoryNames[categoryKey]
-    cell.badgeText = categorySelectedModsCount
+    category = Category.all[indexPath.row]
+    cell = table.dequeueReusableCell(klass: DSBadgeViewCell) do |cell|
+       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+    end
+    cell.textLabel.text = category.name
+    cell.badgeText = category.selectedModsCount
     cell
   end
 
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:true)
 
-    categoryKey = Metadata.categoryKeys[indexPath.row]
-    controller = ModelsController.new(Model.modelsForCategoryKey(categoryKey))
-    controller.categoryKey = categoryKey
+    category = Category.all[indexPath.row]
+    controller = ModelsController.new(category.models)
+    controller.title = category.shortName
 
     navigationController.pushViewController(controller, animated:true)
   end

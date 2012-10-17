@@ -25,7 +25,7 @@ class Brand
     attr_reader :index, :all
        
     def [](key)
-      @index[key] ||= new(key)
+      @index[key]
     end
 
     def keys
@@ -37,8 +37,8 @@ class Brand
     end
     
     def load
-      @index = {}
-      @all = keys.map { |key| self[key] }
+      @all = keys.map { |key| new(key) }
+      @index = @all.uniqueIndexBy(&:key)
     end    
   end  
 end
