@@ -1,7 +1,11 @@
 class CategoriesController < UITableViewController
   def initialize
-    self.title = "Categories"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tab-categories.png"), tag:1)
+    self.title = "Model Categories"
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Categories", image:UIImage.imageNamed("ico-tbi-car"), tag:3)
+  end
+
+  def viewDidLoad
+    navigationItem.backBarButtonItem = ES.textBBI("Back")
   end
   
   def viewWillAppear(animated)
@@ -33,6 +37,7 @@ class CategoriesController < UITableViewController
 
     categoryKey = Metadata.categoryKeys[indexPath.row]
     controller = ModelsController.new(Model.modelsForCategoryKey(categoryKey))
+    controller.categoryKey = categoryKey
 
     navigationController.pushViewController(controller, animated:true)
   end

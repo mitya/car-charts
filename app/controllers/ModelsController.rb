@@ -1,13 +1,15 @@
 class ModelsController < UITableViewController
+  attr_accessor :categoryKey
+  
   def initialize(models)
     @initialModels = models
   end
 
   def viewDidLoad
     super
-    
-    self.title = "Models"
 
+    self.title = categoryKey ? Metadata.categoryNames[categoryKey] : "Models"
+    
     @filteredModels = @initialModels
     
     @searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44))

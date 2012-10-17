@@ -1,13 +1,13 @@
 class IndexedModelsController < UITableViewController
   def initialize(models)
     @initialModels = models
+    self.title = "All Models"
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car"), tag:2)
   end
 
   def viewDidLoad
     super
     
-    self.title = "Models"
-
     isAllModelsView = @initialModels == Model.all
     @initialModelsIndex = isAllModelsView ? Model::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }
     @initialBrands = isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }

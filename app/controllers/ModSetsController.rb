@@ -1,9 +1,13 @@
 class ModSetsController < UITableViewController
   attr_accessor :sets
 
+  def initialize
+    self.title = "Model Sets"
+    self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag:4)        
+  end
+
   def viewDidLoad
     super
-    self.title = "Model Sets"
     navigationItem.rightBarButtonItems = [editButtonItem, ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')]
   end
   

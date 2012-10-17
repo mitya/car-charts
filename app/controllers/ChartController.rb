@@ -73,7 +73,7 @@ class ChartController < UITableViewController
   ####
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
-    @closeSettingsButton ||= ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:"closeSettings")
+    @closeSettingsButton ||= ES.textBBI("Chart", style:UIBarButtonItemStyleDone, target:self, action:'closeSettings')
     viewController.navigationItem.rightBarButtonItem = @closeSettingsButton unless viewController.navigationItem.rightBarButtonItem
     navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated
   end
@@ -88,14 +88,25 @@ class ChartController < UITableViewController
   ####
 
   def showCars
-    @carsNavigationController ||= begin
-      carsCon = CarsController.new
-      carsCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
-      carsNavCon = UINavigationController.alloc.initWithRootViewController(carsCon)
-      carsNavCon.delegate = self  
-      carsNavCon
+    # @carsNavigationController ||= begin
+    #   carsCon = CarsController.new
+    #   carsCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
+    #   carsNavCon = UINavigationController.alloc.initWithRootViewController(carsCon)
+    #   carsNavCon.delegate = self  
+    #   carsNavCon
+    # end
+    # presentViewController @carsNavigationController, animated:YES, completion:NIL
+
+    @settingsTabBarController ||= begin
+      controllers = [RecentModsController.new, IndexedModelsController.new(Model.all), CategoriesController.new, ModSetsController.new]
+      controllers.map! { |ctl| UINavigationController.alloc.initWithRootViewController(ctl).tap { |nav| nav.delegate = self } }
+
+      tabsController = UITabBarController.new
+      tabsController.viewControllers = controllers
+      tabsController
     end
-    presentViewController @carsNavigationController, animated:YES, completion:NIL
+    
+    presentViewController @settingsTabBarController, animated:true, completion:nil      
   end
 
   def showParameters

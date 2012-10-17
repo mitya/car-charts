@@ -189,6 +189,10 @@ class Helper
     def textBBI(text, target:target, action:action)
       UIBarButtonItem.alloc.initWithTitle(text, style:UIBarButtonItemStyleBordered, target:target, action:action)
     end
+
+    def textBBI(text, style:style, target:target, action:action)
+      UIBarButtonItem.alloc.initWithTitle(text, style:style, target:target, action:action)
+    end
   
     def segmentedControl(items)
       segmentedControl = UISegmentedControl.alloc.initWithItems(items)

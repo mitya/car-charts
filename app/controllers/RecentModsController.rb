@@ -1,9 +1,13 @@
 class RecentModsController < UITableViewController
   attr_accessor :current, :recent
+
+  def initialize
+    self.title = "Recent Models"
+    self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemRecents, tag:1)
+  end
   
   def viewDidLoad
     super
-    self.title = "Recent Models"
     self.toolbarItems = [
       ES.textBBI("Save", target:self, action:'saveAsSet')
     ]
