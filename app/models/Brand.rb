@@ -18,7 +18,7 @@ class Brand
   end
   
   def models
-    @model ||= Model.modelsForBrandKey(key)
+    @models ||= Model.modelsForBrandKey(key)
   end
   
   class << self 

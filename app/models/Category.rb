@@ -18,7 +18,7 @@ class Category
   end
   
   def models
-    @model ||= Model.modelsForCategoryKey(key)
+    @models ||= Model.modelsForCategoryKey(key)
   end
   
   def selectedModsCount
