@@ -175,6 +175,11 @@ class Mod < DSCoreModel
         options[:wagon] = true if options[:wagon].nil? && mod.wagon?
         options[:gas] = true if options[:gas].nil? && mod.gas?
         options[:diesel] = true if options[:diesel].nil? && mod.diesel?
+        
+        options[:transmission] = [options[:mt], options[:at]].compact
+        options[:body] = [options[:sedan], options[:wagon], options[:hatch]].compact
+        options[:fuel] = [options[:gas], options[:diesel]].compact
+        
         options
       end
     end

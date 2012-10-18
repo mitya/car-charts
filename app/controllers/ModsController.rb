@@ -14,34 +14,10 @@ class ModsController < UIViewController
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
     tableView.dataSource = self
     tableView.delegate = self
+    view.addSubview tableView
     
     applyFilter
-    availableFilterOptions = Mod.filterOptionsForMods(mods)
-
-    @transmissionFilter = DSMultisegmentView.new
-    @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
-    @transmissionFilter.addButton("AT", Disk.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
-
-    @bodyFilter = DSMultisegmentView.new
-    @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
-    @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
-    @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
-
-    @fuelFilter = DSMultisegmentView.new
-    @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
-    @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
-
-    self.toolbarItems = [
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-      UIBarButtonItem.alloc.initWithCustomView(@transmissionFilter),
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
-      UIBarButtonItem.alloc.initWithCustomView(@bodyFilter),
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),
-      UIBarButtonItem.alloc.initWithCustomView(@fuelFilter),
-      UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil),
-    ]
-    
-    view.addSubview tableView
+    self.toolbarItems = toolbarItemsForFilter.presence    
   end
   
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -127,5 +103,31 @@ class ModsController < UIViewController
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
     # nothing for now
+  end
+  
+  def toolbarItemsForFilter
+    availableFilterOptions = Mod.filterOptionsForMods(mods)
+
+    if availableFilterOptions[:transmission].count > 1
+      @transmissionFilter = DSMultisegmentView.new
+      @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
+      @transmissionFilter.addButton("AT", Disk.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
+    end
+
+    if availableFilterOptions[:body].count > 1
+      @bodyFilter = DSMultisegmentView.new
+      @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
+      @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
+      @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
+    end
+
+    if availableFilterOptions[:fuel].count > 1
+      @fuelFilter = DSMultisegmentView.new
+      @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
+      @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
+    end
+
+    [@transmissionFilter, @bodyFilter, @fuelFilter].compact.map { |filter| ES.customBBI(filter) }.
+      arraySeparatedBy(ES.systemBBI(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil))
   end
 end

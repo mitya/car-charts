@@ -5,7 +5,7 @@ NULL = nil
 
 class Object
   def presence
-    self == nil || self == "" ? nil : self 
+    self == nil || self == "" || self == [] ? nil : self 
   end
 end
 
@@ -89,6 +89,10 @@ class NSArray
       end
     end
     uniqObjects
+  end
+  
+  def arraySeparatedBy(separator)
+    empty? ? [] : [separator] + flat_map { |obj| [obj, separator] }
   end
   
   def pluck(method)

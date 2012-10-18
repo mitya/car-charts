@@ -2,7 +2,7 @@ class AppDelegate
   attr_accessor :window, :navigationController
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    @exceptionHandler = proc { |exception| applicationFailedWithException(exception) }
+    @exceptionHandler = proc { |exception| applicationDidFailWithException(exception) }
     NSSetUncaughtExceptionHandler(@exceptionHandler)
 
     Disk.load
@@ -33,7 +33,7 @@ class AppDelegate
     window.rootViewController = navigationController
     window.makeKeyAndVisible
     
-    return true
+    true
   end
   
   def applicationWillResignActive(application)
@@ -65,7 +65,7 @@ class AppDelegate
     ES.defaults.synchronize
   end
 
-  def applicationFailedWithException(exception)
+  def applicationDidFailWithException(exception)
     NSUserDefaults.standardUserDefaults["crashed"] = true
     stack = exception.callStackReturnAddresses
     NSLog "FATAL ERROR: #{exception}"
