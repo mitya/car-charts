@@ -7,8 +7,9 @@ class ModSetsController < UITableViewController
   end
 
   def viewDidLoad
-    navigationItem.leftBarButtonItem = editButtonItem
-    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
+    navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
+    navigationItem.backBarButtonItem = ES.textBBI("Sets")
+    navigationItem.rightBarButtonItem = editButtonItem
   end
   
   def viewWillAppear(animated)

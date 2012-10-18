@@ -7,10 +7,7 @@ class RecentModsController < UITableViewController
   end
   
   def viewDidLoad
-    super
-    self.toolbarItems = [
-      ES.textBBI("Save", target:self, action:'saveAsSet')
-    ]
+    navigationItem.rightBarButtonItem = ES.textBBI("Save", target:self, action:'saveAsSet')
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)

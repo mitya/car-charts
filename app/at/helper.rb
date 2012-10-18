@@ -210,4 +210,4 @@ end
 
 ES = Helper.new
 
-$benchmarking = true
+# $benchmarking = true

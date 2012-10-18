@@ -7,10 +7,7 @@ class ModSetController < UITableViewController
 
   def viewDidLoad
     self.title = set.name
-    self.navigationItem.rightBarButtonItem = editButtonItem
-    self.toolbarItems = [
-      ES.textBBI("Apply", target:self, action:'showSetActionSheet:')
-    ]
+    self.navigationItem.rightBarButtonItems = [editButtonItem, ES.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showSetActionSheet:')]
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
