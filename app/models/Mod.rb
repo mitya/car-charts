@@ -72,6 +72,12 @@ class Mod < DSCoreModel
     get(key)
   end
   
+  def fieldTextFor(parameter)
+    value = get(parameter.key)
+    valueText = Float === value ? "%.1f" % value : value.to_s
+    "#{valueText} #{parameter.unitName}"
+  end
+  
   AutomaticTransmissions = %w(AT AMT CVT)  
 
   @contextName = :staticContext

@@ -26,6 +26,12 @@ StaticData = {
    "pickup_4d"=>"pickup 4-dr",
   },
   premiumBrandKeys: %w(mercedes_benz audi bmw lexus infinity acura volvo cadillac range_rover),
+  parameterGroups: [:engine, :dimensions, :other],
+  parameterGroupsData: {
+    engine: ["Engine", [:top_speed, :acceleration_0_100_kmh, :engine_volume, :max_power, :max_power_kw, :max_torque, :cylinder_count, :valves_per_cylinder, :compression, :bore, :gears, :consumption_city, :consumption_highway, :consumption_mixed]],
+    dimensions: ["Dimensions", [:length, :width, :height, :ground_clearance, :wheelbase, :gross_mass, :kerbweight, :tires, :front_tire_rut, :rear_tire_rut, :luggage_min, :luggage_max, :tank_capacity, :doors, :seats]],
+    other: ["Other", [:produced_since, :price]]
+  },
   parameterNames: {
     top_speed: "Top Speed",
     acceleration_0_100_kmh: "Acelleration",
@@ -99,13 +105,13 @@ StaticData = {
   parameterUnitNames: {
     kmh: "km/h",
     s: "s",
-    l100km: "l/100km",
+    l100km: "L/100 km",
     cc: "cc",
     count: "",
     value: "",
     mm: "mm",
     ps: "ps",
-    kw: "kw",
+    kw: "kW",
     nm: "Nm",
     tires: "",
     l: "l",

@@ -17,6 +17,7 @@ class ModsController < UIViewController
     view.addSubview tableView
     
     applyFilter
+
     self.toolbarItems = toolbarItemsForFilter.presence    
   end
   

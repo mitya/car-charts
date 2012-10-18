@@ -24,6 +24,18 @@ class Parameter
       @all = Metadata.parameterNames.map { |key, name| new(key, name) }
       @index = @all.uniqueIndexBy(&:key)
     end
+    
+    def groupKeys
+      Metadata[:parameterGroups]
+    end
+    
+    def nameForGroup(groupKey)
+      Metadata[:parameterGroupsData][groupKey][0]
+    end
+    
+    def parametersForGroup(groupKey)
+      Metadata[:parameterGroupsData][groupKey][1].map { |k| parameterForKey(k) }
+    end
   end
   
   BodyParameters = NSSet.setWithArray([:length, :width, :height])
