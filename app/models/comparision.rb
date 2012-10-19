@@ -69,19 +69,19 @@ class ComparisionItem
     @comparision.mods[@index]
   end
 
-  def first?
+  def firstForModel?
     index == 0 || mods[index - 1].model != mod.model
   end
   
-  def next?
-    index != 0 && mods[index - 1].model == mod.model
+  def nextForModel?
+    !firstForModel?
   end
   
-  def mid?
-    next? && !last?
+  def midForModel?
+    !firstForModel? && !lastForModel?
   end
   
-  def last?
+  def lastForModel?
     mod == mods.last || mods[index + 1].model != mod.model
   end
 end

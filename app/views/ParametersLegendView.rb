@@ -3,12 +3,13 @@ class ParametersLegendView < UIView
 
   ContainerVM = 10
   ContainerHM = 10
-  ItemH = 15
+  ItemFS = 14.0
+  ItemH = ESLineHeightFromFontSize(ItemFS)
   ItemVM = 2
-  ItemRM = 6
+  ItemRM = ItemFS / 2
   ItemFH = ItemH + ItemVM
-  ColorW = 20
-  ColorH = 11
+  ColorH = ItemH * 0.9
+  ColorW = ColorH * 1.5
   ColorRM = 3
 
   def initialize(parameters)
@@ -17,8 +18,8 @@ class ParametersLegendView < UIView
     self.parameters = parameters
     self.backgroundColor = UIColor.whiteColor
 
-    layer.borderColor = UIColor.lightGrayColor.CGColor
-    layer.borderWidth = 1.5
+    layer.borderColor = ES.separatorColor.CGColor
+    layer.borderWidth = 1.0
     layer.cornerRadius = 10
     layer.masksToBounds = true
   end
@@ -72,8 +73,8 @@ class ParametersLegendView < UIView
       colorFrame = CGRectMake(0, (ItemH - ColorH) / 2.0, ColorW, ColorH)
       textSize = param.name.sizeWithFont(textFont)
       textFrame  = CGRectMake(ColorW + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
-      ES.drawGradientRect context, colorFrame, colorGradient
-      ES.drawStringInRect param.name, textFrame, UIColor.darkGrayColor, textFont, UILineBreakModeClip, UITextAlignmentLeft
+      ES.drawRect colorFrame, inContext:context, withGradientColors:colorGradient, cornerRadius:3
+      ES.drawString param.name, inRect:textFrame, withColor:UIColor.darkGrayColor, font:textFont, alignment:UITextAlignmentLeft
     end
 
     def sizeThatFits(oldSize)
@@ -82,7 +83,7 @@ class ParametersLegendView < UIView
     end
     
     def textFont
-      UIFont.systemFontOfSize(10)
+      UIFont.systemFontOfSize(ItemFS)
     end
   end
 end

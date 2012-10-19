@@ -26,6 +26,26 @@ end
 
 ###############################################################################
 
+class UIColor
+  def hsbString
+    hue, saturation, brightness, alpha = Pointer.new(:float), Pointer.new(:float), Pointer.new(:float), Pointer.new(:float)
+    success = getHue(hue, saturation:saturation, brightness:brightness, alpha:alpha)
+    success ? "hsba(%.2f, %.2f, %.2f, %.2f)" % [hue, saturation, brightness, alpha].map(&:value) : nil
+  end
+    
+  def rgbString
+    red, green, blue, alpha = Pointer.new(:float), Pointer.new(:float), Pointer.new(:float), Pointer.new(:float)
+    success = getRed(red, green:green, blue:blue, alpha:alpha)
+    success ? "rgba(%.2f, %.2f, %.2f, %.2f)" % [red, green, blue, alpha].map(&:value) : nil
+  end
+    
+  def whiteLevelString
+    white, alpha = Pointer.new(:float), Pointer.new(:float)
+    success = getWhite(white, alpha:alpha)
+    success ? "white(%.2f, alpha=%.2f)" % [white, alpha].map(&:value) : nil
+  end  
+end
+
 class UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStylePlain
   

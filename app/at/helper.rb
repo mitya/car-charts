@@ -26,11 +26,11 @@ class Helper
       CGRectMake(rect.x, rect.y, rect.width + widthDelta, rect.height)
     end    
 
-    def drawRect(rect, inContext:context, withGradientColors:colors)
-      drawGradientRect(context, rect, colors)
+    def drawRect(rect, inContext:context, withGradientColors:colors, cornerRadius:cornerRadius)
+      drawGradientRect(context, rect, colors, cornerRadius)
     end
 
-    def drawGradientRect(context, rect, colors)
+    def drawGradientRect(context, rect, colors, cornerRadius = 2)
       # locationsPtr = Pointer.new(:float, 2)
       # locationsPtr[0] = 0.0
       # locationsPtr[1] = 1.0
@@ -46,7 +46,7 @@ class Helper
  
       path = UIBezierPath.bezierPathWithRoundedRect(rect, 
         byRoundingCorners: UIRectCornerAllCorners, # UIRectCornerTopRight | UIRectCornerBottomRight, 
-        cornerRadii: CGSizeMake(2,2)
+        cornerRadii: CGSizeMake(cornerRadius, cornerRadius)
       )
      
       CGContextSaveGState(context)
@@ -68,6 +68,21 @@ class Helper
     def drawString(string, inRect:rect, withColor:color, font:font, lineBreakMode:lineBreakMode, alignment:alignment)
       drawStringInRect(string, rect, color, font, lineBreakMode, alignment)
     end 
+
+    def drawString(string, inRect:rect, withColor:color, font:font, alignment:alignment)
+      drawString(string, inRect:rect, withColor:color, font:font, lineBreakMode:UILineBreakModeClip, alignment:alignment)
+    end 
+    
+    def drawInRect(frame, stringsSpecs:stringSpecs)
+      lastStringRightEdge = nil
+      stringSpecs.each_with_index do |(string, color, font, rightMargin), index|
+        font = fontize(font)
+        size = string.sizeWithFont(font)
+        rect = CGRectMake(lastStringRightEdge || frame.x, frame.y + (frame.height - size.height), size.width, size.height)
+        lastStringRightEdge = rect.x + size.width + rightMargin
+        ES.drawString string, inRect:rect, withColor:colorize(color), font:font, lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentLeft
+      end      
+    end
     
     def strokeRect(rect, inContext:context, withColor:color)
       colorize(color).setStroke if color
@@ -140,7 +155,7 @@ class Helper
     end
   
     def grayShade(level)
-      rgbf(level, level, level, 1.0)
+      UIColor.colorWithWhite(level, alpha:1.0)
     end
 
     def hex(value)
@@ -150,24 +165,42 @@ class Helper
       rgb(r, g, b)
     end 
   
-    def pattern(imageName)
-      UIColor.colorWithPatternImage(UIImage.imageNamed(imageName))
-    end
-  
     def colorize(color)
       return color if color.is_a?(UIColor)
       return UIColor.send("#{color}Color") if color.is_a?(String) || color.is_a?(Symbol)
       return color
     end
+
+    def patternColor(imageName)
+      UIColor.colorWithPatternImage(UIImage.imageNamed(imageName))
+    end
     
+    def blueTextColor
+      rgb(81, 102, 145)
+    end
+    
+    def grayTextColor
+      grayShade(0.5)
+    end
+    
+    def separatorColor
+      grayShade(0.8)
+    end
+  end
+  
+  module Fonts
     def fontize(font)
       return font if font.is_a?(UIFont)
       return UIFont.systemFontOfSize(font) if font.is_a?(Numeric)
       return font
     end
-  
-    def blueTextColor
-      rgb(81, 102, 145)
+    
+    def mainFont(size)
+      UIFont.systemFontOfSize(size)
+    end    
+    
+    def boldFont(size)
+      UIFont.boldSystemFontOfSize(size)
     end
   end
   
@@ -230,13 +263,31 @@ class Helper
     end    
   end
   
-  include Common, Graphics, Device, Operations, Development, Colors, UI
+  include Common, Graphics, Device, Operations, Development, Colors, Fonts, UI
 end
 
 ES = Helper.new
 
 def ESStrokeRect(rect, context, color)
   ES.strokeRect(rect, inContext:context, withColor:color)
+end
+
+def ESFont(size, style = :normal)
+  case style
+    when :normal then UIFont.systemFontOfSize(size)
+    when :bold then UIFont.boldSystemFontOfSize(size)
+  end
+end
+
+ESFontLineHeights = { 
+  6.0 => 8.0, 6.5 => 9.0, 7.0 => 10.0, 7.5 => 10.0, 8.0 => 11.0, 8.5 => 11.0, 9.0 => 12.0, 9.5 => 13.0, 10.0 => 13.0, 10.5 => 14.0,
+  11.0 => 14.0, 11.5 => 14.0, 12.0 => 15.0, 12.5 => 15.0, 13.0 => 16.0, 13.5 => 18.0, 14.0 => 18.0, 14.5 => 19.0, 15.0 => 19.0,
+  15.5 => 19.0, 16.0 => 20.0, 16.5 => 20.0, 17.0 => 21.0, 17.5 => 22.0, 18.0 => 22.0, 18.5 => 23.0, 19.0 => 23.0, 19.5 => 24.0,
+  20.0 => 24.0, 20.5 => 25.0, 21.0 => 26.0, 21.5 => 26.0, 22.0 => 27.0, 22.5 => 28.0, 23.0 => 28.0, 23.5 => 29.0, 24.0 => 29.0, 24.5 => 29.0, 
+}
+
+def ESLineHeightFromFontSize(size)
+  ESFontLineHeights[size.to_f]
 end
 
 # $benchmarking = true

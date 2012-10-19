@@ -6,7 +6,6 @@ class ChartController < UITableViewController
 
     self.title = "CarCharts"
 
-    tableView.backgroundColor = ES.pattern("bg-chart")
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
@@ -31,8 +30,8 @@ class ChartController < UITableViewController
     
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
-    tableView.tableFooterView.parameters = @comparision.params
-    tableView.tableFooterView.hidden = @comparision.incomplete?
+    # tableView.tableFooterView.parameters = @comparision.params
+    # tableView.tableFooterView.hidden = @comparision.incomplete?
 
     if @comparision.incomplete?
       view.addSubview(@placeholderView ||= placeholderView)
@@ -65,11 +64,13 @@ class ChartController < UITableViewController
   
   def tableView(tv, heightForRowAtIndexPath:ip)
     item = @comparision.items[ip.row]
-    height = BarView::TitleHeight
-    # height += BarView::BarTitleHeight if item.first?
-    height += @comparision.params.count * BarView::BarHeightWithMargins
-    height += 10 if item.last?
-    height += 5
+    height = 0
+    height += BarView::ModelTitleH + BarView::ModelTitleBM
+    # height += BarView::ModelTitleH + BarView::ModelTitleBM if item.firstForModel?
+    # height += BarView::ModTitleH + BarView::ModTitleBM
+    height += @comparision.params.count * BarView::BarFH
+    height += 4
+    height += 8 if item.lastForModel?
     height
   end
 

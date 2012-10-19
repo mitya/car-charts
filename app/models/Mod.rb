@@ -28,7 +28,7 @@ class Mod < DSCoreModel
   end
   
   def version
-    @version ||= [bodyName, version_subkey].join(' ')
+    "#{bodyName} #{version_subkey}"
   end
   
   def fuelSuffix
