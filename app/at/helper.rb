@@ -26,6 +26,10 @@ class Helper
       CGRectMake(rect.x, rect.y, rect.width + widthDelta, rect.height)
     end    
 
+    def drawRect(rect, inContext:context, withGradientColors:colors)
+      drawGradientRect(context, rect, colors)
+    end
+
     def drawGradientRect(context, rect, colors)
       # locationsPtr = Pointer.new(:float, 2)
       # locationsPtr[0] = 0.0
@@ -56,10 +60,19 @@ class Helper
     end  
 
     def drawStringInRect(string, rect, color, font, lineBreakMode, alignment)
-      color.set
-      font = UIFont.systemFontOfSize(font) if font.is_a?(Numeric)
+      colorize(color).set if color
+      font = fontize(font)
       string.drawInRect rect, withFont:font, lineBreakMode:lineBreakMode, alignment:alignment
-    end    
+    end   
+    
+    def drawString(string, inRect:rect, withColor:color, font:font, lineBreakMode:lineBreakMode, alignment:alignment)
+      drawStringInRect(string, rect, color, font, lineBreakMode, alignment)
+    end 
+    
+    def strokeRect(rect, inContext:context, withColor:color)
+      colorize(color).setStroke if color
+      CGContextStrokeRect(context, rect)
+    end
   end
   
   module Device
@@ -141,6 +154,18 @@ class Helper
       UIColor.colorWithPatternImage(UIImage.imageNamed(imageName))
     end
   
+    def colorize(color)
+      return color if color.is_a?(UIColor)
+      return UIColor.send("#{color}Color") if color.is_a?(String) || color.is_a?(Symbol)
+      return color
+    end
+    
+    def fontize(font)
+      return font if font.is_a?(UIFont)
+      return UIFont.systemFontOfSize(font) if font.is_a?(Numeric)
+      return font
+    end
+  
     def blueTextColor
       rgb(81, 102, 145)
     end
@@ -209,5 +234,9 @@ class Helper
 end
 
 ES = Helper.new
+
+def ESStrokeRect(rect, context, color)
+  ES.strokeRect(rect, inContext:context, withColor:color)
+end
 
 # $benchmarking = true

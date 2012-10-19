@@ -26,7 +26,7 @@ class AppDelegate
     # controller = ParametersController.new
     # controller = RecentModsController.new
     # controller = ModSetsController.new
-    controller = ModController.new(Mod.modForKey("volvo v70 2009-2011 wagon 2.5i-200ps-MT-FWD"))
+    # controller = ModController.new(Mod.modForKey("volvo v70 2009-2011 wagon 2.5i-200ps-MT-FWD"))
     navigationController.pushViewController controller, animated:NO if defined?(controller)
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
