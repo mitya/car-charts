@@ -100,8 +100,16 @@ task :toolbarbg do
   run "convert -size 2x86 -colorspace hsb gradient:'#{gradient}' -size 2x2 xc:#333 -append resources/bg-button-1@2x.png"
 end
 
-# convert noun_project_2542.svg -resize 44x44 noun_project_2542.png
-# convert in.png -background white -flatten out.png
+# convert ico-bar.svg -resize 60x60 ico-bar.png
+# convert ico-bar.png -background white -flatten ico-bar-2.png
+
+task :icon_from_svg do
+  basename, size = ENV['file'], ENV['size'] || 60
+  temp = "resources/tmp/#{basename}@2x.png"
+  system "convert assets/#{basename}.svg -resize #{size}x#{size} #{temp}"
+  system "convert #{temp} #{temp} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{temp}"
+end
+
 task :bbicon do
   input = ENV['in']
   system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input.gsub('.png', 'BB@2x.png')}"

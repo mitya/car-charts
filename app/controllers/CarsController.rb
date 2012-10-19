@@ -7,7 +7,7 @@ class CarsController < UITableViewController
 
   def initialize
     self.title = "Models"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car"), tag:1)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car-1"), tag:1)
     navigationItem.backBarButtonItem = ES.textBBI("Back")
   end
 

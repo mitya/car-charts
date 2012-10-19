@@ -2,36 +2,33 @@ class AppDelegate
   attr_accessor :window, :navigationController
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
-    @exceptionHandler = proc { |exception| applicationDidFailWithException(exception) }
-    NSSetUncaughtExceptionHandler(@exceptionHandler)
+    NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
 
     Disk.load
     Disk.currentParameters ||= [Parameter.parameterForKey(:max_power)]
     Disk.currentMods ||= []
 
-    if NSUserDefaults.standardUserDefaults["crashed"]
-      NSLog "Recovering after crash ..."
-      Disk.recentMods = Disk.currentMods + Disk.recentMods
-      Disk.currentMods = []
-      Disk.currentParameters = []
-      NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
-      $lastLaunchDidFail = true
-    end    
+    recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
-    self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
-    navigationController.delegate = self
+    # self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
+    # navigationController.delegate = self
 
     # controller = ModsController.new(Model.modelForKey("ford--focus"))
     # controller = IndexedModelsController.new(Model.modelsForCategoryKey("C"))
-    # controller = ParametersController.new
-    # controller = RecentModsController.new
-    # controller = ModSetsController.new
     # controller = ModController.new(Mod.modForKey("volvo v70 2009-2011 wagon 2.5i-200ps-MT-FWD"))
-    navigationController.pushViewController controller, animated:NO if defined?(controller)
+    # navigationController.pushViewController controller, animated:NO if defined?(controller)
 
+    tabControllers = [ChartController.new, ParametersController.new, RecentModsController.new, CarsController.new, ModSetsController.new]
+    tabControllers.map! { |ctl| UINavigationController.alloc.initWithRootViewController(ctl).tap { |nav| nav.delegate = self } }
+    tabControllers[2].viewControllers = tabControllers[2].viewControllers + [IndexedModelsController.new(Model.all)]
+    tabBarController = UITabBarController.new
+    tabBarController.delegate = self
+    tabBarController.viewControllers = tabControllers
+    tabBarController.selectedIndex = 0
+        
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
     window.backgroundColor = UIColor.whiteColor
-    window.rootViewController = navigationController
+    window.rootViewController = tabBarController # navigationController
     window.makeKeyAndVisible
     
     true
@@ -75,7 +72,7 @@ class AppDelegate
   ####
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
-    navigationController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
+    navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
   end
 
   ####
@@ -138,4 +135,15 @@ class AppDelegate
   #   end
   #   sqlite3_close(db)
   # end
+  
+  ####
+  
+  def recoverAfterCrash
+    NSLog "Recovering after crash ..."
+    Disk.recentMods = Disk.currentMods + Disk.recentMods
+    Disk.currentMods = []
+    Disk.currentParameters = []
+    NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
+    $lastLaunchDidFail = true    
+  end
 end

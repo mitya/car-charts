@@ -67,3 +67,7 @@ Conclusion
   and storing them all in memory is a bit too much.
 - ModSets should be stored in the r/w database.
 - Everything else can be loaded from code / data files.
+
+# Graphics
+## Convert SVG icon
+  rake icon_from_svg file=ico-chart size=60

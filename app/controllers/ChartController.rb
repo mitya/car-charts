@@ -1,24 +1,28 @@
 class ChartController < UITableViewController
   attr_accessor :mods, :params, :comparision, :data, :settingsNavigationController
 
+  def initialize
+    self.title = "CarCharts"
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:0)
+  end
+
   def viewDidLoad
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
-
-    self.title = "CarCharts"
 
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
 
-    segmentedControl = UISegmentedControl.alloc.initWithItems([])
-    segmentedControl.momentary = YES
-    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
-    segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-car"), atIndex:1, animated:NO
-    segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:0, animated:NO
-    segmentedControl.addTarget self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged
-    
     navigationItem.backBarButtonItem = ES.textBBI "Chart"
-    navigationItem.rightBarButtonItem = ES.customBBI(segmentedControl)
+    
+    # segmentedControl = UISegmentedControl.alloc.initWithItems([])
+    # segmentedControl.momentary = YES
+    # segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
+    # segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-car"), atIndex:1, animated:NO
+    # segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:0, animated:NO
+    # segmentedControl.addTarget self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged
+    # navigationItem.rightBarButtonItem = ES.customBBI(segmentedControl)
+    
     # navigationItem.rightBarButtonItems = [
     #   ES.imageBBI('ico-bbi-gears', style:UIBarButtonItemStyleBordered, target:self, action:'showCars'),
     #   ES.imageBBI('ico-bbi-weight', style:UIBarButtonItemStyleBordered, target:self, action:'showParameters')
@@ -98,37 +102,37 @@ class ChartController < UITableViewController
 
   ####
 
-  def showCars
-    @settingsTabBarController ||= begin
-      controllers = [RecentModsController.new, CarsController.new, ModSetsController.new]
-      controllers.map! { |ctl| UINavigationController.alloc.initWithRootViewController(ctl).tap { |nav| nav.delegate = self } }
-      controllers.unshift ChartTabStubController.new
-      controllers[2].viewControllers = controllers[2].viewControllers + [IndexedModelsController.new(Model.all)]
-
-      tabsController = UITabBarController.new
-      tabsController.delegate = self
-      tabsController.viewControllers = controllers
-      tabsController.selectedIndex = 2
-      tabsController
-    end
-    
-    presentViewController @settingsTabBarController, animated:true, completion:nil      
-  end
-
-  def showParameters
-    @parametersNavigationController ||= begin
-      parametersCon = ParametersController.new
-      parametersCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
-      parametersNavCon = UINavigationController.alloc.initWithRootViewController(parametersCon)
-      parametersNavCon.delegate = self
-      parametersNavCon
-    end
-    presentViewController @parametersNavigationController, animated:YES, completion:NIL
-  end
-
-  def closeSettings
-    dismissModalViewControllerAnimated true
-  end
+  # def showCars
+  #   @settingsTabBarController ||= begin
+  #     controllers = [RecentModsController.new, CarsController.new, ModSetsController.new]
+  #     controllers.map! { |ctl| UINavigationController.alloc.initWithRootViewController(ctl).tap { |nav| nav.delegate = self } }
+  #     controllers.unshift ChartTabStubController.new
+  #     controllers[2].viewControllers = controllers[2].viewControllers + [IndexedModelsController.new(Model.all)]
+  # 
+  #     tabsController = UITabBarController.new
+  #     tabsController.delegate = self
+  #     tabsController.viewControllers = controllers
+  #     tabsController.selectedIndex = 2
+  #     tabsController
+  #   end
+  #   
+  #   presentViewController @settingsTabBarController, animated:true, completion:nil      
+  # end
+  # 
+  # def showParameters
+  #   @parametersNavigationController ||= begin
+  #     parametersCon = ParametersController.new
+  #     parametersCon.modalTransitionStyle = UIModalTransitionStyleCoverVertical
+  #     parametersNavCon = UINavigationController.alloc.initWithRootViewController(parametersCon)
+  #     parametersNavCon.delegate = self
+  #     parametersNavCon
+  #   end
+  #   presentViewController @parametersNavigationController, animated:YES, completion:NIL
+  # end
+  # 
+  # def closeSettings
+  #   dismissModalViewControllerAnimated true
+  # end
 
   ####
 
@@ -143,8 +147,8 @@ class ChartController < UITableViewController
   end
 end
 
-class ChartTabStubController < UITableViewController  
-  def initialize
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-car"), tag:0)
-  end
-end
+# class ChartTabStubController < UITableViewController  
+#   def initialize
+#     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-car"), tag:0)
+#   end
+# end

@@ -1,11 +1,11 @@
 class ParametersController < UITableViewController
   def initialize
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Cars", image:UIImage.imageNamed("ico-tbi-weight"), tag:1)
     self.title = "Select Parameters"
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Parameters", image:UIImage.imageNamed("ico-tbi-weight"), tag:1)
   end
 
   def viewDidLoad
-    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:'closeSelf')
+    # navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:'closeSelf')
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -35,7 +35,7 @@ class ParametersController < UITableViewController
     Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(parameter)
   end
   
-  def closeSelf
-    dismissModalViewControllerAnimated true
-  end
+  # def closeSelf
+  #   dismissModalViewControllerAnimated true
+  # end
 end
