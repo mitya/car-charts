@@ -9,7 +9,7 @@ class Disk
     end
   
     def currentMods
-      @currentMods ||= Mod.modsForKeys NSUserDefaults.standardUserDefaults["mods"]
+      @currentMods ||= Mod.modsForKeys(NSUserDefaults.standardUserDefaults["mods"].to_a)
     end
 
     def currentMods=(array)
@@ -18,7 +18,7 @@ class Disk
     end
   
     def recentMods
-      @recentMods ||= Mod.modsForKeys NSUserDefaults.standardUserDefaults["recentMods"]
+      @recentMods ||= Mod.modsForKeys(NSUserDefaults.standardUserDefaults["recentMods"].to_a)
     end
 
     def recentMods=(array)
