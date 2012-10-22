@@ -18,7 +18,6 @@ class IndexedModelsController < UITableViewController
     @searchBar.placeholder = "Search"
     @searchBar.delegate = self
     tableView.tableHeaderView = @searchBar
-    tableView.contentOffset = CGPointMake(0, @searchBar.frame.height)
     tableView.addSubview ES.grayTableViewTop
     
     @searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self)
