@@ -32,7 +32,6 @@ class ModController < UITableViewController
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     groupKey = Parameter.groupKeys[indexPath.section]
     parameter = Parameter.parametersForGroup(groupKey)[indexPath.row]
-    # parameter = Parameter.all[indexPath.row]
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleValue1) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
     cell.textLabel.text = parameter.name
     cell.detailTextLabel.text = @mod.fieldTextFor(parameter)

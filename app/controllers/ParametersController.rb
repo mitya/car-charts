@@ -1,23 +1,35 @@
 class ParametersController < UITableViewController
+  DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
+  
   def initialize
     self.title = "Select Parameters"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Parameters", image:UIImage.imageNamed("ico-tbi-weight"), tag:1)
   end
 
   def viewDidLoad
-    # navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:'closeSelf')
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
   
+  def numberOfSectionsInTableView(tv)
+    Parameter.groupKeys.count
+  end
+    
   def tableView(tv, numberOfRowsInSection:section)
-    Parameter.all.count
+    groupKey = Parameter.groupKeys[section]
+    Parameter.parametersForGroup(groupKey).count
+  end
+  
+  def tableView(tv, titleForHeaderInSection:section)
+    groupKey = Parameter.groupKeys[section]
+    Parameter.nameForGroup(groupKey)
   end
   
   def tableView(table, cellForRowAtIndexPath:indexPath)
-    parameter = Parameter.all[indexPath.row]
+    groupKey = Parameter.groupKeys[indexPath.section]
+    parameter = Parameter.parametersForGroup(groupKey)[indexPath.row]
 
     cell = table.dequeueReusableCell { |cell| cell.selectionStyle = UITableViewCellSelectionStyleNone }
     cell.textLabel.text = parameter.name  
@@ -31,11 +43,9 @@ class ParametersController < UITableViewController
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmarkAccessory
 
-    parameter = Parameter.all[indexPath.row]
+    groupKey = Parameter.groupKeys[indexPath.section]
+    parameter = Parameter.parametersForGroup(groupKey)[indexPath.row]
+
     Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(parameter)
   end
-  
-  # def closeSelf
-  #   dismissModalViewControllerAnimated true
-  # end
 end
