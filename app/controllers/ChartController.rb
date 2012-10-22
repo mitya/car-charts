@@ -34,8 +34,8 @@ class ChartController < UITableViewController
     
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
-    # tableView.tableFooterView.parameters = @comparision.params
-    # tableView.tableFooterView.hidden = @comparision.incomplete?
+    tableView.tableFooterView.parameters = @comparision.params
+    tableView.tableFooterView.hidden = @comparision.incomplete?
 
     if @comparision.incomplete?
       view.addSubview(@placeholderView ||= placeholderView)
