@@ -19,7 +19,13 @@ class AppDelegate
     # navigationController.pushViewController controller, animated:NO if defined?(controller)
 
     tabControllers = [ChartController.new, ParametersController.new, RecentModsController.new, CarsController.new, ModSetsController.new]
-    tabControllers.map! { |ctl| UINavigationController.alloc.initWithRootViewController(ctl).tap { |nav| nav.delegate = self } }
+    tabControllers.map! { |ctl| 
+      nav = UINavigationController.alloc.initWithRootViewController(ctl)
+      nav.delegate = self
+      nav.navigationBar.barStyle = UIBarStyleBlack
+      nav.toolbar.barStyle = UIBarStyleBlack
+      nav
+    }
     tabControllers[2].viewControllers = tabControllers[2].viewControllers + [IndexedModelsController.new(Model.all)]
     tabBarController = UITabBarController.new
     tabBarController.delegate = self
