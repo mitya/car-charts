@@ -11,8 +11,6 @@ class ChartController < UITableViewController
 
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
-    tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
-
     navigationItem.backBarButtonItem = ES.textBBI "Chart"
     
     # segmentedControl = UISegmentedControl.alloc.initWithItems([])
@@ -34,11 +32,11 @@ class ChartController < UITableViewController
     
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
-    tableView.tableFooterView.parameters = @comparision.params
-    tableView.tableFooterView.hidden = @comparision.incomplete?
+    tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
 
     if @comparision.incomplete?
       view.addSubview(@placeholderView ||= placeholderView)
+      tableView.tableFooterView.hidden = true
     else
       @placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
     end

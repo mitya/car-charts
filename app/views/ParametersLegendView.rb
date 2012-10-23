@@ -3,6 +3,7 @@ class ParametersLegendView < UIView
 
   ContentTM = 8
   ContentTP = 16
+  ContentBM = 8
   ContentHM = 5
   ItemFS = 13.0
   ItemH = ESLineHeightFromFontSize(ItemFS)
@@ -14,7 +15,7 @@ class ParametersLegendView < UIView
   ColorRM = 3
 
   def initialize(parameters)
-    initWithFrame CGRectMake(0, 0, 0, parameters.count * 25 + 10)
+    initWithFrame CGRectMake(0, 0, 0, parameters.count * ItemFH + ContentTM + ContentTP + ContentBM)
     
     self.content = UIView.alloc.initWithFrame(CGRectMake(ContentHM, ContentTM, UIScreen.mainScreen.bounds.width - ContentHM*2, frame.height))
     addSubview(content)
@@ -41,7 +42,7 @@ class ParametersLegendView < UIView
     options = {containerHM:0, containerTM:ContentTP, viewFH:ItemFH}
     viewsBottomEdge = ES.alignBlockViews content.subviews.select(&Item), inContainer:content, withOptions:options
     content.frame = CGRectMake(content.frame.x, content.frame.y, content.frame.width, viewsBottomEdge)
-    self.frame = CGRectMake(frame.x, frame.y, frame.width, content.frame.height + ContentTM)
+    self.frame = CGRectMake(frame.x, frame.y, frame.width, content.frame.height + ContentTM + ContentBM)
   end
   
   class Item < UIView
