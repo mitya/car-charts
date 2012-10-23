@@ -26,7 +26,7 @@ class AppDelegate
       nav.toolbar.barStyle = UIBarStyleBlack
       nav
     }
-    tabControllers[2].viewControllers = tabControllers[2].viewControllers + [IndexedModelsController.new(Model.all)]
+    tabControllers[3].viewControllers = tabControllers[3].viewControllers + [IndexedModelsController.new(Model.all)]
     tabBarController = UITabBarController.new
     tabBarController.delegate = self
     tabBarController.viewControllers = tabControllers

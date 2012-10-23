@@ -88,8 +88,8 @@ class UITableViewCell
 end
 
 class UIView
-  def xdBorder
-    ES.setDevBorder(self)
+  def xdBorder(color = UIColor.redColor)
+    ES.setDevBorder(self, color)
   end
 end
 

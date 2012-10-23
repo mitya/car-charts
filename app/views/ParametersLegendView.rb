@@ -1,60 +1,47 @@
 class ParametersLegendView < UIView
-  attr_accessor :parameters
+  attr_accessor :parameters, :content
 
-  ContainerVM = 10
-  ContainerHM = 10
-  ItemFS = 14.0
+  ContentTM = 8
+  ContentTP = 16
+  ContentHM = 5
+  ItemFS = 13.0
   ItemH = ESLineHeightFromFontSize(ItemFS)
-  ItemVM = 2
+  ItemVM = 1
   ItemRM = ItemFS / 2
   ItemFH = ItemH + ItemVM
-  ColorH = ItemH * 0.9
-  ColorW = ColorH * 1.5
+  ColorH = ItemH * 1.0
+  ColorW = ColorH * 3
   ColorRM = 3
 
   def initialize(parameters)
     initWithFrame CGRectMake(0, 0, 0, parameters.count * 25 + 10)
     
+    self.content = UIView.alloc.initWithFrame(CGRectMake(ContentHM, ContentTM, UIScreen.mainScreen.bounds.width - ContentHM*2, frame.height))
+    addSubview(content)
+
+    topBorder = CALayer.layer
+    topBorder.frame = CGRectMake(0, 0, content.frame.width, 1)
+    topBorder.backgroundColor = ES.separatorColor.CGColor
+    content.layer.addSublayer(topBorder)
+
     self.parameters = parameters
     self.backgroundColor = UIColor.whiteColor
-
-    layer.borderColor = ES.separatorColor.CGColor
-    layer.borderWidth = 1.0
-    layer.cornerRadius = 10
-    layer.masksToBounds = true
   end
   
   def parameters=(array)
     @parameters = array
 
-    subviews.each { |view| view.removeFromSuperview }
-    @parameters.each_with_index { |param, index| addSubview Item.new(param, index) }
+    @content.subviews.each { |view| view.removeFromSuperview }
+    @parameters.each_with_index { |param, index| @content.addSubview Item.new(param, index) }
 
     setNeedsDisplay
   end
   
   def drawRect(rect)
-    rows = [[]]
-    x, y = ContainerHM, ContainerVM
-    subviews.select(&Item).each_with_index do |item, index|
-      item.sizeToFit
-      fitsInRow = x + item.bounds.width + ItemRM <= bounds.width - ContainerHM
-      if !fitsInRow
-        x, y = ContainerHM, y + ItemFH 
-        rows << []
-      end
-      item.frame = CGRectMake(x, y, item.bounds.width, item.bounds.height)
-      rows.last << item
-      x += item.bounds.width + ItemRM
-    end
-    
-    rows.each do |row|
-      rowWidth = row.reduce(0) { |width, item| width + item.bounds.width } + ItemRM * (row.count - 1)
-      spacing = (bounds.width - ContainerHM * 2 - rowWidth) / row.count
-      row.each_with_index { |item, index| item.frame = CGRectOffset(item.frame, index * spacing + spacing * 0.5, 0) }
-    end
-    
-    self.frame = CGRectMake(frame.x, frame.y, frame.width, y + ItemFH + ContainerVM)
+    options = {containerHM:0, containerTM:ContentTP, viewFH:ItemFH}
+    viewsBottomEdge = ES.alignBlockViews content.subviews.select(&Item), inContainer:content, withOptions:options
+    content.frame = CGRectMake(content.frame.x, content.frame.y, content.frame.width, viewsBottomEdge)
+    self.frame = CGRectMake(frame.x, frame.y, frame.width, content.frame.height + ContentTM)
   end
   
   class Item < UIView

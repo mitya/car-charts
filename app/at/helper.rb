@@ -84,6 +84,51 @@ class Helper
       end      
     end
     
+    def alignInlineViews(views, inContainer:container, withOptions:options)
+      rows = [[]]
+      x, y = options[:containerHM], options[:containerVM]
+
+      # combine views into rows
+      views.each_with_index do |view, index|
+        view.sizeToFit
+        if x + view.bounds.width + options[:viewRM] > container.bounds.width - options[:containerHM] # doesn't fit in a row
+          x, y = options[:containerHM], y + options[:viewFH] 
+          rows << []
+        end
+        view.frame = CGRectMake(x, y, view.bounds.width, view.bounds.height)
+        rows.last << view
+        x += view.bounds.width + options[:viewRM]
+      end
+      
+      # distribute views inside rows
+      rows.each do |row|
+        rowWidth = row.reduce(0) { |width, view| width + view.bounds.width } + options[:viewRM] * (row.count - 1)
+        spacing = (container.bounds.width - options[:containerHM] * 2 - rowWidth) / row.count
+        row.each_with_index { |view, index| view.frame = CGRectOffset(view.frame, index * spacing + spacing * 0.5, 0) }
+      end
+      
+      return y + options[:viewFH] + options[:containerVM] # views bottom edge
+    end
+    
+    def alignBlockViews(views, inContainer:container, withOptions:options)
+      y = options[:containerTM]
+
+      views.each do |view|
+        view.sizeToFit
+        view.frame = CGRectMake(view.bounds.x + options[:containerHM], y, view.bounds.width, view.bounds.height)
+        y += options[:viewFH]
+      end
+      
+      return y
+    end
+    
+    def setRoundedCornersForView(view, withRadius:radius, width:width, color:color)
+      view.layer.borderColor = color.CGColor
+      view.layer.borderWidth = width
+      view.layer.cornerRadius = radius
+      view.layer.masksToBounds = true     
+    end
+    
     def strokeRect(rect, inContext:context, withColor:color)
       colorize(color).setStroke if color
       CGContextStrokeRect(context, rect)
@@ -133,9 +178,9 @@ class Helper
       view.layer.masksToBounds = true
     end  
   
-    def setDevBorder(view)
-      view.layer.borderColor = UIColor.redColor.CGColor
-      view.layer.borderWidth = 0.5
+    def setDevBorder(view, color = UIColor.redColor)
+      view.layer.borderColor = colorize(color).CGColor
+      view.layer.borderWidth = 1
       # view.layer.cornerRadius = 8
       # view.layer.masksToBounds = true    
     end    
