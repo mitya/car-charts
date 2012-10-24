@@ -1,5 +1,10 @@
-class ChartController < UITableViewController
-  attr_accessor :mods, :params, :comparision, :data, :settingsNavigationController
+class ChartController < UIViewController
+  attr_accessor :mods, :params, :comparision, :data, :settingsNavigationController, :tableView, :fsButton, :fsSettingsButton
+
+  def init
+    initialize
+    self
+  end
 
   def initialize
     self.title = "CarCharts"
@@ -8,6 +13,13 @@ class ChartController < UITableViewController
 
   def viewDidLoad
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
+
+    # setupTableViewWithStyle(UITableViewStylePlain)
+
+    self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height), style: UITableViewStylePlain
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
+    tableView.dataSource = tableView.delegate = self
+    view.addSubview tableView    
 
     tableView.rowHeight = 25
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone
@@ -20,6 +32,18 @@ class ChartController < UITableViewController
     # segmentedControl.insertSegmentWithImage UIImage.imageNamed("ico-bbi-weight"), atIndex:0, animated:NO
     # segmentedControl.addTarget self, action:'settingsSegmentTouched:', forControlEvents:UIControlEventValueChanged
     # navigationItem.rightBarButtonItem = ES.customBBI(segmentedControl)
+
+    fsExpandButton = UIButton.alloc.initWithFrame(CGRectMake(0, 0, 20, 20))
+    fsExpandButton.setBackgroundImage UIImage.imageNamed('ico-bbi-fs-expand'), forState:UIControlStateNormal
+    fsExpandButton.addTarget self, action:'enterFullScreenMode', forControlEvents:UIControlEventTouchUpInside
+    fsExpandButton.showsTouchWhenHighlighted = YES
+
+    navigationItem.rightBarButtonItems = [
+      # ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil),      
+      # ES.imageBBI('ico-bbi-fs-expand', style:UIBarButtonItemStyleBordered, target:self, action:'enterFullScreenMode'),
+      ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = 5 },
+      ES.customBBI(fsExpandButton),
+    ]
     
     # navigationItem.rightBarButtonItems = [
     #   ES.imageBBI('ico-bbi-gears', style:UIBarButtonItemStyleBordered, target:self, action:'showCars'),
@@ -131,6 +155,35 @@ class ChartController < UITableViewController
   # def closeSettings
   #   dismissModalViewControllerAnimated true
   # end
+  
+  def showSettings
+    tabBarController.selectedIndex = 1
+  end
+
+  def showFullScreenSettings
+    tabBarController.setTabBarHidden(NO, animated:NO)
+    tabBarController.selectedIndex = ES.app.previousTabIndex      
+  end
+  
+  def returnFromFullScreenSettings
+    tabBarController.setTabBarHidden(YES, animated:YES)
+  end
+
+  def toggleFullScreenMode(shouldSwitchOn)
+    UIApplication.sharedApplication.setStatusBarHidden(shouldSwitchOn, animated:YES)
+    navigationController.setNavigationBarHidden(shouldSwitchOn, animated:YES)
+    tabBarController.setTabBarHidden(shouldSwitchOn, animated:YES)
+    fsButton.hidden = !shouldSwitchOn
+    fsSettingsButton.hidden = !shouldSwitchOn
+  end
+
+  def enterFullScreenMode
+    toggleFullScreenMode(true)
+  end
+  
+  def exitFullScreenMode
+    toggleFullScreenMode(false)
+  end
 
   ####
 
@@ -143,10 +196,28 @@ class ChartController < UITableViewController
     end
     ES.tableViewPlaceholder(text, view.bounds.rectWithHorizMargins(15))
   end
+  
+  def fsButton
+    @fsButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 30 - 5, 5, 30, 30)).tap do |button|
+      button.backgroundColor = UIColor.blackColor    
+      button.setImage UIImage.imageNamed("ico-bbi-fs-shrink"), forState:UIControlStateNormal
+      button.alpha = 0.4
+      button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)
+      button.showsTouchWhenHighlighted = true
+      button.addTarget self, action:'exitFullScreenMode', forControlEvents:UIControlEventTouchUpInside
+      view.addSubview(button)
+    end    
+  end
+  
+  def fsSettingsButton
+    @fsSettingsButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 30 - 5, view.bounds.height - 35, 30, 30)).tap do |button|
+      button.backgroundColor = UIColor.blackColor    
+      button.setImage UIImage.imageNamed("ico-bbi-gears"), forState:UIControlStateNormal
+      button.alpha = 0.4
+      button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)
+      button.showsTouchWhenHighlighted = true
+      button.addTarget self, action:'showFullScreenSettings', forControlEvents:UIControlEventTouchUpInside
+      view.addSubview(button)
+    end    
+  end
 end
-
-# class ChartTabStubController < UITableViewController  
-#   def initialize
-#     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-car"), tag:0)
-#   end
-# end

@@ -133,6 +133,13 @@ class Helper
       colorize(color).setStroke if color
       CGContextStrokeRect(context, rect)
     end
+    
+    def animateWithDuration(duration)
+      UIView.beginAnimations(nil, context:NULL)
+      UIView.setAnimationDuration(duration)
+      yield
+      UIView.commitAnimations      
+    end
   end
   
   module Device

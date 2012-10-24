@@ -1,5 +1,5 @@
 class AppDelegate
-  attr_accessor :window, :navigationController
+  attr_accessor :window, :navigationController, :previousTabIndex
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
@@ -18,15 +18,22 @@ class AppDelegate
     # controller = ModController.new(Mod.modForKey("volvo v70 2009-2011 wagon 2.5i-200ps-MT-FWD"))
     # navigationController.pushViewController controller, animated:NO if defined?(controller)
 
-    tabControllers = [ChartController.new, ParametersController.new, RecentModsController.new, CarsController.new, ModSetsController.new]
+    # UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleBlackTranslucent
+
+
+    tabControllers = [ChartController.new, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
     tabControllers.map! { |ctl| 
+      # ctl.hidesBottomBarWhenPushed = YES if ChartController === ctl 
+      # ctl.wantsFullScreenLayout = YES if ChartController === ctl 
       nav = UINavigationController.alloc.initWithRootViewController(ctl)
       nav.delegate = self
       nav.navigationBar.barStyle = UIBarStyleBlack
+      # nav.navigationBar.translucent = true
       nav.toolbar.barStyle = UIBarStyleBlack
+      # nav.toolbar.translucent = true
       nav
     }
-    tabControllers[3].viewControllers = tabControllers[3].viewControllers + [IndexedModelsController.new(Model.all)]
+    tabControllers[2].viewControllers = tabControllers[2].viewControllers + [IndexedModelsController.new(Model.all)]
     tabBarController = UITabBarController.new
     tabBarController.delegate = self
     tabBarController.viewControllers = tabControllers
@@ -79,6 +86,17 @@ class AppDelegate
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
+  end
+
+  def tabBarController(tabBarController, didSelectViewController:viewController)
+    if UINavigationController === viewController && ChartController === viewController.topViewController
+      viewController.topViewController.returnFromFullScreenSettings if UIApplication.sharedApplication.isStatusBarHidden
+    end
+    @previousTabIndex = tabBarController.selectedIndex unless tabBarController.selectedIndex == 0
+  end
+  
+  def previousTabIndex
+    @previousTabIndex || 1
   end
 
   ####
@@ -141,7 +159,7 @@ class AppDelegate
   #   end
   #   sqlite3_close(db)
   # end
-  
+    
   ####
   
   def recoverAfterCrash

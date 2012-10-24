@@ -87,9 +87,29 @@ class UITableViewCell
   end
 end
 
+class UITabBarController
+  def setTabBarHidden(hidden, animated:animated)
+    duration = animated ? 0.2 : 0
+    contentHeight = hidden ? 480 : 431 # 271
+    ES.animateWithDuration(duration) do
+      view.subviews.each do |view|
+        if view.isKindOfClass(UITabBar)
+          view.frame = CGRectMake(view.frame.origin.x, contentHeight, view.frame.size.width, view.frame.size.height)
+        else 
+          view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, contentHeight)
+        end
+      end      
+    end    
+  end
+end
+
 class UIView
   def xdBorder(color = UIColor.redColor)
     ES.setDevBorder(self, color)
+  end
+  
+  def setRoundedCornersWithRadius(radius, width:width, color:color)
+    ES.setRoundedCornersForView(self, withRadius:radius, width:width, color:color)
   end
 end
 

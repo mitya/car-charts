@@ -111,7 +111,7 @@ task :icon_from_svg do
 end
 
 task :bbicon do
-  input = ENV['in']
+  input = ENV['in'] # || "assets/ico-gears.svg"  
   system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input.gsub('.png', 'BB@2x.png')}"
 end
 

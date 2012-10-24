@@ -12,8 +12,7 @@ class ModsController < UIViewController
     
     self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height), style: UITableViewStylePlain
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
-    tableView.dataSource = self
-    tableView.delegate = self
+    tableView.dataSource = tableView.delegate = self
     view.addSubview tableView
     
     applyFilter
