@@ -1,5 +1,5 @@
 class AppDelegate
-  attr_accessor :window, :navigationController, :previousTabIndex
+  attr_accessor :window, :tabBarController
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
@@ -10,39 +10,27 @@ class AppDelegate
 
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
-    # self.navigationController = UINavigationController.alloc.initWithRootViewController(ChartController.alloc.init)
-    # navigationController.delegate = self
-
-    # controller = ModsController.new(Model.modelForKey("ford--focus"))
-    # controller = IndexedModelsController.new(Model.modelsForCategoryKey("C"))
-    # controller = ModController.new(Mod.modForKey("volvo v70 2009-2011 wagon 2.5i-200ps-MT-FWD"))
-    # navigationController.pushViewController controller, animated:NO if defined?(controller)
-
-    # UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleBlackTranslucent
-
-
-    tabControllers = [ChartController.new, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
-    tabControllers.map! { |ctl| 
-      # ctl.hidesBottomBarWhenPushed = YES if ChartController === ctl 
-      # ctl.wantsFullScreenLayout = YES if ChartController === ctl 
-      nav = UINavigationController.alloc.initWithRootViewController(ctl)
-      nav.delegate = self
-      nav.navigationBar.barStyle = UIBarStyleBlack
-      # nav.navigationBar.translucent = true
-      nav.toolbar.barStyle = UIBarStyleBlack
-      # nav.toolbar.translucent = true
-      nav
-    }
-    tabControllers[2].viewControllers = tabControllers[2].viewControllers + [IndexedModelsController.new(Model.all)]
-    tabBarController = UITabBarController.new
-    tabBarController.delegate = self
-    tabBarController.viewControllers = tabControllers
-    tabBarController.selectedIndex = 0
+    self.tabBarController ||= UITabBarController.new.tap do |tbc|
+      rootController = [ChartController.new, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
+      tabControllers = rootController.map do |ctl|
+        nav = UINavigationController.alloc.initWithRootViewController(ctl)
+        nav.delegate = self
+        nav.navigationBar.barStyle = UIBarStyleBlack
+        nav.toolbar.barStyle = UIBarStyleBlack
+        nav.viewControllers = nav.viewControllers + [IndexedModelsController.new(Model.all)] if CarsController === nav.topViewController
+        nav
+      end
+      
+      tbc.delegate = self
+      tbc.selectedIndex = 0
+      tbc.viewControllers = tabControllers
+    end
         
-    self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    window.backgroundColor = UIColor.whiteColor
-    window.rootViewController = tabBarController # navigationController
-    window.makeKeyAndVisible
+    self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap do |window|
+      window.backgroundColor = UIColor.whiteColor
+      window.rootViewController = tabBarController
+      window.makeKeyAndVisible
+    end
     
     true
   end
@@ -88,17 +76,6 @@ class AppDelegate
     navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
   end
 
-  def tabBarController(tabBarController, didSelectViewController:viewController)
-    if UINavigationController === viewController && ChartController === viewController.topViewController
-      viewController.topViewController.returnFromFullScreenSettings if UIApplication.sharedApplication.isStatusBarHidden
-    end
-    @previousTabIndex = tabBarController.selectedIndex unless tabBarController.selectedIndex == 0
-  end
-  
-  def previousTabIndex
-    @previousTabIndex || 1
-  end
-
   ####
 
   def staticContext
@@ -142,24 +119,7 @@ class AppDelegate
   def saveObjectContext(context = userContext)
     context.save(NULL)
   end
-  
-  # def testSQL
-  #   db = Pointer.new(:object)
-  #   dbPath = NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite")
-  #   
-  #   if sqlite3_open(dbPath.UTF8String, db) == SQLITE_OK
-  #     sqlStatement = "select zmodel_title from zmod limit 20".UTF8String
-  #     compiledStatement = Pointer.new(:object)
-  #     if sqlite3_prepare_v2(db, sqlStatement, -1, compiledStatement, NULL) == SQLITE_OK
-  #       while sqlite3_step(compiledStatement) == SQLITE_ROW
-  #         p NSString.stringWithUTF8String(sqlite3_column_text(compiledStatement, 1))
-  #       end
-  #     end
-  #     sqlite3_finalize(compiledStatement)
-  #   end
-  #   sqlite3_close(db)
-  # end
-    
+
   ####
   
   def recoverAfterCrash

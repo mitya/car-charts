@@ -2,7 +2,7 @@ class ParametersController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   
   def initialize
-    self.title = "Select Parameters"
+    self.title = "Parameters"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Parameters", image:UIImage.imageNamed("ico-tbi-weight"), tag:1)
   end
 

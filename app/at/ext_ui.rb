@@ -59,6 +59,21 @@ class UITableViewController
   end  
 end
 
+class UIViewController
+  def self.new(*args)
+    alloc.init.tap { |this| this.send(:initialize, *args) if this.respond_to?(:initialize, true) }
+  end
+
+  def setupTableViewWithStyle(tableViewStyle)
+    tableView = UITableView.alloc.initWithFrame(view.bounds, style:tableViewStyle)
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
+    tableView.dataSource = self
+    tableView.delegate = self
+    view.addSubview(tableView)
+    tableView
+  end
+end
+
 class UITableView
   def dequeueReusableCell(options = nil)
     klass = options && options[:klass] || UITableViewCell

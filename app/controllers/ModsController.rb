@@ -2,21 +2,15 @@ class ModsController < UIViewController
   attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
 
   def initialize(model = nil)
-    init
     @model = model
   end
 
   def viewDidLoad
     self.title = model.name
     self.mods = model.mods
-    
-    self.tableView = UITableView.alloc.initWithFrame CGRectMake(0, 0, view.bounds.width, view.bounds.height), style: UITableViewStylePlain
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
-    tableView.dataSource = tableView.delegate = self
-    view.addSubview tableView
+    self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
     
     applyFilter
-
     self.toolbarItems = toolbarItemsForFilter.presence    
   end
   
