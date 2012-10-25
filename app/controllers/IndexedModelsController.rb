@@ -1,4 +1,6 @@
 class IndexedModelsController < UITableViewController
+  attr_accessor :searchBar, :searchController
+  
   def initialize(models)
     @initialModels = models
     self.title = "All Models"
@@ -13,15 +15,17 @@ class IndexedModelsController < UITableViewController
     @modelsIndex = @initialModelsIndex
     @brands = @initialBrands
     
-    @searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44))
-    @searchBar.autocorrectionType = UITextAutocorrectionTypeNo
-    @searchBar.placeholder = "Search"
-    @searchBar.delegate = self
-    tableView.tableHeaderView = @searchBar
-    tableView.addSubview ES.grayTableViewTop
+    self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44)).tap do |searchBar|
+      searchBar.autocorrectionType = UITextAutocorrectionTypeNo
+      searchBar.placeholder = "Search"
+      searchBar.delegate = self
+      tableView.tableHeaderView = searchBar
+      tableView.addSubview ES.grayTableViewTop
+    end
     
-    @searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self)
-    @searchController.delegate = @searchController.searchResultsDataSource = @searchController.searchResultsDelegate = self    
+    self.searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self).tap do |sc|
+      sc.delegate = sc.searchResultsDataSource = sc.searchResultsDelegate = self
+    end
     
     navigationItem.backBarButtonItem = ES.textBBI("Back")    
   end

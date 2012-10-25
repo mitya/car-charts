@@ -1,5 +1,6 @@
 class ModelsController < UITableViewController
   attr_accessor :category
+  attr_accessor :searchBar, :searchController
   
   def initialize(models)
     @initialModels = models
@@ -9,16 +10,18 @@ class ModelsController < UITableViewController
   def viewDidLoad
     @filteredModels = @initialModels
     
-    @searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44))
-    @searchBar.autocorrectionType = UITextAutocorrectionTypeNo
-    @searchBar.placeholder = "Search"
-    @searchBar.delegate = self
-    tableView.tableHeaderView = @searchBar
-    tableView.contentOffset = CGPointMake(0, @searchBar.frame.height)
-    tableView.addSubview ES.grayTableViewTop
+    self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44)).tap do |searchBar|
+      searchBar.autocorrectionType = UITextAutocorrectionTypeNo
+      searchBar.placeholder = "Search"
+      searchBar.delegate = self
+      tableView.tableHeaderView = searchBar
+      tableView.contentOffset = CGPointMake(0, searchBar.frame.height)
+      tableView.addSubview ES.grayTableViewTop
+    end
     
-    @searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self)
-    @searchController.delegate = @searchController.searchResultsDataSource = @searchController.searchResultsDelegate = self    
+    self.searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self).tap do |sc|
+      sc.delegate = sc.searchResultsDataSource = sc.searchResultsDelegate = self
+    end
     
     navigationItem.backBarButtonItem = ES.textBBI("Back")
   end

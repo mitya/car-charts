@@ -6,9 +6,6 @@ class ParametersController < UITableViewController
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Parameters", image:UIImage.imageNamed("ico-tbi-weight"), tag:1)
   end
 
-  def viewDidLoad
-  end
-
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end

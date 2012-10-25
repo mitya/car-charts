@@ -1,5 +1,6 @@
 class ChartController < UIViewController
-  attr_accessor :mods, :params, :comparision, :data, :settingsNavigationController, :tableView, :exitFullScreenModeButton, :fsSettingsButton
+  attr_accessor :mods, :params, :comparision, :data
+  attr_accessor :tableView, :enterFullScreenModeButton, :exitFullScreenModeButton, :placeholderView
 
   def initialize
     self.title = "CarCharts"
@@ -14,7 +15,7 @@ class ChartController < UIViewController
       tableView.separatorStyle = UITableViewCellSeparatorStyleNone      
     end
     
-    enterFullScreenModeButton = UIButton.alloc.initWithFrame(CGRectMake(0, 0, 20, 20)).tap do |button|
+    self.enterFullScreenModeButton = UIButton.alloc.initWithFrame(CGRectMake(0, 0, 20, 20)).tap do |button|
       button.setBackgroundImage UIImage.imageNamed('ico-bbi-fs-expand'), forState:UIControlStateNormal
       button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
       button.showsTouchWhenHighlighted = YES      
@@ -32,13 +33,13 @@ class ChartController < UIViewController
     
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
     tableView.reloadData
-    tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
-
-    if @comparision.incomplete?
-      view.addSubview(@placeholderView ||= placeholderView)
-      tableView.tableFooterView.hidden = true
+    
+    if @comparision.complete?
+      placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
+      tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
     else
-      @placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
+      view.addSubview(placeholderView)
+      tableView.tableFooterView = nil
     end
   end
 
@@ -96,13 +97,15 @@ class ChartController < UIViewController
   ####
 
   def placeholderView
-    text = if $lastLaunchDidFail
-      $lastLaunchDidFail = nil
-      "Something weird happened, the parameters and models were reset. Sorry :("
-    else
-      "Select some cars and parameters to compare"
+    @placeholderView ||= begin
+      text = if $lastLaunchDidFail
+        $lastLaunchDidFail = nil
+        "Something weird happened, the parameters and models were reset. Sorry :("
+      else
+        "Select some cars and parameters to compare"
+      end
+      ES.tableViewPlaceholder(text, view.bounds.rectWithHorizMargins(15))
     end
-    ES.tableViewPlaceholder(text, view.bounds.rectWithHorizMargins(15))
   end
   
   def exitFullScreenModeButton

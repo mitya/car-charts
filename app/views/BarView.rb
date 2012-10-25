@@ -2,8 +2,8 @@ class BarTableViewCell < UITableViewCell
   attr_accessor :barView
   attr_delegated 'barView', :comparisionItem
   
-  def initWithStyle(style, reuseIdentifier:reuseIdentifier)
-    super UITableViewCellStyleDefault, reuseIdentifier:reuseIdentifier
+  def initWithStyle(style, reuseIdentifier:identifier)
+    super UITableViewCellStyleValue1, reuseIdentifier:identifier
     self.barView = BarView.alloc.initWithFrame(CGRectMake(0, 0, contentView.bounds.width, contentView.bounds.height))
     self.barView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
     self.contentView.addSubview barView
@@ -36,8 +36,7 @@ class BarView < UIView
   def initWithFrame(frame)
     super
     self.opaque = true
-    # self.backgroundColor = ES.patternColor("bg-chart")
-    self.backgroundColor = UIColor.whiteColor
+    self.backgroundColor = UIColor.whiteColor # ES.patternColor("bg-chart")
     self
   end
 

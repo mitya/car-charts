@@ -52,6 +52,10 @@ class Comparision
   def incomplete?
     mods.empty? || params.empty?
   end
+  
+  def complete?
+    !incomplete?
+  end
 end
 
 class ComparisionItem

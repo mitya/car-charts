@@ -3,16 +3,18 @@ class DSMultisegmentView < UIView
   
   def init
     super
+    
     self.backgroundColor = UIColor.clearColor
     self.segmentButtons = []
     self.segmentHandlers = {}
 
     UIDevice.currentDevice.beginGeneratingDeviceOrientationNotifications
-    NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', name:UIApplicationDidChangeStatusBarOrientationNotification, object:nil
+    NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', name:UIApplicationDidChangeStatusBarOrientationNotification, object:NIL
 
-    tapRecognizer = UITapGestureRecognizer.alloc.initWithTarget(self, action:'tapRecognized:')
-    tapRecognizer.delegate = self
-    addGestureRecognizer tapRecognizer
+    tapRecognizer = UITapGestureRecognizer.alloc.initWithTarget(self, action:'tapRecognized:').tap do |recognizer|
+      recognizer.delegate = self
+      addGestureRecognizer(recognizer)
+    end
     
     self
   end
@@ -30,8 +32,9 @@ class DSMultisegmentView < UIView
 
     segmentHandlers[button] = handler
     segmentButtons << button
-    addSubview button
-    relayoutButtons
+    addSubview(button)
+    
+    setNeedsLayout
   end
   
   def segmentButtonDown(button)
@@ -58,8 +61,10 @@ class DSMultisegmentView < UIView
   end
   
   def orientationChanged(notification)
-    relayoutButtons
+    setNeedsLayout
   end
+
+  ###
   
   def active?
     segmentButtons.any? { |b| b.isSelected }
@@ -87,16 +92,21 @@ class DSMultisegmentView < UIView
     end    
   end
   
-  def relayoutButtons
+  def layoutSubviews
+    super
+    
     dim = self.class.buttonDimensions[ES.orientationKey]
     
     segmentButtons.each_with_index do |button, index|
       button.frame = CGRectMake(dim.margin + index * (dim.width + dim.spacing), (dim.barHeight - dim.height) / 2 + 1, dim.width, dim.height)
     end
     self.frame = CGRectMake(0, 0, segmentButtons.count * (dim.width + dim.spacing), dim.barHeight)
-
+  end
+  
+  def drawRect(rect)
+    super
     reapplyButtonBackgrounds
-  end    
+  end
   
   class ButtonDimensions
     attr_reader :width, :height, :margin, :spacing, :barHeight

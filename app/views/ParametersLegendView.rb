@@ -17,13 +17,15 @@ class ParametersLegendView < UIView
   def initialize(parameters)
     initWithFrame CGRectMake(0, 0, 0, parameters.count * ItemFH + ContentTM + ContentTP + ContentBM)
     
-    self.content = UIView.alloc.initWithFrame(CGRectMake(ContentHM, ContentTM, UIScreen.mainScreen.bounds.width - ContentHM*2, frame.height))
-    addSubview(content)
+    self.content = UIView.alloc.initWithFrame([[ContentHM, ContentTM], [UIScreen.mainScreen.bounds.width - ContentHM * 2, frame.height]]).tap do |view|
+      addSubview(view)
+    end
 
-    topBorder = CALayer.layer
-    topBorder.frame = CGRectMake(0, 0, content.frame.width, 1)
-    topBorder.backgroundColor = ES.separatorColor.CGColor
-    content.layer.addSublayer(topBorder)
+    CALayer.layer.tap do |topBorder|
+      topBorder.frame = CGRectMake(0, 0, content.frame.width, 1)
+      topBorder.backgroundColor = ES.separatorColor.CGColor
+      content.layer.addSublayer(topBorder)
+    end
 
     self.parameters = parameters
     self.backgroundColor = UIColor.whiteColor
@@ -35,10 +37,11 @@ class ParametersLegendView < UIView
     @content.subviews.each { |view| view.removeFromSuperview }
     @parameters.each_with_index { |param, index| @content.addSubview Item.new(param, index) }
 
-    setNeedsDisplay
+    setNeedsLayout
   end
   
-  def drawRect(rect)
+  def layoutSubviews    
+    super
     options = {containerHM:0, containerTM:ContentTP, viewFH:ItemFH}
     viewsBottomEdge = ES.alignBlockViews content.subviews.select(&Item), inContainer:content, withOptions:options
     content.frame = CGRectMake(content.frame.x, content.frame.y, content.frame.width, viewsBottomEdge)
@@ -51,8 +54,8 @@ class ParametersLegendView < UIView
     def initialize(param, index)
       initWithFrame CGRectNull
       self.backgroundColor = UIColor.whiteColor
-      @param = param
-      @index = index
+      self.param = param
+      self.index = index
     end
 
     def drawRect(rect)
@@ -60,7 +63,7 @@ class ParametersLegendView < UIView
       colorGradient = BarView.colors[index]
       colorFrame = CGRectMake(0, (ItemH - ColorH) / 2.0, ColorW, ColorH)
       textSize = param.name.sizeWithFont(textFont)
-      textFrame  = CGRectMake(ColorW + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
+      textFrame = CGRectMake(ColorW + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
       ES.drawRect colorFrame, inContext:context, withGradientColors:colorGradient, cornerRadius:3
       ES.drawString param.name, inRect:textFrame, withColor:UIColor.darkGrayColor, font:textFont, alignment:UITextAlignmentLeft
     end
