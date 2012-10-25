@@ -10,13 +10,16 @@ class ModsController < UIViewController
     self.mods = model.mods
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
     
-    applyFilter
+    self.applyFilter
     self.toolbarItems = toolbarItemsForFilter.presence    
+    self.navigationItem.backBarButtonItem = ES.textBBI("Versions")
   end
   
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
+  
+  ####
   
   def numberOfSectionsInTableView(tv)
     @modsByBody.count > 0 ? @modsByBody.count : 1
@@ -24,13 +27,11 @@ class ModsController < UIViewController
 
   def tableView(tv, numberOfRowsInSection:section)
     return 0 if section >= @modsByBody.count
-    bodyKey = modsByBody.keys[section]
-    @modsByBody[bodyKey].count
+    @modsByBody[ modsByBody.keys[section] ].count
   end
 
   def tableView(tv, titleForHeaderInSection:section)
-    bodyKey = modsByBody.keys[section]
-    Metadata.bodyNames[bodyKey]
+    Metadata.bodyNames[ modsByBody.keys[section] ]
   end
 
   def tableView(tv, titleForFooterInSection:section)
@@ -45,8 +46,7 @@ class ModsController < UIViewController
   end
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
-    bodyKey = modsByBody.keys[indexPath.section]
-    mod = modsByBody[bodyKey][indexPath.row]
+    mod = modsByBody.objectForIndexPath(indexPath)
 
     cell = tv.dequeueReusableCell(klass: DSCheckmarkCell) do |cell|
       cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
@@ -61,12 +61,16 @@ class ModsController < UIViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tv.deselectRowAtIndexPath(indexPath, animated:YES)
 
-    bodyKey = modsByBody.keys[indexPath.section]
-    mod = modsByBody[bodyKey][indexPath.row]
-    Disk.toggleModInCurrentList(mod)
+    mod = modsByBody.objectForIndexPath(indexPath)
+    mod.select!
 
     cell = tv.cellForRowAtIndexPath(indexPath)
     cell.toggleLeftCheckmarkAccessory
+  end
+  
+  def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
+    mod = modsByBody.objectForIndexPath(indexPath)
+    navigationController.pushViewController ModController.new(mod), animated:YES
   end
   
   ####
@@ -90,8 +94,7 @@ class ModsController < UIViewController
   
   def addToModSet(button)
     indexPath = tableView.indexPathForCell(button.superview)
-    bodyKey = modsByBody.keys[indexPath.section]
-    mod = modsByBody[bodyKey][indexPath.row]
+    mod = modsByBody.objectForIndexPath(indexPath)
     # nothing for now
   end
   
@@ -119,5 +122,5 @@ class ModsController < UIViewController
 
     [@transmissionFilter, @bodyFilter, @fuelFilter].compact.map { |filter| ES.customBBI(filter) }.
       arraySeparatedBy(ES.systemBBI(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil))
-  end
+  end  
 end

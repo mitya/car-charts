@@ -35,6 +35,10 @@ class Mod < DSCoreModel
     Disk.currentMods.include?(self)
   end
   
+  def select!
+    Disk.toggleModInCurrentList(self)
+  end
+  
   def fuelSuffix
     fuel == 'i' ? '' : 'd'
   end

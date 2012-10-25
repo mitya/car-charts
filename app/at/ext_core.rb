@@ -112,6 +112,12 @@ class NSDictionary
     each_pair { |key, value| copy[key.to_sym] = value }
     copy
   end  
+  
+  def objectForIndexPath(indexPath)
+    key = keys[indexPath.section]
+    object = self[key][indexPath.row]
+    object
+  end
 end
 
 class NSMutableDictionary
