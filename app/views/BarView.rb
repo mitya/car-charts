@@ -99,7 +99,7 @@ class BarView < UIView
   # ModTitleH = 16
   # ModTitleBM = 0
 
-  TitleLM = 5
+  TitleLM = 4
 
   ModelTitleFS = 15.0
   ModelTitleH = ESLineHeightFromFontSize(ModelTitleFS)
@@ -113,7 +113,7 @@ class BarView < UIView
   BarH = ESLineHeightFromFontSize(BarFS)
   BarFH = BarH + 0
   BarLM = TitleLM
-  BarRM = -2
+  BarRM = 1 # -2
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
 
