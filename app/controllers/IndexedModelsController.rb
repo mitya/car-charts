@@ -26,6 +26,11 @@ class IndexedModelsController < UITableViewController
     navigationItem.backBarButtonItem = ES.textBBI("Back")    
   end
 
+  def viewWillAppear(animated)
+    super
+    tableView.reloadData
+  end
+
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end

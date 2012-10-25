@@ -31,6 +31,10 @@ class Mod < DSCoreModel
     "#{bodyName} #{version_subkey}"
   end
   
+  def selected?
+    Disk.currentMods.include?(self)
+  end
+  
   def fuelSuffix
     fuel == 'i' ? '' : 'd'
   end

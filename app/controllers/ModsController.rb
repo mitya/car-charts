@@ -48,29 +48,25 @@ class ModsController < UIViewController
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
 
-    cell = tv.dequeueReusableCell do |cl|
-      # button = UIButton.alloc.initWithFrame CGRectMake(200, 0, 44, 44)
-      # button.setBackgroundImage ES.capImage("bg-button-blue", 10, 9.5, 10, 9.5), forState:UIControlStateNormal
-      # button.setImage UIImage.imageNamed("ico-bbi-weight"), forState:UIControlStateNormal
-      # button.titleLabel.font = UIFont.systemFontOfSize(11)
-      # button.addTarget self, action:'addToModSet:', forControlEvents:UIControlEventTouchUpInside
-      # button.tag = 1
-      # cl.insertSubview button, atIndex:3
+    cell = tv.dequeueReusableCell(klass: DSCheckmarkCell) do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
     end
+    
+    cell.imageView.image = mod.selected? ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
+    cell.textLabel.textColor = mod.selected? ? ES.hsb(220, 60, 50) : UIColor.darkTextColor
     cell.textLabel.text = mod.nameWithVersion
-    cell.accessoryType = Disk.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end
 
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
-    tv.deselectRowAtIndexPath(indexPath, animated:true)
+    tv.deselectRowAtIndexPath(indexPath, animated:YES)
 
     bodyKey = modsByBody.keys[indexPath.section]
     mod = modsByBody[bodyKey][indexPath.row]
     Disk.toggleModInCurrentList(mod)
 
     cell = tv.cellForRowAtIndexPath(indexPath)
-    cell.toggleCheckmarkAccessory
+    cell.toggleLeftCheckmarkAccessory
   end
   
   ####
