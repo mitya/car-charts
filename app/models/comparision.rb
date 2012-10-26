@@ -46,7 +46,7 @@ class Comparision
   end
   
   def containsOnlyBodyParams?
-    @containsOnlyBodyParams ||= params.all? { |param| Parameter::BodyParameters.containsObject(param.key) } unless defined?(@containsOnlyBodyParams)
+    @containsOnlyBodyParams ||= params.all? { |param| param.appliesToBody? } unless defined?(@containsOnlyBodyParams)
   end
   
   def incomplete?

@@ -13,6 +13,14 @@ class Parameter
     Metadata.parameterUnitNames[unitKey]
   end  
   
+  def long?
+    LongParameters.containsObject(key)
+  end
+  
+  def appliesToBody?
+    BodyParameters.containsObject(key)
+  end
+  
   class << self
     attr_reader :all
 
@@ -39,6 +47,7 @@ class Parameter
   end
   
   BodyParameters = NSSet.setWithArray([:length, :width, :height])
+  LongParameters = NSSet.setWithArray([:consumption_city, :consumption_highway, :consumption_mixed])
 end
 
 # "skoda fabia 2010 hatch_5d 1.6i-105ps-AT-FWD": {

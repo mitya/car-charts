@@ -46,6 +46,12 @@ class UIColor
   end  
 end
 
+class UIFont
+  def inspect
+    "#<#{self.class.name}:'#{fontName}' #{pointSize}/#{lineHeight}>"
+  end
+end
+
 class UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStylePlain
   
