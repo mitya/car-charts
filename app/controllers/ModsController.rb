@@ -53,7 +53,7 @@ class ModsController < UIViewController
     end
     
     cell.imageView.image = mod.selected? ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
-    cell.textLabel.textColor = mod.selected? ? ES.hsb(220, 60, 50) : UIColor.darkTextColor
+    cell.textLabel.textColor = mod.selected? ? ES.checkedTableViewItemColor : UIColor.darkTextColor
     cell.textLabel.text = mod.nameWithVersion
     cell
   end

@@ -238,6 +238,14 @@ class Helper
     def separatorColor
       grayShade(0.8)
     end
+    
+    def tableViewFooterColor
+      ES.rgbf(0.298, 0.337, 0.424)
+    end
+    
+    def checkedTableViewItemColor
+      ES.rgbf(0.22, 0.33, 0.53)
+    end
   end
   
   module Fonts
@@ -273,6 +281,26 @@ class Helper
       placeholder
     end
   
+    def tableViewFooterLabel(text = "")
+      font = UIFont.systemFontOfSize(15)
+      textHeight = text.sizeWithFont(font).height
+      topMargin = 6
+
+      view = UIView.alloc.initWithFrame [[0, 0], [UIScreen.mainScreen.bounds.width, textHeight + topMargin]]
+      label = UILabel.alloc.initWithFrame([[0, topMargin], [view.frame.width, textHeight]]).tap do |label|
+        label.text = text
+        label.backgroundColor = UIColor.clearColor
+        label.font = font
+        label.textColor = ES.tableViewFooterColor
+        label.shadowColor = UIColor.colorWithWhite(1, alpha:1)
+        label.shadowOffset = CGSizeMake(0, 1)
+        label.textAlignment = UITextAlignmentCenter
+        view.addSubview(label)        
+      end
+      
+      view
+    end
+
     def grayTableViewTop
       topview = UIView.alloc.initWithFrame(CGRectMake(0,-480,320,480))
       topview.backgroundColor = ES.rgb(226, 231, 238)    

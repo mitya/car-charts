@@ -94,7 +94,7 @@ class UITableViewCell
   def toggleLeftCheckmarkAccessory
     wasChecked = imageView.image == UIImage.imageNamed("list_checkmark")
     imageView.image = UIImage.imageNamed(wasChecked ? "list_checkmark_stub" : "list_checkmark")
-    textLabel.textColor = wasChecked ? UIColor.darkTextColor : ES.hsb(220, 60, 50)
+    textLabel.textColor = wasChecked ? UIColor.darkTextColor : ES.checkedTableViewItemColor
     wasChecked
   end
   

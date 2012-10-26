@@ -105,7 +105,7 @@ StaticData = {
   parameterUnitNames: {
     kmh: "km/h",
     s: "s",
-    l100km: "L/100 km",
+    l100km: "l/100km",
     cc: "cc",
     count: "",
     value: "",

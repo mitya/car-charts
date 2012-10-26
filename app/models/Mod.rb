@@ -10,6 +10,10 @@ class Mod < DSCoreModel
   def basicName
     "#{engine_vol}#{fuelSuffix}#{compressorSuffix} #{power}ps #{transmission}"
   end
+
+  def basicNameWithPunctuation
+    "#{engine_vol}l#{fuelSuffix}#{compressorSuffix} #{power}ps #{transmission}"
+  end
   
   def nameWithVersion
     !version_subkey.blank? ? "#{basicName}, #{version_subkey}" : basicName

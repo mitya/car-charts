@@ -25,12 +25,18 @@ class AppDelegate
       tbc.selectedIndex = 0
       tbc.viewControllers = tabControllers
     end
-        
+    
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap do |window|
       window.backgroundColor = UIColor.whiteColor
       window.rootViewController = tabBarController
       window.makeKeyAndVisible
     end
+    
+    # controller = ModController.new(Mod.modForKey('bmw 5 2010 sedan 2.0d-218ps-AT-RWD'))
+    # nav = UINavigationController.alloc.initWithRootViewController(controller)
+    # nav.navigationBar.barStyle = UIBarStyleBlack
+    # nav.toolbar.barStyle = UIBarStyleBlack    
+    # window.rootViewController = nav
     
     true
   end
