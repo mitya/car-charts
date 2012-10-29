@@ -32,9 +32,9 @@ class AppDelegate
       window.makeKeyAndVisible
     end
     
-    controller = ModelPhotosController.new(Model.modelForKey('bmw--5'))
-    tabBarController.selectedIndex = 2
-    tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
+    # controller = ModelPhotosController.new(Model.modelForKey('bmw--5'))
+    # tabBarController.selectedIndex = 2
+    # tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
     
     true
   end
