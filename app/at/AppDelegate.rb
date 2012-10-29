@@ -32,11 +32,9 @@ class AppDelegate
       window.makeKeyAndVisible
     end
     
-    # controller = ModController.new(Mod.modForKey('bmw 5 2010 sedan 2.0d-218ps-AT-RWD'))
-    # nav = UINavigationController.alloc.initWithRootViewController(controller)
-    # nav.navigationBar.barStyle = UIBarStyleBlack
-    # nav.toolbar.barStyle = UIBarStyleBlack    
-    # window.rootViewController = nav
+    controller = ModelPhotosController.new(Model.modelForKey('bmw--5'))
+    tabBarController.selectedIndex = 2
+    tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
     
     true
   end
