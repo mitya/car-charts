@@ -45,7 +45,7 @@ class ModController < UITableViewController
       cell = tv.dequeueReusableCell(id: 'Action', style:UITableViewCellStyleDefault) do |cell|
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
         cell.textLabel.text = "Photos"
-        cell.imageView.image = UIImage.imageNamed("google-icon")
+        cell.imageView.image = UIImage.imageNamed("google_icon")
       end  
     else
       parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section] )[indexPath.row]
