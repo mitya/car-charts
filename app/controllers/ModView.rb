@@ -60,7 +60,7 @@ class ModController < UITableViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tv.deselectRowAtIndexPath(indexPath, animated:YES)
     if indexPath.section == systemSectionIndex && indexPath.item == 0
-      navigationController.pushViewController ModelPhotosController.new(mod.model), animated:YES
+      navigationController.pushViewController ModelPhotosController.new(mod.model, mod.year), animated:YES
     end
   end  
 end

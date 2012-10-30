@@ -23,6 +23,10 @@ class Mod < DSCoreModel
     "#{basicName}, #{version}"
   end
   
+  def modelNameWithYear
+    "#{model.name} #{year}"
+  end
+  
   def category
     Metadata[:model_info][model_key][3]
   end
@@ -77,6 +81,11 @@ class Mod < DSCoreModel
   
   def hatch?
     body.start_with?('hatch')
+  end
+
+  def year
+    # @year ||= key.split(' ')[2].split('-').first.to_i
+    @year ||= produced_since.to_s.gsub(/[^\d]/, '').to_i
   end
   
   def [](key)

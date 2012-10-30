@@ -1,9 +1,10 @@
 class ModelPhotosController < UIViewController
-  attr_accessor :model
+  attr_accessor :model, :year
   attr_accessor :webView
   
-  def initialize(model = nil)
+  def initialize(model = nil, year = nil)
     self.model = model
+    self.year = year
     self.hidesBottomBarWhenPushed = YES
   end
   
@@ -19,7 +20,7 @@ class ModelPhotosController < UIViewController
   
   def viewWillAppear(animated)
     super
-    query = model.name.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+    query = "#{model.name} #{year}".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
     path = "http://www.google.com/search?num=10&tbm=isch&q=#{query}"
     url = NSURL.URLWithString(path)
     error = Pointer.new(:object)
