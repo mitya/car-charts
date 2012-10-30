@@ -1,6 +1,6 @@
 class ModelPhotosController < UIViewController
   attr_accessor :model, :year
-  attr_accessor :webView
+  attr_accessor :webView, :goForwardBBI, :goBackBBI, :webViewIsLoaded
   
   def initialize(model = nil, year = nil)
     self.model = model
@@ -10,16 +10,25 @@ class ModelPhotosController < UIViewController
   
   def viewDidLoad
     self.title = "Photos"
+
     self.webView = UIWebView.alloc.initWithFrame(view.bounds).tap do |webView|
       webView.backgroundColor = UIColor.scrollViewTexturedBackgroundColor
-      webView.delegate = self
       webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
       view.addSubview(webView)
     end
+    
+    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
+    navigationItem.hidesBackButton = YES
+    
+    self.goBackBBI = ES.imageBBI("bbi-left", style:UIBarButtonItemStylePlain, target:webView, action:'goBack')
+    self.goForwardBBI = ES.imageBBI("bbi-right", style:UIBarButtonItemStylePlain, target:webView, action:'goForward')    
   end
   
   def viewWillAppear(animated)
     super
+    webView.delegate = self
+    return if webViewIsLoaded
+    
     query = "#{model.name} #{year}".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
     path = "http://www.google.com/search?num=10&tbm=isch&q=#{query}"
     url = NSURL.URLWithString(path)
@@ -40,13 +49,18 @@ class ModelPhotosController < UIViewController
   end
   
   ####
-  
-  # - (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-  #   if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-  #     [[UIApplication sharedApplication] openURL:request.URL];
-  #     return NO;
-  #   }
-  #   return YES;
-  # }
-  
+
+  def close
+    navigationController.popViewControllerAnimated(YES)
+  end
+
+  def webViewDidFinishLoad(webView)
+    self.webViewIsLoaded = true
+    goBackBBI.enabled = webView.canGoBack
+    goForwardBBI.enabled = webView.canGoForward
+    if webView.canGoBack || webView.canGoForward
+      self.toolbarItems ||= [ES.flexibleSpaceBBI, goBackBBI, ES.flexibleSpaceBBI, goForwardBBI, ES.flexibleSpaceBBI]
+      navigationController.setToolbarHidden(NO, animated:YES)
+    end
+  end  
 end

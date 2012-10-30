@@ -58,14 +58,10 @@ def parseHSVGradient(string)
   "#{parseHSV(color1)}-#{parseHSV(color2)}"
 end
 
-def rasterizeSVG(basename, size = 40)
-  system "convert assets/#{basename}.svg -resize #{size}x#{size} resources/tmp/#{basename}@2x.png"
+def rake(task, params = {})
+  params.each { |key, value| ENV[key.to_s] = value }  
+  Rake::Task[task.to_s].invoke
 end
-
-def makeBBIcon(input)
-  system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input}"    
-end
-
 
 ######################################################################################################
 
@@ -102,27 +98,22 @@ end
 
 # convert ico-bar.svg -resize 60x60 ico-bar.png
 # convert ico-bar.png -background white -flatten ico-bar-2.png
-
-task :icon_from_svg do
-  basename, size = ENV['file'], ENV['size'] || 60
-  temp = "resources/tmp/#{basename}@2x.png"
-  system "convert assets/#{basename}.svg -resize #{size}x#{size} #{temp}"
-  system "convert #{temp} #{temp} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{temp}"
+task :svg2png do
+  input, output, size = ENV['in'], ENV['out'], ENV['size'] || 60
+  system "convert -background transparent #{input} -resize #{size}x#{size} #{output}"
 end
 
-task :bbicon do
-  input = ENV['in'] # || "assets/ico-gears.svg"  
-  system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input.gsub('.png', 'BB@2x.png')}"
+# rake bb_icon in=resources/tmp/bbi-back@2x.png
+desc "Converts a B&W PNG icon inplace to the transparent BB icon"
+task :bb_icon do
+  input = ENV['in']
+  system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input}"
 end
 
-task :bbiconrun do
-  rasterizeSVG "ico-gears", 40
-  rasterizeSVG "ico-car", 40
-  rasterizeSVG "ico-weight", 40
-  
-  makeBBIcon "resources/tmp/ico-gears@2x.png"
-  makeBBIcon "resources/tmp/ico-car@2x.png"
-  makeBBIcon "resources/tmp/ico-weight@2x.png"  
+task :main do
+  # run "rake svg2png in=assets/triangle.svg out=resources/tmp/triangle@2x.png size=40"
+  run "rake bb_icon in=resources/tmp/bbi-forward@2x.png"
+  run "rake bb_icon in=resources/tmp/bbi-back@2x.png"
 end
 
 task :cellbutton do

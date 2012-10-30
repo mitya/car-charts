@@ -325,15 +325,19 @@ class Helper
     end
 
     def textBBI(text)
-      textBBI(text, target:NIL, action:NIL)
+      textBBI(text, style:UIBarButtonItemStyleBordered, target:NIL, action:NIL)
     end
   
     def textBBI(text, target:target, action:action)
-      UIBarButtonItem.alloc.initWithTitle(text, style:UIBarButtonItemStyleBordered, target:target, action:action)
+      textBBI(text, style:UIBarButtonItemStyleBordered, target:target, action:action)
     end
 
     def textBBI(text, style:style, target:target, action:action)
       UIBarButtonItem.alloc.initWithTitle(text, style:style, target:target, action:action)
+    end
+    
+    def flexibleSpaceBBI
+      ES.systemBBI(UIBarButtonSystemItemFlexibleSpace)
     end
   
     def segmentedControl(items)

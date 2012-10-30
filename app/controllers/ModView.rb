@@ -19,7 +19,7 @@ class ModController < UITableViewController
   ####
 
   def systemSectionIndex
-    @systemSectionIndex ||= Parameter.groupKeys.count
+    @systemSectionIndex ||= 0
   end
 
   def numberOfSectionsInTableView(tv)
@@ -28,6 +28,7 @@ class ModController < UITableViewController
 
   def tableView(tv, numberOfRowsInSection:section)
     return 1 if section == systemSectionIndex
+    section -= 1
     
     groupKey = Parameter.groupKeys[section]
     Parameter.parametersForGroup(groupKey).count
@@ -35,6 +36,7 @@ class ModController < UITableViewController
 
   def tableView(tv, titleForHeaderInSection:section)
     return nil if section == systemSectionIndex
+    section -= 1    
     
     groupKey = Parameter.groupKeys[section]
     Parameter.nameForGroup(groupKey)
@@ -48,7 +50,7 @@ class ModController < UITableViewController
         cell.imageView.image = UIImage.imageNamed("google_icon")
       end  
     else
-      parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section] )[indexPath.row]
+      parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]
       cell = tv.dequeueReusableCell(style: UITableViewCellStyleValue1) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
       cell.textLabel.text = parameter.name
       cell.textLabel.font = ES.boldFont(parameter.long?? 16.0 : 17.0)
@@ -60,7 +62,13 @@ class ModController < UITableViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tv.deselectRowAtIndexPath(indexPath, animated:YES)
     if indexPath.section == systemSectionIndex && indexPath.item == 0
-      navigationController.pushViewController ModelPhotosController.new(mod.model, mod.year), animated:YES
+      navigationController.pushViewController photosController, animated:YES
     end
   end  
+  
+  ####
+  
+  def photosController
+    @photosController ||= ModelPhotosController.new(mod.model, mod.year)
+  end
 end
