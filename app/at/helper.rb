@@ -302,8 +302,9 @@ class Helper
     end
 
     def grayTableViewTop
-      topview = UIView.alloc.initWithFrame(CGRectMake(0,-480,320,480))
-      topview.backgroundColor = ES.rgb(226, 231, 238)    
+      screen = UIScreen.mainScreen.applicationFrame
+      topview = UIView.alloc.initWithFrame(CGRectMake(0, -screen.height, screen.width, screen.height))
+      topview.backgroundColor = ES.rgb(226, 231, 238)
       topview.autoresizingMask = UIViewAutoresizingFlexibleWidth
       topview
     end  
