@@ -130,7 +130,8 @@ class AppDelegate
       model.entities = [ModSet.entity]
 
       storeURL = ES.documentsURL.URLByAppendingPathComponent('db-user.sqlite')
-      storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
+      storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, 
+          NSInferMappingModelAutomaticallyOption => YES, NSReadOnlyPersistentStoreOption => YES}
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = ES.ptr
       unless storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
