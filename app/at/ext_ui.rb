@@ -70,13 +70,20 @@ class UIViewController
     alloc.init.tap { |this| this.send(:initialize, *args) if this.respond_to?(:initialize, true) }
   end
 
-  def setupTableViewWithStyle(tableViewStyle)
-    tableView = UITableView.alloc.initWithFrame(view.bounds, style:tableViewStyle)
+  def setupTableViewWithStyle(tableViewStyle, options = nil)
+    offset = options ? options[:offset].to_f : 0.0    
+    bounds = CGRectOffset(view.bounds, 0, offset)
+    tableView = UITableView.alloc.initWithFrame(bounds, style:tableViewStyle)
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
     tableView.dataSource = self
     tableView.delegate = self
     view.addSubview(tableView)
     tableView
+  end
+  
+  def realWidth
+    controller = tabBarController || navigationController || self
+    controller.view.bounds.width
   end
 end
 
@@ -93,6 +100,10 @@ class UITableView
     end
     
     cell    
+  end
+  
+  def reloadVisibleRows
+    reloadRowsAtIndexPaths(indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone)
   end
 end
 
@@ -143,3 +154,4 @@ end
 
 UIViewAutoresizingFlexibleAllMargins = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
 SafariUA = "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7"
+DSToolbarHeight = 44.0

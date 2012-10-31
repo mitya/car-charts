@@ -1,5 +1,5 @@
-class IndexedModelsController < UITableViewController
-  attr_accessor :searchBar, :searchController
+class IndexedModelsController < UIViewController
+  attr_accessor :searchBar, :tableView
   
   def initialize(models)
     @initialModels = models
@@ -11,28 +11,29 @@ class IndexedModelsController < UITableViewController
     isAllModelsView = @initialModels == Model.all
     @initialModelsIndex = isAllModelsView ? Model::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }
     @initialBrands = isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
-    @models = @initialModels
-    @modelsIndex = @initialModelsIndex
-    @brands = @initialBrands
+    @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
     
-    self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44)).tap do |searchBar|
+    self.tableView = setupTableViewWithStyle(UITableViewStylePlain, offset:DSToolbarHeight)
+    
+    self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, DSToolbarHeight)).tap do |searchBar|
       searchBar.autocorrectionType = UITextAutocorrectionTypeNo
       searchBar.placeholder = "Search"
       searchBar.delegate = self
-      tableView.tableHeaderView = searchBar
+      view.addSubview searchBar
       tableView.addSubview ES.grayTableViewTop
     end
     
-    self.searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self).tap do |sc|
-      sc.delegate = sc.searchResultsDataSource = sc.searchResultsDelegate = self
+    self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(searchBar, contentsController:self).tap do |sdc|
+      sdc.delegate = sdc.searchResultsDataSource = sdc.searchResultsDelegate = self
     end
-    
+
     navigationItem.backBarButtonItem = ES.textBBI("Back")    
   end
 
   def viewWillAppear(animated)
     super
-    tableView.reloadData
+    activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
+    activeTableView.reloadVisibleRows
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -70,23 +71,31 @@ class IndexedModelsController < UITableViewController
   end
   
   def sectionIndexTitlesForTableView(tv)
-    [UITableViewIndexSearch] + @brands.map { |brand| brand.name.chr }.uniq    
+    @brands.map { |brand| brand.name.chr }.uniq    
   end
   
   def tableView(tableView, sectionForSectionIndexTitle:letter, atIndex:index)
-    tableView.scrollRectToVisible(@searchBar.frame, animated:NO) and return -1 if letter == UITableViewIndexSearch
     @brands.index { |brand| brand.name.chr == letter }
   end  
   
   ####
   
-  def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
+  def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
+    loadDataForSearchString("")
+    tableView.reloadVisibleRows
+  end
+  
+  def searchDisplayController(ctl, shouldReloadTableForSearchString:newSearchString)
     currentModels = @models
-    
+    loadDataForSearchString(newSearchString)
+    currentModels != @models
+  end
+  
+  ####
+  
+  def loadDataForSearchString(newSearchString)
     if newSearchString.empty?
-      @models = @initialModels
-      @modelsIndex = @initialModelsIndex
-      @brands = @initialBrands
+      @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
     else
       ES.benchmark "Model Search" do
         collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
@@ -96,7 +105,5 @@ class IndexedModelsController < UITableViewController
       end
     end
     @currentSearchString = newSearchString
-    
-    currentModels != @models
   end
 end

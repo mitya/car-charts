@@ -1,6 +1,6 @@
 class ModelsController < UITableViewController
   attr_accessor :category
-  attr_accessor :searchBar, :searchController
+  attr_accessor :searchBar
   
   def initialize(models)
     @initialModels = models
@@ -10,7 +10,7 @@ class ModelsController < UITableViewController
   def viewDidLoad
     @filteredModels = @initialModels
     
-    self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, 320, 44)).tap do |searchBar|
+    self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, view.bounds.width, DSToolbarHeight)).tap do |searchBar|
       searchBar.autocorrectionType = UITextAutocorrectionTypeNo
       searchBar.placeholder = "Search"
       searchBar.delegate = self
@@ -19,8 +19,8 @@ class ModelsController < UITableViewController
       tableView.addSubview ES.grayTableViewTop
     end
     
-    self.searchController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self).tap do |sc|
-      sc.delegate = sc.searchResultsDataSource = sc.searchResultsDelegate = self
+    self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self).tap do |sdc|
+      sdc.delegate = sdc.searchResultsDataSource = sdc.searchResultsDelegate = self
     end
     
     navigationItem.backBarButtonItem = ES.textBBI("Back")
@@ -28,7 +28,8 @@ class ModelsController < UITableViewController
 
   def viewWillAppear(animated)
     super
-    tableView.reloadData
+    activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
+    activeTableView.reloadVisibleRows
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -58,13 +59,25 @@ class ModelsController < UITableViewController
   end
   
   ####
+
+  def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
+    loadDataForSearchString("")
+    tableView.reloadVisibleRows
+  end
   
   def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
     currentModels = @filteredModels
+    loadDataForSearchString(newSearchString)
+    currentModels != @filteredModels
+  end
+  
+  ####
+  
+  def loadDataForSearchString(newSearchString)
     ES.benchmark "Model Search" do
       collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
       @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsForText(newSearchString, inCollection:collectionToSearch)
+      @currentSearchString = newSearchString
     end
-    currentModels != @filteredModels
   end
 end

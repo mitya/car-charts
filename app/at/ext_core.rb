@@ -144,6 +144,6 @@ end
 
 class NSIndexPath
   def inspect
-    "<NSIndexPath section=#{section} row=#{row}>"
+    "{#{section}, #{row}}"
   end
 end

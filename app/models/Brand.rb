@@ -14,7 +14,7 @@ class Brand
   end  
   
   def inspect
-    "#<Brand:#{key} models=#{models.count}>"
+    "{#{key}, #{models.count}}"
   end
   
   def models
