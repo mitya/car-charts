@@ -54,7 +54,7 @@ class ChartController < UIViewController
   ####
 
   def tableView(tv, numberOfRowsInSection:section)
-    @comparision.mods.count
+    @comparision.complete?? @comparision.mods.count : 0
   end
   
   def tableView(tv, cellForRowAtIndexPath:ip)
