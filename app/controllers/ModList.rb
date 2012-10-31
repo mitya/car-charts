@@ -3,7 +3,7 @@ class ModsController < UIViewController
 
   def initialize(model = nil)
     self.model = model
-    self.hidesBottomBarWhenPushed = YES
+    self.hidesBottomBarWhenPushed = iphone?
   end
 
   def viewDidLoad

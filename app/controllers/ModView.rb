@@ -4,7 +4,7 @@ class ModController < UITableViewController
 
   def initialize(mod)
     self.mod = mod
-    self.hidesBottomBarWhenPushed = YES
+    self.hidesBottomBarWhenPushed = iphone?
   end
 
   def viewDidLoad

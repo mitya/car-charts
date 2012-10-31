@@ -5,7 +5,7 @@ class ModelPhotosController < UIViewController
   def initialize(model = nil, year = nil)
     self.model = model
     self.year = year
-    self.hidesBottomBarWhenPushed = YES
+    self.hidesBottomBarWhenPushed = iphone?
   end
   
   def viewDidLoad
