@@ -8,15 +8,21 @@ class DSMultisegmentView < UIView
     self.segmentButtons = []
     self.segmentHandlers = {}
 
-    UIDevice.currentDevice.beginGeneratingDeviceOrientationNotifications
-    NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', name:UIApplicationDidChangeStatusBarOrientationNotification, object:NIL
-
     tapRecognizer = UITapGestureRecognizer.alloc.initWithTarget(self, action:'tapRecognized:').tap do |recognizer|
       recognizer.delegate = self
       addGestureRecognizer(recognizer)
     end
-    
+
+    UIDevice.currentDevice.beginGeneratingDeviceOrientationNotifications
+    NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', name:UIApplicationDidChangeStatusBarOrientationNotification, object:NIL
+
     self
+  end
+
+  def dealloc
+    UIDevice.currentDevice.endGeneratingDeviceOrientationNotifications
+    NSNotificationCenter.defaultCenter.removeObserver self
+    super
   end
   
   def addButton(label, unselected = nil, &handler)
