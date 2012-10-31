@@ -30,17 +30,14 @@ class ChartController < UIViewController
 
   def viewWillAppear(animated)
     super
-    
-    @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
-    tableView.reloadData
-    
-    if @comparision.complete?
-      placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
-      tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
-    else
-      view.addSubview(placeholderView)
-      tableView.tableFooterView = nil
-    end
+    Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionInitial, context:nil)
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NSKeyValueObservingOptionInitial, context:nil)
+  end
+
+  def viewWillDisappear(animated)
+    super
+    Disk.removeObserver(self, forKeyPath:"currentParameters")
+    Disk.removeObserver(self, forKeyPath:"currentMods")
   end
 
   ####
@@ -81,6 +78,23 @@ class ChartController < UIViewController
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated
+  end
+  
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    reload if object == Disk    
+  end
+
+  def reload
+    @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
+    tableView.reloadData
+    
+    if @comparision.complete?
+      placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
+      tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
+    else
+      view.addSubview(placeholderView)
+      tableView.tableFooterView = nil
+    end
   end
 
   ####

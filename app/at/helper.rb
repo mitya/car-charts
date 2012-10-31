@@ -375,4 +375,12 @@ def ESLineHeightFromFontSize(size)
   ESFontLineHeights[size.to_f]
 end
 
+def ipad?
+  UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
+end
+
+def iphone?
+  UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone
+end
+
 # $benchmarking = true

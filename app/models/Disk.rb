@@ -13,8 +13,10 @@ class Disk
     end
 
     def currentMods=(array)
+      willChangeValueForKey('currentMods')
       NSUserDefaults.standardUserDefaults["mods"] = array.map(&:key)
       @currentMods = array
+      didChangeValueForKey('currentMods')
     end
   
     def recentMods
@@ -36,8 +38,10 @@ class Disk
     end
   
     def currentParameters=(array)
+      willChangeValueForKey('currentParameters')
       NSUserDefaults.standardUserDefaults["parameters"] = array.map { |p| p.key.to_s }
       @currentParameters = array
+      didChangeValueForKey('currentParameters')
     end
   
 

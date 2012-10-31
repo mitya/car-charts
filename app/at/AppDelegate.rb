@@ -10,32 +10,51 @@ class AppDelegate
 
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
-    self.tabBarController ||= UITabBarController.new.tap do |tbc|
-      rootController = [ChartController.new, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
-      tabControllers = rootController.map do |ctl|
-        nav = UINavigationController.alloc.initWithRootViewController(ctl)
-        nav.delegate = self
-        nav.navigationBar.barStyle = UIBarStyleBlack
-        nav.toolbar.barStyle = UIBarStyleBlack
-        nav.viewControllers = nav.viewControllers + [IndexedModelsController.new(Model.all)] if CarsController === nav.topViewController
-        nav
+    self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    window.backgroundColor = UIColor.whiteColor
+
+    window.rootViewController = if iphone?
+      tabBarController ||= UITabBarController.new.tap do |tbc|
+        rootController = [ChartController.new, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
+        tbc.viewControllers = rootController.map do |ctl|
+          nav = UINavigationController.alloc.initWithRootViewController(ctl)
+          nav.delegate = self
+          nav.navigationBar.barStyle = UIBarStyleBlack
+          nav.toolbar.barStyle = UIBarStyleBlack
+          nav.viewControllers = nav.viewControllers + [IndexedModelsController.new(Model.all)] if CarsController === nav.topViewController
+          nav
+        end
+        tbc.delegate = self
+        tbc.selectedIndex = 0
       end
-      
-      tbc.delegate = self
-      tbc.selectedIndex = 0
-      tbc.viewControllers = tabControllers
+      tabBarController
+    else
+      tabBarController ||= UITabBarController.new.tap do |tbc|
+        rootController = [ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
+        tbc.viewControllers = rootController.map do |ctl|
+          nav = UINavigationController.alloc.initWithRootViewController(ctl)
+          nav.delegate = self
+          nav.navigationBar.barStyle = UIBarStyleBlack
+          nav.toolbar.barStyle = UIBarStyleBlack
+          nav.viewControllers = nav.viewControllers + [IndexedModelsController.new(Model.all)] if CarsController === nav.topViewController
+          nav
+        end
+        tbc.delegate = self
+        tbc.selectedIndex = 0
+      end
+
+      splitViewController = UISplitViewController.alloc.init
+      splitViewController.viewControllers = [tabBarController, ChartController.new]
+      splitViewController.delegate = self
+      splitViewController
     end
-    
-    self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap do |window|
-      window.backgroundColor = UIColor.whiteColor
-      window.rootViewController = tabBarController
-      window.makeKeyAndVisible
-    end
+
+    window.makeKeyAndVisible
     
     # controller = ModelPhotosController.new(Model.modelForKey('bmw--5'), 2012)
     # tabBarController.selectedIndex = 2
     # tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
-    
+      
     true
   end
   
@@ -78,6 +97,10 @@ class AppDelegate
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
+  end
+
+  def splitViewController(svc, shouldHideViewController:vc, inOrientation:orientation)
+    false
   end
 
   ####

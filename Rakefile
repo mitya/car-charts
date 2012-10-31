@@ -12,6 +12,7 @@ Motion::Project::App.setup do |app|
   app.libs += ['/usr/lib/libsqlite3.dylib']
   app.frameworks += ['CoreData']
   app.device_family = [:ipad, :iphone]
+  # app.device_family = [:iphone, :ipad]
   
   # app.pods do
   #   pod 'FMDB'
