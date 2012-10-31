@@ -14,7 +14,7 @@ class AppDelegate
     window.backgroundColor = UIColor.whiteColor
 
     window.rootViewController = if iphone?
-      tabBarController ||= UITabBarController.new.tap do |tbc|
+      tabBarController = UITabBarController.new.tap do |tbc|
         rootController = [ChartController.new, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
         tbc.viewControllers = rootController.map do |ctl|
           nav = UINavigationController.alloc.initWithRootViewController(ctl)
@@ -29,7 +29,7 @@ class AppDelegate
       end
       tabBarController
     else
-      tabBarController ||= UITabBarController.new.tap do |tbc|
+      tabBarController = UITabBarController.new.tap do |tbc|
         rootController = [ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
         tbc.viewControllers = rootController.map do |ctl|
           nav = UINavigationController.alloc.initWithRootViewController(ctl)
@@ -42,9 +42,15 @@ class AppDelegate
         tbc.delegate = self
         tbc.selectedIndex = 0
       end
+      
+      mainController = UINavigationController.alloc.initWithRootViewController(ChartController.new).tap do |nav|
+        nav.delegate = self
+        nav.navigationBar.barStyle = UIBarStyleBlack
+        nav.toolbar.barStyle = UIBarStyleBlack
+      end      
 
       splitViewController = UISplitViewController.alloc.init
-      splitViewController.viewControllers = [tabBarController, ChartController.new]
+      splitViewController.viewControllers = [tabBarController, mainController]
       splitViewController.delegate = self
       splitViewController
     end

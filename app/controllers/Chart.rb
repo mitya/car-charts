@@ -19,7 +19,7 @@ class ChartController < UIViewController
       button.setBackgroundImage UIImage.imageNamed('ico-bbi-fs-expand'), forState:UIControlStateNormal
       button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
       button.showsTouchWhenHighlighted = YES      
-    end
+    end if iphone?
 
     navigationItem.backBarButtonItem = ES.textBBI "Chart"
     navigationItem.rightBarButtonItems = [
