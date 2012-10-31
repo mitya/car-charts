@@ -1,13 +1,9 @@
 class CategoriesController < UITableViewController
   def initialize
-    self.title = "Model Categories"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Categories", image:UIImage.imageNamed("ico-tbi-car"), tag:3)
+    self.title = "Categories"
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:UIImage.imageNamed("ico-tbi-car"), tag:3)
   end
 
-  def viewDidLoad
-    navigationItem.backBarButtonItem = ES.textBBI("Back")
-  end
-  
   def viewWillAppear(animated)
     super
     tableView.reloadData # refresh badges

@@ -5,6 +5,7 @@ class ChartController < UIViewController
   def initialize
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:0)
+    navigationItem.backBarButtonItem = ES.textBBI("Chart")
   end
 
   def viewDidLoad
@@ -15,17 +16,18 @@ class ChartController < UIViewController
       tableView.separatorStyle = UITableViewCellSeparatorStyleNone      
     end
     
-    self.enterFullScreenModeButton = UIButton.alloc.initWithFrame(CGRectMake(0, 0, 20, 20)).tap do |button|
-      button.setBackgroundImage UIImage.imageNamed('ico-bbi-fs-expand'), forState:UIControlStateNormal
-      button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
-      button.showsTouchWhenHighlighted = YES      
-    end if iphone?
+    if iphone?
+      self.enterFullScreenModeButton = UIButton.alloc.initWithFrame(CGRectMake(0, 0, 20, 20)).tap do |button|
+        button.setBackgroundImage UIImage.imageNamed('ico-bbi-fs-expand'), forState:UIControlStateNormal
+        button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
+        button.showsTouchWhenHighlighted = YES      
+      end 
 
-    navigationItem.backBarButtonItem = ES.textBBI "Chart"
-    navigationItem.rightBarButtonItems = [
-      ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = 5 },
-      ES.customBBI(enterFullScreenModeButton),
-    ]
+      navigationItem.rightBarButtonItems = [
+        ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = 5 },
+        ES.customBBI(enterFullScreenModeButton),
+      ]
+    end
   end
 
   def viewWillAppear(animated)

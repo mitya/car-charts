@@ -21,9 +21,7 @@ class ModelsController < UITableViewController
     
     self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self).tap do |sdc|
       sdc.delegate = sdc.searchResultsDataSource = sdc.searchResultsDelegate = self
-    end
-    
-    navigationItem.backBarButtonItem = ES.textBBI("Back")
+    end    
   end
 
   def viewWillAppear(animated)
@@ -63,7 +61,12 @@ class ModelsController < UITableViewController
   def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
     loadDataForSearchString("")
     tableView.reloadVisibleRows
+    navigationItem.backBarButtonItem = ES.textBBI(title)
   end
+  
+  def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
+    navigationItem.backBarButtonItem = ES.textBBI("Search")
+  end  
   
   def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
     currentModels = @filteredModels

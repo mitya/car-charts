@@ -6,9 +6,8 @@ class CarsController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
 
   def initialize
-    self.title = "Models"
+    self.title = "View"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car-1"), tag:1)
-    navigationItem.backBarButtonItem = ES.textBBI("Back")
   end
 
   def viewWillAppear(animated)

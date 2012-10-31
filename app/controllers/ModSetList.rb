@@ -4,14 +4,11 @@ class ModSetsController < UITableViewController
   def initialize
     self.title = "Model Sets"
     self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag:4)        
-  end
-
-  def viewDidLoad
     navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
     navigationItem.backBarButtonItem = ES.textBBI("Sets")
     navigationItem.rightBarButtonItem = editButtonItem
   end
-  
+
   def viewWillAppear(animated)
     super
     tableView.reloadData # update badges

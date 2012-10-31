@@ -3,7 +3,7 @@ class IndexedModelsController < UIViewController
   
   def initialize(models)
     @initialModels = models
-    self.title = "All Models"
+    self.title = "Models"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car"), tag:2)
   end
 
@@ -26,8 +26,6 @@ class IndexedModelsController < UIViewController
     self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(searchBar, contentsController:self).tap do |sdc|
       sdc.delegate = sdc.searchResultsDataSource = sdc.searchResultsDelegate = self
     end
-
-    navigationItem.backBarButtonItem = ES.textBBI("Back")    
   end
 
   def viewWillAppear(animated)
@@ -83,7 +81,12 @@ class IndexedModelsController < UIViewController
   def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
     loadDataForSearchString("")
     tableView.reloadVisibleRows
+    navigationItem.backBarButtonItem = ES.textBBI(title)
   end
+  
+  def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
+    navigationItem.backBarButtonItem = ES.textBBI("Search")  
+  end  
   
   def searchDisplayController(ctl, shouldReloadTableForSearchString:newSearchString)
     currentModels = @models
