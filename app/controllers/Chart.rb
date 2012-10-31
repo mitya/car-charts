@@ -30,8 +30,9 @@ class ChartController < UIViewController
 
   def viewWillAppear(animated)
     super
-    Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionInitial, context:nil)
-    Disk.addObserver(self, forKeyPath:"currentMods", options:NSKeyValueObservingOptionInitial, context:nil)
+    Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
+    reload
   end
 
   def viewWillDisappear(animated)
