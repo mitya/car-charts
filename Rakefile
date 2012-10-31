@@ -11,8 +11,7 @@ Motion::Project::App.setup do |app|
   app.deployment_target = "6.0"
   app.libs += ['/usr/lib/libsqlite3.dylib']
   app.frameworks += ['CoreData']
-  app.device_family = [:ipad, :iphone]
-  app.device_family = [:iphone, :ipad]
+  app.device_family = ENV['IPAD'] == '1' ? [:ipad, :iphone] : [:iphone, :ipad]
   
   # app.pods do
   #   pod 'FMDB'
