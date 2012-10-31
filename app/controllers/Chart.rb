@@ -84,6 +84,8 @@ class ChartController < UIViewController
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
     reload if object == Disk    
   end
+  
+  ####
 
   def reload
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
@@ -98,8 +100,6 @@ class ChartController < UIViewController
     end
   end
 
-  ####
-
   def toggleFullScreenMode
     shouldSwitchOn = !UIApplication.sharedApplication.isStatusBarHidden
     
@@ -108,8 +108,6 @@ class ChartController < UIViewController
     tabBarController.setTabBarHidden(shouldSwitchOn, animated:YES)
     exitFullScreenModeButton.hidden = !shouldSwitchOn
   end
-
-  ####
 
   def placeholderView
     @placeholderView ||= begin
@@ -124,8 +122,9 @@ class ChartController < UIViewController
   end
   
   def exitFullScreenModeButton
-    @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 30 - 5, 5, 30, 30)).tap do |button|
+    @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 35, 5, 30, 30)).tap do |button|
       button.backgroundColor = UIColor.blackColor    
+      button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
       button.setImage UIImage.imageNamed("ico-bbi-fs-shrink"), forState:UIControlStateNormal
       button.alpha = 0.3
       button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)

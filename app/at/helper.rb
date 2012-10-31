@@ -143,22 +143,21 @@ class Helper
   end
   
   module Device
-    def landscape?(orientation)
+    def landscape?(orientation = UIApplication.sharedApplication.statusBarOrientation)
        orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight
     end
 
-    def portrait?(orientation)
+    def portrait?(orientation = UIApplication.sharedApplication.statusBarOrientation)
        orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown
     end
   
-    def portraitNow?
-      portrait?(UIApplication.sharedApplication.statusBarOrientation)
-    end
-  
-    def orientationKey
-      orientation = UIApplication.sharedApplication.statusBarOrientation
+    def orientationKey(orientation = UIApplication.sharedApplication.statusBarOrientation) 
       portrait?(orientation) ? :portrait : :landscape
-    end    
+    end
+    
+    def currentScreenHeight
+      portrait?? UIScreen.mainScreen.bounds.height : UIScreen.mainScreen.bounds.width
+    end
   end
   
   module Operations

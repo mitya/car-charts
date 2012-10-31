@@ -118,7 +118,7 @@ end
 class UITabBarController
   def setTabBarHidden(hidden, animated:animated)
     duration = animated ? 0.2 : 0
-    contentHeight = hidden ? 480 : 431 # 271
+    contentHeight = hidden ? view.bounds.height : view.bounds.height - tabBar.bounds.height
     ES.animateWithDuration(duration) do
       view.subviews.each do |view|
         if view.isKindOfClass(UITabBar)
