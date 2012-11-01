@@ -27,22 +27,22 @@ class ParametersController < UITableViewController
   def tableView(table, cellForRowAtIndexPath:indexPath)
     groupKey = Parameter.groupKeys[indexPath.section]
     parameter = Parameter.parametersForGroup(groupKey)[indexPath.row]
+    parameterIsSelected = parameter.selected?
 
-    cell = table.dequeueReusableCell { |cell| cell.selectionStyle = UITableViewCellSelectionStyleNone }
+    cell = table.dequeueReusableCell
     cell.textLabel.text = parameter.name  
-    cell.accessoryType = Disk.currentParameters.include?(parameter) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.accessoryType = parameterIsSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.textLabel.textColor = parameterIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
     cell
   end  
   
   def tableView(table, didSelectRowAtIndexPath:indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated:true)
-
+    tableView.deselectRowAtIndexPath(indexPath, animated:YES)
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmarkAccessory
 
     groupKey = Parameter.groupKeys[indexPath.section]
     parameter = Parameter.parametersForGroup(groupKey)[indexPath.row]
-
-    Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(parameter)
+    parameter.select!
   end
 end

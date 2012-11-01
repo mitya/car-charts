@@ -21,6 +21,14 @@ class Parameter
     BodyParameters.containsObject(key)
   end
   
+  def selected?
+    Disk.currentParameters.include?(self)
+  end
+  
+  def select!
+    Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(self)
+  end
+  
   class << self
     attr_reader :all
 

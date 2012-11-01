@@ -116,13 +116,10 @@ class UITableViewCell
   end
   
   def toggleCheckmarkAccessory
-    if self.accessoryType == UITableViewCellAccessoryCheckmark
-      self.accessoryType = UITableViewCellAccessoryNone
-      true
-    else
-      self.accessoryType = UITableViewCellAccessoryCheckmark
-      false
-    end    
+    wasChecked = accessoryType == UITableViewCellAccessoryCheckmark
+    textLabel.textColor = wasChecked ? UIColor.darkTextColor : ES.checkedTableViewItemColor
+    self.accessoryType = wasChecked ? UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark
+    wasChecked
   end
 end
 

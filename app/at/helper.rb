@@ -8,7 +8,7 @@ class Helper
       NSUserDefaults.standardUserDefaults
     end
   
-    def indexPath(row, section = 0)
+    def indexPath(section, row)
       NSIndexPath.indexPathForRow(row, inSection: section)
     end
   

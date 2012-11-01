@@ -31,23 +31,25 @@ class RecentModsController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     mod = modForIndexPath(indexPath)
+    modIsSelected = mod.selected?
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle)
     cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.modName
-    cell.accessoryType = Disk.currentMods.include?(mod) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.accessoryType = modIsSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+    cell.textLabel.textColor = modIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
     cell
   end
 
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated:true)
+    tableView.deselectRowAtIndexPath(indexPath, animated:YES)
 
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmarkAccessory
 
     mod = modForIndexPath(indexPath)
-    Disk.toggleModInCurrentList(mod)
+    mod.select!
     
-    tableView.moveRowAtIndexPath(indexPath, toIndexPath:(NSIndexPath.indexPathForRow(0, inSection: indexPath.section == 0 ? 1 : 0)))
+    tableView.moveRowAtIndexPath indexPath, toIndexPath:ES.indexPath(indexPath.section == 0 ? 1 : 0, 0)
   end
   
   ####

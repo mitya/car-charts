@@ -48,25 +48,22 @@ class ModsController < UIViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     mod = modsByBody.objectForIndexPath(indexPath)
+    modIsSelected = mod.selected?
 
-    cell = tv.dequeueReusableCell(klass: DSCheckmarkCell) do |cell|
-      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
-    end
-    
-    cell.imageView.image = mod.selected? ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
-    cell.textLabel.textColor = mod.selected? ? ES.checkedTableViewItemColor : UIColor.darkTextColor
+    cell = tv.dequeueReusableCell(klass: DSCheckmarkCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton }
+    cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
+    cell.textLabel.textColor = modIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
     cell.textLabel.text = mod.nameWithVersion
     cell
   end
 
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tv.deselectRowAtIndexPath(indexPath, animated:YES)
+    cell = tv.cellForRowAtIndexPath(indexPath)
+    cell.toggleLeftCheckmarkAccessory
 
     mod = modsByBody.objectForIndexPath(indexPath)
     mod.select!
-
-    cell = tv.cellForRowAtIndexPath(indexPath)
-    cell.toggleLeftCheckmarkAccessory
   end
   
   def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)

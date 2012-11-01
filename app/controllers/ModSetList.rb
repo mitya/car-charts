@@ -86,7 +86,7 @@ class ModSetsController < UITableViewController
     set.renameTo(textField.text)
     textField.text = set.name # set.name will not be changed if the rename fails
     reloadSets
-    tableView.moveRowAtIndexPath index, toIndexPath:ES.indexPath(set.position, index.section)
+    tableView.moveRowAtIndexPath index, toIndexPath:ES.indexPath(index.section, set.position)
   end
   
   def textFieldShouldReturn(textField)
