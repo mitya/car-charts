@@ -3,14 +3,21 @@ class DSBadgeViewCell < UITableViewCell
   attr_accessor :summary, :detail, :badgeView, :badgeText, :badgeColor, :badgeHighlightedColor
 
   def initWithStyle(style, reuseIdentifier:reuseIdentifier)
-    if super(style, reuseIdentifier:reuseIdentifier)
+    if super
       self.badgeView = DSBadgeView.alloc.init(contentView.bounds, self)
       badgeView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
       badgeView.contentMode = UIViewContentModeRedraw
-      badgeView.contentStretch = CGRectMake(1, 0, 0, 0)
       contentView.addSubview(badgeView)
     end
     self
+  end
+  
+  def layoutSubviews
+    super
+    if detailTextLabel
+      base = detailTextLabel.frame
+      detailTextLabel.frame = CGRectMake(base.x, base.y, bounds.width - 50, base.height)
+    end
   end
   
   def badgeText=(value)

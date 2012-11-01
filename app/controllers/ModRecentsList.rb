@@ -79,7 +79,16 @@ class RecentModsController < UITableViewController
   end
   
   def saveAsSet
-     dialogNavController = UINavigationController.alloc.initWithRootViewController(SelectModSetController.new)
-     presentViewController dialogNavController, animated:YES, completion:NIL
+    selector = SelectModSetController.new
+    selectorNav = UINavigationController.alloc.initWithRootViewController(selector)
+    selectorNav.navigationBar.barStyle = UIBarStyleBlack
+    if iphone?
+      selector.closeProc = -> { dismissModalViewControllerAnimated true, completion:NIL }
+      presentViewController selectorNav, animated:YES, completion:NIL
+    else            
+      selector.closeProc = -> { @popover.dismissPopoverAnimated(YES) }
+      @popover = UIPopoverController.alloc.initWithContentViewController(selectorNav)
+      @popover.presentPopoverFromBarButtonItem navigationItem.rightBarButtonItem, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:YES
+    end
   end
 end

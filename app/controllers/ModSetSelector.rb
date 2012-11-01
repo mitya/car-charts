@@ -1,8 +1,9 @@
 class SelectModSetController < UITableViewController
-  attr_accessor :sets
+  attr_accessor :sets, :closeProc
 
-  def viewDidLoad
+  def initialize
     self.title = "Select Model Set"
+    self.contentSizeForViewInPopover = [320, 640]
     navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
   end
 
@@ -17,8 +18,9 @@ class SelectModSetController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    cell = tv.dequeueReusableCell(klass: DSBadgeViewCell)
+    cell = tv.dequeueReusableCell(klass:DSBadgeViewCell, style:UITableViewCellStyleSubtitle)
     cell.textLabel.text = set.name
+    cell.detailTextLabel.text = set.mods.map { |mod| mod.model }.uniq.map { |model| model.unbrandedName }.join(', ')
     cell.badgeText = set.modCount
     cell
   end
@@ -26,8 +28,9 @@ class SelectModSetController < UITableViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
     set.mods = Disk.currentMods
-    tableView.deselectRowAtIndexPath indexPath, animated:YES    
-    dismissModalViewControllerAnimated true, completion:NIL
+    tableView.deselectRowAtIndexPath indexPath, animated:YES
+    tableView.cellForRowAtIndexPath(indexPath).toggleCheckmarkAccessory
+    closeProc.call
   end
 
   ####
@@ -37,6 +40,6 @@ class SelectModSetController < UITableViewController
   end
   
   def cancel
-    dismissModalViewControllerAnimated true, completion:NIL
+    closeProc.call
   end
 end

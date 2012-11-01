@@ -8,11 +8,11 @@ class Mod < DSCoreModel
   end
   
   def basicName
-    "#{engine_vol}#{fuelSuffix}#{compressorSuffix} #{power}ps #{transmission}"
+    "#{engine_vol}#{suffix} #{power}ps #{transmission}"
   end
 
   def basicNameWithPunctuation
-    "#{engine_vol}l#{fuelSuffix}#{compressorSuffix} #{power}ps #{transmission}"
+    "#{engine_vol}l#{suffix} #{power}ps #{transmission}"
   end
   
   def nameWithVersion
@@ -47,12 +47,11 @@ class Mod < DSCoreModel
     Disk.toggleModInCurrentList(self)
   end
   
-  def fuelSuffix
-    fuel == 'i' ? '' : 'd'
-  end
-  
-  def compressorSuffix
-    compressor && fuel != 'd' ? "T" : ""
+  def suffix
+    if fuel == 'd' then 'd'
+    elsif compressor && fuel != 'd' then 'T'
+    else ''
+    end
   end
   
   def gas?
