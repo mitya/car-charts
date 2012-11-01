@@ -4,6 +4,7 @@ class ModsController < UIViewController
   def initialize(model = nil)
     self.model = model
     self.hidesBottomBarWhenPushed = iphone?
+    self.navigationItem.backBarButtonItem = ES.textBBI("Versions")
   end
 
   def viewDidLoad
@@ -11,9 +12,19 @@ class ModsController < UIViewController
     self.mods = model.mods
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
     
-    self.applyFilter
-    self.toolbarItems = toolbarItemsForFilter.presence    
-    self.navigationItem.backBarButtonItem = ES.textBBI("Versions")
+    applyFilter
+    
+    if toolbarItemsForFilter.any?
+      if iphone?
+        self.toolbarItems = toolbarItemsForFilter
+      else
+        self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, DSToolbarHeight))
+        self.toolbar.items = toolbarItemsForFilter
+        self.view.addSubview(toolbar)
+        self.tableView.frame = CGRectOffset(tableView.frame, 0, DSToolbarHeight)
+        self.tableView.addSubview(ES.grayTableViewTop)
+      end
+    end
   end
   
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -97,28 +108,29 @@ class ModsController < UIViewController
   end
   
   def toolbarItemsForFilter
-    availableFilterOptions = Mod.filterOptionsForMods(mods)
+    @toolbarItemsForFilter ||= begin
+      availableFilterOptions = Mod.filterOptionsForMods(mods)
 
-    if availableFilterOptions[:transmission].count > 1
-      @transmissionFilter = DSMultisegmentView.new
-      @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
-      @transmissionFilter.addButton("AT", Disk.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
+      if availableFilterOptions[:transmission].count > 1
+        @transmissionFilter = DSMultisegmentView.new
+        @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
+        @transmissionFilter.addButton("AT", Disk.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
+      end
+
+      if availableFilterOptions[:body].count > 1
+        @bodyFilter = DSMultisegmentView.new
+        @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
+        @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
+        @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
+      end
+
+      if availableFilterOptions[:fuel].count > 1
+        @fuelFilter = DSMultisegmentView.new
+        @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
+        @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
+      end
+
+      [@transmissionFilter, @bodyFilter, @fuelFilter].compact.map{ |filter| ES.customBBI(filter) }.arraySeparatedBy(ES.flexibleSpaceBBI)
     end
-
-    if availableFilterOptions[:body].count > 1
-      @bodyFilter = DSMultisegmentView.new
-      @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
-      @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
-      @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
-    end
-
-    if availableFilterOptions[:fuel].count > 1
-      @fuelFilter = DSMultisegmentView.new
-      @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
-      @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
-    end
-
-    [@transmissionFilter, @bodyFilter, @fuelFilter].compact.map { |filter| ES.customBBI(filter) }.
-      arraySeparatedBy(ES.systemBBI(UIBarButtonSystemItemFlexibleSpace, target:nil, action:nil))
   end  
 end

@@ -122,7 +122,7 @@ class AppDelegate
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = ES.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
-      raise "Can't add persistent SQLite store: #{err.value.description}" if err.value
+      raise "Can't open static database: #{err.value.description}" if err.value
       
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = storeCoordinator
@@ -140,7 +140,7 @@ class AppDelegate
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = ES.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
-      raise "Can't add persistent SQLite store: #{err.value.description}" if err.value
+      raise "Can't open user database: #{err.value.description}" if err.value
 
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = storeCoordinator

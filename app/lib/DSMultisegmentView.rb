@@ -1,20 +1,18 @@
 class DSMultisegmentView < UIView
   attr_accessor :segmentButtons, :segmentHandlers
   
-  def init
+  def initWithFrame(frame)
     super
-    
+
     self.backgroundColor = UIColor.clearColor
     self.segmentButtons = []
     self.segmentHandlers = {}
-
-    tapRecognizer = UITapGestureRecognizer.alloc.initWithTarget(self, action:'tapRecognized:').tap do |recognizer|
-      recognizer.delegate = self
-      addGestureRecognizer(recognizer)
-    end
-
+      
+    addGestureRecognizer UITapGestureRecognizer.alloc.initWithTarget(self, action:'tapRecognized:').tap { |r| r.delegate = self }
+      
     UIDevice.currentDevice.beginGeneratingDeviceOrientationNotifications
-    NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', name:UIApplicationDidChangeStatusBarOrientationNotification, object:NIL
+    NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', 
+        name:UIApplicationDidChangeStatusBarOrientationNotification, object:NIL
 
     self
   end
@@ -106,7 +104,7 @@ class DSMultisegmentView < UIView
     segmentButtons.each_with_index do |button, index|
       button.frame = CGRectMake(dim.margin + index * (dim.width + dim.spacing), (dim.barHeight - dim.height) / 2 + 1, dim.width, dim.height)
     end
-    self.frame = CGRectMake(0, 0, segmentButtons.count * (dim.width + dim.spacing), dim.barHeight)
+    self.bounds = CGRectMake(0, 0, segmentButtons.count * (dim.width + dim.spacing), dim.barHeight)
   end
   
   def drawRect(rect)
