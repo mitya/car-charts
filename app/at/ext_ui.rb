@@ -85,6 +85,10 @@ class UIViewController
     controller = tabBarController || navigationController || self
     controller.view.bounds.width
   end
+  
+  def isViewVisible
+    isViewLoaded && view.window
+  end
 end
 
 class UITableView

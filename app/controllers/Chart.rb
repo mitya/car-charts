@@ -6,11 +6,17 @@ class ChartController < UIViewController
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:0)
     navigationItem.backBarButtonItem = ES.textBBI("Chart")
+    Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)    
+  end
+  
+  def dealloc
+    Disk.removeObserver(self, forKeyPath:"currentParameters")
+    Disk.removeObserver(self, forKeyPath:"currentMods")    
+    super
   end
 
   def viewDidLoad
-    @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
-
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain).tap do |tableView|
       tableView.rowHeight = 25
       tableView.separatorStyle = UITableViewCellSeparatorStyleNone      
@@ -28,19 +34,18 @@ class ChartController < UIViewController
         ES.customBBI(enterFullScreenModeButton),
       ]
     end
+    
+    @reloadPending = true
   end
 
   def viewWillAppear(animated)
     super
-    Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
-    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
-    reload
+    reload if @reloadPending
+    @reloadPending = false
   end
 
-  def viewWillDisappear(animated)
-    super
-    Disk.removeObserver(self, forKeyPath:"currentParameters")
-    Disk.removeObserver(self, forKeyPath:"currentMods")
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    isViewVisible ? reload : (@reloadPending = true ) if object == Disk
   end
 
   ####
@@ -81,10 +86,6 @@ class ChartController < UIViewController
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated
-  end
-  
-  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
-    reload if object == Disk    
   end
   
   ####

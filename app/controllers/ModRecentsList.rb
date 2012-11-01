@@ -4,15 +4,30 @@ class RecentModsController < UITableViewController
   def initialize
     self.title = "Recent Models"
     self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemRecents, tag:1)
+    navigationItem.rightBarButtonItem = ES.textBBI("Save", target:self, action:'saveAsSet')
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
   
-  def viewDidLoad
-    navigationItem.rightBarButtonItem = ES.textBBI("Save", target:self, action:'saveAsSet')
+  def dealloc
+    Disk.removeObserver(self, forKeyPath:"currentMods")
+    super
   end
-
+  
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
+
+  def viewWillAppear(animated)
+    super
+    tableView.reloadData if @reloadPending
+    @reloadPending = false
+  end
+  
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    @reloadPending = true if object == Disk
+  end
+  
+  ####
 
   def numberOfSectionsInTableView(tv)
     2
@@ -23,7 +38,7 @@ class RecentModsController < UITableViewController
   end
 
   def tableView(tv, titleForHeaderInSection:section)
-    case section
+    case section      
       when 0 then "Selected"
       when 1 then "Recent"
     end
