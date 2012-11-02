@@ -62,7 +62,15 @@ class ModController < UITableViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tv.deselectRowAtIndexPath(indexPath, animated:YES)
     if indexPath.section == systemSectionIndex && indexPath.item == 0
-      navigationController.pushViewController photosController, animated:YES
+      if iphone?
+        navigationController.pushViewController photosController, animated:YES
+      else
+        modalNavController = UINavigationController.alloc.initWithRootViewController(photosController)
+        modalNavController.navigationBar.barStyle = UIBarStyleBlack
+        modalNavController.toolbar.barStyle = UIBarStyleBlack
+        modalNavController.modalPresentationStyle = UIModalPresentationFullScreen
+        presentViewController modalNavController, animated:YES, completion:NIL
+      end
     end
   end  
   
