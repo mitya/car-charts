@@ -308,16 +308,21 @@ class Helper
       topview
     end  
   
-    def customBBI(view)
+    def customBBI(view = nil)
+      view ||= yield
       UIBarButtonItem.alloc.initWithCustomView(view)
     end
-
+    
     def systemBBI(style)
       systemBBI(style, target:NIL, action:NIL)
     end
   
     def systemBBI(style, target:target, action:action)
       UIBarButtonItem.alloc.initWithBarButtonSystemItem(style, target:target, action:action)
+    end
+
+    def imageBBI(imageName, target:target, action:action)
+      UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed(imageName), style:UIBarButtonItemStyleBordered, target:target, action:action)      
     end
 
     def imageBBI(imageName, style:style, target:target, action:action)

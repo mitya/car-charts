@@ -37,6 +37,7 @@ class BarView < UIView
     super
     self.opaque = true
     self.backgroundColor = UIColor.whiteColor # ES.patternColor("bg-chart")
+    self.contentMode = UIViewContentModeRedraw
     self
   end
 

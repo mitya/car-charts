@@ -1,8 +1,10 @@
 class AppDelegate
-  attr_accessor :window, :tabBarController, :chartController
+  attr_accessor :window, :tabBarController, :chartController, :hidesMasterView
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
+
+    self.hidesMasterView = NO
 
     Disk.load
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
@@ -105,15 +107,16 @@ class AppDelegate
   end
 
   def splitViewController(svc, shouldHideViewController:vc, inOrientation:orientation)
-    NO # ES.portrait?(orientation)
+    hidesMasterView # NO # ES.portrait?(orientation)
   end
   
   def splitViewController(svc, willHideViewController:vc, withBarButtonItem:bbi, forPopoverController:pc)
-    chartController.navigationItem.setLeftBarButtonItem(bbi.tap { |bbi| bbi.title = "Options" }, animated:YES)
+    bbi.title = "Options"
+    chartController.navigationItem.setLeftBarButtonItems(chartController.navigationItem.leftBarButtonItems.to_a + [bbi], animated:YES)
   end
   
   def splitViewController(svc, willShowViewController:vc, invalidatingBarButtonItem:bbi)
-    chartController.navigationItem.setLeftBarButtonItem(nil, animated:YES)
+    chartController.navigationItem.setLeftBarButtonItem(chartController.navigationItem.leftBarButtonItems.to_a - [bbi], animated:YES)
   end
 
   ####

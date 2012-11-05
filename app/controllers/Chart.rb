@@ -6,6 +6,20 @@ class ChartController < UIViewController
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:0)
     navigationItem.backBarButtonItem = ES.textBBI("Chart")
+
+    # navigationItem.leftBarButtonItem = ES.planeBBI("bbi-back", target:self, action:'hideSettings', options: {
+    #   size:[15, 15], selected:"bbi-right"
+    # })
+
+    navigationItem.leftBarButtonItem = ES.customBBI do
+      button = UIButton.buttonWithType(UIButtonTypeCustom) # UIButtonTypeRoundedRect
+      button.setImage UIImage.imageNamed("bbi-left"), forState:UIControlStateNormal
+      button.setImage UIImage.imageNamed("bbi-right"), forState:UIControlStateSelected
+      button.frame = [[0, 0], [15, 15]]
+      button.addTarget self, action:'hideSettings', forControlEvents:UIControlEventTouchUpInside
+      button      
+    end
+
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
@@ -136,4 +150,11 @@ class ChartController < UIViewController
       view.addSubview(button)
     end    
   end  
+  
+  def hideSettings
+    ES.app.hidesMasterView = !ES.app.hidesMasterView
+    navigationItem.leftBarButtonItem.customView.selected = !navigationItem.leftBarButtonItem.customView.isSelected
+    splitViewController.view.setNeedsLayout
+    splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
+  end
 end

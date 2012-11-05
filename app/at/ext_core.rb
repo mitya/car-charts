@@ -58,7 +58,7 @@ class NSArray
       self + [item]
     end
   end
-
+  
   def tail
     self[1..-1]
   end
