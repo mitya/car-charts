@@ -1,21 +1,18 @@
 class AppDelegate
-  attr_accessor :window, :tabBarController
+  attr_accessor :window, :tabBarController, :chartController
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
 
     Disk.load
-    Disk.currentParameters ||= [Parameter.parameterForKey(:max_power)]
-    Disk.currentMods ||= []
-
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
-    self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    window.backgroundColor = UIColor.whiteColor
+    self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |wnd| wnd.backgroundColor = UIColor.whiteColor }
 
     window.rootViewController = if iphone?
-      tabBarController = UITabBarController.new.tap do |tbc|
-        rootController = [ChartController.new, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
+      self.chartController = ChartController.new
+      self.tabBarController = UITabBarController.new.tap do |tbc|
+        rootController = [chartController, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
         tbc.viewControllers = rootController.map do |ctl|
           nav = UINavigationController.alloc.initWithRootViewController(ctl)
           nav.delegate = self
@@ -29,7 +26,7 @@ class AppDelegate
       end
       tabBarController
     else
-      tabBarController = UITabBarController.new.tap do |tbc|
+      self.tabBarController = UITabBarController.new.tap do |tbc|
         rootController = [ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
         tbc.viewControllers = rootController.map do |ctl|
           nav = UINavigationController.alloc.initWithRootViewController(ctl)
@@ -41,9 +38,11 @@ class AppDelegate
         end
         tbc.delegate = self
         tbc.selectedIndex = 0
+        tbc.contentSizeForViewInPopover = [320, 640]
       end
       
-      mainController = UINavigationController.alloc.initWithRootViewController(ChartController.new).tap do |nav|
+      self.chartController = ChartController.new
+      mainController = UINavigationController.alloc.initWithRootViewController(chartController).tap do |nav|
         nav.delegate = self
         nav.navigationBar.barStyle = UIBarStyleBlack
         nav.toolbar.barStyle = UIBarStyleBlack
@@ -106,7 +105,15 @@ class AppDelegate
   end
 
   def splitViewController(svc, shouldHideViewController:vc, inOrientation:orientation)
-    false
+    NO # ES.portrait?(orientation)
+  end
+  
+  def splitViewController(svc, willHideViewController:vc, withBarButtonItem:bbi, forPopoverController:pc)
+    chartController.navigationItem.setLeftBarButtonItem(bbi.tap { |bbi| bbi.title = "Options" }, animated:YES)
+  end
+  
+  def splitViewController(svc, willShowViewController:vc, invalidatingBarButtonItem:bbi)
+    chartController.navigationItem.setLeftBarButtonItem(nil, animated:YES)
   end
 
   ####

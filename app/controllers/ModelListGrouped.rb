@@ -7,6 +7,18 @@ class IndexedModelsController < UIViewController
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car"), tag:2)
   end
 
+  # def loadView
+  #   self.view = UIView.alloc.init
+  #   self.tableView = setupTableViewWithStyle(UITableViewStylePlain, offset:DSToolbarHeight))
+  #   self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, DSToolbarHeight)).tap do |searchBar|
+  #     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
+  #     searchBar.placeholder = "Search"
+  #     searchBar.delegate = self
+  #     view.addSubview searchBar
+  #     tableView.addSubview ES.grayTableViewTop
+  #   end
+  # end
+
   def viewDidLoad
     isAllModelsView = @initialModels == Model.all
     @initialModelsIndex = isAllModelsView ? Model::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }

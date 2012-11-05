@@ -48,7 +48,9 @@ class Disk
     def load
       ES.benchmark "Load All" do
         [Metadata, Brand, Category, Model, Parameter].each { |klass| ES.benchmark("Load #{klass.name}") { klass.load } }
-      end
+      end     
+      self.currentParameters ||= [Parameter.parameterForKey(:max_power)]
+      self.currentMods ||= []      
     end
   end
 end

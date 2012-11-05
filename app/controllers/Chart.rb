@@ -7,7 +7,7 @@ class ChartController < UIViewController
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:0)
     navigationItem.backBarButtonItem = ES.textBBI("Chart")
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
-    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)    
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
   
   def dealloc
