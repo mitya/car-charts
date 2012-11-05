@@ -36,7 +36,7 @@ class Mod < DSCoreModel
   end
   
   def version
-    "#{bodyName} #{version_subkey}"
+    "#{bodyName} #{version_subkey}".strip
   end
   
   def selected?

@@ -357,7 +357,7 @@ end
 
 ES = Helper.new
 
-def ESStrokeRect(rect, context, color)
+def ESStrokeRect(rect, context, color = UIColor.redColor)
   ES.strokeRect(rect, inContext:context, withColor:color)
 end
 
