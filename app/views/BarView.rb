@@ -123,8 +123,7 @@ class BarView < UIView
   end
 
   def drawRect(rect)
-    # drawNarrow(rect)
-    drawWide(rect)
+    ipad? && (ES.landscape? || ES.app.chartController.fullScreen?) ? drawWide(rect) : drawNarrow(rect)
   end
   
   def self.colors

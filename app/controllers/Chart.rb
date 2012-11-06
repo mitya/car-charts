@@ -153,8 +153,13 @@ class ChartController < UIViewController
   
   def hideSettings
     ES.app.hidesMasterView = !ES.app.hidesMasterView
+    @fullScreen = ES.app.hidesMasterView
     navigationItem.leftBarButtonItem.customView.selected = !navigationItem.leftBarButtonItem.customView.isSelected
     splitViewController.view.setNeedsLayout
     splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
+  end
+  
+  def fullScreen?
+    @fullScreen
   end
 end
