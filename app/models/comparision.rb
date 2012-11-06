@@ -28,7 +28,7 @@ class Comparision
   end
   
   def items
-    @items ||= (0...mods.count).map { |index| ComparisionItem.new(self, index) }
+    @items ||= (0...mods.count).map { |index| Item.new(self, index) }
   end
 
   def mods
@@ -56,36 +56,36 @@ class Comparision
   def complete?
     !incomplete?
   end
-end
 
-class ComparisionItem
-  attr_accessor :index, :comparision
+  class Item
+    attr_accessor :index, :comparision
   
-  def initialize(comparision, index)
-    @comparision, @index = comparision, index
-  end
+    def initialize(comparision, index)
+      @comparision, @index = comparision, index
+    end
   
-  def mods
-    @comparision.mods
-  end
+    def mods
+      @comparision.mods
+    end
   
-  def mod
-    @comparision.mods[@index]
-  end
+    def mod
+      @comparision.mods[@index]
+    end
 
-  def firstForModel?
-    index == 0 || mods[index - 1].model != mod.model
-  end
+    def firstForModel?
+      index == 0 || mods[index - 1].model != mod.model
+    end
   
-  def nextForModel?
-    !firstForModel?
-  end
+    def nextForModel?
+      !firstForModel?
+    end
   
-  def midForModel?
-    !firstForModel? && !lastForModel?
-  end
+    def midForModel?
+      !firstForModel? && !lastForModel?
+    end
   
-  def lastForModel?
-    mod == mods.last || mods[index + 1].model != mod.model
+    def lastForModel?
+      mod == mods.last || mods[index + 1].model != mod.model
+    end
   end
 end

@@ -1,16 +1,3 @@
-class BarTableViewCell < UITableViewCell
-  attr_accessor :barView
-  attr_delegated 'barView', :comparisionItem
-  
-  def initWithStyle(style, reuseIdentifier:identifier)
-    super UITableViewCellStyleValue1, reuseIdentifier:identifier
-    self.barView = BarView.alloc.initWithFrame(CGRectMake(0, 0, contentView.bounds.width, contentView.bounds.height))
-    self.barView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
-    self.contentView.addSubview barView
-    self
-  end
-end
-
 class BarView < UIView  
   attr_accessor :comparisionItem
   attr_delegated 'comparisionItem', :mod, :mods, :index, :comparision
@@ -49,6 +36,13 @@ class BarView < UIView
     self.contentMode = UIViewContentModeRedraw
     self
   end
+
+  def drawRect(rect)
+    renderingMode = self.class.renderingMode
+    renderingMode == :wide || renderingMode == :ultraWide ? drawWide(rect) : drawNarrow(rect)
+  end
+  
+  private
 
   def drawWide(rect)
     context = UIGraphicsGetCurrentContext()
@@ -122,11 +116,6 @@ class BarView < UIView
     end    
   end
 
-  def drawRect(rect)
-    renderingMode = self.class.renderingMode
-    renderingMode == :wide || renderingMode == :ultraWide ? drawWide(rect) : drawNarrow(rect)
-  end
-  
   def self.renderingMode
     case 
       when iphone? then :narrow
@@ -147,5 +136,19 @@ class BarView < UIView
     height += BarView::ModelTitleH + BarView::ModelTitleBM if renderingMode == :narrow || renderingMode == :wide && item.firstForModel?
     height += item.comparision.params.count * BarView::BarFH
     height += item.lastForModel?? LastItemBM : ItemBM
+  end
+
+
+  class TableCell < UITableViewCell
+    attr_accessor :barView
+    attr_delegated 'barView', :comparisionItem
+  
+    def initWithStyle(style, reuseIdentifier:identifier)
+      super UITableViewCellStyleValue1, reuseIdentifier:identifier
+      self.barView = BarView.alloc.initWithFrame(CGRectMake(0, 0, contentView.bounds.width, contentView.bounds.height))
+      self.barView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
+      self.contentView.addSubview barView
+      self
+    end
   end
 end

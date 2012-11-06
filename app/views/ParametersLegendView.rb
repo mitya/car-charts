@@ -5,7 +5,7 @@ class ParametersLegendView < UIView
   ContentTP = 16
   ContentBM = 8
   ContentHM = 5
-  ItemFS = 13.0
+  ItemFS = 14.0
   ItemH = ESLineHeightFromFontSize(ItemFS)
   ItemVM = 1
   ItemRM = ItemFS / 2
@@ -33,10 +33,8 @@ class ParametersLegendView < UIView
   
   def parameters=(array)
     @parameters = array
-
     @content.subviews.each { |view| view.removeFromSuperview }
     @parameters.each_with_index { |param, index| @content.addSubview Item.new(param, index) }
-
     setNeedsLayout
   end
   
@@ -54,6 +52,7 @@ class ParametersLegendView < UIView
     def initialize(param, index)
       initWithFrame CGRectNull
       self.backgroundColor = UIColor.whiteColor
+      self.contentMode = UIViewContentModeRedraw      
       self.param = param
       self.index = index
     end
@@ -61,16 +60,24 @@ class ParametersLegendView < UIView
     def drawRect(rect)
       context = UIGraphicsGetCurrentContext()
       colorGradient = BarView.colors[index]
-      colorFrame = CGRectMake(0, (ItemH - ColorH) / 2.0, ColorW, ColorH)
+      colorFrame = CGRectMake(leftMargin, (ItemH - ColorH) / 2.0, ColorW, ColorH)
       textSize = param.name.sizeWithFont(textFont)
-      textFrame = CGRectMake(ColorW + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
+      textFrame = CGRectMake(colorFrame.x + colorFrame.width + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
       ES.drawRect colorFrame, inContext:context, withGradientColors:colorGradient, cornerRadius:3
       ES.drawString param.name, inRect:textFrame, withColor:UIColor.darkGrayColor, font:textFont, alignment:UITextAlignmentLeft
     end
 
     def sizeThatFits(oldSize)
       size = param.name.sizeWithFont(textFont)
-      CGSizeMake(size.width + ColorW + ColorRM, ItemH)
+      CGSizeMake(leftMargin + ColorW + ColorRM + size.width, ItemH)
+    end
+    
+    def leftMargin
+      case BarView.renderingMode
+        when :wide then BarView::WideBarLabelW + BarView::WideBarLM - ContentHM
+        when :ultraWide then BarView::UltraWideBarLabelW + BarView::WideBarLM - ContentHM
+        when :narrow then 0
+      end
     end
     
     def textFont
