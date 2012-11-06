@@ -21,7 +21,7 @@ class BarView < UIView
   ModelTitleH = ESLineHeightFromFontSize(ModelTitleFS)
   ModelTitleBM = 0
   ModelTitleRM = 4
-  ModTitleFS = 13.0
+  ModTitleFS = 14.0
   ModTitleH = ESLineHeightFromFontSize(ModTitleFS)
   ModTitleBM = 0
     
@@ -32,6 +32,7 @@ class BarView < UIView
   BarRM = 1
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
+  BarMinW = 40
   
   WideBarLabelW = 250
   WideBarLM = 5
@@ -50,7 +51,7 @@ class BarView < UIView
     labelWidth = WideBarLabelW
     
     if comparisionItem.firstForModel?
-      modelTitleRect = CGRectMake(0, 0, labelWidth, ModelTitleH)      
+      modelTitleRect = CGRectMake(0, 0, labelWidth, ModelTitleH)            
       ES.drawString mod.model.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:ES.boldFont(ModelTitleFS), alignment:UITextAlignmentRight 
     end
     
@@ -59,9 +60,8 @@ class BarView < UIView
     modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
     ES.drawString modTitle, inRect:modTitleRect, withColor:UIColor.darkGrayColor, font:ES.mainFont(ModTitleFS), alignment:UITextAlignmentRight
     
-    minBarWidth = 40
     maxBarWidth = bounds.width - WideBarLM - WideBarRM
-    pixelRange = bounds.width - labelWidth - minBarWidth - WideBarRM
+    pixelRange = bounds.width - labelWidth - BarMinW - WideBarRM
     comparision.params.each do |param|
       firstBarShift = comparisionItem.firstForModel?? ModelTitleH : 0
       
@@ -69,7 +69,7 @@ class BarView < UIView
       bar.index = comparision.params.index(param)
       bar.param = param
       bar.mod = mod
-      bar.width = (bar.value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + minBarWidth
+      bar.width = (bar.value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
       bar.rect = CGRectMake(labelWidth + WideBarLM, 1 + firstBarShift + bar.index * BarFH, bar.width, BarH)
 
       rect = bar.rect
@@ -78,7 +78,7 @@ class BarView < UIView
       textColor = UIColor.whiteColor
       textFont = ES.mainFont(BarFS)
       bgColors = self.class.colors[bar.index.remainder(self.class.colors.count)]
-      textRect = CGRectMake(rect.x, rect.y - 1, maxTextWidth, rect.height)
+      textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
       
       ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
       ES.drawString bar.text, inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
@@ -86,17 +86,15 @@ class BarView < UIView
   end
 
   def drawNarrow(rect)
-    context = UIGraphicsGetCurrentContext()    
-    labelWidth = 0
-    minWidth = 40
+    context = UIGraphicsGetCurrentContext()
     maxBarWidth = bounds.width - BarLM - BarRM
-    pixelRange = maxBarWidth - minWidth
+    pixelRange = maxBarWidth - BarMinW
     barsOffset = ModelTitleH + ModelTitleBM
 
     titleRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
     ES.drawInRect titleRect, stringsSpecs:[
       [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
-      [mod.basicName, UIColor.darkGrayColor, ES.mainFont(ModTitleFS), 0]
+      [mod.basicName, UIColor.grayColor, ES.mainFont(ModTitleFS), 0]
     ]
 
     bars = comparision.params.map do |param|
@@ -104,7 +102,7 @@ class BarView < UIView
       bar.index = comparision.params.index(param)
       bar.param = param
       bar.mod = mod
-      bar.width = (bar.value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + minWidth
+      bar.width = (bar.value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
       bar.rect = CGRectMake(BarLM, barsOffset + bar.index * BarFH, bar.width, BarH)
       bar
     end
