@@ -73,15 +73,31 @@ class Helper
       drawString(string, inRect:rect, withColor:color, font:font, lineBreakMode:UILineBreakModeClip, alignment:alignment)
     end 
     
-    def drawInRect(frame, stringsSpecs:stringSpecs)
-      lastStringRightEdge = nil
-      stringSpecs.each_with_index do |(string, color, font, rightMargin), index|
+    def drawInRect(frame, stringsSpecs:stringSpecs, alignment:alignment)
+      lastStringEdge = nil
+      stringSpecs.reverse! if alignment == UITextAlignmentRight
+      stringSpecs.each_with_index do |(string, color, font, margin), index|
         font = fontize(font)
         size = string.sizeWithFont(font)
-        rect = CGRectMake(lastStringRightEdge || frame.x, frame.y + (frame.height - size.height), size.width, size.height)
-        lastStringRightEdge = rect.x + size.width + rightMargin
+
+        case alignment when UITextAlignmentLeft
+          rect = CGRectMake(lastStringEdge || frame.x, frame.y + (frame.height - size.height), size.width, size.height)
+          lastStringEdge = rect.x + size.width + margin
+        when UITextAlignmentRight
+          rect = CGRectMake((lastStringEdge || frame.width) - size.width, frame.y + (frame.height - size.height), size.width, size.height)
+          lastStringEdge = rect.x - margin
+        when UITextAlignmentCenter # works only for 2 items, aligning both to edges
+          rect = index == 0 ?
+            CGRectMake(frame.x + margin, frame.y + (frame.height - size.height), size.width, size.height) :
+            CGRectMake(frame.width - size.width, frame.y + (frame.height - size.height), size.width, size.height)
+        end
+
         ES.drawString string, inRect:rect, withColor:colorize(color), font:font, lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentLeft
-      end      
+      end            
+    end
+    
+    def drawInRect(frame, stringsSpecs:stringSpecs)
+      drawInRect(frame, stringsSpecs:stringSpecs, alignment:UITextAlignmentLeft)
     end
     
     def alignInlineViews(views, inContainer:container, withOptions:options)

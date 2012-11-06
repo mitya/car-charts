@@ -79,21 +79,13 @@ class ChartController < UIViewController
   end
   
   def tableView(tv, cellForRowAtIndexPath:ip)
-    cell = tv.dequeueReusableCell(klass:BarTableViewCell) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
+    cell = tv.dequeueReusableCell(klass:BarTableViewCell) { |c| c.selectionStyle = UITableViewCellSelectionStyleNone }
     cell.comparisionItem = comparision.items[ip.row]
     cell
   end
   
   def tableView(tv, heightForRowAtIndexPath:ip)
-    item = @comparision.items[ip.row]
-    height = 0
-    height += BarView::ModelTitleH + BarView::ModelTitleBM
-    # height += BarView::ModelTitleH + BarView::ModelTitleBM if item.firstForModel?
-    # height += BarView::ModTitleH + BarView::ModTitleBM
-    height += @comparision.params.count * BarView::BarFH
-    height += 4
-    height += 8 if item.lastForModel?
-    height
+    BarView.heightForComparisionItem(@comparision.items[ip.row])
   end
 
   ####
