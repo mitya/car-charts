@@ -29,6 +29,11 @@ class Parameter
     Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(self)
   end
   
+  def formattedValue(value)
+    text = Float === value ? "%.1f" % value : value
+    "#{text} #{unitName}"
+  end
+  
   class << self
     attr_reader :all
 

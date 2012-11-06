@@ -52,78 +52,73 @@ class BarView < UIView
 
   def drawWide(rect)
     context = UIGraphicsGetCurrentContext()
+    headerHeight = 0
     
     case self.class.renderingMode when :wide
       labelWidth = WideBarLabelW
-      modTitleOffset = comparisionItem.firstForModel?? ModelTitleH + ModelTitleBM : 0
+      labelHeight = ModTitleH
       if comparisionItem.firstForModel?
+        headerHeight = ModelTitleH + ModelTitleBM
         modelTitleRect = CGRectMake(0, 0, labelWidth, ModelTitleH)            
         ES.drawString mod.model.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:ES.boldFont(ModelTitleFS), alignment:UITextAlignmentRight 
-      end    
-      modTitleRect = CGRectMake(0, modTitleOffset, labelWidth, ModTitleH)
+      end
+      labelRect = CGRectMake(0, headerHeight, labelWidth, labelHeight)
       modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
-      ES.drawString modTitle, inRect:modTitleRect, withColor:UIColor.darkGrayColor, font:ES.mainFont(ModTitleFS), alignment:UITextAlignmentRight
+      ES.drawString modTitle, inRect:labelRect, withColor:UIColor.darkGrayColor, font:ES.mainFont(ModTitleFS), alignment:UITextAlignmentRight
     when :ultraWide
       labelWidth = UltraWideBarLabelW
-      modTitleOffset = 0
-      titleRect = CGRectMake(0, modTitleOffset, labelWidth, ModelTitleH)    
-      ES.drawInRect titleRect, stringsSpecs:[
+      labelHeight = ModelTitleH
+      labelRect = CGRectMake(0, headerHeight, labelWidth, labelHeight)
+      ES.drawInRect labelRect, stringsSpecs:[
         [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
         [mod.basicName, UIColor.grayColor, ES.mainFont(ModTitleFS), ModelTitleRM]
       ], alignment:UITextAlignmentRight
     end
     
-    maxBarWidth = bounds.width - WideBarLM - WideBarRM
     pixelRange = bounds.width - labelWidth - BarMinW - WideBarRM
+    textColor = UIColor.whiteColor
+    textFont = ES.mainFont(BarFS)
+    barsOffset = (labelHeight - BarH) / 2 + headerHeight
     comparision.params.each do |param|
-      bar = Info.new
-      bar.index = comparision.params.index(param)
-      bar.param = param
-      bar.mod = mod
-      bar.width = (bar.value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
-      bar.rect = CGRectMake(labelWidth + WideBarLM, 1 + modTitleOffset + bar.index * BarFH, bar.width, BarH)
-
-      rect = bar.rect
+      index = comparision.params.index(param)
+      value = mod[param]
+      barWidth = (value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
+      rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, barWidth, BarH)
       isWiderThanBounds = rect.width >= bounds.width - labelWidth
       maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
-      textColor = UIColor.whiteColor
-      textFont = ES.mainFont(BarFS)
-      bgColors = self.class.colors[bar.index.remainder(self.class.colors.count)]
+      bgColors = self.class.colors[index.remainder(self.class.colors.count)]
       textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
       
       ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      ES.drawString bar.text, inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
+      ES.drawString param.formattedValue(value), inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
     end    
   end
 
   def drawNarrow(rect)
     context = UIGraphicsGetCurrentContext()
     maxBarWidth = bounds.width - BarLM - BarRM
-    pixelRange = maxBarWidth - BarMinW
-    barsOffset = ModelTitleH + ModelTitleBM
 
-    titleRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
-    ES.drawInRect titleRect, stringsSpecs:[
+    labelRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
+    ES.drawInRect labelRect, stringsSpecs:[
       [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
       [mod.basicName, UIColor.grayColor, ES.mainFont(ModTitleFS), 0]
     ]
 
+    pixelRange = maxBarWidth - BarMinW
+    barsOffset = ModelTitleH + ModelTitleBM
+    textFont = ES.mainFont(BarFS)
     comparision.params.each do |param|
-      bar = Info.new
-      bar.index = comparision.params.index(param)
-      bar.param = param
-      bar.mod = mod
-      bar.width = (bar.value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
-    
-      rect = CGRectMake(BarLM, barsOffset + bar.index * BarFH, bar.width, BarH)
+      index = comparision.params.index(param)
+      value = mod[param]
+      barWidth = (value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
+      rect = CGRectMake(BarLM, barsOffset + index * BarFH, barWidth, BarH)
       isWiderThanBounds = rect.width >= maxBarWidth
       maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
-      textFont = ES.mainFont(BarFS)
       textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
-      bgColors = self.class.colors[bar.index.remainder(self.class.colors.count)]
+      bgColors = self.class.colors[index.remainder(self.class.colors.count)]
             
       ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      ES.drawString bar.text, inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight
+      ES.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight
     end    
   end
 
@@ -152,21 +147,5 @@ class BarView < UIView
     height += BarView::ModelTitleH + BarView::ModelTitleBM if renderingMode == :narrow || renderingMode == :wide && item.firstForModel?
     height += item.comparision.params.count * BarView::BarFH
     height += item.lastForModel?? LastItemBM : ItemBM
-  end
-
-  class Info
-    attr_accessor :param, :value, :width, :rect, :index, :mod
-    
-    def value
-      mod[param]
-    end
-    
-    def param_text
-      Float === value ? "%.1f" % value : value
-    end
-    
-    def text
-      "#{param_text} #{param.unitName}"
-    end
   end
 end
