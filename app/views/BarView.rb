@@ -51,13 +51,13 @@ class BarView < UIView
     
     if comparisionItem.firstForModel?
       modelTitleRect = CGRectMake(0, 0, labelWidth, ModelTitleH)      
-      ES.drawString mod.model.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:ModelTitleFS, alignment:UITextAlignmentRight 
+      ES.drawString mod.model.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:ES.boldFont(ModelTitleFS), alignment:UITextAlignmentRight 
     end
     
     modTitleOffset = comparisionItem.firstForModel?? ModelTitleH : 0
     modTitleRect = CGRectMake(0, modTitleOffset, labelWidth, ModTitleH)
     modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
-    ES.drawString modTitle, inRect:modTitleRect, withColor:UIColor.darkGrayColor, font:ModTitleFS, alignment:UITextAlignmentRight    
+    ES.drawString modTitle, inRect:modTitleRect, withColor:UIColor.darkGrayColor, font:ES.mainFont(ModTitleFS), alignment:UITextAlignmentRight
     
     minBarWidth = 40
     maxBarWidth = bounds.width - WideBarLM - WideBarRM
@@ -96,7 +96,7 @@ class BarView < UIView
     titleRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
     ES.drawInRect titleRect, stringsSpecs:[
       [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
-      [mod.basicName, ES.grayTextColor, ES.mainFont(ModTitleFS), 0]
+      [mod.basicName, UIColor.darkGrayColor, ES.mainFont(ModTitleFS), 0]
     ]
 
     bars = comparision.params.map do |param|

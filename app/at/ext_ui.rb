@@ -43,7 +43,11 @@ class UIColor
     white, alpha = Pointer.new(:float), Pointer.new(:float)
     success = getWhite(white, alpha:alpha)
     success ? "white(%.2f, alpha=%.2f)" % [white, alpha].map(&:value) : nil
-  end  
+  end
+  
+  def inspect2
+    rgbString || hsbString || whiteLevelString
+  end
 end
 
 class UIFont
