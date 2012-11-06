@@ -31,10 +31,6 @@ class Helper
     end    
 
     def drawRect(rect, inContext:context, withGradientColors:colors, cornerRadius:cornerRadius)
-      drawGradientRect(context, rect, colors, cornerRadius)
-    end
-
-    def drawGradientRect(context, rect, colors, cornerRadius = 2)
       # locationsPtr = Pointer.new(:float, 2)
       # locationsPtr[0] = 0.0
       # locationsPtr[1] = 1.0
@@ -63,14 +59,10 @@ class Helper
       # CGColorSpaceRelease(colorSpace)    
     end  
 
-    def drawStringInRect(string, rect, color, font, lineBreakMode, alignment)
+    def drawString(string, inRect:rect, withColor:color, font:font, lineBreakMode:lineBreakMode, alignment:alignment)
       colorize(color).set if color
       font = fontize(font)
       string.drawInRect rect, withFont:font, lineBreakMode:lineBreakMode, alignment:alignment
-    end   
-    
-    def drawString(string, inRect:rect, withColor:color, font:font, lineBreakMode:lineBreakMode, alignment:alignment)
-      drawStringInRect(string, rect, color, font, lineBreakMode, alignment)
     end 
 
     def drawString(string, inRect:rect, withColor:color, font:font, alignment:alignment)

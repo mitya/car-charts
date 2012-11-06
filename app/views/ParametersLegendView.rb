@@ -85,4 +85,3 @@ class ParametersLegendView < UIView
     end
   end
 end
-

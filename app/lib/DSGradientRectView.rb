@@ -4,7 +4,7 @@ class DSGradientRectView < UIView
   def drawRect(rect)
     context = UIGraphicsGetCurrentContext()    
     colors = @colors || self.class.defaultColors
-    ES.drawGradientRect context, bounds, colors
+    ES.drawRect bounds, inContext:context, withGradientColors:colors, cornerRadius:2.0
   end
   
   def colors=(array)
