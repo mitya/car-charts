@@ -1,24 +1,14 @@
 class ChartController < UIViewController
   attr_accessor :mods, :params, :comparision, :data
-  attr_accessor :tableView, :enterFullScreenModeButton, :exitFullScreenModeButton, :placeholderView
+  attr_accessor :tableView, :enterFullScreenModeBBI, :exitFullScreenModeButton, :placeholderView
 
   def initialize
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:0)
     navigationItem.backBarButtonItem = ES.textBBI("Chart")
-
-    # navigationItem.leftBarButtonItem = ES.planeBBI("bbi-back", target:self, action:'hideSettings', options: {
-    #   size:[15, 15], selected:"bbi-right"
-    # })
-
-    navigationItem.leftBarButtonItem = ES.customBBI do
-      button = UIButton.buttonWithType(UIButtonTypeCustom) # UIButtonTypeRoundedRect
-      button.setImage UIImage.imageNamed("bbi-left"), forState:UIControlStateNormal
-      button.setImage UIImage.imageNamed("bbi-right"), forState:UIControlStateSelected
-      button.frame = [[0, 0], [15, 15]]
-      button.addTarget self, action:'hideSettings', forControlEvents:UIControlEventTouchUpInside
-      button      
-    end
+    navigationItem.leftBarButtonItem = ES.plainBBI("bbi-back", target:self, action:'hideSettings', options:{
+      selected:"bbi-right", size:[15, 15]
+    })
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
@@ -37,15 +27,10 @@ class ChartController < UIViewController
     end
     
     if iphone?
-      self.enterFullScreenModeButton = UIButton.alloc.initWithFrame(CGRectMake(0, 0, 20, 20)).tap do |button|
-        button.setBackgroundImage UIImage.imageNamed('ico-bbi-fs-expand'), forState:UIControlStateNormal
-        button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
-        button.showsTouchWhenHighlighted = YES      
-      end 
-
+      self.enterFullScreenModeBBI = ES.plainBBI("ico-bbi-fs-expand", target:self, action:'toggleFullScreenMode', options:{ size:[20, 20] })
       navigationItem.rightBarButtonItems = [
         ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = 5 },
-        ES.customBBI(enterFullScreenModeButton),
+        enterFullScreenModeBBI
       ]
     end
     

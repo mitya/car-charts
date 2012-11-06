@@ -357,6 +357,19 @@ class Helper
       ES.systemBBI(UIBarButtonSystemItemFlexibleSpace)
     end
   
+    def plainBBI(imageName, target:target, action:action, options:options)
+      options = NSDictionary.dictionary if options == nil
+
+      button = UIButton.buttonWithType(UIButtonTypeCustom)
+      button.frame = [[0, 0], options[:size] || [20, 20]]
+      button.setImage UIImage.imageNamed(imageName), forState:UIControlStateNormal
+      button.setImage UIImage.imageNamed(options[:selected]), forState:UIControlStateSelected if options[:selected]
+      button.showsTouchWhenHighlighted = YES
+      button.addTarget target, action:action, forControlEvents:UIControlEventTouchUpInside
+
+      customBBI(button)      
+    end
+
     def segmentedControl(items)
       segmentedControl = UISegmentedControl.alloc.initWithItems(items)
       segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar
