@@ -48,16 +48,16 @@ class BarView < UIView
     context = UIGraphicsGetCurrentContext()
     headerHeight = 0
 
+    modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
     case self.class.renderingMode when :wide
       labelWidth = WideBarLabelW
       labelHeight = ModTitleH
       if comparisionItem.firstForModel?
         headerHeight = ModelTitleH + ModelTitleBM
-        modelTitleRect = CGRectMake(0, 0, labelWidth, ModelTitleH)            
+        modelTitleRect = CGRectMake(0, 0, labelWidth, ModelTitleH)
         ES.drawString mod.model.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:ES.boldFont(ModelTitleFS), alignment:UITextAlignmentRight 
       end
       labelRect = CGRectMake(0, headerHeight, labelWidth, labelHeight)
-      modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
       ES.drawString modTitle, inRect:labelRect, withColor:UIColor.darkGrayColor, font:ES.mainFont(ModTitleFS), alignment:UITextAlignmentRight
     when :ultraWide
       labelWidth = UltraWideBarLabelW
@@ -65,7 +65,7 @@ class BarView < UIView
       labelRect = CGRectMake(0, headerHeight, labelWidth, labelHeight)
       ES.drawInRect labelRect, stringsSpecs:[
         [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
-        [mod.basicName, UIColor.grayColor, ES.mainFont(ModTitleFS), ModelTitleRM]
+        [modTitle, UIColor.grayColor, ES.mainFont(ModTitleFS), ModelTitleRM]
       ], alignment:UITextAlignmentRight
     end
     
@@ -93,9 +93,10 @@ class BarView < UIView
     maxBarWidth = bounds.width - BarLM - BarRM
 
     labelRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
+    modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
     ES.drawInRect labelRect, stringsSpecs:[
       [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
-      [mod.basicName, UIColor.grayColor, ES.mainFont(ModTitleFS), 0]
+      [modTitle, UIColor.grayColor, ES.mainFont(ModTitleFS), 0]
     ]
 
     pixelRange = maxBarWidth - BarMinW

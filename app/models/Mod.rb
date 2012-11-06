@@ -20,7 +20,7 @@ class Mod < DSCoreModel
   end
   
   def modName
-    "#{basicName}, #{version}"
+    "#{version}, #{basicName}"
   end
   
   def modelNameWithYear
