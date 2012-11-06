@@ -1,3 +1,7 @@
+$es_benchmarking = false
+$es_profiling_time = nil
+$es_profiling_results = []
+
 class Helper
   module Common
     def app
@@ -186,7 +190,7 @@ class Helper
   
   module Development
     def benchmark(actionName = "Action", &block)
-      return block.call unless $benchmarking
+      return block.call unless $es_benchmarking
 
       startTime = Time.now
       result = block.call
@@ -373,6 +377,13 @@ end
 
 ES = Helper.new
 
+ESFontLineHeights = { 
+  6.0 => 8.0, 6.5 => 9.0, 7.0 => 10.0, 7.5 => 10.0, 8.0 => 11.0, 8.5 => 11.0, 9.0 => 12.0, 9.5 => 13.0, 10.0 => 13.0, 10.5 => 14.0,
+  11.0 => 14.0, 11.5 => 14.0, 12.0 => 15.0, 12.5 => 15.0, 13.0 => 16.0, 13.5 => 18.0, 14.0 => 18.0, 14.5 => 19.0, 15.0 => 19.0,
+  15.5 => 19.0, 16.0 => 20.0, 16.5 => 20.0, 17.0 => 21.0, 17.5 => 22.0, 18.0 => 22.0, 18.5 => 23.0, 19.0 => 23.0, 19.5 => 24.0,
+  20.0 => 24.0, 20.5 => 25.0, 21.0 => 26.0, 21.5 => 26.0, 22.0 => 27.0, 22.5 => 28.0, 23.0 => 28.0, 23.5 => 29.0, 24.0 => 29.0, 24.5 => 29.0, 
+}
+
 def ESStrokeRect(rect, context, color = UIColor.redColor)
   ES.strokeRect(rect, inContext:context, withColor:color)
 end
@@ -384,12 +395,27 @@ def ESFont(size, style = :normal)
   end
 end
 
-ESFontLineHeights = { 
-  6.0 => 8.0, 6.5 => 9.0, 7.0 => 10.0, 7.5 => 10.0, 8.0 => 11.0, 8.5 => 11.0, 9.0 => 12.0, 9.5 => 13.0, 10.0 => 13.0, 10.5 => 14.0,
-  11.0 => 14.0, 11.5 => 14.0, 12.0 => 15.0, 12.5 => 15.0, 13.0 => 16.0, 13.5 => 18.0, 14.0 => 18.0, 14.5 => 19.0, 15.0 => 19.0,
-  15.5 => 19.0, 16.0 => 20.0, 16.5 => 20.0, 17.0 => 21.0, 17.5 => 22.0, 18.0 => 22.0, 18.5 => 23.0, 19.0 => 23.0, 19.5 => 24.0,
-  20.0 => 24.0, 20.5 => 25.0, 21.0 => 26.0, 21.5 => 26.0, 22.0 => 27.0, 22.5 => 28.0, 23.0 => 28.0, 23.5 => 29.0, 24.0 => 29.0, 24.5 => 29.0, 
-}
+def ESProfileBegin
+  $es_profiling_results = []
+  $es_profiling_time = Time.now
+end
+
+def ESProfilePrint(label)
+  elapsed = (Time.now - $es_profiling_time) * 1_000
+  NSLog("TIMING #{label}: #{"%.2f" % elapsed}ms")
+  $es_profiling_time = Time.now
+end
+
+def ESProfile(label)
+  elapsed = (Time.now - $es_profiling_time) * 1_000
+  $es_profiling_results << [label, elapsed]
+  $es_profiling_time = Time.now
+end
+
+def ESProfileEnd
+  text = $es_profiling_results.map { |data| "%s %.2f" % data }.join(', ')
+  NSLog("TIMING #{text}")
+end
 
 def ESLineHeightFromFontSize(size)
   ESFontLineHeights[size.to_f]
@@ -402,5 +428,3 @@ end
 def iphone?
   UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone
 end
-
-# $benchmarking = true

@@ -53,7 +53,7 @@ class BarView < UIView
   def drawWide(rect)
     context = UIGraphicsGetCurrentContext()
     headerHeight = 0
-    
+
     case self.class.renderingMode when :wide
       labelWidth = WideBarLabelW
       labelHeight = ModTitleH
