@@ -2,6 +2,8 @@
 class DSBadgeViewCell < UITableViewCell
   attr_accessor :summary, :detail, :badgeView, :badgeText, :badgeColor, :badgeHighlightedColor
   
+  DetailLabelRM = 20 # that's enought to accomodate a 2-char badge and a standard accessory view
+  
   def initWithStyle(style, reuseIdentifier:reuseIdentifier)
     if super
       self.badgeView = DSBadgeView.alloc.init(contentView.bounds, self)
@@ -16,7 +18,10 @@ class DSBadgeViewCell < UITableViewCell
     super
     if detailTextLabel
       base = detailTextLabel.frame
-      detailTextLabel.frame = CGRectMake(base.x, base.y, bounds.width - 50, base.height)
+      margin = DetailLabelRM
+      margin += 15 if accessoryType != UITableViewCellAccessoryNone
+      margin += 18 + 10 * badgeText.length if badgeText
+      detailTextLabel.frame = CGRectMake(base.x, base.y, bounds.width - margin, base.height)
     end
   end
   

@@ -21,6 +21,10 @@ class ModSet < DSCoreModel
   def modCount
     modKeys.count
   end
+  
+  def modPreviewString
+    mods.map(&:model).uniq.map(&:unbrandedName).first(10).join(', ')
+  end
 
   def mods
     @mods ||= modKeys.map { |key| Mod.modForKey(key) }

@@ -20,7 +20,7 @@ class SelectModSetController < UITableViewController
     set = @sets[indexPath.row]
     cell = tv.dequeueReusableCell(klass:DSBadgeViewCell, style:UITableViewCellStyleSubtitle)
     cell.textLabel.text = set.name
-    cell.detailTextLabel.text = set.mods.map { |mod| mod.model }.uniq.map { |model| model.unbrandedName }.join(', ')
+    cell.detailTextLabel.text = set.modPreviewString
     cell.badgeText = set.modCount
     cell
   end

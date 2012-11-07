@@ -112,7 +112,7 @@ class DSCoreModel < NSManagedObject
   
   def update(attributes = {})
     shouldReset = attributes.delete(:reset)
-    attributes.each { |attr, val| set(attr, val) }
+    attributes.each { |attr, val| send("#{attr}=", val) }
     save
     klass.reset if shouldReset
   end

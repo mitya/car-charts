@@ -400,7 +400,8 @@ def ESFont(size, style = :normal)
   end
 end
 
-def ESProfileBegin
+def ESProfileBegin(title = nil)
+  $es_profiling_title = title
   $es_profiling_results = []
   $es_profiling_time = Time.now
 end
@@ -419,7 +420,7 @@ end
 
 def ESProfileEnd
   text = $es_profiling_results.map { |data| "%s %.2f" % data }.join(', ')
-  NSLog("TIMING #{text}")
+  NSLog("TIMING #{$es_profiling_title} #{text}")
 end
 
 def ESLineHeightFromFontSize(size)
