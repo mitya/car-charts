@@ -8,7 +8,7 @@ class ChartController < UIViewController
     navigationItem.backBarButtonItem = ES.textBBI("Chart")
     navigationItem.leftBarButtonItem = ES.plainBBI("bbi-back", target:self, action:'hideSettings', options:{
       selected:"bbi-right", size:[15, 15]
-    })
+    }) if ipad?
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
