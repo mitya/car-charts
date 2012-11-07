@@ -61,7 +61,7 @@ class ModsController < UIViewController
     mod = modsByBody.objectForIndexPath(indexPath)
     modIsSelected = mod.selected?
 
-    cell = tv.dequeueReusableCell(klass: DSCheckmarkCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton }
+    cell = tv.dequeueReusableCell(klass:DSCheckmarkCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton }
     cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
     cell.textLabel.textColor = modIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
     cell.textLabel.text = mod.nameWithVersion

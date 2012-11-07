@@ -3,7 +3,7 @@ class ModSetsController < UITableViewController
 
   def initialize
     self.title = "Model Sets"
-    self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag:4)        
+    self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag:4)
     navigationItem.leftBarButtonItem = editButtonItem
     navigationItem.backBarButtonItem = ES.textBBI("Sets")
     navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
@@ -47,7 +47,7 @@ class ModSetsController < UITableViewController
       textField = cell.viewWithTag(1)
       textField.text = set.name
     else
-      cell = tv.dequeueReusableCell(klass: DSBadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell = tv.dequeueReusableCell(klass:DSBadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
       cell.text = set.name
       cell.badgeText = set.modCount
     end
@@ -82,7 +82,7 @@ class ModSetsController < UITableViewController
   def textFieldDidEndEditing(textField)
     cell = textField.superview
     index = tableView.indexPathForCell(cell)
-    @set = set = @sets[index.row]
+    @set = set = @sets[index.row] # save as ivar because of some MM problems
     set.renameTo(textField.text)
     textField.text = set.name # set name is not changed if the rename has failed
     reloadSets

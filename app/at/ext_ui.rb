@@ -96,18 +96,15 @@ class UIViewController
 end
 
 class UITableView
-  def dequeueReusableCell(options = nil)
+  def dequeueReusableCell(options = nil, &block)
     klass = options && options[:klass] || UITableViewCell
     style = options && options[:style] || UITableViewCellStyleDefault
     id = options && options[:id] || "cell"
-
-    unless cell = dequeueReusableCellWithIdentifier(id)
-      cell = klass.alloc.initWithStyle(style, reuseIdentifier:id)
-      cell.textLabel.backgroundColor = UIColor.clearColor if klass == DSBadgeViewCell
-      yield cell if block_given?
-    end
     
-    cell    
+    cell = dequeueReusableCellWithIdentifier(id) || klass.alloc.initWithStyle(style, reuseIdentifier:id).tap do |cell|
+      cell.textLabel.backgroundColor = UIColor.clearColor if klass == DSBadgeViewCell
+      block.call(cell) if block
+    end
   end
   
   def reloadVisibleRows

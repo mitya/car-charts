@@ -24,12 +24,9 @@ class CarsController < UITableViewController
   end
   
   def tableView(table, cellForRowAtIndexPath:indexPath)
-    cell = table.dequeueReusableCell(klass: DSBadgeViewCell)
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-
     item = Items[indexPath.row]
+    cell = table.dequeueReusableCell { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
     cell.textLabel.text = item[:title]
-    
     cell
   end
 
