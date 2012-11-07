@@ -4,7 +4,7 @@ class SelectModSetController < UITableViewController
   def initialize
     self.title = "Select Model Set"
     self.contentSizeForViewInPopover = [320, 640]
-    navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
+    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)

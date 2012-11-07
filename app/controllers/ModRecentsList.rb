@@ -4,7 +4,7 @@ class RecentModsController < UITableViewController
   def initialize
     self.title = "Recent Models"
     self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemRecents, tag:1)
-    navigationItem.rightBarButtonItem = ES.textBBI("Save", target:self, action:'saveAsSet')
+    navigationItem.rightBarButtonItem = ES.textBBI("Save as Set", target:self, action:'saveAsSet')
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
   
