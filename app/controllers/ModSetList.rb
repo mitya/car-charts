@@ -4,9 +4,9 @@ class ModSetsController < UITableViewController
   def initialize
     self.title = "Model Sets"
     self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemFavorites, tag:4)        
-    navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
+    navigationItem.leftBarButtonItem = editButtonItem
     navigationItem.backBarButtonItem = ES.textBBI("Sets")
-    navigationItem.rightBarButtonItem = editButtonItem
+    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
   end
 
   def viewWillAppear(animated)
@@ -101,6 +101,7 @@ class ModSetsController < UITableViewController
       message:"Enter the set title", delegate:self, cancelButtonTitle:"Cancel", otherButtonTitles:nil)
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput
     alertView.addButtonWithTitle "OK"
+    alertView.textFieldAtIndex(0).autocapitalizationType = UITextAutocapitalizationTypeWords
     alertView.show
   end
   
