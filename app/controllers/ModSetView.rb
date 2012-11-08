@@ -7,7 +7,7 @@ class ModSetController < UITableViewController
 
   def viewDidLoad
     self.title = set.name
-    self.navigationItem.rightBarButtonItems = [editButtonItem, ES.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showSetActionSheet:')]
+    self.navigationItem.rightBarButtonItem = actionsButtonItem
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -42,18 +42,30 @@ class ModSetController < UITableViewController
   
   ####
   
+  def setEditing(editing, animated:animated)
+    super
+    navigationItem.rightBarButtonItem = isEditing ? editButtonItem : actionsButtonItem
+  end
+  
+  def actionsButtonItem
+    @actionsButtonItem ||= ES.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showSetActionSheet:')
+  end
+  
+  ####
+  
   def showSetActionSheet(bbi)
-    sheet = UIActionSheet.alloc.initWithTitle("Add or replace the currently selected models with the models from this set.", 
-      delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
-    sheet.addButtonWithTitle "Replace Current Models"
-    sheet.addButtonWithTitle "Add to Current Models"
+    sheet = UIActionSheet.alloc.initWithTitle(NIL, delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
+    sheet.addButtonWithTitle "Add Models to Chart"
+    sheet.addButtonWithTitle "Replace Chart Models"
+    sheet.addButtonWithTitle "Edit Set"
     sheet.showFromBarButtonItem bbi, animated:YES
   end
   
   def actionSheet(sheet, clickedButtonAtIndex:buttonIndex)
     case sheet.buttonTitleAtIndex(buttonIndex)
-      when "Replace Current Models" then @set.replaceCurrentMods; dismissModalViewControllerAnimated(true)
-      when "Add to Current Models" then @set.addToCurrentMods; dismissModalViewControllerAnimated(true)
+      when "Replace Current Models" then @set.replaceCurrentMods; dismissModalViewControllerAnimated(YES)
+      when "Add Models to Chart" then @set.addToCurrentMods; dismissModalViewControllerAnimated(YES)
+      when "Edit Set" then setEditing(YES, animated:YES)
     end
   end
 end
