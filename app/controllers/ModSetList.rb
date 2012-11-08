@@ -72,14 +72,6 @@ class ModSetsController < UITableViewController
 
   ####
   
-  def alertView(alertView, clickedButtonAtIndex:buttonIndex)
-    if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
-      setTitle = alertView.textFieldAtIndex(0).text
-      ModSet.create(name: setTitle)
-      tableView.reloadData
-    end
-  end
-  
   def textFieldDidEndEditing(textField)
     cell = textField.superview
     index = tableView.indexPathForCell(cell)
@@ -95,18 +87,31 @@ class ModSetsController < UITableViewController
     true
   end
   
+  def alertView(alertView, clickedButtonAtIndex:buttonIndex)
+    if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
+      ModSet.create(name: alertView.textFieldAtIndex(0).text)
+      tableView.reloadData
+    end
+  end    
+    
   ####
 
   def showNewSetDialog
-    alertView = UIAlertView.alloc.initWithTitle("New Model Set",
-      message:"Enter the set title", delegate:self, cancelButtonTitle:"Cancel", otherButtonTitles:nil)
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput
-    alertView.addButtonWithTitle "OK"
-    alertView.textFieldAtIndex(0).autocapitalizationType = UITextAutocapitalizationTypeWords
-    alertView.show
+    ModSetsController.showNewSetDialogFor(self)
   end
   
   def reloadSets
     @sets = ModSet.all
-  end  
+  end
+  
+  class << self
+    def showNewSetDialogFor(controller)
+      alertView = UIAlertView.alloc.initWithTitle("New Model Set",
+        message:"Enter the set title", delegate:controller, cancelButtonTitle:"Cancel", otherButtonTitles:nil)
+      alertView.alertViewStyle = UIAlertViewStylePlainTextInput
+      alertView.addButtonWithTitle "OK"
+      alertView.textFieldAtIndex(0).autocapitalizationType = UITextAutocapitalizationTypeWords
+      alertView.show
+    end        
+  end
 end

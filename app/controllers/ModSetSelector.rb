@@ -5,6 +5,7 @@ class SelectModSetController < UITableViewController
     self.title = "Select Model Set"
     self.contentSizeForViewInPopover = [320, 640]
     navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
+    navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -21,7 +22,6 @@ class SelectModSetController < UITableViewController
     cell = tv.dequeueReusableCell(klass:DSBadgeViewCell, style:UITableViewCellStyleSubtitle)
     cell.textLabel.text = set.name
     cell.detailTextLabel.text = set.modPreviewString
-    cell.badgeText = set.modCount
     cell
   end
 
@@ -33,6 +33,13 @@ class SelectModSetController < UITableViewController
     closeProc.call
   end
 
+  def alertView(alertView, clickedButtonAtIndex:buttonIndex)
+    if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
+      ModSet.create(name: alertView.textFieldAtIndex(0).text)
+      tableView.reloadData
+    end
+  end    
+
   ####
   
   def reloadSets
@@ -41,5 +48,9 @@ class SelectModSetController < UITableViewController
   
   def cancel
     closeProc.call
+  end
+
+  def showNewSetDialog
+    ModSetsController.showNewSetDialogFor(self)
   end
 end
