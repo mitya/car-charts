@@ -1,5 +1,6 @@
 class ParametersLegendView < UIView
-  attr_accessor :parameters, :content
+  attr_accessor :parameters
+  attr_accessor :content, :topBorder
 
   ContentTM = 8
   ContentTP = 16
@@ -17,12 +18,13 @@ class ParametersLegendView < UIView
   def initialize(parameters)
     initWithFrame CGRectMake(0, 0, 0, parameters.count * ItemFH + ContentTM + ContentTP + ContentBM)
     
-    self.content = UIView.alloc.initWithFrame([[ContentHM, ContentTM], [UIScreen.mainScreen.bounds.width - ContentHM * 2, frame.height]]).tap do |view|
-      addSubview(view)
+    self.content = UIView.alloc.init.tap do |content|
+      content.frame = [[ContentHM, ContentTM], [ZERO, ZERO]]
+      addSubview(content)
     end
 
-    CALayer.layer.tap do |topBorder|
-      topBorder.frame = CGRectMake(0, 0, content.frame.width, 1)
+    self.topBorder = CALayer.layer.tap do |topBorder|
+      topBorder.frame = CGRectMake(0, 0, ZERO, 1)
       topBorder.backgroundColor = ES.separatorColor.CGColor
       content.layer.addSublayer(topBorder)
     end
@@ -33,17 +35,18 @@ class ParametersLegendView < UIView
   
   def parameters=(array)
     @parameters = array
-    @content.subviews.each { |view| view.removeFromSuperview }
+    @content.subviews.select(&Item).each { |view| view.removeFromSuperview }
     @parameters.each_with_index { |param, index| @content.addSubview Item.new(param, index) }
     setNeedsLayout
   end
   
-  def layoutSubviews    
+  def layoutSubviews
     super
     options = {containerHM:0, containerTM:ContentTP, viewFH:ItemFH}
     viewsBottomEdge = ES.alignBlockViews content.subviews.select(&Item), inContainer:content, withOptions:options
-    content.frame = CGRectMake(content.frame.x, content.frame.y, content.frame.width, viewsBottomEdge)
-    self.frame = CGRectMake(frame.x, frame.y, frame.width, content.frame.height + ContentTM + ContentBM)
+    content.frame = [content.frame.origin, [bounds.width - ContentHM * 2, viewsBottomEdge]]
+    topBorder.frame = [topBorder.frame.origin, [content.frame.width, topBorder.frame.height]]
+    self.frame = [frame.origin, [frame.width, content.frame.height + ContentTM + ContentBM]]
   end
   
   class Item < UIView

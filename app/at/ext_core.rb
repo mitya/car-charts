@@ -2,6 +2,7 @@ M_PI = Math::PI
 YES = true
 NO = false
 NONE = NO
+ZERO = 0
 NULL = nil
 
 class Object
