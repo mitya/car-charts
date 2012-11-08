@@ -16,6 +16,11 @@ class Helper
       NSIndexPath.indexPathForRow(row, inSection: section)
     end
   
+    def sequentialIndexPaths(section, firstRow, lastRow)
+      return [] if firstRow > lastRow
+      firstRow.upto(lastRow).map { |row| indexPath(section, row) }
+    end
+  
     def ptr(type = :object)
       Pointer.new(type)
     end

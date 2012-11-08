@@ -185,7 +185,8 @@ class Mod < DSCoreModel
     end
 
     def modsForKeys(keys) 
-      context.fetchEntity(entity, predicate:["key in %@", keys])
+      mods = context.fetchEntity(entity, predicate:["key in %@", keys])
+      keys.map { |key| mods.detect { |mod| mod.key == key } }.compact
     end
     
     def modsForModelKey(modelKey)

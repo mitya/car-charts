@@ -49,9 +49,9 @@ class RecentModsController < UITableViewController
     modIsSelected = mod.selected?
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle)
     cell.textLabel.text = mod.model.name
+    cell.textLabel.textColor = modIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
     cell.detailTextLabel.text = mod.modName
     cell.accessoryType = modIsSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
-    cell.textLabel.textColor = modIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
     cell
   end
 
@@ -61,10 +61,19 @@ class RecentModsController < UITableViewController
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmarkAccessory
 
+    recentModCountBefore = Disk.recentMods.count
     mod = modForIndexPath(indexPath)
     mod.select!
+    recentModCountAfter = Disk.recentMods.count
+    recentModCountDelta = recentModCountAfter - recentModCountBefore
     
+    tableView.beginUpdates
+    if indexPath.section == 0 && recentModCountDelta <= 0 # 0 : one moved & one deleted, 1 : one moved, -N : N deleted & one moved
+      removedRecentModsIndexPaths = ES.sequentialIndexPaths(1, recentModCountBefore + recentModCountDelta - 1, recentModCountBefore - 1)
+      tableView.deleteRowsAtIndexPaths removedRecentModsIndexPaths, withRowAnimation:UITableViewRowAnimationAutomatic
+    end
     tableView.moveRowAtIndexPath indexPath, toIndexPath:ES.indexPath(indexPath.section == 0 ? 1 : 0, 0)
+    tableView.endUpdates
   end
   
   ####

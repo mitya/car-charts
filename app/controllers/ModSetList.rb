@@ -20,7 +20,7 @@ class ModSetsController < UITableViewController
 
   def setEditing(editing, animated:animated)
     super
-    tableView.reloadData # redraw cells
+    tableView.reloadData # redraws cells for editing
   end
 
   ####
