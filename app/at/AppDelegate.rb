@@ -125,8 +125,10 @@ class AppDelegate
     @staticContext ||= begin
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
+      
+      # storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
+      # storeOptions = {}
 
-      # storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite') # DEV
       storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
       storeOptions = {NSReadOnlyPersistentStoreOption => YES}
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)

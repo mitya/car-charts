@@ -29,7 +29,7 @@ StaticData = {
   parameterGroups: [:engine, :dimensions, :other],
   parameterGroupsData: {
     engine: ["Engine", [:acceleration_0_100_kmh, :top_speed, :max_power, :max_power_kw, :max_torque, :engine_volume, :cylinder_count, :valves_per_cylinder, :compression, :bore, :gears, :consumption_city, :consumption_highway, :consumption_mixed]],
-    dimensions: ["Dimensions", [:length, :width, :height, :ground_clearance, :wheelbase, :kerbweight, :gross_mass, :tires, :front_tire_rut, :rear_tire_rut, :luggage_min, :luggage_max, :tank_capacity, :doors, :seats]],
+    dimensions: ["Dimensions", [:length, :width, :height, :ground_clearance, :wheelbase, :kerbweight, :gross_mass, :tires, :front_tire_rut, :rear_tire_rut, :luggage_min, :luggage_max, :tank_capacity, :doors, :seats_min, :seats_max]],
     other: ["Other", [:produced_since, :price]]
   },
   parameterNames: {
@@ -63,7 +63,8 @@ StaticData = {
     kerbweight: "Kerb Weight",
     gross_mass: "Gross Weight",
     doors: "Doors Count",
-    seats: "Seats Count",
+    seats_min: "Seats (min)",
+    seats_max: "Seats (max)",
     produced_since: "Produced Since",
     price: "Price",
   },
@@ -98,7 +99,8 @@ StaticData = {
     gross_mass: :kg,
     kerbweight: :kg,
     doors: :count,
-    seats: :count,
+    seats_min: :count,
+    seats_max: :count,
     produced_since: :date,
     price: :rouble,
   },
@@ -216,9 +218,10 @@ StaticData = {
     gross_mass:             [360, 50, 50],
     kerbweight:             [  0, 50, 50],
     doors:                  [ 30, 50, 50],
-    seats:                  [ 60, 50, 50],
-    produced_since:         [ 90, 50, 50],
-    price:                  [120, 50, 50],
+    seats_min:              [ 60, 50, 50],
+    seats_max:              [ 90, 50, 50],
+    produced_since:         [120, 50, 50],
+    price:                  [140, 50, 50],
   },
   colors: [
     [  0, 75, 70],

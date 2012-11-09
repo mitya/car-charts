@@ -119,13 +119,13 @@ class Mod < DSCoreModel
     ['countries', NSStringAttributeType, false],
     ['cylinder_count', NSInteger32AttributeType, false],
     ['cylinder_placement', NSStringAttributeType, false],
-    ['doors', NSStringAttributeType, false], # int
+    ['doors', NSInteger32AttributeType, false],
     ['drive', NSStringAttributeType, false],
     ['drive_config', NSStringAttributeType, false],
     ['engine_placement', NSStringAttributeType, false],
     ['engine_spec', NSStringAttributeType, false],
     ['engine_title', NSStringAttributeType, false],
-    ['engine_vol', NSStringAttributeType, false], # int
+    ['engine_vol', NSFloatAttributeType, false],
     ['engine_volume', NSInteger32AttributeType, false],
     ['fixed_model_name', NSStringAttributeType, false],
     ['front_brakes', NSStringAttributeType, false],
@@ -158,7 +158,8 @@ class Mod < DSCoreModel
     ['rear_brakes', NSStringAttributeType, false],
     ['rear_suspension', NSStringAttributeType, false],
     ['rear_tire_rut', NSInteger32AttributeType, false],
-    ['seats', NSStringAttributeType, false], # int
+    ['seats_min', NSInteger32AttributeType, false],
+    ['seats_max', NSInteger32AttributeType, false],
     ['stroke', NSFloatAttributeType, false],
     ['tank_capacity', NSInteger32AttributeType, false],
     ['tires', NSStringAttributeType, false],
@@ -173,7 +174,7 @@ class Mod < DSCoreModel
 
   Keys = %w(body version_subkey transmission drive engine_vol fuel power model_key
     valves_per_cylinder consumption_city max_power_kw cylinder_placement compression gross_mass bore doors compressor
-    injection tires max_torque_range_start rear_brakes max_torque max_power stroke seats acceleration_0_100_kmh consumption_highway
+    injection tires max_torque_range_start rear_brakes max_torque max_power stroke seats_min seats_max acceleration_0_100_kmh consumption_highway
     engine_spec consumption_mixed countries fuel_rating height drive_config produced_since rear_tire_rut engine_title luggage_min
     length engine_volume body_type max_power_range_start kerbweight car_class ground_clearance luggage_max front_suspension
     price tank_capacity wheelbase model_title front_brakes engine_placement rear_suspension top_speed gears width front_tire_rut
@@ -211,7 +212,7 @@ class Mod < DSCoreModel
       end
     end
   
-    def importFromPlist
+    def import
       fields = @fields.map(&:first).reject { |field| field == 'key' }
       plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
 
