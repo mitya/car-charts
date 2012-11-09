@@ -12,8 +12,6 @@ class ModsController < UIViewController
     self.mods = model.mods
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
     
-    applyFilter
-    
     if toolbarItemsForFilter.any?
       if iphone?
         self.toolbarItems = toolbarItemsForFilter
@@ -25,6 +23,8 @@ class ModsController < UIViewController
         self.tableView.addSubview(ES.grayTableViewTop)
       end
     end
+    
+    applyFilter
   end
   
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -85,16 +85,15 @@ class ModsController < UIViewController
   ####
   
   def applyFilter(options = {})
-    Disk.filterOptions = Disk.filterOptions.merge(options).delete_if { |k,v| !v }
-    opts = Disk.filterOptions
-    self.filteredMods = Disk.filterOptions.empty? ? mods : mods.select do |mod|
-      next false if Disk.filterOptions[:at] && mod.automatic?
-      next false if Disk.filterOptions[:mt] && mod.manual?
-      next false if Disk.filterOptions[:sedan] && mod.sedan?
-      next false if Disk.filterOptions[:hatch] && mod.hatch?
-      next false if Disk.filterOptions[:wagon] && mod.wagon?
-      next false if Disk.filterOptions[:gas] && mod.gas?
-      next false if Disk.filterOptions[:diesel] && mod.diesel?      
+    opts = Disk.filterOptions = Disk.filterOptions.merge(options).delete_if { |k,v| !v }
+    self.filteredMods = opts.empty? ? mods : mods.select do |mod|
+      next false if @transmissionFilter && opts[:at] && mod.automatic?
+      next false if @transmissionFilter && opts[:mt] && mod.manual?
+      next false if @bodyFilter && opts[:sedan] && mod.sedan?
+      next false if @bodyFilter && opts[:hatch] && mod.hatch?
+      next false if @bodyFilter && opts[:wagon] && mod.wagon?
+      next false if @fuelFilter && opts[:gas] && mod.gas?
+      next false if @fuelFilter && opts[:diesel] && mod.diesel?
       next true
     end
     self.modsByBody = filteredMods.group_by { |m| m.body }
