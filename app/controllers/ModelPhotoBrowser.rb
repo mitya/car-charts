@@ -6,6 +6,8 @@ class ModelPhotosController < UIViewController
     self.model = model
     self.year = year
     self.hidesBottomBarWhenPushed = iphone?
+    navigationItem.hidesBackButton = YES
+    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
   end
   
   def viewDidLoad
@@ -17,25 +19,22 @@ class ModelPhotosController < UIViewController
       view.addSubview(webView)
     end
     
-    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
-    navigationItem.hidesBackButton = YES
-    
     self.goBackBBI = ES.imageBBI("bbi-left", style:UIBarButtonItemStylePlain, target:webView, action:'goBack')
-    self.goForwardBBI = ES.imageBBI("bbi-right", style:UIBarButtonItemStylePlain, target:webView, action:'goForward')    
+    self.goForwardBBI = ES.imageBBI("bbi-right", style:UIBarButtonItemStylePlain, target:webView, action:'goForward')
   end
   
   def viewWillAppear(animated)
     super
     webView.delegate = self
-    return if webViewIsLoaded
-    
-    query = "#{model.name} #{year}".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-    path = "http://www.google.com/search?num=10&tbm=isch&q=#{query}"
-    url = NSURL.URLWithString(path)
-    error = Pointer.new(:object)
-    request = NSMutableURLRequest.requestWithURL(url)
-    request.setValue(SafariUA, forHTTPHeaderField:"User-Agent")
-    webView.loadRequest(request)
+    webViewIsLoaded || begin
+      query = "#{model.name} #{year}".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+      path = "http://www.google.com/search?num=10&tbm=isch&q=#{query}"
+      url = NSURL.URLWithString(path)
+      error = Pointer.new(:object)
+      request = NSMutableURLRequest.requestWithURL(url)
+      request.setValue(SafariUA, forHTTPHeaderField:"User-Agent")
+      webView.loadRequest(request)
+    end
   end
 
   def viewWillDisappear(animated)
