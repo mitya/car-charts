@@ -271,4 +271,18 @@ task :simulator2 => ['build:simulator'] do
   sh command
 end
 
-# -com.apple.CoreData.SQLDebug 1
+task "cw:meta" do
+  require File.dirname(__FILE__) + "/crawler/ya_init.rb"
+  $ya_final_parser.build_metadata
+end
+
+task "cw:mods" do
+  require File.dirname(__FILE__) + "/crawler/ya_init.rb"  
+  $ya_number_of_mods_to_convert = ENV['N'].to_i if ENV['N']
+  $ya_final_parser.build_modifications
+end
+
+task "cw:work" do
+  require File.dirname(__FILE__) + "/crawler/ya_init.rb"  
+  $ya_final_analyzer.inmods  
+end
