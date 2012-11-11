@@ -51,9 +51,9 @@ class YAFinalAnalyzer
       brand, model, years, body = model.split('--')
       brand_body = [brand, body].join('--')
       brand_model_body = "#{brand}--#{model}--#{body}"
-      next if BodiesReducedToBody.include?(brand_body)
-      next if BodiesReducedToModels.include?(brand_body)
-      next if BodiesReducedToVersions.include?(brand_model_body)
+      next if Reductions_Body_Body.include?(brand_body)
+      next if Reductions_Body_Model.include?(brand_body)
+      next if Reductions_Body_Version.include?(brand_model_body)
       # printf %{%-40s %s\n}, [brand, model].join('--'), body
       printf %{%-45s  %-35s\n}, %{"#{brand_model_body}"}, %{=> "#{body}",}      
     end

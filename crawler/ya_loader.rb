@@ -250,12 +250,12 @@ class YALoader
 
       body.key = nil
       body.string = header
-      body.vendor_key = VendorTitleToKeys[vendor_title]
+      body.vendor_key = Translations_Vendors[vendor_title]
 
       body.model_title = model_title.dup
       body.model_title.sub!(/\s?\(USA\)\s?$/, '') # "Toyota 4 Runner (USA)"
       body.model_title.sub!("-класс", '') # "Mercedes-Benz SLR-класс"
-      body.model_title = ModelEnglishTitleFixes.fetch("#{vendor_title} #{model_title}", body.model_title)
+      body.model_title = MODEL_ENGLISH_TITLE_FIXES.fetch("#{vendor_title} #{model_title}", body.model_title)
       body.model_key = KK.escape(body.model_title)
       
       body.body_title = translate_body_name(body_title)
@@ -295,8 +295,8 @@ class YALoader
     
     mods.each do |mod|
       volume, gearbox, power = mod['engine'].scan(/^(\d.\d) (\w{2,3}) \((\d+) л.с.\)/).flatten
-      drive = Drives.fetch(mod['drive'])
-      fuel = ShortFuelSigns.fetch(mod['fuel'])
+      drive = Translations_Values_Drives.fetch(mod['drive'])
+      fuel = Translations_Values_FuelSigns.fetch(mod['fuel'])
       mod['agregate'] = [volume + fuel, power + 'ps', gearbox, drive].join('-')
       mod['price'] = mod['price'].gsub(/[^\d]/, '').to_i if mod['price']
       mod['top_speed'] = mod['top_speed'].to_i if mod['top_speed']

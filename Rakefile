@@ -273,16 +273,16 @@ end
 
 task "cw:meta" do
   require File.dirname(__FILE__) + "/crawler/ya_init.rb"
-  $ya_final_parser.build_metadata
+  puts Benchmark.measure { $ya_final_parser.build_metadata }
 end
 
 task "cw:mods" do
   require File.dirname(__FILE__) + "/crawler/ya_init.rb"  
   $ya_number_of_mods_to_convert = ENV['N'].to_i if ENV['N']
-  $ya_final_parser.build_modifications
+  puts Benchmark.measure { $ya_final_parser.build_modifications }
 end
 
 task "cw:work" do
-  require File.dirname(__FILE__) + "/crawler/ya_init.rb"  
+  require File.dirname(__FILE__) + "/crawler/ya_init.rb"
   $ya_final_analyzer.inmods  
 end

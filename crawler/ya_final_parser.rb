@@ -13,11 +13,12 @@ class YAFinalParser
       mod.each_pair do |title, string|
         next if title =~ /^\w+$/
         
-        key = SpecTranslations[title].to_s
+        key = Translations_Parameters[title].to_s
         puts "Key not found '#{title}'" if key.blank?
                 
         case key
-        when RejectedKeys
+        when "front_suspension", "rear_suspension", "front_brakes", "rear_brakes", "model_title", "body_title",
+             "body_type", "price", "engine_title", "engine_spec", "category"
           # no op          
         when "fuel_consumption"
           values = string.split(%r{ / }).map(&:to_f)
@@ -43,25 +44,28 @@ class YAFinalParser
         when "countries"
           names = string.split(SPACE_RE)
           names.delete("Корея") && names.delete("Южная") && names.push("Южная Корея") if names.include?("Корея")
-          names.map! { |rus_name| RusCountryNamesToCodes[rus_name] }          
+          names.map! { |rus_name| Rus_CountryName_Codes[rus_name] }          
           parsed['countries'] = names.join(' ')
         when "drive"
-          string = SpecValueTranslations[key][string]
+          string = Translations_Values[key][string]
           parsed[key] = string == '4WD' ? 'AWD' : string
         when "produced_since", "produced_till"
           if string.length > 4
             month, year = string.split(SPACE_RE)
-            month_number = RusMonths.index(month) + 1
+            month_number = Rus_Months.index(month) + 1
             parsed[key] = "#{year}.#{month_number.to_s.rjust(2, '0')}"
           else
             parsed[key] = string
           end
-        when IntegerSpecs
+        when "top_speed", "engine_volume", "cylinder_count", "valves_per_cylinder", "gears", "max_power", "max_power_kw", "max_torque",
+             "max_power_revs", "max_torque_revs", "length", "width", "height", "ground_clearance", "front_tire_rut", "rear_tire_rut",
+             "wheelbase", "luggage_capacity", "tank_capacity", "kerbweight", "gross_mass", "doors"
           parsed[key] = string.to_i
-        when FloatSpecs
+        when "acceleration_0_100_kmh", "bore", "stroke", "compression", "engine_vol"
           parsed[key] = string.to_f
-        when EnumSpecs
-          translations = SpecValueTranslations.fetch(key)
+        when "cylinder_placement", "injection", "engine_placement", "drive_config", "front_suspension", "rear_suspension",
+             "front_brakes", "rear_brakes", "fuel"
+          translations = Translations_Values.fetch(key)
           parsed[key] = translations[string] if translations
         else
           parsed[key] = string
@@ -90,7 +94,7 @@ class YAFinalParser
       # create an array with the hash contents indexed using :rowIndexForKey
       array = []
       parsed.each do |key, value|
-        index = rowIndexForKey(key)
+        index = Keys_Used.index(key)
         raise "No index for #{key}" unless index
         array[index] = value
       end
@@ -116,7 +120,7 @@ class YAFinalParser
       model_names[key] = body.fetch('model_title') if body
     end
 
-    new_model_names = BodiesReducedToModels.each_with_object({}) do |(brand_old_body, new_model_str), new_model_names|
+    new_model_names = Reductions_Body_Model.each_with_object({}) do |(brand_old_body, new_model_str), new_model_names|
       brand, _ = brand_old_body.split('--')
       body, model_name = new_model_str.split(' ', 2)
       model = KK.escape(model_name)
@@ -129,12 +133,12 @@ class YAFinalParser
     
     all_model_names = model_names.merge(new_model_names)
     branded_model_names = all_model_names.each_with_object({}) do |(key, title), memo|
-      brand_name = VendorKeysToTitles[ key.split('--').first ]
+      brand_name = Attributes_Vendor_Name[ key.split('--').first ]
       memo[key] = "#{brand_name} #{title}"
     end
 
-    all_model_names.merge!(ModelNameFixes)
-    branded_model_names.merge!(BrandedModelNameFixes)
+    all_model_names.merge!(Attributes_Model_Name)
+    branded_model_names.merge!(Attributes_Model_BrandedName)
 
     model_brands = Hash[ all_model_names.keys.map { |key| brand = key.split('--').first; [key, brand] } ]
 
@@ -163,16 +167,16 @@ private
 
     years.gsub!('_', '-')
 
-    body = BodiesReducedToBody.fetch(brand_body, body)
+    body = Reductions_Body_Body.fetch(brand_body, body)
 
-    if new_model_str = BodiesReducedToModels[brand_body]
+    if new_model_str = Reductions_Body_Model[brand_body]
       body, model_name = new_model_str.split(' ', 2)
       hash['fixed_model_name'] = model_name
       hash['base_model_key'] = model
       model = KK.escape(model_name)
     end
       
-    if version_str = BodiesReducedToVersions[brand_model_body]
+    if version_str = Reductions_Body_Version[brand_model_body]
       body, version = version_str.split(' ', 2)
       hash['version'] = version
       model = "#{model}.#{KK.escape(version)}"
