@@ -264,7 +264,7 @@ task "cr:mods" do
   require File.dirname(__FILE__) + "/crawler/ya_init.rb"  
   $ya_number_of_mods_to_convert = ENV['N'].to_i if ENV['N']
   puts Benchmark.realtime { $ya_final_parser.build_modifications }
-  system "cp tmp/gen/db-mods.plist resources/"
+  system "cp tmp/gen/db-mods.plist resources/tmp/"
 end
 
 task "cr:work" do

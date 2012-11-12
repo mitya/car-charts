@@ -128,9 +128,9 @@ class YAFinalParser
 
     model_brands = Hash[ all_model_names.keys.map { |key| brand = key.split('--').first; [key, brand] } ]
 
-    model_info = model_keys.sort.reduce({}) do |hash, key|
-      hash[key] = [all_model_names[key], branded_model_names[key], model_brands[key], ModelClassification[key]]
-      hash
+    model_infos = {}
+    model_keys.sort.each do |key|
+      model_infos[key] = [all_model_names, branded_model_names, model_brands, ModelClassification].map { |src| src[key] || '' }
     end
 
     model_versions = {}
@@ -143,10 +143,10 @@ class YAFinalParser
 
     metadata = {}    
     metadata['model_keys'] = model_keys.sort
-    metadata['model_info'] = model_info    
+    metadata['model_info'] = model_infos
     metadata['model_versions'] = model_versions
     metadata['models_by_class'] = inverted_classification
-    metadata['models_by_brand'] = all_model_names.keys.inject({}) { |hash, key| brand = key.split('--').first; (hash[brand] ||= []) << key; hash }    
+    metadata['models_by_brand'] = all_model_names.keys.sort.inject({}) { |hash, key| brand = key.split('--').first; (hash[brand] ||= []) << key; hash }    
     metadata['parameters'] = Keys_Used
 
     KK.save_plist metadata, "db-metadata", OUTDIR

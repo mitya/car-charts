@@ -72,7 +72,7 @@ class Model
       @keys ||= Metadata[:model_keys]
     end
     
-    def load
+    def load      
       @all = keys.map { |k| new(k) }
       @index = @all.uniqueIndexBy(&:key)
     end    
