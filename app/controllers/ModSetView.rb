@@ -54,7 +54,7 @@ class ModSetController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
 
     cell = tv.cellForRowAtIndexPath(indexPath)
-    cell.toggleLeftCheckmarkAccessory
+    cell.toggleLeftCheckmarkAccessory(textColor:NO)
 
     mod = @set.mods[indexPath.row]
     mod.select!

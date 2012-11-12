@@ -126,13 +126,14 @@ class AppDelegate
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
       
-      # DEV
-      storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
-      storeOptions = {}
-      # NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL)
-
-      # storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
-      # storeOptions = {NSReadOnlyPersistentStoreOption => YES}
+      if UIDevice.currentDevice.model =~ /Simulator/ 
+        storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
+        storeOptions = {}
+        # NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL)
+      else
+        storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
+        storeOptions = {NSReadOnlyPersistentStoreOption => YES}
+      end
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = ES.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)

@@ -66,6 +66,7 @@ class ModController < UITableViewController
       modalNavController.navigationBar.barStyle = UIBarStyleBlack
       modalNavController.toolbar.barStyle = UIBarStyleBlack
       modalNavController.modalPresentationStyle = UIModalPresentationFullScreen
+      modalNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve
       presentViewController modalNavController, animated:YES, completion:NIL
     end
   end  
