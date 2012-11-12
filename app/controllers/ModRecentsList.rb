@@ -47,11 +47,10 @@ class RecentModsController < UITableViewController
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     mod = modForIndexPath(indexPath)
     modIsSelected = mod.selected?
-    cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle)
+    cell = tv.dequeueReusableCell(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle) { |cell| cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton }
+    cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
     cell.textLabel.text = mod.model.name
-    cell.textLabel.textColor = modIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
     cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
-    cell.accessoryType = modIsSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end
 
@@ -59,7 +58,7 @@ class RecentModsController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
 
     cell = tableView.cellForRowAtIndexPath(indexPath)
-    cell.toggleCheckmarkAccessory
+    cell.toggleLeftCheckmarkAccessory(textColor:NO)
 
     recentModCountBefore = Disk.recentMods.count
     mod = modForIndexPath(indexPath)
@@ -76,6 +75,11 @@ class RecentModsController < UITableViewController
     tableView.endUpdates
   end
   
+  def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
+    mod = modForIndexPath(indexPath)
+    navigationController.pushViewController ModController.new(mod), animated:YES
+  end
+    
   ####
 
   def collectionForSection(index)
