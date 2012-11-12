@@ -364,6 +364,10 @@ class Helper
       ES.systemBBI(UIBarButtonSystemItemFlexibleSpace)
     end
   
+    def fixedSpaceBBIWithWidth(width = nil)
+      ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = width if width }
+    end
+  
     def plainBBI(imageName, target:target, action:action, options:options)
       options = NSDictionary.dictionary if options == nil
 

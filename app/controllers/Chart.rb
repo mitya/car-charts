@@ -1,14 +1,11 @@
 class ChartController < UIViewController
   attr_accessor :mods, :params, :comparision, :data
-  attr_accessor :tableView, :enterFullScreenModeBBI, :exitFullScreenModeButton, :placeholderView
+  attr_accessor :tableView, :exitFullScreenModeButton, :placeholderView
 
   def initialize
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:0)
     navigationItem.backBarButtonItem = ES.textBBI("Chart")
-    navigationItem.leftBarButtonItem = ES.plainBBI("bbi-back", target:self, action:'hideSettings', options:{
-      selected:"bbi-right", size:[15, 15]
-    }) if ipad?
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
@@ -26,13 +23,7 @@ class ChartController < UIViewController
       tableView.separatorStyle = UITableViewCellSeparatorStyleNone      
     end
     
-    if iphone?
-      self.enterFullScreenModeBBI = ES.plainBBI("ico-bbi-fs-expand", target:self, action:'toggleFullScreenMode', options:{ size:[20, 20] })
-      navigationItem.rightBarButtonItems = [
-        ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = 5 },
-        enterFullScreenModeBBI
-      ]
-    end
+    navigationItem.rightBarButtonItems = [ ES.fixedSpaceBBIWithWidth(5), toggleFullScreenModeBarItem ]
     
     @reloadPending = true
   end
@@ -95,12 +86,25 @@ class ChartController < UIViewController
   end
 
   def toggleFullScreenMode
-    shouldSwitchOn = !UIApplication.sharedApplication.isStatusBarHidden
-    
-    UIApplication.sharedApplication.setStatusBarHidden(shouldSwitchOn, animated:YES)
-    navigationController.setNavigationBarHidden(shouldSwitchOn, animated:YES)
-    tabBarController.setTabBarHidden(shouldSwitchOn, animated:YES)
-    exitFullScreenModeButton.hidden = !shouldSwitchOn
+    if iphone?
+      shouldSwitchOn = !UIApplication.sharedApplication.isStatusBarHidden
+      UIApplication.sharedApplication.setStatusBarHidden(shouldSwitchOn, animated:YES)
+      navigationController.setNavigationBarHidden(shouldSwitchOn, animated:YES)
+      tabBarController.setTabBarHidden(shouldSwitchOn, animated:YES)
+      exitFullScreenModeButton.hidden = !shouldSwitchOn
+    else
+      ES.app.hidesMasterView = !ES.app.hidesMasterView
+      @fullScreen = ES.app.hidesMasterView
+      toggleSettingsBarItem.customView.selected = !toggleSettingsBarItem.customView.isSelected
+      splitViewController.view.setNeedsLayout
+      splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
+    end
+  end
+  
+  ####
+
+  def fullScreen?
+    @fullScreen
   end
 
   def placeholderView
@@ -114,7 +118,19 @@ class ChartController < UIViewController
       ES.tableViewPlaceholder(text, view.bounds.rectWithHorizMargins(15))
     end
   end
+
+  def toggleSettingsBarItem
+    @toggleSettingsBarItem ||= ES.plainBBI("bbi-back", target:self, action:'toggleFullScreenMode', options:{ 
+      selected:"bbi-right", size:[15, 15] 
+    })
+  end
   
+  def toggleFullScreenModeBarItem
+    @toggleFullScreenModeBarItem ||= ES.plainBBI("ico-bbi-fs-expand", target:self, action:'toggleFullScreenMode', options:{ 
+      size:[20, 20] 
+    })
+  end
+    
   def exitFullScreenModeButton
     @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 35, 5, 30, 30)).tap do |button|
       button.backgroundColor = UIColor.blackColor    
@@ -126,17 +142,5 @@ class ChartController < UIViewController
       button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
       view.addSubview(button)
     end    
-  end  
-  
-  def hideSettings
-    ES.app.hidesMasterView = !ES.app.hidesMasterView
-    @fullScreen = ES.app.hidesMasterView
-    navigationItem.leftBarButtonItem.customView.selected = !navigationItem.leftBarButtonItem.customView.isSelected
-    splitViewController.view.setNeedsLayout
-    splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
-  end
-  
-  def fullScreen?
-    @fullScreen
-  end
+  end    
 end
