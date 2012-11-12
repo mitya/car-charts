@@ -8,11 +8,11 @@ class Mod < DSCoreModel
   end
   
   def basicName
-    "#{displacement_key}#{suffix} #{max_power}ps #{transmission}"
+    "#{displacement_key}#{suffix} #{max_power}hp #{transmission}"
   end
 
   def basicNameWithPunctuation
-    "#{displacement_key}l#{suffix} #{power}ps #{transmission}"
+    "#{displacement_key}l#{suffix} #{power}hp #{transmission}"
   end
   
   def nameWithVersion
