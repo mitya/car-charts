@@ -10,6 +10,11 @@ class ModSetController < UITableViewController
     self.navigationItem.rightBarButtonItem = actionsButtonItem
   end
 
+  def viewWillAppear(animated)
+    super
+    tableView.reloadData
+  end
+
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
@@ -22,9 +27,14 @@ class ModSetController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     mod = @set.mods[indexPath.row]
-    cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
+
+    cell = tv.dequeueReusableCell(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle) do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
+    end
+
     cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
+    cell.imageView.image = mod.selected? ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
     cell
   end
 
@@ -40,6 +50,21 @@ class ModSetController < UITableViewController
     set.swapMods(fromIndexPath.row, toIndexPath.row)
   end
   
+  def tableView(tv, didSelectRowAtIndexPath:indexPath)
+    tableView.deselectRowAtIndexPath(indexPath, animated:YES)
+
+    cell = tv.cellForRowAtIndexPath(indexPath)
+    cell.toggleLeftCheckmarkAccessory
+
+    mod = @set.mods[indexPath.row]
+    mod.select!
+  end
+    
+  def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
+    mod = @set.mods[indexPath.row]
+    navigationController.pushViewController ModController.new(mod), animated:YES
+  end
+    
   ####
   
   def setEditing(editing, animated:animated)
@@ -56,15 +81,15 @@ class ModSetController < UITableViewController
   def showSetActionSheet(bbi)
     sheet = UIActionSheet.alloc.initWithTitle(NIL, delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
     sheet.addButtonWithTitle "Add Models to Chart"
-    sheet.addButtonWithTitle "Replace Chart Models"
+    sheet.addButtonWithTitle "Replace Models on Chart"
     sheet.addButtonWithTitle "Edit Set"
     sheet.showFromBarButtonItem bbi, animated:YES
   end
   
   def actionSheet(sheet, clickedButtonAtIndex:buttonIndex)
     case sheet.buttonTitleAtIndex(buttonIndex)
-      when "Replace Current Models" then @set.replaceCurrentMods; dismissModalViewControllerAnimated(YES)
-      when "Add Models to Chart" then @set.addToCurrentMods; dismissModalViewControllerAnimated(YES)
+      when "Replace Models on Chart" then @set.replaceCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
+      when "Add Models to Chart" then @set.addToCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
       when "Edit Set" then setEditing(YES, animated:YES)
     end
   end
