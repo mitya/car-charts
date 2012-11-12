@@ -7,7 +7,11 @@ NULL = nil
 
 class Object
   def presence
-    self == nil || self == "" || self == [] ? nil : self 
+    present? ? self : nil
+  end
+  
+  def present?
+    !blank?
   end
 end
 
@@ -46,6 +50,12 @@ end
 class NSString
   def blank?
     empty?
+  end
+end
+
+def Fixnum
+  def blank?
+    false
   end
 end
 
@@ -106,6 +116,10 @@ class NSArray
     self[i], self[j] = b, a
     self
   end
+  
+  def blank?
+    empty?
+  end
 end
 
 class NSDictionary
@@ -119,6 +133,10 @@ class NSDictionary
     key = keys[indexPath.section]
     object = self[key][indexPath.row]
     object
+  end
+
+  def blank?
+    empty?
   end
 end
 

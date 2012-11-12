@@ -50,7 +50,7 @@ class RecentModsController < UITableViewController
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle)
     cell.textLabel.text = mod.model.name
     cell.textLabel.textColor = modIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
-    cell.detailTextLabel.text = mod.modName
+    cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
     cell.accessoryType = modIsSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
     cell
   end

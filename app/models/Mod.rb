@@ -1,55 +1,71 @@
 class Mod < DSCoreModel
-  def model
-    @model ||= Model.modelForKey(model_key)
-  end
-  
-  def fullName
-    "#{model.name} #{basicName}"
-  end
-  
-  def basicName
-    "#{displacement_key}#{suffix} #{max_power}hp #{transmission}"
+  NameEngine  = 1 << 0
+  NameVersion = 1 << 1
+  NameBody    = 1 << 2
+  NameModel   = 1 << 3
+  NameBodyVersion = NameBody | NameVersion
+  NameBodyEngineVersion = NameBody | NameEngine | NameVersion
+  NameEngineVersion = NameEngine | NameVersion
+
+  # NameEngine: 2.1T 240hp AT
+  # NameEngine | NameVersion: 2.1T 240hp AT, OPC
+  # NameEngine | NameVersion | NameBody: sedan 2.1T 240hp AT, OPC
+  # NameEngine | NameModel | NameVersion: Opel Astra 2.1T 240hp AT, OPC
+  # NameEngine | NameModel | NameVersion | NameBody | Opel Astra sedan 2.1T 240hp AT, OPC
+  def modName(options = NameEngineVersion)
+    enginePart = "#{displacement_key}#{suffix} #{max_power}hp #{transmission}" if options & NameEngine > 0
+    bodyPart = bodyName if options & NameBody > 0
+    versionPart = versionName if options & NameVersion > 0
+    modelPart = model.name if options & NameModel > 0
+    [modelPart, bodyPart, versionPart, enginePart].compact.join(' ')
   end
 
-  def basicNameWithPunctuation
-    "#{displacement_key}l#{suffix} #{power}hp #{transmission}"
-  end
-  
-  def nameWithVersion
-    version_key ? "#{basicName}, #{versionName}" : basicName
-  end
-  
-  def modName
-    "#{version}, #{basicName}"
-  end
-  
+  ####
+
+  # Opel Astra 2012
   def modelNameWithYear
     "#{model.name} #{year}"
   end
-  
-  def displacement_key
-    "%.1f" % primitiveValueForKey('displacement_key')
+
+  def bodyName
+    Metadata.bodyNames[body] || raise("No name for body '#{body}'")
   end
-  
+
+  def versionName
+    Metadata['model_versions'][modelKeyWithVersion] if version_key
+  end
+
+  def suffix
+    if fuel == 'D' then 'd'
+    elsif compressor != 0 && fuel != 'D' then 'T'
+    else ''
+    end
+  end
+
+  ####
+
+  def model
+    @model ||= Model.modelForKey(model_key)
+  end
+
   def category
     Metadata[:model_info][model_key][3]
   end
-  
-  def bodyName
-    Metadata.bodyNames[body] || "!!! #{body}"
-  end
-  
-  def version
-    "#{bodyName} #{versionName}".strip
-  end
-  
-  def versionName
-    Metadata['model_versions'][modelKeyWithVersion] if version_key
+
+  def displacement_key
+    "%.1f" % primitiveValueForKey('displacement_key')
   end
   
   def modelKeyWithVersion
     version_key ? "#{model_key}.#{version_key}" : model_key
   end
+  
+  def year
+    # @year ||= key.split(' ')[2].split('-').first.to_i
+    @year ||= produced_since.to_s.gsub(/[^\d]/, '').to_i
+  end
+
+  ####
   
   def selected?
     Disk.currentMods.include?(self)
@@ -59,12 +75,7 @@ class Mod < DSCoreModel
     Disk.toggleModInCurrentList(self)
   end
   
-  def suffix
-    if fuel == 'd' then 'd'
-    elsif compressor && fuel != 'd' then 'T'
-    else ''
-    end
-  end
+  ####
   
   def gas?
     fuel == 'i'
@@ -94,11 +105,8 @@ class Mod < DSCoreModel
     body.start_with?('hatch')
   end
 
-  def year
-    # @year ||= key.split(' ')[2].split('-').first.to_i
-    @year ||= produced_since.to_s.gsub(/[^\d]/, '').to_i
-  end
-  
+  ####
+
   def [](key)
     key = key.key if Parameter === key
     get(key)

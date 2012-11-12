@@ -9,7 +9,7 @@ class ModController < UITableViewController
 
   def viewDidLoad
     self.title = mod.model.name
-    self.tableView.tableHeaderView = ES.tableViewFooterLabel(mod.basicName)
+    self.tableView.tableHeaderView = ES.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersion))
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)

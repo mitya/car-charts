@@ -24,7 +24,7 @@ class ModSetController < UITableViewController
     mod = @set.mods[indexPath.row]
     cell = tv.dequeueReusableCell(style: UITableViewCellStyleSubtitle) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
     cell.textLabel.text = mod.model.name
-    cell.detailTextLabel.text = mod.modName
+    cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
     cell
   end
 

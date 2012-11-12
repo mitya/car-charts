@@ -302,7 +302,8 @@ class Helper
       textHeight = text.sizeWithFont(font).height
       topMargin = 6
 
-      view = UIView.alloc.initWithFrame [[0, 0], [UIScreen.mainScreen.bounds.width, textHeight + topMargin]]
+      view = UIView.alloc.initWithFrame [[0, 0], [ZERO, textHeight + topMargin]]
+      view.autoresizingMask = UIViewAutoresizingFlexibleWidth
       label = UILabel.alloc.initWithFrame([[0, topMargin], [view.frame.width, textHeight]]).tap do |label|
         label.text = text
         label.backgroundColor = UIColor.clearColor
@@ -311,6 +312,7 @@ class Helper
         label.shadowColor = UIColor.colorWithWhite(1, alpha:1)
         label.shadowOffset = CGSizeMake(0, 1)
         label.textAlignment = UITextAlignmentCenter
+        label.autoresizingMask = UIViewAutoresizingFlexibleWidth
         view.addSubview(label)        
       end
       

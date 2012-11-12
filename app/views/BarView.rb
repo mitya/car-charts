@@ -48,7 +48,8 @@ class BarView < UIView
     context = UIGraphicsGetCurrentContext()
     headerHeight = 0
 
-    modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
+    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersion : Mod::NameBodyEngineVersion
+    modTitle = mod.modName(modTitleOptions)
     case self.class.renderingMode when :wide
       labelWidth = WideBarLabelW
       labelHeight = ModTitleH
@@ -93,7 +94,8 @@ class BarView < UIView
     maxBarWidth = bounds.width - BarLM - BarRM
 
     labelRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
-    modTitle = comparision.containsOnlyBodyParams?? mod.version : mod.modName
+    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersion : Mod::NameBodyEngineVersion
+    modTitle = mod.modName(modTitleOptions)
     ES.drawInRect labelRect, stringsSpecs:[
       [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
       [modTitle, UIColor.grayColor, ES.mainFont(ModTitleFS), 0]
