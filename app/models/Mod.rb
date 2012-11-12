@@ -17,7 +17,7 @@ class Mod < DSCoreModel
     bodyPart = bodyName if options & NameBody > 0
     versionPart = versionName if options & NameVersion > 0
     modelPart = model.name if options & NameModel > 0
-    [modelPart, bodyPart, versionPart, enginePart].compact.join(' ')
+    [modelPart, bodyPart, enginePart, versionPart].compact.join(' ')
   end
 
   ####
@@ -52,17 +52,12 @@ class Mod < DSCoreModel
     Metadata[:model_info][model_key][3]
   end
 
-  def displacement_key
-    "%.1f" % primitiveValueForKey('displacement_key')
-  end
-  
   def modelKeyWithVersion
     version_key ? "#{model_key}.#{version_key}" : model_key
   end
   
   def year
-    # @year ||= key.split(' ')[2].split('-').first.to_i
-    @year ||= produced_since.to_s.gsub(/[^\d]/, '').to_i
+    @year ||= produced_since.to_s.gsub(/[^\d\.]/, '').to_i
   end
 
   ####
@@ -136,7 +131,7 @@ class Mod < DSCoreModel
     ['fuel_rating',            NSStringAttributeType,    false],
     ['gears',                  NSInteger32AttributeType, false],
 
-    ['displacement_key',       NSFloatAttributeType,     false],
+    ['displacement_key',       NSStringAttributeType,    false],
     ['displacement',           NSInteger32AttributeType, false],
     ['max_power',              NSInteger32AttributeType, false],
     ['max_power_kw',           NSInteger32AttributeType, false],

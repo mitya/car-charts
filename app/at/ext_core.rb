@@ -13,6 +13,10 @@ class Object
   def present?
     !blank?
   end
+  
+  def blank?
+    false
+  end
 end
 
 class Class
@@ -53,7 +57,7 @@ class NSString
   end
 end
 
-def Fixnum
+class NSNumber
   def blank?
     false
   end
