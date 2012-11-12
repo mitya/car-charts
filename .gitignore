@@ -4,6 +4,7 @@ resources/*.nib
 resources/*.momd
 resources/*.storyboardc
 resources/tmp/*
+resources/db-static.sqlite
 carchartscrawler
 docs/*
 .dat*
