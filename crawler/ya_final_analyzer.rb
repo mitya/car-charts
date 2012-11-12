@@ -1,20 +1,24 @@
 class YAFinalAnalyzer
-  def inmods
-    mods = JSON.load(OUTDIR + "db-modifications-hashes.json")
-    results = mods.values.map { |mod_hash| mod_hash['version'] }
+  def work
+    param = 'body'
+    mods = JSON.load(OUTDIR + "db-mods-kv.json")
+    # mods = mods.select { |k, mod| mod[param] }
+    all = mods.values.map { |mod| mod[param] } 
 
-    mods.each do |key, mod|
-      # p [key, mod['drive'], mod['drive_config']] if mod['drive'] != mod['drive_config']
-      # p [key, mod['power'], mod['max_power']] if mod['max_power'] != mod['power']
-    end
+    # params = %w(version_key model_key)
+    # mods.each do |key, mod|
+    #   # puts [key, params.map { |p| mod[p] }].compact.join(' | ')
+    #   # p [key, mod['displacement_key'], mod['displacement']]
+    # end
+    # puts "Total: #{mods.count}"
 
-    results = results.flatten.uniq.compact.sort
-    results.each { |result| puts result }
+    uniq = all.flatten.uniq.compact.sort
+    uniq.each { |val| puts val }
+    puts "Total: #{all.count}, non-blank: #{all.compact.count}, uniq: #{uniq.count}" 
   end
 
   def print_models_by_length
     pp ModelClassification.map { |m, k| m.split('--').join(' ').titleize }.sort_by(&:length)
-    # pp ModelClassification.map { |m, k| m.split('--').last.titleize }.sort_by(&:length)
   end
   
   def print_weird_bodies

@@ -8,15 +8,15 @@ class Mod < DSCoreModel
   end
   
   def basicName
-    "#{engine_vol}#{suffix} #{power}ps #{transmission}"
+    "#{displacement_key}#{suffix} #{max_power}ps #{transmission}"
   end
 
   def basicNameWithPunctuation
-    "#{engine_vol}l#{suffix} #{power}ps #{transmission}"
+    "#{displacement_key}l#{suffix} #{power}ps #{transmission}"
   end
   
   def nameWithVersion
-    !version_subkey.blank? ? "#{basicName}, #{version_subkey}" : basicName
+    version_key ? "#{basicName}, #{versionName}" : basicName
   end
   
   def modName
@@ -25,6 +25,10 @@ class Mod < DSCoreModel
   
   def modelNameWithYear
     "#{model.name} #{year}"
+  end
+  
+  def displacement_key
+    "%.1f" % primitiveValueForKey('displacement_key')
   end
   
   def category
@@ -36,7 +40,15 @@ class Mod < DSCoreModel
   end
   
   def version
-    "#{bodyName} #{version_subkey}".strip
+    "#{bodyName} #{versionName}".strip
+  end
+  
+  def versionName
+    Metadata['model_versions'][modelKeyWithVersion] if version_key
+  end
+  
+  def modelKeyWithVersion
+    version_key ? "#{model_key}.#{version_key}" : model_key
   end
   
   def selected?
@@ -103,81 +115,64 @@ class Mod < DSCoreModel
   @contextName = :staticContext
   @defaultSortField = 'key'
   @fields = [
-    ['key', NSStringAttributeType, true],
-    ['acceleration_0_100_kmh', NSFloatAttributeType, false],
-    ['base_model_key', NSStringAttributeType, false],
-    ['body', NSStringAttributeType, false],
-    ['body_type', NSStringAttributeType, false],
-    ['bore', NSFloatAttributeType, false],
-    ['car_class', NSStringAttributeType, false],
-    ['compression', NSFloatAttributeType, false],
-    ['compressor', NSStringAttributeType, false],
-    ['consumption_city', NSFloatAttributeType, false],
-    ['consumption_highway', NSFloatAttributeType, false],
-    ['consumption_mixed', NSFloatAttributeType, false],
-    ['countries', NSStringAttributeType, false],
-    ['cylinder_count', NSInteger32AttributeType, false],
-    ['cylinder_placement', NSStringAttributeType, false],
-    ['doors', NSInteger32AttributeType, false],
-    ['drive', NSStringAttributeType, false],
-    ['drive_config', NSStringAttributeType, false],
-    ['engine_placement', NSStringAttributeType, false],
-    ['engine_spec', NSStringAttributeType, false],
-    ['engine_title', NSStringAttributeType, false],
-    ['engine_vol', NSFloatAttributeType, false],
-    ['engine_volume', NSInteger32AttributeType, false],
-    ['fixed_model_name', NSStringAttributeType, false],
-    ['front_brakes', NSStringAttributeType, false],
-    ['front_suspension', NSStringAttributeType, false],
-    ['front_tire_rut', NSInteger32AttributeType, false],
-    ['fuel', NSStringAttributeType, false],
-    ['fuel_rating', NSStringAttributeType, false],
-    ['gears', NSInteger32AttributeType, false],
-    ['gross_mass', NSInteger32AttributeType, false],
-    ['ground_clearance', NSInteger32AttributeType, false],
-    ['height', NSInteger32AttributeType, false],
-    ['injection', NSStringAttributeType, false],
-    ['kerbweight', NSInteger32AttributeType, false],
-    ['length', NSInteger32AttributeType, false],
-    ['luggage_max', NSInteger32AttributeType, false],
-    ['luggage_min', NSInteger32AttributeType, false],
-    ['max_power', NSInteger32AttributeType, false],
-    ['max_power_kw', NSInteger32AttributeType, false],
-    ['max_power_range_end', NSInteger32AttributeType, false],
-    ['max_power_range_start', NSInteger32AttributeType, false],
-    ['max_torque', NSInteger32AttributeType, false],
-    ['max_torque_range_end', NSInteger32AttributeType, false],
+    ['key',                    NSStringAttributeType,    true ],
+    ['body',                   NSStringAttributeType,    false],
+    ['model_key',              NSStringAttributeType,    false],
+    ['version_key',            NSStringAttributeType,    false],
+                               
+    ['top_speed',              NSInteger32AttributeType, false],
+    ['acceleration_100kmh',    NSFloatAttributeType,     false],
+    ['transmission',           NSStringAttributeType,    false],    
+    ['drive',                  NSStringAttributeType,    false],
+    ['fuel',                   NSStringAttributeType,    false],
+    ['fuel_rating',            NSStringAttributeType,    false],
+    ['gears',                  NSInteger32AttributeType, false],
+
+    ['displacement_key',       NSFloatAttributeType,     false],
+    ['displacement',           NSInteger32AttributeType, false],
+    ['max_power',              NSInteger32AttributeType, false],
+    ['max_power_kw',           NSInteger32AttributeType, false],
+    ['max_power_range_start',  NSInteger32AttributeType, false],
+    ['max_power_range_end',    NSInteger32AttributeType, false],
+    ['max_torque',             NSInteger32AttributeType, false],
     ['max_torque_range_start', NSInteger32AttributeType, false],
-    ['model_key', NSStringAttributeType, false],
-    ['power', NSInteger32AttributeType, false],
-    ['price', NSStringAttributeType, false],
-    ['produced_since', NSStringAttributeType, false],
-    ['produced_till', NSStringAttributeType, false],
-    ['rear_brakes', NSStringAttributeType, false],
-    ['rear_suspension', NSStringAttributeType, false],
-    ['rear_tire_rut', NSInteger32AttributeType, false],
-    ['seats_min', NSInteger32AttributeType, false],
-    ['seats_max', NSInteger32AttributeType, false],
-    ['stroke', NSFloatAttributeType, false],
-    ['tank_capacity', NSInteger32AttributeType, false],
-    ['tires', NSStringAttributeType, false],
-    ['top_speed', NSInteger32AttributeType, false],
-    ['transmission', NSStringAttributeType, false],
-    ['valves_per_cylinder', NSInteger32AttributeType, false],
-    ['version', NSStringAttributeType, false],
-    ['version_subkey', NSStringAttributeType, false],
-    ['wheelbase', NSInteger32AttributeType, false],
-    ['width', NSInteger32AttributeType, false],
+    ['max_torque_range_end',   NSInteger32AttributeType, false],
+    ['engine_layout',          NSInteger16AttributeType, false],
+    ['bore',                   NSFloatAttributeType,     false],
+    ['stroke',                 NSFloatAttributeType,     false],
+    ['compression',            NSFloatAttributeType,     false],
+    ['compressor',             NSInteger16AttributeType, false],
+    ['injection',              NSInteger16AttributeType, false],
+    ['consumption_city',       NSFloatAttributeType,     false],
+    ['consumption_highway',    NSFloatAttributeType,     false],
+    ['consumption_mixed',      NSFloatAttributeType,     false],
+    ['cylinder_count',         NSInteger32AttributeType, false],
+    ['cylinder_placement',     NSStringAttributeType,    false],
+    ['cylinder_valves',        NSInteger32AttributeType, false],
+
+    ['countries',              NSStringAttributeType,    false],
+    ['produced_since',         NSStringAttributeType,    false],
+    ['produced_till',          NSStringAttributeType,    false],
+                              
+    ['doors',                  NSInteger32AttributeType, false],
+    ['seats_min',              NSInteger32AttributeType, false],
+    ['seats_max',              NSInteger32AttributeType, false],
+    ['luggage_max',            NSInteger32AttributeType, false],
+    ['luggage_min',            NSInteger32AttributeType, false],
+                              
+    ['gross_mass',             NSInteger32AttributeType, false],
+    ['kerbweight',             NSInteger32AttributeType, false],
+    ['height',                 NSInteger32AttributeType, false],
+    ['length',                 NSInteger32AttributeType, false],
+    ['width',                  NSInteger32AttributeType, false],
+    ['wheelbase',              NSInteger32AttributeType, false],
+    ['ground_clearance',       NSInteger32AttributeType, false],
+    ['front_tire_rut',         NSInteger32AttributeType, false],
+    ['rear_tire_rut',          NSInteger32AttributeType, false],
+    ['tank_capacity',          NSInteger32AttributeType, false],
+    ['tires',                  NSStringAttributeType,    false],
   ]
-
-  Keys = %w(body version_subkey transmission drive engine_vol fuel power model_key
-    valves_per_cylinder consumption_city max_power_kw cylinder_placement compression gross_mass bore doors compressor
-    injection tires max_torque_range_start rear_brakes max_torque max_power stroke seats_min seats_max acceleration_0_100_kmh consumption_highway
-    engine_spec consumption_mixed countries fuel_rating height drive_config produced_since rear_tire_rut engine_title luggage_min
-    length engine_volume body_type max_power_range_start kerbweight car_class ground_clearance luggage_max front_suspension
-    price tank_capacity wheelbase model_title front_brakes engine_placement rear_suspension top_speed gears width front_tire_rut
-    cylinder_count body_title produced_till max_torque_range_end max_power_range_end version base_model_key fixed_model_name)
-
+  
   class << self
     def modForKey(key)
       context.fetchEntity(entity, predicate:["key = %@", key]).first
@@ -193,26 +188,27 @@ class Mod < DSCoreModel
     end
 
     def filterOptionsForMods(mods)
-      mods.reduce({}) do |options, mod|
+      options = mods.reduce({}) do |options, mod|
         options[:mt] = true if options[:mt].nil? && mod.manual?
         options[:at] = true if options[:at].nil? && mod.automatic?
         options[:sedan] = true if options[:sedan].nil? && mod.sedan?
         options[:hatch] = true if options[:hatch].nil? && mod.hatch?
         options[:wagon] = true if options[:wagon].nil? && mod.wagon?
         options[:gas] = true if options[:gas].nil? && mod.gas?
-        options[:diesel] = true if options[:diesel].nil? && mod.diesel?
-        
-        options[:transmission] = [options[:mt], options[:at]].compact
-        options[:body] = [options[:sedan], options[:wagon], options[:hatch]].compact
-        options[:fuel] = [options[:gas], options[:diesel]].compact
-        
+        options[:diesel] = true if options[:diesel].nil? && mod.diesel?        
         options
       end
+      options[:transmission] = [options[:mt], options[:at]].compact
+      options[:body] = [options[:sedan], options[:wagon], options[:hatch]].compact
+      options[:fuel] = [options[:gas], options[:diesel]].compact
+      options
     end
   
     def import
+      puts "Param delta: #{Metadata[:parameters] - @fields.map(&:first)} / #{@fields.map(&:first) - Metadata[:parameters]}"
+      
       fields = @fields.map(&:first).reject { |field| field == 'key' }
-      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-modifications", ofType:"plist"))
+      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-mods", ofType:"plist"))
 
       plist.each do |key, data|
         mod = Mod.build(key: key)
@@ -224,9 +220,9 @@ class Mod < DSCoreModel
     def indexForKey(key)
       @keyIndex || begin
         @keyIndex = {}
-        Keys.each_with_index { |key, index| @keyIndex[key] ||= index }
+        Metadata[:parameters].each_with_index { |key, index| @keyIndex[key] ||= index }
       end
-      @keyIndex[key]
+      @keyIndex[key] || raise("No index for key '#{key}'")
     end    
   end
 end

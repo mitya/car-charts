@@ -13,43 +13,41 @@ class YAFinalParser
       mod.each_pair do |title, string|
         next if title =~ /^\w+$/
         
-        key = Translations_Parameters[title].to_s
-        puts "Key not found '#{title}'" if key.blank?
-                
+        key = Translations_Parameters[title] || raise("Key not found for '#{title}'")
+
         case key
-        when "front_suspension", "rear_suspension", "front_brakes", "rear_brakes", "model_title", "body_title",
-             "body_type", "price", "engine_title", "engine_spec", "category"
-          # no op          
-        when "fuel_consumption"
+        when :front_suspension, :rear_suspension, :front_brakes, :rear_brakes, :model_title, :body_title, :body_type, :price, :engine_title, :engine_spec, :category
+          # ignore          
+        when :fuel_consumption
           values = string.split(%r{ / }).map(&:to_f)
-          parsed['consumption_city'], parsed['consumption_highway'], parsed['consumption_mixed'] = values
-        when "bore_and_stroke"
+          parsed[:consumption_city], parsed[:consumption_highway], parsed[:consumption_mixed] = values
+        when :bore_and_stroke
           values = string.split('x').map(&:to_f)
-          parsed['bore'], parsed['stroke'] = values
-        when "max_power"
+          parsed[:bore], parsed[:stroke] = values
+        when :max_power
           values = string.split(%r{ / }).map(&:to_i)
-          parsed['max_power'], parsed['max_power_kw'], parsed['max_power_range_start'], parsed['max_power_range_end'] = values
-        when "max_torque"
+          parsed[:max_power], parsed[:max_power_kw], parsed[:max_power_range_start], parsed[:max_power_range_end] = values
+        when :max_torque
           values = string.split(%r{ / }).map(&:to_i)
-          parsed['max_torque'], parsed['max_torque_range_start'], parsed['max_torque_range_end'] = values
-        when "tires"
-          parsed['tires'] = string.gsub(SPACE_RE, ' ')
-        when "luggage_capacity"
+          parsed[:max_torque], parsed[:max_torque_range_start], parsed[:max_torque_range_end] = values
+        when :tires
+          parsed[:tires] = string.gsub(SPACE_RE, ' ')
+        when :luggage_capacity
           values = string.split(SPACE_RE).map(&:to_i)
-          parsed['luggage_min'], parsed['luggage_max'] = values.first, values.last
-        when "seats"
+          parsed[:luggage_min], parsed[:luggage_max] = values.first, values.last
+        when :seats
           string = '4' if string == '2+2'
           values = string.split(SPACE_RE).map(&:to_i)
-          parsed['seats_min'], parsed['seats_max'] = values.first, values.last
-        when "countries"
+          parsed[:seats_min], parsed[:seats_max] = values.first, values.last
+        when :countries
           names = string.split(SPACE_RE)
           names.delete("Корея") && names.delete("Южная") && names.push("Южная Корея") if names.include?("Корея")
           names.map! { |rus_name| Rus_CountryName_Codes[rus_name] }          
-          parsed['countries'] = names.join(' ')
-        when "drive"
+          parsed[:countries] = names.join(' ')
+        when :drive
           string = Translations_Values[key][string]
           parsed[key] = string == '4WD' ? 'AWD' : string
-        when "produced_since", "produced_till"
+        when :produced_since, :produced_till
           if string.length > 4
             month, year = string.split(SPACE_RE)
             month_number = Rus_Months.index(month) + 1
@@ -57,14 +55,14 @@ class YAFinalParser
           else
             parsed[key] = string
           end
-        when "top_speed", "engine_volume", "cylinder_count", "valves_per_cylinder", "gears", "max_power", "max_power_kw", "max_torque",
-             "max_power_revs", "max_torque_revs", "length", "width", "height", "ground_clearance", "front_tire_rut", "rear_tire_rut",
-             "wheelbase", "luggage_capacity", "tank_capacity", "kerbweight", "gross_mass", "doors"
+        when :top_speed, :displacement, :cylinder_count, :cylinder_valves, :gears, :max_power, :max_power_kw, :max_torque,
+             :max_power_revs, :max_torque_revs, :length, :width, :height, :ground_clearance, :front_tire_rut, :rear_tire_rut,
+             :wheelbase, :luggage_capacity, :tank_capacity, :kerbweight, :gross_mass, :doors
           parsed[key] = string.to_i
-        when "acceleration_0_100_kmh", "bore", "stroke", "compression", "engine_vol"
+        when :acceleration_100kmh, :bore, :stroke, :compression, :displacement_key
           parsed[key] = string.to_f
-        when "cylinder_placement", "injection", "engine_placement", "drive_config", "front_suspension", "rear_suspension",
-             "front_brakes", "rear_brakes", "fuel"
+        when :cylinder_placement, :injection, :engine_layout, :front_suspension, :rear_suspension, 
+             :front_brakes, :rear_brakes, :fuel, :fuel_rating, :compressor, :transmission
           translations = Translations_Values.fetch(key)
           parsed[key] = translations[string] if translations
         else
@@ -73,44 +71,32 @@ class YAFinalParser
       end
       
       # replace dashes with spaces in the key
-      new_key = upgrade_key(old_key, parsed)
+      new_key = upgrade_key(old_key)
 
       # store key parts as individual elements
-      brand_key, model_version, years, body, agregate = new_key.split(' ')
-      model_subkey, version_subkey = model_version.split('.')
-      engine, power, transmission, drive = agregate.split('-')
-      parsed['body'] = body
-      parsed['version_key'] = version_subkey
-      parsed['model_key'] = [brand_key, model_subkey].join('--')
-      parsed['transmission'] = transmission
-      # parsed['key_engine_vol'] = engine[0..-2].to_f
-      # parsed['key_fuel'] = engine[-1]
-      # parsed['key_power'] = power.to_i
-      # parsed['key_drive'] = drive
+      brand_key, model_version, years, body, model_subkey, version_subkey, engine, power, transmission, drive = parse_new_key(new_key)
+      parsed[:body] = body
+      parsed[:model_key] = [brand_key, model_subkey].join('--')
+      parsed[:version_key] = version_subkey
+      parsed[:displacement_key] = engine[0..-2]
 
       # remove nil values because plists can't contain it
-      # parsed.each { |k,v| parsed[k] = '' if v.nil? }
+      parsed.delete_if { |k,v| v.nil? }
 
-      # create an array with the hash contents indexed using :rowIndexForKey
-      array = []
-      parsed.each do |key, value|
-        index = Keys_Used.index(key)
-        raise "No index for #{key}" unless index
-        array[index] = value
-      end
+      # create an array with the hash contents
+      array = Keys_Used.each_with_index.map { |k, i| parsed[k] || '' }
 
       parsed_mod_arrays[new_key] = array
       parsed_mod_hashes[new_key] = parsed
     end
 
-    KK.save_plist parsed_mod_arrays, "db-modifications", OUTDIR
-    KK.save_plist parsed_mod_hashes, "db-modifications-hashes", OUTDIR
-    KK.save_data  parsed_mod_arrays, "db-modifications", OUTDIR
-    KK.save_data  parsed_mod_hashes, "db-modifications-hashes", OUTDIR
+    KK.save_plist parsed_mod_arrays, "db-mods", OUTDIR
+    KK.save_plist parsed_mod_hashes, "db-mods-kv", OUTDIR
+    KK.save_data  parsed_mod_hashes, "db-mods-kv", OUTDIR
   end
   
   def build_metadata
-    mods = JSON.load(OUTDIR + "db-modifications.json")
+    mods = JSON.load(OUTDIR + "db-mods-kv.json")
     bodies = JSON.load(WORKDIR + "ya-bodies-2.json")
     
     model_keys = mods.map { |key, mod| key.split(' ').first(2).join('--').sub(/\..+/, '') }.uniq
@@ -147,11 +133,21 @@ class YAFinalParser
       hash
     end
 
+    model_versions = {}
+    Reductions_Body_Version.each do |brand__model__extbody, body__version_title|
+      brand, model, _ = brand__model__extbody.split('--')
+      body, version_title = body__version_title.split(' ', 2)
+      version_key = KK.escape(version_title)
+      model_versions["#{brand}--#{model}.#{version_key}"] = version_title
+    end
+
     metadata = {}    
     metadata['model_keys'] = model_keys.sort
     metadata['model_info'] = model_info    
+    metadata['model_versions'] = model_versions
     metadata['models_by_class'] = inverted_classification
     metadata['models_by_brand'] = all_model_names.keys.inject({}) { |hash, key| brand = key.split('--').first; (hash[brand] ||= []) << key; hash }    
+    metadata['parameters'] = Keys_Used
 
     KK.save_plist metadata, "db-metadata", OUTDIR
   end
@@ -160,7 +156,7 @@ private
 
   #  in: mercedes_benz--cl--2010_2012--coupe_amg---6.0i-630ps-AT-RWD
   # out: mercedes_benz cl.amg 2010-2012 coupe 6.0i-630ps-AT-RWD
-  def upgrade_key(old_key, hash)
+  def upgrade_key(old_key)
     brand, model, years, body, engine = old_key.split(/---?/)
     brand_body = "#{brand}--#{body}"
     brand_model_body = "#{brand}--#{model}--#{body}"
@@ -169,20 +165,24 @@ private
 
     body = Reductions_Body_Body.fetch(brand_body, body)
 
-    if new_model_str = Reductions_Body_Model[brand_body]
-      body, model_name = new_model_str.split(' ', 2)
-      hash['fixed_model_name'] = model_name
-      hash['base_model_key'] = model
+    if model_str = Reductions_Body_Model[brand_body]
+      body, model_name = model_str.split(' ', 2)
       model = KK.escape(model_name)
     end
-      
+
     if version_str = Reductions_Body_Version[brand_model_body]
       body, version = version_str.split(' ', 2)
-      hash['version'] = version
       model = "#{model}.#{KK.escape(version)}"
     end
     
     new_key = [brand, model, years, body, engine].join(' ')
+  end
+
+  def parse_new_key(key)
+    brand_key, model_version, years, body, agregate = key.split(' ')
+    model_subkey, version_subkey = model_version.split('.')
+    engine, power, transmission, drive = agregate.split('-')
+    [brand_key, model_version, years, body, model_subkey, version_subkey, engine, power, transmission, drive]
   end
 
   def inverted_classification

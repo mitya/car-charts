@@ -55,15 +55,16 @@ MODEL_ENGLISH_TITLE_FIXES = {
 
 # common constants
 
-Keys_All = %w(body version_key transmission drive engine_vol fuel power model_key
-  valves_per_cylinder consumption_city max_power_kw cylinder_placement compression gross_mass bore doors compressor
-  injection tires max_torque_range_start rear_brakes max_torque max_power stroke seats_min seats_max acceleration_0_100_kmh consumption_highway
-  engine_spec consumption_mixed countries fuel_rating height drive_config produced_since rear_tire_rut engine_title luggage_min
-  length engine_volume body_type max_power_range_start kerbweight category ground_clearance luggage_max front_suspension
-  price tank_capacity wheelbase model_title front_brakes engine_placement rear_suspension top_speed gears width front_tire_rut
-  cylinder_count body_title produced_till max_torque_range_end max_power_range_end version base_model_key fixed_model_name)
-Keys_Rejected = %w(front_suspension rear_suspension front_brakes rear_brakes model_title body_title body_type price engine_title engine_spec category)
-Keys_Used = Keys_All - Keys_Rejected
+Keys_All = %w(
+  model_key version_key body
+  transmission drive gears displacement displacement_key fuel fuel_rating compressor top_speed  acceleration_100kmh engine_layout
+  max_power max_power_kw max_torque max_power_range_start max_power_range_end max_torque_range_start max_torque_range_end
+  bore stroke compression cylinder_placement injection cylinder_valves cylinder_count consumption_city consumption_highway consumption_mixed 
+  length width height ground_clearance wheelbase front_tire_rut rear_tire_rut kerbweight gross_mass luggage_min luggage_max seats_min seats_max doors
+  tank_capacity tires produced_since produced_till countries
+  front_brakes rear_brakes front_suspension rear_suspension price).uniq
+Keys_Rejected = %w(front_suspension rear_suspension front_brakes rear_brakes price)
+Keys_Used = (Keys_All - Keys_Rejected).map(&:to_sym).uniq
 
 Translations_Vendors = {
   "Acura"         => "acura",
@@ -116,16 +117,16 @@ Translations_Vendors = {
 
 Translations_Parameters = {
  "Максимальная скорость, км/ч"                    => :top_speed,
- "Разгон до 100 км/ч, с"                          => :acceleration_0_100_kmh,
+ "Разгон до 100 км/ч, с"                          => :acceleration_100kmh,
  "Расход топлива (город / трасса / смешанный), л" => :fuel_consumption,
- "Объем двигателя, см3"                           => :engine_volume,
+ "Объем двигателя, см3"                           => :displacement,
  "Тип двигателя"                                  => :fuel,
  "Марка топлива"                                  => :fuel_rating,
  "Количество цилиндров"                           => :cylinder_count,
  "Расположение цилиндров"                         => :cylinder_placement,
- "Число клапанов на цилиндр"                      => :valves_per_cylinder,
+ "Число клапанов на цилиндр"                      => :cylinder_valves,
  "Система питания двигателя"                      => :injection,
- "Расположение двигателя"                         => :engine_placement,
+ "Расположение двигателя"                         => :engine_layout,
  "Степень сжатия"                                 => :compression,
  "Тип наддува"                                    => :compressor,
  "Диаметр цилиндра и ход поршня, мм"              => :bore_and_stroke,
@@ -164,25 +165,25 @@ Translations_Parameters = {
 }
 
 Translations_Values_Suspensions = {
-  "зависимая, пневмоэлемент"        => :dependent_pneumo,
-  "зависимая, пружинная"            => :dependent_coil,
-  "зависимая, рессорная"            => :dependent_spring,
-  "полунезависимая, торсионная"     => :semidependent_torsion,
-  "полунезависимая, пружинная"      => :semidependent_coil,
-  "независимая, рессорная"          => :independent_spring,
-  "независимая, гидропневмоэлемент" => :independent_hydro_pneumo,
-  "независимая, торсионная"         => :independent_torsion,
-  "независимая, пневмоэлемент"      => :independent_pneumo,
-  "независимая, пружинная"          => :independent_coil
+  "зависимая, пневмоэлемент"        => 20501, # :dependent_pneumo,
+  "зависимая, пружинная"            => 20502, # :dependent_coil,
+  "зависимая, рессорная"            => 20503, # :dependent_spring,
+  "полунезависимая, торсионная"     => 20504, # :semidependent_torsion,
+  "полунезависимая, пружинная"      => 20505, # :semidependent_coil,
+  "независимая, рессорная"          => 20506, # :independent_spring,
+  "независимая, гидропневмоэлемент" => 20507, # :independent_hydro_pneumo,
+  "независимая, торсионная"         => 20508, # :independent_torsion,
+  "независимая, пневмоэлемент"      => 20509, # :independent_pneumo,
+  "независимая, пружинная"          => 20510, # :independent_coil
 }
 
 Translations_Values_Brakes = {
- "керамические вентилируемые" => :ceramic_ventilated,
- "дисковые барабанные"        => :disc_or_drum,
- "барабанные  дисковые"       => :disc_or_drum,
- "барабанные"                 => :drum,
- "дисковые вентилируемые"     => :disc_ventilated,
- "дисковые"                   => :disc
+ "керамические вентилируемые" => 20401, # :ceramic_ventilated,
+ "дисковые барабанные"        => 20402, # :disc_or_drum,
+ "барабанные  дисковые"       => 20403, # :disc_or_drum,
+ "барабанные"                 => 20404, # :drum,
+ "дисковые вентилируемые"     => 20405, # :disc_ventilated,
+ "дисковые"                   => 20406, # :disc
 }
 
 Translations_Values_Drives = { "полный" => "4WD", "передний" => "FWD", "задний" => "RWD" }
@@ -190,43 +191,71 @@ Translations_Values_Drives = { "полный" => "4WD", "передний" => "F
 Translations_Values_FuelSigns = { "бензин" => "i", "дизель" => "d" }
 
 Translations_Values = {
- "cylinder_placement" => { 
-   "W-образное"                                 => :W, 
-   "роторный двигатель"                         => :ROT,   # rotary 
-   "V-образное с малым углом развала цилиндров" => :V, 
-   "оппозитное"                                 => :FLT,   # flat
-   "V-образное"                                 => :V, 
-   "рядное"                                     => :INL    # inline
- },
- "injection"=> {
-   "центральный впрыск"                                                             => :CI,  # central_injection
-   "двигатель с разделенными камерами сгорания (вихрекамерный или предкамерный)"    => :SC,  # separated_combustor
-   "карбюратор"                                                                     => :CR,  # carburetor
-   "двигатель с неразделенными камерами сгорания (непосредственный впрыск топлива)" => :NSC, # nonseparated_combustor
-   "непосредственный впрыск в камеру сгорания"                                      => :DI,  # direct_injection
-   "распределенный впрыск"                                                          => :DSI  # distributed_injection
- }, 
- "engine_placement" => { 
-   "центральное"          => :MD,   # mid
-   "заднее"               => :RR,   # rear
-   "переднее, продольное" => :FRLN, # front longitudinally 
-   "переднее, поперечное" => :FRTR  # front transversely
- },
- "compressor" => { 
-   "объемный нагнетатель с механическим приводом"    => :SC,  # supercharger
-   "турбонаддув"                                     => :TR, 
-   "турбонаддув с промежуточным охлаждением воздуха" => :TRI, # turbo intercooler
-   "нет"                                             => nil 
- },
- "front_suspension" => Translations_Values_Suspensions,
- "rear_suspension"  => Translations_Values_Suspensions,
- "front_brakes"     => Translations_Values_Brakes,
- "rear_brakes"      => Translations_Values_Brakes,
- "drive"            => {"задний" => :RWD, "полный" => :AWD, "передний" => :FWD},
- "fuel"             => {"гибрид" => :H, "дизель" => :D, "бензин" => :P},
- "fuel_rating"      => {"АИ-76" => :A76, "АИ-92" => :A92, "АИ-98" => :A98, "ДТ" => :DT, "АИ-95" => :A95},
- "transmission"     => {"вариатор" => :CVT, "роботизированная" => :AMT, "автомат" => :AT, "механическая" => :MT}
+  cylinder_placement: { 
+    "W-образное"                                 => :W, 
+    "роторный двигатель"                         => :R,
+    "V-образное с малым углом развала цилиндров" => :V, 
+    "оппозитное"                                 => :F,
+    "V-образное"                                 => :V, 
+    "рядное"                                     => :I
+  },
+  engine_layout: { 
+    "центральное"          => 20101, # :mid,
+    "заднее"               => 20102, # :rear,
+    "переднее, продольное" => 20103, # :front_longitudinally,
+    "переднее, поперечное" => 20104, # :front_transversely,
+  },
+  injection: {
+    "центральный впрыск"                                                             => 20201, # :central_injection,
+    "двигатель с разделенными камерами сгорания (вихрекамерный или предкамерный)"    => 20202, # :separated_combustor,
+    "карбюратор"                                                                     => 20203, # :carburetor,
+    "двигатель с неразделенными камерами сгорания (непосредственный впрыск топлива)" => 20204, # :nonseparated_combustor,
+    "непосредственный впрыск в камеру сгорания"                                      => 20205, # :direct_injection,
+    "распределенный впрыск"                                                          => 20206, # :distributed_injection,
+  },
+  compressor: { 
+    "объемный нагнетатель с механическим приводом"    => 20301, # :supercharger,
+    "турбонаддув"                                     => 20302, # :turbo,
+    "турбонаддув с промежуточным охлаждением воздуха" => 20303, # :turbo_intercooler,
+    "нет"                                             => 20304, # nil 
+  },
+  front_suspension: Translations_Values_Suspensions,
+  rear_suspension:  Translations_Values_Suspensions,
+  front_brakes:     Translations_Values_Brakes,
+  rear_brakes:      Translations_Values_Brakes,
+
+  drive:            {"передний" => :FWD, "задний" => :RWD, "полный" => :AWD},
+  fuel:             {"бензин" => :P, "дизель" => :D, "гибрид" => :H},
+  fuel_rating:      {"АИ-76" => :A76, "АИ-92" => :A92, "АИ-95" => :A95, "АИ-98" => :A98, "ДТ" => :DT},
+  transmission:     {"механическая" => :MT, "автомат" => :AT, "вариатор" => :CVT, "роботизированная" => :AMT}
 }
+
+# Mapping_Body = {
+#   sedan:        :SE,
+#   sedan_long:   :SEL,
+#   hatch_3d:     :HT3,
+#   hatch_5d:     :HT5,
+#   wagon:        :WG,
+#   minivan:      :MV,
+#   minivan_3d:   :MV3,
+#   crossover:    :CX,
+#   crossover_3d: :CX3,
+#   crossover_5d: :CX5,
+#   suv:          :SUV,
+#   suv_2d:       :SUV2,
+#   suv_3d:       :SUV3,
+#   suv_4d:       :SUV4,
+#   suv_5d:       :SUV5,
+#   coupe:        :COP,
+#   coupe_2d:     :COP2,
+#   coupe_5d:     :COP5,
+#   cabrio:       :CBR,
+#   pickup:       :PK,
+#   pickup_2d:    :PK2,
+#   pickup_4d:    :PK4,
+#   van:          :VAN,
+#   minivan_5d_partner_tepee: :MV5
+# }
 
 Reductions_Body_Body = {
   "audi--hatch_5d_sportback"  => "hatch_5d",           
@@ -240,7 +269,7 @@ Reductions_Body_Body = {
   "opel--wagon_sports_tourer" => "wagon",          
   "peugeot--cabrio_cc"        => "cabrio",                    
   "peugeot--wagon_sw"         => "wagon",
-  "peugeot--partner--minivan_5d_partner_tepee"   => "minivan_5d",       
+  "peugeot--minivan_5d_partner_tepee" => "minivan_5d",       
   "vaz--wagon_2104"           => "wagon",                   
   "vaz--hatch_5d_sport"       => "hatch_5d",               
   "vaz--hatch_3d_coupe"       => "hatch_3d",        

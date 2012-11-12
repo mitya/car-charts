@@ -104,7 +104,7 @@ class BarView < UIView
     textFont = ES.mainFont(BarFS)
     comparision.params.each do |param|
       index = comparision.params.index(param)
-      value = mod[param]
+      value = mod[param] || 0
       barWidth = (value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
       rect = CGRectMake(BarLM, barsOffset + index * BarFH, barWidth, BarH)
       isWiderThanBounds = rect.width >= maxBarWidth

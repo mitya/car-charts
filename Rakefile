@@ -209,23 +209,6 @@ def makeButton(width, height, cornerRad, gradient, borderCl, shadowCl, file, opt
   run cmd
 end
 
-
-task :foo do
-  list = %w(
-  body version_subkey transmission drive engine_vol fuel power model_key
-      valves_per_cylinder consumption_city max_power_kw cylinder_placement compression gross_mass bore doors compressor
-      injection tires max_torque_range_start rear_brakes max_torque max_power stroke seats acceleration_0_100_kmh consumption_highway
-      engine_spec consumption_mixed countries fuel_rating height drive_config produced_since rear_tire_rut engine_title luggage_min
-      length engine_volume body_type max_power_range_start kerbweight fuel car_class ground_clearance luggage_max front_suspension
-      price tank_capacity wheelbase model_title front_brakes engine_placement rear_suspension top_speed gears width front_tire_rut
-      cylinder_count transmission body_title produced_till max_torque_range_end max_power_range_end version base_model_key fixed_model_name
-  )
-  
-  list.each do |prop|
-    puts "[#{"'#{prop}',".ljust(25)} NSStringAttributeType, false],"
-  end
-end
-
 desc "Run the simulator"
 task :simulator2 => ['build:simulator'] do
   app = App.config.app_bundle('iPhoneSimulator')
@@ -271,18 +254,20 @@ task :simulator2 => ['build:simulator'] do
   sh command
 end
 
-task "cw:meta" do
+task "cr:meta" do
   require File.dirname(__FILE__) + "/crawler/ya_init.rb"
-  puts Benchmark.measure { $ya_final_parser.build_metadata }
+  puts Benchmark.realtime { $ya_final_parser.build_metadata }
+  system "cp tmp/gen/db-metadata.plist resources/"
 end
 
-task "cw:mods" do
+task "cr:mods" do
   require File.dirname(__FILE__) + "/crawler/ya_init.rb"  
   $ya_number_of_mods_to_convert = ENV['N'].to_i if ENV['N']
-  puts Benchmark.measure { $ya_final_parser.build_modifications }
+  puts Benchmark.realtime { $ya_final_parser.build_modifications }
+  system "cp tmp/gen/db-mods.plist resources/"
 end
 
-task "cw:work" do
+task "cr:work" do
   require File.dirname(__FILE__) + "/crawler/ya_init.rb"
-  $ya_final_analyzer.inmods  
+  $ya_final_analyzer.work
 end

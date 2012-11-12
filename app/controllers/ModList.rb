@@ -49,7 +49,7 @@ class ModsController < UIViewController
   def tableView(tv, titleForFooterInSection:section)
     if section == tableView.numberOfSections - 1
       hiddenModsCount = mods.count - filteredMods.count
-      if @modsByBody.count == 0
+      if @modsByBody.count == 0 && !mods.empty?
         "All #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} are filtered out"
       else
         hiddenModsCount > 0 ? "There are also #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} hidden" : nil
