@@ -4,11 +4,11 @@ class ModController < UITableViewController
 
   def initialize(mod)
     self.mod = mod
+    self.title = mod.model.name
     self.hidesBottomBarWhenPushed = iphone?
   end
 
   def viewDidLoad
-    self.title = mod.model.name
     self.tableView.tableHeaderView = ES.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersion))
   end
 
@@ -66,7 +66,7 @@ class ModController < UITableViewController
       modalNavController.navigationBar.barStyle = UIBarStyleBlack
       modalNavController.toolbar.barStyle = UIBarStyleBlack
       modalNavController.modalPresentationStyle = UIModalPresentationFullScreen
-      modalNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve
+      # modalNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve
       presentViewController modalNavController, animated:YES, completion:NIL
     end
   end  

@@ -1,6 +1,6 @@
-class RecentModsController < UITableViewController
+class SelectedModsController < UITableViewController
   def initialize
-    self.title = "Recent"
+    self.title = "Selected"
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
   
@@ -15,7 +15,7 @@ class RecentModsController < UITableViewController
 
   def viewWillAppear(animated)
     super
-    @mods = Disk.recentMods.sort_by(&:key)
+    @mods = Disk.currentMods.sort_by(&:key)
     tableView.reloadData if @reloadPending
     @reloadPending = false
   end
@@ -53,5 +53,5 @@ class RecentModsController < UITableViewController
   def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
     mod = @mods[indexPath.row]
     navigationController.pushViewController ModController.new(mod), animated:YES
-  end
+  end    
 end

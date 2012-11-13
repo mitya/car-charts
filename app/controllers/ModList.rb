@@ -3,13 +3,13 @@ class ModsController < UIViewController
 
   def initialize(model = nil)
     self.model = model
+    self.mods = model.mods
+    self.title = model.name
     self.hidesBottomBarWhenPushed = iphone?
     self.navigationItem.backBarButtonItem = ES.textBBI("Versions")
   end
 
   def viewDidLoad
-    self.title = model.name
-    self.mods = model.mods
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
     
     if toolbarItemsForFilter.any?

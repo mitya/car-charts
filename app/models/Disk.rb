@@ -30,16 +30,6 @@ class Disk
       NSUserDefaults.standardUserDefaults["recentMods"] = array.map(&:key)      
       @recentMods = array
     end
-    
-    # def leaveMaxMinusOneRecentModsIfNeeded
-    #   originalRecentModCount = recentMods.size
-    #   if originalRecentModCount >= MaxRecentModCount
-    #     self.recentMods = recentMods.last(MaxRecentModCount - 1)
-    #     originalRecentModCount - MaxRecentModCount + 1
-    #   else
-    #     0
-    #   end
-    # end
   
     def toggleModInCurrentList(mod)
       self.recentMods = recentMods.dupWithToggledObject(mod) if currentMods.include?(mod) || recentMods.include?(mod)
