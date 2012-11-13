@@ -36,6 +36,7 @@ class RecentModsController < UITableViewController
     tableView.reloadData
     
     navigationItem.setRightBarButtonItem dataSourceIndex == 0 ? saveButtonItem : nil, animated:NO
+    saveButtonItem.enabled = Disk.currentMods.any?
   end
 
   ###
