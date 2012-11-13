@@ -1,6 +1,6 @@
 class ChartController < UIViewController
   attr_accessor :mods, :params, :comparision, :data
-  attr_accessor :tableView, :exitFullScreenModeButton, :placeholderView
+  attr_accessor :tableView, :exitFullScreenModeButton, :emptyView
 
   def initialize
     self.title = "CarCharts"
@@ -77,10 +77,10 @@ class ChartController < UIViewController
     tableView.reloadData
     
     if @comparision.complete?
-      placeholderView.removeFromSuperview if @placeholderView && @placeholderView.superview
+      emptyView.removeFromSuperview if @emptyView && @emptyView.superview
       tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
     else
-      view.addSubview(placeholderView)
+      view.addSubview(emptyView)
       tableView.tableFooterView = nil
     end
   end
@@ -107,15 +107,15 @@ class ChartController < UIViewController
     @fullScreen
   end
 
-  def placeholderView
-    @placeholderView ||= begin
+  def emptyView
+    @emptyView ||= begin
       text = if $lastLaunchDidFail
         $lastLaunchDidFail = nil
-        "Something weird happened, the parameters and models were reset. Sorry :("
+        "Something weird happened.\nModels & parameters were reset.\n\nSorry :("
       else
-        "Select some cars and parameters to compare"
+        "No Models/Parameters Selected"        
       end
-      ES.tableViewPlaceholder(text, view.bounds.rectWithHorizMargins(15))
+      ES.emptyViewLabel(text, view.bounds.rectWithHorizMargins(15))
     end
   end
 

@@ -51,7 +51,7 @@ class ModController < UITableViewController
       end  
     else
       parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]
-      cell = tv.dequeueReusableCell(style: UITableViewCellStyleValue1) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
+      cell = tv.dequeueReusableCell(style:UITableViewCellStyleValue1) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
       cell.textLabel.text = parameter.name
       cell.textLabel.font = ES.boldFont(parameter.long?? 16.0 : 17.0)
       cell.detailTextLabel.text = @mod.fieldTextFor(parameter)

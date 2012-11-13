@@ -285,16 +285,16 @@ class Helper
       UIImage.imageNamed(imageName).resizableImageWithCapInsets(UIEdgeInsetsMake(top, left, bottom, right))
     end
     
-    def tableViewPlaceholder(text, bounds)
-      placeholder = UILabel.alloc.initWithFrame(bounds)
-      placeholder.autoresizingMask = UIViewAutoresizingFlexibleAllMargins
-      placeholder.text = text
-      placeholder.textAlignment = UITextAlignmentCenter
-      placeholder.textColor = ES.grayShade(0.7)
-      placeholder.backgroundColor = UIColor.clearColor
-      placeholder.font = UIFont.systemFontOfSize(20)
-      placeholder.numberOfLines = 0
-      placeholder
+    def emptyViewLabel(text, bounds)
+      label = UILabel.alloc.initWithFrame(bounds)
+      label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
+      label.text = text
+      label.textAlignment = UITextAlignmentCenter
+      label.textColor = UIColor.lightGrayColor
+      label.backgroundColor = UIColor.clearColor
+      label.font = UIFont.boldSystemFontOfSize(17)
+      label.numberOfLines = 0
+      label
     end
   
     def tableViewFooterLabel(text = "")
