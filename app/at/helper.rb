@@ -285,12 +285,70 @@ class Helper
       UIImage.imageNamed(imageName).resizableImageWithCapInsets(UIEdgeInsetsMake(top, left, bottom, right))
     end
     
+    def stackSpacer(view, width, height)
+      spacer = UIView.alloc.initWithFrame(CGRectMake(0, 0, width, height))
+      spacer.autoresizingMask = UIViewAutoresizingFlexibleWidth
+      view.addSubview(spacer)
+      spacer
+    end
+    
+    def stackViews(views)
+      y = views.first.frame.y
+      views.each do |view|
+        view.frame = CGRectMake(view.bounds.x, y, view.bounds.width, view.bounds.height)
+        y += view.bounds.height
+      end
+    end
+
+    def emptyView(options)
+      title = options[:title]
+      subtitle = options[:subtitle]
+      frame = options[:frame]
+      
+      view = UIView.alloc.init
+      view.frame = CGRectMake(frame.x + 15, 0, frame.width - 30, frame.height)
+      view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
+
+      titleFont = UIFont.boldSystemFontOfSize(17)
+      titleHeight = title.sizeWithFont(titleFont, constrainedToSize:view.bounds.size).height
+      titleLabel = UILabel.alloc.initWithFrame(CGRectMake(0, ZERO, view.bounds.width, titleHeight))
+      titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth
+      titleLabel.text = title
+      titleLabel.textAlignment = UITextAlignmentCenter
+      titleLabel.lineBreakMode = UILineBreakModeWordWrap
+      titleLabel.textColor = UIColor.grayColor
+      titleLabel.backgroundColor = UIColor.clearColor
+      titleLabel.font = titleFont
+      titleLabel.numberOfLines = 0
+
+      if subtitle
+        subtitleFont = UIFont.systemFontOfSize(12)
+        subtitleHeight = subtitle.sizeWithFont(subtitleFont, constrainedToSize:view.bounds.size).height
+        subtitleLabel = UILabel.alloc.initWithFrame(CGRectMake(0, ZERO, view.bounds.width, subtitleHeight))
+        subtitleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth
+        subtitleLabel.text = subtitle
+        subtitleLabel.textAlignment = UITextAlignmentCenter
+        subtitleLabel.lineBreakMode = UILineBreakModeWordWrap
+        subtitleLabel.textColor = UIColor.grayColor
+        subtitleLabel.backgroundColor = UIColor.clearColor
+        subtitleLabel.font = subtitleFont
+        subtitleLabel.numberOfLines = 0
+      end
+      
+      ES.stackViews [ES.stackSpacer(view, view.frame.width, 70), titleLabel, ES.stackSpacer(view, view.frame.width, 8), subtitleLabel].compact
+      
+      view.addSubview(titleLabel)
+      view.addSubview(subtitleLabel) if subtitleLabel
+      
+      view
+    end
+    
     def emptyViewLabel(text, bounds)
       label = UILabel.alloc.initWithFrame(bounds)
       label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
       label.text = text
       label.textAlignment = UITextAlignmentCenter
-      label.textColor = UIColor.lightGrayColor
+      label.textColor = UIColor.grayColor
       label.backgroundColor = UIColor.clearColor
       label.font = UIFont.boldSystemFontOfSize(17)
       label.numberOfLines = 0

@@ -11,7 +11,7 @@ class ModSetsController < UITableViewController
 
   def viewWillAppear(animated)
     super
-    tableView.reloadData # update badges
+    refreshView # update badges
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
@@ -20,13 +20,13 @@ class ModSetsController < UITableViewController
 
   def setEditing(editing, animated:animated)
     super
-    tableView.reloadData # redraws cells for editing
+    refreshView # redraws cells for editing
   end
 
   ####
 
   def tableView(tv, numberOfRowsInSection:section)
-    reloadSets
+    refreshData
     @sets.count
   end
 
@@ -59,8 +59,9 @@ class ModSetsController < UITableViewController
     case editingStyle when UITableViewCellEditingStyleDelete
       set = @sets[indexPath.row]
       set.delete
-      reloadSets
+      refreshData
       tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
+      self.editing = false if @sets.empty?
     end 
   end
 
@@ -78,7 +79,7 @@ class ModSetsController < UITableViewController
     @set = set = @sets[index.row] # save as ivar because of some MM problems
     set.renameTo(textField.text)
     textField.text = set.name # set name is not changed if the rename has failed
-    reloadSets
+    refreshData
     tableView.moveRowAtIndexPath index, toIndexPath:ES.indexPath(index.section, set.position)
   end
   
@@ -90,7 +91,7 @@ class ModSetsController < UITableViewController
   def alertView(alertView, clickedButtonAtIndex:buttonIndex)
     if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
       ModSet.create(name: alertView.textFieldAtIndex(0).text)
-      tableView.reloadData
+      refreshView
     end
   end    
     
@@ -100,10 +101,15 @@ class ModSetsController < UITableViewController
     ModSetsController.showNewSetDialogFor(self)
   end
   
-  def reloadSets
+  def refreshData
     @sets = ModSet.all
   end
   
+  def refreshView
+    tableView.reloadData
+    editButtonItem.enabled = @sets.any?
+  end
+
   class << self
     def showNewSetDialogFor(controller)
       alertView = UIAlertView.alloc.initWithTitle("New Model Set",

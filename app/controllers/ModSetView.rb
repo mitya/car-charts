@@ -21,7 +21,8 @@ class ModSetController < UITableViewController
 
   ####
 
-  def tableView(tv, numberOfRowsInSection:section)
+  def tableView(tv, numberOfRowsInSection:section)    
+    actionsButtonItem.enabled = !empty?
     @set.mods.count
   end
 
@@ -52,12 +53,8 @@ class ModSetController < UITableViewController
   
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
-
-    cell = tv.cellForRowAtIndexPath(indexPath)
-    cell.toggleLeftCheckmarkAccessory(textColor:NO)
-
-    mod = @set.mods[indexPath.row]
-    mod.select!
+    tableView.cellForRowAtIndexPath(indexPath).toggleLeftCheckmarkAccessory(textColor:NO)
+    @set.mods[indexPath.row].select!
   end
     
   def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
@@ -92,5 +89,9 @@ class ModSetController < UITableViewController
       when "Add Models to Chart" then @set.addToCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
       when "Edit Set" then setEditing(YES, animated:YES)
     end
+  end
+  
+  def empty?
+    @set.mods.empty?
   end
 end
