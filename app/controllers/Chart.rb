@@ -43,7 +43,7 @@ class ChartController < UIViewController
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
-
+  
   def didRotateFromInterfaceOrientation(fromInterfaceOrientation)    
     tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end

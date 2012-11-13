@@ -14,7 +14,7 @@ class AppDelegate
     window.rootViewController = if iphone?
       self.chartController = ChartController.new
       self.tabBarController = UITabBarController.new.tap do |tbc|
-        rootController = [chartController, ParametersController.new, CarsController.new, SelectedModsSegmentController.new, ModSetsController.new]
+        rootController = [chartController, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
         tbc.viewControllers = rootController.map do |ctl|
           nav = UINavigationController.alloc.initWithRootViewController(ctl)
           nav.delegate = self
@@ -29,7 +29,7 @@ class AppDelegate
       tabBarController
     else
       self.tabBarController = UITabBarController.new.tap do |tbc|
-        rootController = [ParametersController.new, CarsController.new, SelectedModsSegmentController.new, ModSetsController.new]
+        rootController = [ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
         tbc.viewControllers = rootController.map do |ctl|
           nav = UINavigationController.alloc.initWithRootViewController(ctl)
           nav.delegate = self
