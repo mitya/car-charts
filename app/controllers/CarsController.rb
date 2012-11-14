@@ -36,7 +36,7 @@ class CarsController < UITableViewController
     item = Items[indexPath.row]
     controller = case item[:key]
       when :recent then RecentModsController.new
-      when :all then IndexedModelsController.new(Model.all)
+      when :all then SectionedModelsController.new(Model.all)
       when :categories then CategoriesController.new
       when :sets then ModSetsController.new
     end

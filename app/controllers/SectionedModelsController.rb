@@ -1,4 +1,4 @@
-class IndexedModelsController < UIViewController
+class SectionedModelsController < UIViewController
   attr_accessor :searchBar, :tableView
   
   def initialize(models)

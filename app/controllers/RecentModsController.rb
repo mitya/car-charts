@@ -46,7 +46,7 @@ class RecentModsController < UITableViewController
   end
   
   def saveAsSet
-    selector = SelectModSetController.new
+    selector = ModSetSelectionController.new
     selectorNav = UINavigationController.alloc.initWithRootViewController(selector)
     selectorNav.navigationBar.barStyle = UIBarStyleBlack
     if iphone?

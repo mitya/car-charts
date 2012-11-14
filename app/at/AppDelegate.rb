@@ -20,7 +20,7 @@ class AppDelegate
           nav.delegate = self
           nav.navigationBar.barStyle = UIBarStyleBlack
           nav.toolbar.barStyle = UIBarStyleBlack
-          nav.viewControllers = nav.viewControllers + [IndexedModelsController.new(Model.all)] if CarsController === nav.topViewController
+          nav.viewControllers = nav.viewControllers + [SectionedModelsController.new(Model.all)] if CarsController === nav.topViewController
           nav
         end
         tbc.delegate = self
@@ -35,7 +35,7 @@ class AppDelegate
           nav.delegate = self
           nav.navigationBar.barStyle = UIBarStyleBlack
           nav.toolbar.barStyle = UIBarStyleBlack
-          nav.viewControllers = nav.viewControllers + [IndexedModelsController.new(Model.all)] if CarsController === nav.topViewController
+          nav.viewControllers = nav.viewControllers + [SectionedModelsController.new(Model.all)] if CarsController === nav.topViewController
           nav
         end
         tbc.delegate = self
