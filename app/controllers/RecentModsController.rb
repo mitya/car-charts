@@ -6,7 +6,7 @@ class RecentModsController < UITableViewController
   end
   
   def viewDidLoad
-    @dataSources = [DataSource.new { Disk.currentMods }, DataSource.new { Disk.recentMods }]    
+    @dataSources = [DataSource.new(self) { Disk.currentMods }, DataSource.new(self) { Disk.recentMods }]
   end
 
   def viewWillAppear(animated)
@@ -60,8 +60,11 @@ class RecentModsController < UITableViewController
   end
 
   class DataSource
-    def initialize(&dataLoadingBlock)
+    attr_reader :controller
+    
+    def initialize(controller, &dataLoadingBlock)
       @dataLoadingBlock = dataLoadingBlock
+      @controller = controller
     end
     
     def reload
@@ -94,7 +97,7 @@ class RecentModsController < UITableViewController
   
     def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
       mod = @mods[indexPath.row]
-      navigationController.pushViewController ModController.new(mod), animated:YES
+      controller.navigationController.pushViewController ModController.new(mod), animated:YES
     end    
   end
 end

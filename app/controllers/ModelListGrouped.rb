@@ -7,33 +7,24 @@ class IndexedModelsController < UIViewController
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car"), tag:2)
   end
 
-  # def loadView
-  #   self.view = UIView.alloc.init
-  #   self.tableView = setupTableViewWithStyle(UITableViewStylePlain, offset:DSToolbarHeight))
-  #   self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, DSToolbarHeight)).tap do |searchBar|
-  #     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
-  #     searchBar.placeholder = "Search"
-  #     searchBar.delegate = self
-  #     view.addSubview searchBar
-  #     tableView.addSubview ES.grayTableViewTop
-  #   end
-  # end
+  def loadView
+    self.view = UIView.alloc.init
+    self.tableView = setupTableViewWithStyle(UITableViewStylePlain, offset:DSToolbarHeight)
+    self.searchBar = UISearchBar.alloc.init.tap do |searchBar|
+      searchBar.autocorrectionType = UITextAutocorrectionTypeNo
+      searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth
+      searchBar.placeholder = "Search"
+      searchBar.delegate = self
+      view.addSubview searchBar
+      tableView.addSubview ES.grayTableViewTop
+    end
+  end
 
   def viewDidLoad
     isAllModelsView = @initialModels == Model.all
     @initialModelsIndex = isAllModelsView ? Model::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }
     @initialBrands = isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
     @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
-    
-    self.tableView = setupTableViewWithStyle(UITableViewStylePlain, offset:DSToolbarHeight)
-    
-    self.searchBar = UISearchBar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, DSToolbarHeight)).tap do |searchBar|
-      searchBar.autocorrectionType = UITextAutocorrectionTypeNo
-      searchBar.placeholder = "Search"
-      searchBar.delegate = self
-      view.addSubview searchBar
-      tableView.addSubview ES.grayTableViewTop
-    end
     
     self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(searchBar, contentsController:self).tap do |sdc|
       sdc.delegate = sdc.searchResultsDataSource = sdc.searchResultsDelegate = self
@@ -42,6 +33,7 @@ class IndexedModelsController < UIViewController
 
   def viewWillAppear(animated)
     super
+    searchBar.frame = CGRectMake(0, 0, view.bounds.width, DSToolbarHeight)
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
     activeTableView.reloadVisibleRows
   end
