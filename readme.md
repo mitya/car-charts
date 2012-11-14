@@ -69,5 +69,11 @@ Conclusion
 - Everything else can be loaded from code / data files.
 
 # Graphics
-## Convert SVG icon
+### Convert SVG icon
   rake icon_from_svg file=ico-chart size=60
+  convert -background transparent ico-bar.svg -resize 60x60 ico-bar.png
+  convert ico-bar.png -background white -flatten ico-bar-2.png
+
+### Fonts
+  convert -list font | grep Font:
+

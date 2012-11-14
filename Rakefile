@@ -63,6 +63,27 @@ def rake(task, params = {})
   Rake::Task[task.to_s].invoke
 end
 
+def makeButton(width, height, cornerRad, gradient, borderCl, shadowCl, file, options = {})
+  heightWoShadow = height - 2
+  fullWidth  = options[:fullWidth] || width
+  fullHeight = options[:fullHeight] || height
+  
+  cmd = %{ convert
+    -size #{width}x#{heightWoShadow} gradient:#{gradient} -sigmoidal-contrast 3,50%
+    ( +clone -threshold -1
+       -draw "fill black polygon 0,0 0,#{cornerRad} #{cornerRad},0 fill white circle #{cornerRad},#{cornerRad} #{cornerRad},0"
+       ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
+    +matte -compose CopyOpacity -composite
+    -size #{width}x#{heightWoShadow} xc:transparent +swap -gravity North -compose src-over -composite
+    -stroke #{borderCl} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{width-1},#{heightWoShadow-1} #{cornerRad},#{cornerRad}" 
+    ( +clone -background #{shadowCl} -shadow 50x0+0+2 ) +swap
+    -background none -mosaic
+    -size #{fullWidth}x#{fullHeight} xc:transparent +swap -gravity Center -compose src-over -composite
+    #{file}
+    }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
+  run cmd
+end
+
 ######################################################################################################
 
 task :icons do
@@ -80,7 +101,6 @@ task :appicon do
   system "convert #{options} -size 114x114 -pointsize 80 label:#{label} resources/icon_iphone@2x.png"
 end
 
-# convert -list font | grep Font:
 # rake letters text=Hey size=44
 task :letters do
   letters = ENV['text']; size = ENV['size'] || '60'
@@ -96,8 +116,6 @@ task :toolbarbg do
   run "convert -size 2x86 -colorspace hsb gradient:'#{gradient}' -size 2x2 xc:#333 -append resources/bg-button-1@2x.png"
 end
 
-# convert ico-bar.svg -resize 60x60 ico-bar.png
-# convert ico-bar.png -background white -flatten ico-bar-2.png
 task :svg2png do
   input, output, size = ENV['in'], ENV['out'], ENV['size'] || 60
   system "convert -background transparent #{input} -resize #{size}x#{size} #{output}"
@@ -184,74 +202,8 @@ end
 
 task :d => :device
 task :s do
-  ENV['retina'] = '4'
+  ENV['retina'] = 'true'
   Rake::Task['simulator'].invoke
-end
-
-def makeButton(width, height, cornerRad, gradient, borderCl, shadowCl, file, options = {})
-  heightWoShadow = height - 2
-  fullWidth  = options[:fullWidth] || width
-  fullHeight = options[:fullHeight] || height
-  
-  cmd = %{ convert
-    -size #{width}x#{heightWoShadow} gradient:#{gradient} -sigmoidal-contrast 3,50%
-    ( +clone -threshold -1
-       -draw "fill black polygon 0,0 0,#{cornerRad} #{cornerRad},0 fill white circle #{cornerRad},#{cornerRad} #{cornerRad},0"
-       ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
-    +matte -compose CopyOpacity -composite
-    -size #{width}x#{heightWoShadow} xc:transparent +swap -gravity North -compose src-over -composite
-    -stroke #{borderCl} -strokewidth 2 -fill transparent -draw "roundRectangle 0,0 #{width-1},#{heightWoShadow-1} #{cornerRad},#{cornerRad}" 
-    ( +clone -background #{shadowCl} -shadow 50x0+0+2 ) +swap
-    -background none -mosaic
-    -size #{fullWidth}x#{fullHeight} xc:transparent +swap -gravity Center -compose src-over -composite
-    #{file}
-    }.gsub(/\s+/, " ").gsub(/[\(\)#]/) { |c| "\\#{c}" }
-  run cmd
-end
-
-desc "Run the simulator"
-task :simulator2 => ['build:simulator'] do
-  app = App.config.app_bundle('iPhoneSimulator')
-  target = ENV['target'] || App.config.sdk_version
-
-  # Cleanup the simulator application sandbox, to avoid having old resource files there.
-  if ENV['clean']
-    sim_apps = File.expand_path("~/Library/Application Support/iPhone Simulator/#{target}/Applications")
-    Dir.glob("#{sim_apps}/**/*.app").each do |app_bundle|
-      if File.basename(app_bundle) == File.basename(app)
-        rm_rf File.dirname(app_bundle)
-        break
-      end  
-    end
-  end
-
-  # Prepare the device family.
-  family_int =
-    if family = ENV['device_family']
-      App.config.device_family_int(family.downcase.intern)
-    else
-      App.config.device_family_ints[0]
-    end
-  retina = ENV['retina']
-
-  # Configure the SimulateDevice variable (the only way to specify if we want to run in retina mode or not).
-  simulate_device = App.config.device_family_string(family_int, target, retina)
-  if `/usr/bin/defaults read com.apple.iphonesimulator "SimulateDevice"`.strip != simulate_device
-    system("/usr/bin/killall \"iPhone Simulator\" >& /dev/null")
-    system("/usr/bin/defaults write com.apple.iphonesimulator \"SimulateDevice\" \"'#{simulate_device}'\"")
-  end
-
-  # Launch the simulator.
-  xcode = App.config.xcode_dir
-  env = xcode.match(/^\/Applications/) ? "DYLD_FRAMEWORK_PATH=\"#{xcode}/../Frameworks\":\"#{xcode}/../OtherFrameworks\"" : ''
-  env << ' SIM_SPEC_MODE=1' if App.config.spec_mode
-  sim = File.join(App.config.bindir, 'sim')
-  debug = (ENV['debug'] ? 1 : (App.config.spec_mode ? '0' : '2'))
-  App.info 'Simulate', app
-  at_exit { system("stty echo") } if $stdout.tty? # Just in case the simulator launcher crashes and leaves the terminal without echo.
-  command = "#{env} #{sim} #{debug} #{family_int} #{target} \"#{xcode}\" \"#{app}\" \"-com.apple.CoreData.SQLDebug 1\""
-  puts command
-  sh command
 end
 
 task "cr:meta" do

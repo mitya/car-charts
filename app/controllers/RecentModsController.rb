@@ -21,7 +21,7 @@ class RecentModsController < UITableViewController
   ###
   
   def modeSegmentedControl
-    @modeSegmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Selected Recent)).tap do |segm|
+    @modeSegmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Selected Recents)).tap do |segm|
       segm.segmentedControlStyle = UISegmentedControlStyleBar
       segm.addTarget self, action:'switchView', forControlEvents:UIControlEventValueChanged
       segm.selectedSegmentIndex = 0
