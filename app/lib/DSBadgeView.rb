@@ -26,7 +26,7 @@ class DSBadgeViewCell < UITableViewCell
   end
   
   def badgeText=(value)
-    @badgeText = value && value != 0 ? value.to_s : nil
+    @badgeText = value != nil && value != 0 ? value.to_s : nil
   end
   
   # When uncommented generate a block-passed-to-objc-method warning

@@ -127,6 +127,7 @@ class AppDelegate
       model.entities = [Mod.entity]
       
       if UIDevice.currentDevice.model =~ /Simulator/ 
+        $devdata = true
         storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
         storeOptions = {}
         # NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL)

@@ -18,6 +18,11 @@ class ModSet < DSCoreModel
     @modKeys ||= (modKeysString || "").split(',')
   end
 
+  def modKeys=(keys)
+    @modKeys = @mods = nil
+    self.modKeysString = keys.join(',')
+  end
+
   def modCount
     modKeys.count
   end

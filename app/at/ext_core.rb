@@ -170,3 +170,7 @@ class NSIndexPath
     "{#{section}, #{row}}"
   end
 end
+
+def pp(*args)
+  puts "*** " + args.map(&:inspect).join(', ')
+end

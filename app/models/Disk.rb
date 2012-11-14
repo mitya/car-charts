@@ -54,25 +54,26 @@ class Disk
       ES.benchmark "Load All" do
         [Metadata, Brand, Category, Model, Parameter].each { |klass| ES.benchmark("Load #{klass.name}") { klass.load } }
       end     
-      self.currentParameters ||= [Parameter.parameterForKey(:max_power)]
+      self.currentParameters ||= []
       self.currentMods ||= []      
-      
-      # NSUserDefaults.standardUserDefaults["mods"] = [ 
-      #   "alfa_romeo 147 2004-2010 hatch_3d 2.0i-150ps-AMT-FWD", 
-      #   "alfa_romeo gt 2003 coupe 2.0i-165ps-AMT-FWD",
-      #   "acura rdx 2006-2009 suv 2.3i-240ps-AT-4WD", 
-      #   "acura tl 2009 sedan 3.5i-280ps-AT-FWD", 
-      #   "audi a4 2011 sedan 2.0i-211ps-MT-FWD", 
-      #   "bmw x5 2010 crossover 3.0d-381ps-AT-4WD", 
-      #   "chrysler pt_cruiser 2005-2010 hatch_5d 1.6i-116ps-MT-FWD", 
-      # ]
-      # NSUserDefaults.standardUserDefaults["recentMods"] = [
-      #   "hyundai santa_fe 2010 crossover 2.2d-197ps-AT-4WD",
-      #   "jeep liberty 2007 suv 2.4i-170ps-CVT-4WD",
-      #   "porsche panamera 2009 hatch_5d 4.8i-430ps-AMT-4WD",
-      #   "volkswagen touareg 2010 suv 3.6i-280ps-AT-4WD",
-      #   "volkswagen golf 2009 hatch_3d 2.0d-110ps-MT-FWD",
-      # ]
+
+      if NSUserDefaults.standardUserDefaults["firstLaunchTime"].nil? && 
+           NSUserDefaults.standardUserDefaults["mods"].nil? && 
+           NSUserDefaults.standardUserDefaults["recentMods"].nil? && 
+           NSUserDefaults.standardUserDefaults["parameters"].nil? && 
+           ModSet.count == 0
+        Mod.import if $devdata
+
+        ModSet.create name:"Business (Sample)", modKeys:Metadata.sampleModSets[:business]
+        ModSet.create name:"SUVs (Sample)", modKeys:Metadata.sampleModSets[:midSuvs]
+        ModSet.create name:"Compact (Sample)", modKeys:Metadata.sampleModSets[:compact]
+        ModSet.all.first.replaceCurrentMods
+
+        self.currentParameters = %w(acceleration_100kmh max_power length).map { |key| Parameter.parameterForKey(key.to_sym) }
+
+        NSUserDefaults.standardUserDefaults["firstLaunchTime"] = Time.now
+        NSUserDefaults.standardUserDefaults.synchronize
+      end
     end
   end
 end

@@ -73,11 +73,11 @@ class Mod < DSCoreModel
   ####
   
   def gas?
-    fuel == 'i'
+    fuel == 'P'
   end
   
   def diesel?
-    fuel == 'd'
+    fuel == 'D'
   end
   
   def automatic?

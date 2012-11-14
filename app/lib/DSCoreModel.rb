@@ -40,7 +40,7 @@ class DSCoreModel < NSManagedObject
     
     def build(attributes = nil)
       object = alloc.initWithEntity(entity, insertIntoManagedObjectContext:context)
-      attributes.each { |name, value| object.set(name, value) } if attributes
+      attributes.each { |name, value| object.send("#{name}=", value) } if attributes
       object
     end
     

@@ -20,7 +20,7 @@ class CGRect
   end
   
   def inspect
-    "<CGRect #{x}, #{y}, #{width}, #{height}>"
+    "{#{x}, #{y}, #{width}, #{height}}"
   end
 end
 
