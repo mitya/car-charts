@@ -75,12 +75,14 @@ class UIViewController
   end
 
   def setupTableViewWithStyle(tableViewStyle, options = nil)
-    offset = options ? options[:offset].to_f : 0.0    
+    offset = options ? options[:offset].to_f : 0.0
+    delegate = options && options.include?(:delegate) ? options[:delegate] : self
     bounds = CGRectOffset(view.bounds, 0, offset)
+    
     tableView = UITableView.alloc.initWithFrame(bounds, style:tableViewStyle)
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
-    tableView.dataSource = self
-    tableView.delegate = self
+    tableView.dataSource = delegate
+    tableView.delegate = delegate
     view.addSubview(tableView)
     tableView
   end
@@ -92,6 +94,15 @@ class UIViewController
   
   def isViewVisible
     isViewLoaded && view.window
+  end
+  
+  def presentNavigationController(controller)
+    modalNavController = UINavigationController.alloc.initWithRootViewController(controller)
+    modalNavController.navigationBar.barStyle = UIBarStyleBlack
+    modalNavController.toolbar.barStyle = UIBarStyleBlack
+    # modalNavController.modalPresentationStyle = UIModalPresentationFullScreen
+    # modalNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve
+    presentViewController modalNavController, animated:YES, completion:NIL
   end
 end
 

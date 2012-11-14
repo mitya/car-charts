@@ -377,7 +377,7 @@ class Helper
       view
     end
 
-    def grayTableViewTop
+    def tableViewGrayBackground
       screen = UIScreen.mainScreen.applicationFrame
       topview = UIView.alloc.initWithFrame(CGRectMake(0, -screen.height, screen.width, screen.height))
       topview.backgroundColor = ES.rgb(226, 231, 238)
@@ -422,6 +422,10 @@ class Helper
       ES.systemBBI(UIBarButtonSystemItemFlexibleSpace)
     end
   
+    def fixedSpaceBBI(width = nil)
+      ES.fixedSpaceBBIWithWidth(nil)
+    end
+
     def fixedSpaceBBIWithWidth(width = nil)
       ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = width if width }
     end

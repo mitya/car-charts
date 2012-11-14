@@ -20,7 +20,7 @@ class ModsController < UIViewController
         self.toolbar.items = toolbarItemsForFilter
         self.view.addSubview(toolbar)
         self.tableView.frame = CGRectOffset(tableView.frame, 0, DSToolbarHeight)
-        self.tableView.addSubview(ES.grayTableViewTop)
+        self.tableView.addSubview(ES.tableViewGrayBackground)
       end
     end
     

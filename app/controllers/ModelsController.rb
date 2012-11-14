@@ -1,87 +1,228 @@
-class ModelsController < UITableViewController
-  attr_accessor :category
-  attr_accessor :searchBar
+class ModelsController < UIViewController
+  attr_accessor :searchBar, :tableView
+  attr_accessor :category, :currentDataSource
   
-  def initialize(models)
-    @initialModels = models
-    @filteredModels = @initialModels
+  def initialize
     self.title = "Models"
-  end
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car-1"), tag:3)
 
-  def viewDidLoad
-    self.searchBar = UISearchBar.alloc.init.tap do |searchBar|
-      searchBar.autocorrectionType = UITextAutocorrectionTypeNo
-      searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth
-      searchBar.placeholder = "Search"
-      searchBar.delegate = self
-      tableView.tableHeaderView = searchBar
-      tableView.contentOffset = CGPointMake(0, DSToolbarHeight)
-      tableView.addSubview ES.grayTableViewTop
-    end
+    self.navigationItem.titleView = UIView.alloc.init
+    self.navigationItem.rightBarButtonItems = [ES.flexibleSpaceBBI, viewSelectorBarItem, ES.flexibleSpaceBBI]
+  end
+  
+  def viewDidLoad    
+    self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
+    tableView.addSubview ES.tableViewGrayBackground
+
+    self.searchBar = UISearchBar.alloc.init
+    searchBar.frame = CGRectMake(0, 0, view.bounds.width, DSToolbarHeight)
+    searchBar.autocorrectionType = UITextAutocorrectionTypeNo
+    searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth
+    searchBar.placeholder = "Search"
     
-    self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(@searchBar, contentsController:self).tap do |sdc|
-      sdc.delegate = sdc.searchResultsDataSource = sdc.searchResultsDelegate = self
-    end    
+    self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(searchBar, contentsController:self)
   end
 
   def viewWillAppear(animated)
     super
-    searchBar.frame = CGRectMake(0, 0, view.bounds.width, DSToolbarHeight)
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
     activeTableView.reloadVisibleRows
+
+    self.category = categoriesController.category if @categoriesController
+    viewSelectorBarItem.title = category ? category.name : "All Models"
+    
+    if category == nil
+      self.currentDataSource = mainDataSource if currentDataSource != mainDataSource
+    else currentDataSource == mainDataSource || currentDataSource.category != category
+      self.currentDataSource = FlatModelsDataSource.new(self, category.models, category)
+    end
+
+    if tableView.dataSource != currentDataSource || searchDisplayController.searchResultsDataSource != currentDataSource
+      tableView.dataSource = currentDataSource
+      tableView.delegate = currentDataSource
+      searchBar.delegate = currentDataSource
+      searchDisplayController.delegate = currentDataSource
+      searchDisplayController.searchResultsDataSource = currentDataSource
+      searchDisplayController.searchResultsDelegate = currentDataSource
+      tableView.reloadData
+      tableView.tableHeaderView = nil
+      tableView.tableHeaderView = searchBar      
+      tableView.contentOffset = currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, DSToolbarHeight)
+    end
   end
 
   def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
     true
   end
-  
-  ####
 
-  def tableView(tv, numberOfRowsInSection:section)
-    @filteredModels.count
+
+
+  def viewSelectorBarItem
+    @viewSelectorBarItem ||= ES.textBBI("All Models", target:self, action:'showCategories')
   end
-
-  def tableView(table, cellForRowAtIndexPath:indexPath)  
-    model = @filteredModels[indexPath.row]
-    modelSelectedModsCount = model.selectedModsCount
-
-    cell = table.dequeueReusableCell(klass:DSBadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
-    cell.text = model.name
-    cell.badgeText = modelSelectedModsCount
-    cell
-  end
-
-  def tableView(table, didSelectRowAtIndexPath:indexPath)
-    model = @filteredModels[indexPath.row]
-    tableView.deselectRowAtIndexPath indexPath, animated:YES
-    navigationController.pushViewController ModsController.new(model), animated:YES
+    
+  def categoriesController
+    @categoriesController ||= CategoriesController.new
   end
   
-  ####
+  def mainDataSource
+    @mainDataSource ||= SectionedModelsDataSource.new(self)
+  end
+  
+  def showCategories
+    presentNavigationController categoriesController
+  end
+  
 
-  def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
-    loadDataForSearchString("")
-    tableView.reloadVisibleRows
-    navigationItem.backBarButtonItem = ES.textBBI(title)
-  end
   
-  def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
-    navigationItem.backBarButtonItem = ES.textBBI("Search")
-  end  
-  
-  def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
-    currentModels = @filteredModels
-    loadDataForSearchString(newSearchString)
-    currentModels != @filteredModels
-  end
-  
-  ####
-  
-  def loadDataForSearchString(newSearchString)
-    ES.benchmark "Model Search" do
-      collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
-      @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsForText(newSearchString, inCollection:collectionToSearch)
-      @currentSearchString = newSearchString
+  class SectionedModelsDataSource
+    attr_accessor :controller, :models, :category
+    
+    def initialize(controller, models = Model.all)
+      @controller = controller
+      @initialModels = models
+      @isAllModelsView = models == Model.all
+      @initialModelsIndex = @isAllModelsView ? Model::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }
+      @initialBrands = @isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
+      @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
     end
+    
+    def numberOfSectionsInTableView(tv)
+      @brands.count
+    end
+
+    def tableView(tv, titleForHeaderInSection:section)
+      @brands[section].name
+    end
+  
+    def tableView(tv, numberOfRowsInSection:section)
+      @modelsIndex[@brands[section].key].count
+    end
+
+    def tableView(table, cellForRowAtIndexPath:indexPath)  
+      model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
+      modelSelectedModsCount = model.selectedModsCount
+
+      cell = table.dequeueReusableCell(klass: DSBadgeViewCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell.textLabel.text = model.unbrandedName
+      cell.badgeText = modelSelectedModsCount
+      cell
+    end
+
+    def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+      model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
+      controller.tableView.deselectRowAtIndexPath indexPath, animated:YES
+      controller.navigationController.pushViewController ModsController.new(model), animated:YES
+    end
+  
+    def sectionIndexTitlesForTableView(tv)
+      [UITableViewIndexSearch] + @brands.map { |brand| brand.name.chr }.uniq    
+    end
+  
+    def tableView(tableView, sectionForSectionIndexTitle:letter, atIndex:index)
+      if letter == UITableViewIndexSearch || letter == 'A'
+        tableView.scrollRectToVisible(controller.searchBar.frame, animated:NO)
+        return -1
+      end
+      @brands.index { |brand| brand.name.chr == letter }
+    end  
+  
+
+  
+    def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
+      controller.navigationItem.backBarButtonItem = ES.textBBI("Search")  
+    end  
+  
+    def searchDisplayController(ctl, shouldReloadTableForSearchString:newSearchString)
+      currentModels = @models
+      loadDataForSearchString(newSearchString)
+      currentModels != @models
+    end
+    
+    def searchBarCancelButtonClicked(searchBar)
+      loadDataForSearchString("")
+      controller.tableView.reloadVisibleRows
+      controller.navigationItem.backBarButtonItem = ES.textBBI(controller.viewSelectorBarItem.title)
+    end
+  
+
+  
+    def loadDataForSearchString(newSearchString)
+      if newSearchString.empty?
+        @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
+      else
+        ES.benchmark "Model Search" do
+          collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
+          @models = Model.modelsForText(newSearchString, inCollection:collectionToSearch)
+          @modelsIndex = @models.indexBy { |ml| ml.brand.key }
+          @brands = @modelsIndex.keys.sort.map { |k| Brand[k] }
+        end
+      end
+      @currentSearchString = newSearchString
+    end    
+  end
+  
+  class FlatModelsDataSource
+    attr_accessor :controller, :models, :category
+    
+    def initialize(controller, models, category = nil)
+      @controller = controller
+      @category = category
+      @initialModels = models      
+      @filteredModels = @initialModels
+    end
+    
+    def models=(objects)
+      @initialModels = objects
+      @filteredModels = @initialModels
+    end
+    
+    def tableView(tv, numberOfRowsInSection:section)
+      @filteredModels.count
+    end
+
+    def tableView(tableView, cellForRowAtIndexPath:indexPath)  
+      model = @filteredModels[indexPath.row]
+      modelSelectedModsCount = model.selectedModsCount
+
+      cell = tableView.dequeueReusableCell(klass:DSBadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell.text = model.name
+      cell.badgeText = modelSelectedModsCount
+      cell
+    end
+
+    def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+      model = @filteredModels[indexPath.row]
+      tableView.deselectRowAtIndexPath indexPath, animated:YES
+      controller.navigationController.pushViewController ModsController.new(model), animated:YES
+    end
+  
+
+
+    def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
+      loadDataForSearchString("")
+      controller.tableView.reloadVisibleRows
+      controller.navigationItem.backBarButtonItem = ES.textBBI(controller.viewSelectorBarItem.title)
+    end
+  
+    def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
+      controller.navigationItem.backBarButtonItem = ES.textBBI("Search")
+    end  
+  
+    def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
+      currentModels = @filteredModels
+      loadDataForSearchString(newSearchString)
+      currentModels != @filteredModels
+    end
+  
+
+  
+    def loadDataForSearchString(newSearchString)
+      ES.benchmark "Model Search" do
+        collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
+        @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsForText(newSearchString, inCollection:collectionToSearch)
+        @currentSearchString = newSearchString
+      end
+    end    
   end
 end

@@ -14,13 +14,12 @@ class AppDelegate
     window.rootViewController = if iphone?
       self.chartController = ChartController.new
       self.tabBarController = UITabBarController.new.tap do |tbc|
-        rootController = [chartController, ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
+        rootController = [chartController, ParametersController.new, ModelsController.new, RecentModsController.new, ModSetsController.new]
         tbc.viewControllers = rootController.map do |ctl|
           nav = UINavigationController.alloc.initWithRootViewController(ctl)
           nav.delegate = self
           nav.navigationBar.barStyle = UIBarStyleBlack
           nav.toolbar.barStyle = UIBarStyleBlack
-          nav.viewControllers = nav.viewControllers + [SectionedModelsController.new(Model.all)] if CarsController === nav.topViewController
           nav
         end
         tbc.delegate = self
@@ -29,13 +28,12 @@ class AppDelegate
       tabBarController
     else
       self.tabBarController = UITabBarController.new.tap do |tbc|
-        rootController = [ParametersController.new, CarsController.new, RecentModsController.new, ModSetsController.new]
+        rootController = [ParametersController.new, ModelsController.new, RecentModsController.new, ModSetsController.new]
         tbc.viewControllers = rootController.map do |ctl|
           nav = UINavigationController.alloc.initWithRootViewController(ctl)
           nav.delegate = self
           nav.navigationBar.barStyle = UIBarStyleBlack
           nav.toolbar.barStyle = UIBarStyleBlack
-          nav.viewControllers = nav.viewControllers + [SectionedModelsController.new(Model.all)] if CarsController === nav.topViewController
           nav
         end
         tbc.delegate = self
@@ -58,8 +56,7 @@ class AppDelegate
 
     window.makeKeyAndVisible
     
-    # controller = ModelPhotosController.new(Model.modelForKey('bmw--5'), 2012)
-    # tabBarController.selectedIndex = 2
+    tabBarController.selectedIndex = 2
     # tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
       
     true
