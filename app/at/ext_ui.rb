@@ -96,13 +96,20 @@ class UIViewController
     isViewLoaded && view.window
   end
   
-  def presentNavigationController(controller)
+  def presentNavigationController(controller, options = {})
     modalNavController = UINavigationController.alloc.initWithRootViewController(controller)
     modalNavController.navigationBar.barStyle = UIBarStyleBlack
     modalNavController.toolbar.barStyle = UIBarStyleBlack
-    # modalNavController.modalPresentationStyle = UIModalPresentationFullScreen
-    # modalNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve
-    presentViewController modalNavController, animated:YES, completion:NIL
+    modalNavController.modalPresentationStyle = options[:presentationStyle] || UIModalPresentationFullScreen
+    modalNavController.modalTransitionStyle = options[:transitionStyle] || UIModalTransitionStyleCoverVertical
+    presentViewController modalNavController, animated:(options[:animated].nil?? YES : options[:animated]), completion:NIL
+  end  
+end
+
+class UINavigationItem
+  def backBarButtonItemTitle=(title)
+    self.backBarButtonItem ||= ES.textBBI(title)
+    self.backBarButtonItem.title = title
   end
 end
 

@@ -481,7 +481,7 @@ end
 
 def ESProfilePrint(label)
   elapsed = (Time.now - $es_profiling_time) * 1_000
-  NSLog("TIMING #{label}: #{"%.2f" % elapsed}ms")
+  NSLog("TIMING #{label}: #{"%.3f" % elapsed}ms")
   $es_profiling_time = Time.now
 end
 
@@ -492,7 +492,7 @@ def ESProfile(label)
 end
 
 def ESProfileEnd
-  text = $es_profiling_results.map { |data| "%s %.2f" % data }.join(', ')
+  text = $es_profiling_results.map { |data| "%s %.3f" % data }.join(', ')
   NSLog("TIMING #{$es_profiling_title} #{text}")
 end
 

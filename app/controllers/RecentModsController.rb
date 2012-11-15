@@ -78,7 +78,9 @@ class RecentModsController < UITableViewController
     def tableView(tableView, cellForRowAtIndexPath:indexPath)
       mod = @mods[indexPath.row]
       modIsSelected = mod.selected?
-      cell = tableView.dequeueReusableCell(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle) { |cell| cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton }
+
+      cell = tableView.dequeueReusableCell(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle)
+      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
       cell.textLabel.text = mod.model.name
       cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
       cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")

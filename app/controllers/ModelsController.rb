@@ -4,18 +4,18 @@ class ModelsController < UIViewController
   
   def initialize
     self.title = "Models"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Models", image:UIImage.imageNamed("ico-tbi-car-1"), tag:3)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:UIImage.imageNamed("ico-tbi-car-1"), tag:3)
 
     self.navigationItem.titleView = UIView.alloc.init
     self.navigationItem.rightBarButtonItems = [ES.flexibleSpaceBBI, viewSelectorBarItem, ES.flexibleSpaceBBI]
   end
   
-  def viewDidLoad    
+  def viewDidLoad
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
     tableView.addSubview ES.tableViewGrayBackground
 
     self.searchBar = UISearchBar.alloc.init
-    searchBar.frame = CGRectMake(0, 0, view.bounds.width, DSToolbarHeight)
+    searchBar.frame = CGRectMake(0, 0, 0, DSToolbarHeight)
     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth
     searchBar.placeholder = "Search"
@@ -25,17 +25,16 @@ class ModelsController < UIViewController
 
   def viewWillAppear(animated)
     super
+    
+    searchBar.frame = CGRectMake(0, 0, view.bounds.width, DSToolbarHeight)
+    
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
     activeTableView.reloadVisibleRows
 
     self.category = categoriesController.category if @categoriesController
-    viewSelectorBarItem.title = category ? category.name : "All Models"
-    
-    if category == nil
-      self.currentDataSource = mainDataSource if currentDataSource != mainDataSource
-    else currentDataSource == mainDataSource || currentDataSource.category != category
-      self.currentDataSource = FlatModelsDataSource.new(self, category.models, category)
-    end
+        
+    navigationItem.title = viewSelectorBarItem.title = currentTitle
+    navigationItem.backBarButtonItemTitle = currentShortTitle
 
     if tableView.dataSource != currentDataSource || searchDisplayController.searchResultsDataSource != currentDataSource
       tableView.dataSource = currentDataSource
@@ -56,21 +55,40 @@ class ModelsController < UIViewController
   end
 
 
+  def currentTitle
+    category ? category.name : "All Models"
+  end
+  
+  def currentShortTitle
+    category ? category.shortName : "All"
+  end
+  
+  def currentDataSource
+    if category == nil
+      mainDataSource
+    else
+      if @categoryDataSource && @categoryDataSource.category == category
+        @categoryDataSource
+      else
+        @categoryDataSource = FlatModelsDataSource.new(self, category.models, category)
+      end      
+    end
+  end
+
+  def mainDataSource
+    @mainDataSource ||= SectionedModelsDataSource.new(self)
+  end
 
   def viewSelectorBarItem
-    @viewSelectorBarItem ||= ES.textBBI("All Models", target:self, action:'showCategories')
+    @viewSelectorBarItem ||= ES.textBBI(currentTitle, target:self, action:'showCategories')
   end
     
   def categoriesController
     @categoriesController ||= CategoriesController.new
   end
   
-  def mainDataSource
-    @mainDataSource ||= SectionedModelsDataSource.new(self)
-  end
-  
   def showCategories
-    presentNavigationController categoriesController
+    presentNavigationController categoriesController, presentationStyle:UIModalPresentationCurrentContext
   end
   
 
@@ -142,7 +160,7 @@ class ModelsController < UIViewController
     def searchBarCancelButtonClicked(searchBar)
       loadDataForSearchString("")
       controller.tableView.reloadVisibleRows
-      controller.navigationItem.backBarButtonItem = ES.textBBI(controller.viewSelectorBarItem.title)
+      controller.navigationItem.backBarButtonItemTitle = controller.currentShortTitle
     end
   
 
@@ -162,6 +180,8 @@ class ModelsController < UIViewController
     end    
   end
   
+  
+  
   class FlatModelsDataSource
     attr_accessor :controller, :models, :category
     
@@ -171,7 +191,7 @@ class ModelsController < UIViewController
       @initialModels = models      
       @filteredModels = @initialModels
     end
-    
+
     def models=(objects)
       @initialModels = objects
       @filteredModels = @initialModels
@@ -202,7 +222,7 @@ class ModelsController < UIViewController
     def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
       loadDataForSearchString("")
       controller.tableView.reloadVisibleRows
-      controller.navigationItem.backBarButtonItem = ES.textBBI(controller.viewSelectorBarItem.title)
+      controller.navigationItem.backBarButtonItemTitle = controller.currentShortTitle
     end
   
     def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
