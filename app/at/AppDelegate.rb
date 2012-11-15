@@ -11,52 +11,29 @@ class AppDelegate
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |wnd| wnd.backgroundColor = UIColor.whiteColor }
 
+    self.chartController = ChartController.new
+    self.tabBarController = UITabBarController.new.tap do |tbc|
+      tabControllers = [chartController, ParametersController.new, ModelsController.new, RecentModsController.new, ModSetsController.new]
+      tabControllers.shift if ipad?
+      tbc.viewControllers = tabControllers.map { |ctr| ES.navigationForController(ctr, withDelegate:self) }
+      tbc.delegate = self
+      tbc.selectedIndex = 0
+      tbc.contentSizeForViewInPopover = [320, 640]
+    end
+
     window.rootViewController = if iphone?
-      self.chartController = ChartController.new
-      self.tabBarController = UITabBarController.new.tap do |tbc|
-        rootController = [chartController, ParametersController.new, ModelsController.new, RecentModsController.new, ModSetsController.new]
-        tbc.viewControllers = rootController.map do |ctl|
-          nav = UINavigationController.alloc.initWithRootViewController(ctl)
-          nav.delegate = self
-          nav.navigationBar.barStyle = UIBarStyleBlack
-          nav.toolbar.barStyle = UIBarStyleBlack
-          nav
-        end
-        tbc.delegate = self
-        tbc.selectedIndex = 0
-      end
       tabBarController
     else
-      self.tabBarController = UITabBarController.new.tap do |tbc|
-        rootController = [ParametersController.new, ModelsController.new, RecentModsController.new, ModSetsController.new]
-        tbc.viewControllers = rootController.map do |ctl|
-          nav = UINavigationController.alloc.initWithRootViewController(ctl)
-          nav.delegate = self
-          nav.navigationBar.barStyle = UIBarStyleBlack
-          nav.toolbar.barStyle = UIBarStyleBlack
-          nav
-        end
-        tbc.delegate = self
-        tbc.selectedIndex = 0
-        tbc.contentSizeForViewInPopover = [320, 640]
+      mainController = ES.navigationForController(chartController, withDelegate:self)
+      UISplitViewController.alloc.init.tap do |splitViewController|
+        splitViewController.viewControllers = [tabBarController, mainController]
+        splitViewController.delegate = self
       end
-      
-      self.chartController = ChartController.new
-      mainController = UINavigationController.alloc.initWithRootViewController(chartController).tap do |nav|
-        nav.delegate = self
-        nav.navigationBar.barStyle = UIBarStyleBlack
-        nav.toolbar.barStyle = UIBarStyleBlack
-      end      
-
-      splitViewController = UISplitViewController.alloc.init
-      splitViewController.viewControllers = [tabBarController, mainController]
-      splitViewController.delegate = self
-      splitViewController
     end
 
     window.makeKeyAndVisible
     
-    tabBarController.selectedIndex = 2
+    # tabBarController.selectedIndex = 2
     # tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
       
     true

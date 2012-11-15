@@ -28,6 +28,14 @@ class Helper
     def documentsURL
       NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).first
     end    
+    
+    def navigationForController(controller, withDelegate:delegate)
+      UINavigationController.alloc.initWithRootViewController(controller).tap do |navigation|
+        navigation.delegate = delegate
+        navigation.navigationBar.barStyle = UIBarStyleBlack
+        navigation.toolbar.barStyle = UIBarStyleBlack
+      end
+    end
   end
   
   module Graphics

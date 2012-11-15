@@ -97,13 +97,20 @@ class UIViewController
   end
   
   def presentNavigationController(controller, options = {})
-    modalNavController = UINavigationController.alloc.initWithRootViewController(controller)
-    modalNavController.navigationBar.barStyle = UIBarStyleBlack
-    modalNavController.toolbar.barStyle = UIBarStyleBlack
-    modalNavController.modalPresentationStyle = options[:presentationStyle] || UIModalPresentationFullScreen
-    modalNavController.modalTransitionStyle = options[:transitionStyle] || UIModalTransitionStyleCoverVertical
-    presentViewController modalNavController, animated:(options[:animated].nil?? YES : options[:animated]), completion:NIL
+    navigation = ES.navigationForController(controller, withDelegate:NIL)
+    navigation.modalPresentationStyle = options[:presentationStyle] || UIModalPresentationFullScreen
+    navigation.modalTransitionStyle = options[:transitionStyle] || UIModalTransitionStyleCoverVertical
+    presentViewController navigation, animated:(options[:animated].nil?? YES : options[:animated]), completion:NIL
   end  
+  
+  def presentPopoverController(controller, options = {})
+    navigation = ES.navigationForController(controller, withDelegate:NIL)
+    popover = UIPopoverController.alloc.initWithContentViewController(navigation)
+    if barItem = options[:fromBarItem]
+      popover.presentPopoverFromBarButtonItem barItem, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:YES
+    end
+    popover
+  end
 end
 
 class UINavigationItem
@@ -123,6 +130,12 @@ class UITableView
       cell.textLabel.backgroundColor = UIColor.clearColor if klass == DSBadgeViewCell
       block.call(cell) if block
     end
+  end
+  
+  def reusableCellWith(options = nil)
+    cell = dequeueReusableCell(options)
+    yield cell if block_given?
+    cell
   end
   
   def reloadVisibleRows

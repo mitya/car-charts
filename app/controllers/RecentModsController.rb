@@ -46,16 +46,13 @@ class RecentModsController < UITableViewController
   end
   
   def saveAsSet
-    selector = ModSetSelectionController.new
-    selectorNav = UINavigationController.alloc.initWithRootViewController(selector)
-    selectorNav.navigationBar.barStyle = UIBarStyleBlack
+    selectionCtr = ModSetSelectionController.new
     if iphone?
-      selector.closeProc = -> { dismissModalViewControllerAnimated true, completion:NIL }
-      presentViewController selectorNav, animated:YES, completion:NIL
-    else            
-      selector.closeProc = -> { @popover.dismissPopoverAnimated(YES) }
-      @popover = UIPopoverController.alloc.initWithContentViewController(selectorNav)
-      @popover.presentPopoverFromBarButtonItem navigationItem.rightBarButtonItem, permittedArrowDirections:UIPopoverArrowDirectionAny, animated:YES
+      selectionCtr.closeProc = -> { dismissModalViewControllerAnimated true, completion:NIL }
+      presentNavigationController selectionCtr
+    else     
+      selectionCtr.closeProc = -> { @popover.dismissPopoverAnimated(YES) }
+      @popover = presentPopoverController selectionCtr, fromBarItem:navigationItem.rightBarButtonItem
     end
   end
 
@@ -78,13 +75,12 @@ class RecentModsController < UITableViewController
     def tableView(tableView, cellForRowAtIndexPath:indexPath)
       mod = @mods[indexPath.row]
       modIsSelected = mod.selected?
-
-      cell = tableView.dequeueReusableCell(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle)
-      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
-      cell.textLabel.text = mod.model.name
-      cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
-      cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
-      cell
+      tableView.reusableCellWith(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle) do |cell|
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
+        cell.textLabel.text = mod.model.name
+        cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
+        cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
+      end
     end
 
     def tableView(tableView, didSelectRowAtIndexPath:indexPath)

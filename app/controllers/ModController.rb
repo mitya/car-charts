@@ -1,5 +1,7 @@
 class ModController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
+  SystemSectionIndex = 0
+
   attr_accessor :mod
 
   def initialize(mod)
@@ -16,18 +18,14 @@ class ModController < UITableViewController
     true
   end
 
-  ####
 
-  def systemSectionIndex
-    @systemSectionIndex ||= 0
-  end
 
   def numberOfSectionsInTableView(tv)
     Parameter.groupKeys.count + 1
   end
 
   def tableView(tv, numberOfRowsInSection:section)
-    return 1 if section == systemSectionIndex
+    return 1 if section == SystemSectionIndex
     section -= 1
     
     groupKey = Parameter.groupKeys[section]
@@ -35,7 +33,7 @@ class ModController < UITableViewController
   end
 
   def tableView(tv, titleForHeaderInSection:section)
-    return nil if section == systemSectionIndex
+    return nil if section == SystemSectionIndex
     section -= 1    
     
     groupKey = Parameter.groupKeys[section]
@@ -43,35 +41,31 @@ class ModController < UITableViewController
   end
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
-    if indexPath.section == systemSectionIndex
-      cell = tv.dequeueReusableCell(id: 'Action', style:UITableViewCellStyleDefault) do |cell|
+    if indexPath.section == SystemSectionIndex
+      cell = tv.dequeueReusableCell(id:'Action', style:UITableViewCellStyleDefault) do |cell|
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
         cell.textLabel.text = "Photos"
         cell.imageView.image = UIImage.imageNamed("google_icon")
       end  
     else
       parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]
-      cell = tv.dequeueReusableCell(style:UITableViewCellStyleValue1) { |cl| cl.selectionStyle = UITableViewCellSelectionStyleNone }
+      cell = tv.dequeueReusableCell(style:UITableViewCellStyleValue1)
+      cell.selectionStyle = UITableViewCellSelectionStyleNone
       cell.textLabel.text = parameter.name
       cell.textLabel.font = ES.boldFont(parameter.long?? 16.0 : 17.0)
       cell.detailTextLabel.text = @mod.fieldTextFor(parameter)
+      cell
     end
-    cell
   end
   
-  def tableView(tv, didSelectRowAtIndexPath:indexPath)
-    tv.deselectRowAtIndexPath(indexPath, animated:YES)
-    if indexPath.section == systemSectionIndex && indexPath.item == 0
-      modalNavController = UINavigationController.alloc.initWithRootViewController(photosController)
-      modalNavController.navigationBar.barStyle = UIBarStyleBlack
-      modalNavController.toolbar.barStyle = UIBarStyleBlack
-      modalNavController.modalPresentationStyle = UIModalPresentationFullScreen
-      # modalNavController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve
-      presentViewController modalNavController, animated:YES, completion:NIL
+  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    tableView.deselectRowAtIndexPath(indexPath, animated:YES)
+    if indexPath.section == SystemSectionIndex && indexPath.item == 0
+      presentNavigationController photosController, presentationStyle:UIModalPresentationFullScreen
     end
   end  
   
-  ####
+
   
   def photosController
     @photosController ||= ModelPhotosController.new(mod.model, mod.year)
