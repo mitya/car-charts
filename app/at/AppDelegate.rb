@@ -9,10 +9,10 @@ class AppDelegate
     Disk.load
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
-    self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |wnd| wnd.backgroundColor = UIColor.whiteColor }
+    self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
 
     self.chartController = ChartController.new
-    self.tabBarController = UITabBarController.new.tap do |tbc|
+    self.tabBarController = KKTabBarController.new.tap do |tbc|
       tabControllers = [chartController, ParametersController.new, ModelsController.new, RecentModsController.new, ModSetsController.new]
       tabControllers.shift if ipad?
       tbc.viewControllers = tabControllers.map { |ctr| ES.navigationForController(ctr, withDelegate:self) }
@@ -32,10 +32,10 @@ class AppDelegate
     end
 
     window.makeKeyAndVisible
-    
+
     # tabBarController.selectedIndex = 2
     # tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
-      
+
     true
   end
   

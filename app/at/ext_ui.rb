@@ -70,6 +70,17 @@ class UITableViewController
 end
 
 class UIViewController
+  def self.autorotationPolicy
+    @autorotationPolicy
+  end
+  
+  def self.autorotation(policy)
+    @autorotationPolicy = policy
+    def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
+      self.class.autorotationPolicy
+    end    
+  end
+  
   def self.new(*args)
     alloc.init.tap { |this| this.send(:initialize, *args) if this.respond_to?(:initialize, true) }
   end
@@ -83,7 +94,9 @@ class UIViewController
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
     tableView.dataSource = delegate
     tableView.delegate = delegate
+    
     view.addSubview(tableView)
+    
     tableView
   end
   
@@ -188,3 +201,28 @@ end
 UIViewAutoresizingFlexibleAllMargins = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
 SafariUA = "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7"
 DSToolbarHeight = 44.0
+
+class KKNavigationController < UINavigationController
+  # enabled autorotation support for OS 5.0
+  def shouldAutorotateToInterfaceOrientation(toInterfaceOrientation)
+    ipad? ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown
+  end
+
+  # def shouldAutorotate
+  #   topViewController.shouldAutorotate
+  # end  
+  # 
+  # def supportedInterfaceOrientations
+  #   topViewController.supportedInterfaceOrientations
+  # end
+end
+
+class KKTabBarController < UITabBarController
+  # def shouldAutorotate
+  #   selectedViewController.shouldAutorotate
+  # end  
+  # 
+  # def supportedInterfaceOrientations
+  #   selectedViewController.supportedInterfaceOrientations
+  # end
+end

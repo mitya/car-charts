@@ -38,17 +38,11 @@ class ChartController < UIViewController
     isViewVisible ? reload : (@reloadPending = true ) if object == Disk
   end
 
-  ####
-  
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
-  
   def didRotateFromInterfaceOrientation(fromInterfaceOrientation)    
     tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end
 
-  ####
+
 
   def tableView(tv, numberOfRowsInSection:section)
     @comparision.complete?? @comparision.mods.count : 0

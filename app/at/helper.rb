@@ -30,7 +30,7 @@ class Helper
     end    
     
     def navigationForController(controller, withDelegate:delegate)
-      UINavigationController.alloc.initWithRootViewController(controller).tap do |navigation|
+      KKNavigationController.alloc.initWithRootViewController(controller).tap do |navigation|
         navigation.delegate = delegate
         navigation.navigationBar.barStyle = UIBarStyleBlack
         navigation.toolbar.barStyle = UIBarStyleBlack
@@ -509,9 +509,11 @@ def ESLineHeightFromFontSize(size)
 end
 
 def ipad?
-  UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
+  return $device_is_ipad if $device_is_ipad != nil
+  $device_is_ipad = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
 end
 
 def iphone?
-  UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone
+  return $device_is_iphone if $device_is_iphone != nil
+  $device_is_iphone = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone
 end

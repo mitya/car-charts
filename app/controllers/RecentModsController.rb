@@ -14,11 +14,7 @@ class RecentModsController < UITableViewController
     switchView
   end
 
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
-  
-  ###
+
   
   def modeSegmentedControl
     @modeSegmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Selected Recents)).tap do |segm|

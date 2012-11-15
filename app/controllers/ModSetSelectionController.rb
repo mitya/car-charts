@@ -8,10 +8,6 @@ class ModSetSelectionController < UITableViewController
     navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
   end
 
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
-
   def tableView(tv, numberOfRowsInSection:section)
     reloadSets
     @sets.count

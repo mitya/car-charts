@@ -43,11 +43,7 @@ class ModelPhotosController < UIViewController
     webView.stopLoading
   end
 
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
   
-  ####
 
   def close
     presentingViewController ? dismissModalViewControllerAnimated(YES, completion:NIL) : navigationController.popViewControllerAnimated(YES)

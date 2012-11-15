@@ -8,14 +8,20 @@ Motion::Project::App.setup do |app|
   app.identifier = "name.sokurenko.CarCharts"
   app.version = "0.1"
   app.icons = ["ico-app-iphone.png", "ico-app-iphone@2x.png"]
-  app.deployment_target = "6.0"
+  app.sdk_version = "6.0"
+  app.deployment_target = "5.0"
   app.libs += ['/usr/lib/libsqlite3.dylib']
   app.frameworks += ['CoreData']
+  app.interface_orientations = [:portrait, :landscape_left, :landscape_right]
   app.device_family = ENV['IPAD'] == '1' ? [:ipad, :iphone] : [:iphone, :ipad]
   
+  # app.info_plist['CFBundleURLTypes'] = [
+  #   { 'CFBundleURLName' => 'com.mycompany.x-videoplayer',
+  #     'CFBundleURLSchemes' => ['x-videoplayer'] }
+  # ]
   # app.pods do
   #   pod 'FMDB'
-  # end  
+  # end
 end
 
 ######################################################################################################

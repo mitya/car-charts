@@ -27,11 +27,7 @@ class ModsController < UIViewController
     applyFilter
   end
   
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
-  
-  ####
+
   
   def numberOfSectionsInTableView(tv)
     @modsByBody.count > 0 ? @modsByBody.count : 1

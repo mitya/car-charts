@@ -14,10 +14,6 @@ class ModController < UITableViewController
     self.tableView.tableHeaderView = ES.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersion))
   end
 
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
-
 
 
   def numberOfSectionsInTableView(tv)

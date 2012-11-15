@@ -14,16 +14,12 @@ class ModSetsController < UITableViewController
     refreshView # update badges
   end
 
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
-
   def setEditing(editing, animated:animated)
     super
     refreshView # redraws cells for editing
   end
 
-  ####
+
 
   def tableView(tv, numberOfRowsInSection:section)
     refreshData
@@ -71,7 +67,7 @@ class ModSetsController < UITableViewController
     navigationController.pushViewController ModSetController.new(set), animated:YES
   end
 
-  ####
+
   
   def textFieldDidEndEditing(textField)
     cell = textField.superview
@@ -95,7 +91,7 @@ class ModSetsController < UITableViewController
     end
   end    
     
-  ####
+
 
   def showNewSetDialog
     ModSetsController.showNewSetDialogFor(self)

@@ -50,9 +50,6 @@ class ModelsController < UIViewController
     end
   end
 
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
 
 
   def currentTitle

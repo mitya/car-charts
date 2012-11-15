@@ -6,10 +6,6 @@ class ParametersController < UITableViewController
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:UIImage.imageNamed("ico-tbi-weight"), tag:2)
   end
 
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
-  
   def numberOfSectionsInTableView(tv)
     Parameter.groupKeys.count
   end

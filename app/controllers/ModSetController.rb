@@ -15,11 +15,7 @@ class ModSetController < UITableViewController
     tableView.reloadData
   end
 
-  def shouldAutorotateToInterfaceOrientation(interfaceOrientation)
-    true
-  end
 
-  ####
 
   def tableView(tv, numberOfRowsInSection:section)    
     actionsButtonItem.enabled = !empty?
