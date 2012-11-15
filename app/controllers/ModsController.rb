@@ -16,10 +16,10 @@ class ModsController < UIViewController
       if iphone?
         self.toolbarItems = toolbarItemsForFilter
       else
-        self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, DSToolbarHeight))
+        self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, UIToolbarHeight))
         self.toolbar.items = toolbarItemsForFilter
         self.view.addSubview(toolbar)
-        self.tableView.frame = CGRectOffset(tableView.frame, 0, DSToolbarHeight)
+        self.tableView.frame = CGRectOffset(tableView.frame, 0, UIToolbarHeight)
         self.tableView.addSubview(ES.tableViewGrayBackground)
       end
     end

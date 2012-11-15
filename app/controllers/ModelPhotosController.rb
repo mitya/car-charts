@@ -32,7 +32,7 @@ class ModelPhotosController < UIViewController
       url = NSURL.URLWithString(path)
       error = Pointer.new(:object)
       request = NSMutableURLRequest.requestWithURL(url)
-      request.setValue(SafariUA, forHTTPHeaderField:"User-Agent")
+      request.setValue(UISafariUA, forHTTPHeaderField:"User-Agent")
       webView.loadRequest(request)
     end
   end

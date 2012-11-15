@@ -64,7 +64,7 @@ class DSBadgeView < UIView
     currentDetailColor = UIColor.grayColor
     currentBadgeColor = cell.badgeColor || ES.rgbf(0.53, 0.6, 0.738)
     
-    if cell.isHighlighted || cell.isSelected
+    if cell.highlighted? || cell.selected?
       currentSummaryColor = UIColor.whiteColor
       currentDetailColor = UIColor.whiteColor
       currentBadgeColor = cell.badgeHighlightedColor || UIColor.whiteColor

@@ -1,3 +1,7 @@
+UIViewAutoresizingFlexibleAllMargins = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
+UISafariUA = "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7"
+UIToolbarHeight = 44.0
+
 class CGRect
   def x
     origin.x
@@ -23,8 +27,6 @@ class CGRect
     "{#{x}, #{y}, #{width}, #{height}}"
   end
 end
-
-###############################################################################
 
 class UIColor
   def hsbString
@@ -56,17 +58,14 @@ class UIFont
   end
 end
 
-class UITableViewController
-  DefaultTableViewStyleForRubyInit = UITableViewStylePlain
-  
-  def self.initAsRubyObject(*args)
-    style = const_get(:DefaultTableViewStyleForRubyInit)    
-    alloc.initWithStyle(style).tap { |this| this.send(:initialize, *args) }
+class UIView
+  def xdBorder(color = UIColor.redColor)
+    ES.setDevBorder(self, color)
   end
   
-  def self.new(*args)
-    initAsRubyObject(*args)
-  end  
+  def setRoundedCornersWithRadius(radius, width:width, color:color)
+    ES.setRoundedCornersForView(self, withRadius:radius, width:width, color:color)
+  end
 end
 
 class UIViewController
@@ -126,13 +125,6 @@ class UIViewController
   end
 end
 
-class UINavigationItem
-  def backBarButtonItemTitle=(title)
-    self.backBarButtonItem ||= ES.textBBI(title)
-    self.backBarButtonItem.title = title
-  end
-end
-
 class UITableView
   def dequeueReusableCell(options = nil, &block)
     klass = options && options[:klass] || UITableViewCell
@@ -172,6 +164,26 @@ class UITableViewCell
   end
 end
 
+class UITableViewController
+  DefaultTableViewStyleForRubyInit = UITableViewStylePlain
+  
+  def self.initAsRubyObject(*args)
+    style = const_get(:DefaultTableViewStyleForRubyInit)    
+    alloc.initWithStyle(style).tap { |this| this.send(:initialize, *args) }
+  end
+  
+  def self.new(*args)
+    initAsRubyObject(*args)
+  end  
+end
+
+class UINavigationItem
+  def backBarButtonItemTitle=(title)
+    self.backBarButtonItem ||= ES.textBBI(title)
+    self.backBarButtonItem.title = title
+  end
+end
+
 class UITabBarController
   def setTabBarHidden(hidden, animated:animated)
     duration = animated ? 0.2 : 0
@@ -188,22 +200,8 @@ class UITabBarController
   end
 end
 
-class UIView
-  def xdBorder(color = UIColor.redColor)
-    ES.setDevBorder(self, color)
-  end
-  
-  def setRoundedCornersWithRadius(radius, width:width, color:color)
-    ES.setRoundedCornersForView(self, withRadius:radius, width:width, color:color)
-  end
-end
-
-UIViewAutoresizingFlexibleAllMargins = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
-SafariUA = "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7"
-DSToolbarHeight = 44.0
-
 class KKNavigationController < UINavigationController
-  # enabled autorotation support for OS 5.0
+  # enables autorotation support for OS 5.0
   def shouldAutorotateToInterfaceOrientation(toInterfaceOrientation)
     ipad? ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown
   end

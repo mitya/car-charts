@@ -42,13 +42,13 @@ class DSMultisegmentView < UIView
   end
   
   def segmentButtonDown(button)
-    button.selected = !button.isSelected
+    button.selected = !button.selected?
     reapplyButtonBackgrounds
   end
   
   def segmentButtonUp(button)
     handler = segmentHandlers[button]
-    handler.call(button.isSelected) if handler
+    handler.call(button.selected?) if handler
   end
   
   def tapRecognized(recognizer)
@@ -71,7 +71,7 @@ class DSMultisegmentView < UIView
   ###
   
   def active?
-    segmentButtons.any? { |b| b.isSelected }
+    segmentButtons.any? { |b| b.selected? }
   end
   
   def reapplyButtonBackgrounds

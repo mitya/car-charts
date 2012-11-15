@@ -31,11 +31,11 @@ class DSCoreModel < NSManagedObject
     end
     
     def context
-      ES.app.send(contextName)
+      KK.app.delegate.send(contextName)
     end
     
     def save
-      ES.app.saveObjectContext(context)
+      KK.app.delegate.saveObjectContext(context)
     end
     
     def build(attributes = nil)

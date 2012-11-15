@@ -16,7 +16,7 @@ class ChartController < UIViewController
     Disk.removeObserver(self, forKeyPath:"currentMods")    
     super
   end
-
+  
   def viewDidLoad
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain).tap do |tableView|
       tableView.rowHeight = 25
@@ -27,7 +27,7 @@ class ChartController < UIViewController
     
     @reloadPending = true
   end
-
+  
   def viewWillAppear(animated)
     super
     reload if @reloadPending
@@ -49,13 +49,13 @@ class ChartController < UIViewController
   end
   
   def tableView(tv, cellForRowAtIndexPath:ip)
-    cell = tv.dequeueReusableCell(klass:BarView::TableCell) { |c| c.selectionStyle = UITableViewCellSelectionStyleNone }
+    cell = tv.dequeueReusableCell(klass:ChartBarView::TableCell) { |c| c.selectionStyle = UITableViewCellSelectionStyleNone }
     cell.comparisionItem = comparision.items[ip.row]
     cell
   end
   
   def tableView(tv, heightForRowAtIndexPath:ip)
-    BarView.heightForComparisionItem(@comparision.items[ip.row])
+    ChartBarView.heightForComparisionItem(@comparision.items[ip.row])
   end
 
   ####
@@ -72,7 +72,7 @@ class ChartController < UIViewController
     
     if @comparision.complete?
       emptyView.removeFromSuperview if @emptyView && @emptyView.superview
-      tableView.tableFooterView = ParametersLegendView.new(@comparision.params)
+      tableView.tableFooterView = ChartLegendView.new(@comparision.params)
     else
       view.addSubview(emptyView)
       tableView.tableFooterView = nil
@@ -87,15 +87,15 @@ class ChartController < UIViewController
       tabBarController.setTabBarHidden(shouldSwitchOn, animated:YES)
       exitFullScreenModeButton.hidden = !shouldSwitchOn
     else
-      ES.app.hidesMasterView = !ES.app.hidesMasterView
-      @fullScreen = ES.app.hidesMasterView
-      toggleSettingsBarItem.customView.selected = !toggleSettingsBarItem.customView.isSelected
+      KK.app.delegate.hidesMasterView = !KK.app.delegate.hidesMasterView
+      @fullScreen = KK.app.delegate.hidesMasterView
+      toggleSettingsBarItem.customView.selected = !toggleSettingsBarItem.customView.selected?
       splitViewController.view.setNeedsLayout
       splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
     end
   end
   
-  ####
+
 
   def fullScreen?
     @fullScreen

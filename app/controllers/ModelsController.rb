@@ -15,7 +15,7 @@ class ModelsController < UIViewController
     tableView.addSubview ES.tableViewGrayBackground
 
     self.searchBar = UISearchBar.alloc.init
-    searchBar.frame = CGRectMake(0, 0, 0, DSToolbarHeight)
+    searchBar.frame = CGRectMake(0, 0, 0, UIToolbarHeight)
     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth
     searchBar.placeholder = "Search"
@@ -26,7 +26,7 @@ class ModelsController < UIViewController
   def viewWillAppear(animated)
     super
     
-    searchBar.frame = CGRectMake(0, 0, view.bounds.width, DSToolbarHeight)
+    searchBar.frame = CGRectMake(0, 0, view.bounds.width, UIToolbarHeight)
     
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
     activeTableView.reloadVisibleRows
@@ -46,7 +46,7 @@ class ModelsController < UIViewController
       tableView.reloadData
       tableView.tableHeaderView = nil
       tableView.tableHeaderView = searchBar      
-      tableView.contentOffset = currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, DSToolbarHeight)
+      tableView.contentOffset = currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, UIToolbarHeight)
     end
   end
 

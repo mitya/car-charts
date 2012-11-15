@@ -1,19 +1,19 @@
-class BarView < UIView  
+class ChartBarView < UIView  
   attr_accessor :comparisionItem
   attr_delegated 'comparisionItem', :mod, :mods, :index, :comparision
 
   TitleLM = 4
 
   ModelTitleFS = 15.0
-  ModelTitleH = ESLineHeightFromFontSize(ModelTitleFS)
+  ModelTitleH = KKLineHeightFromFontSize(ModelTitleFS)
   ModelTitleBM = 0
   ModelTitleRM = 4
   ModTitleFS = 14.0
-  ModTitleH = ESLineHeightFromFontSize(ModTitleFS)
+  ModTitleH = KKLineHeightFromFontSize(ModTitleFS)
   ModTitleBM = 0
     
   BarFS = 13.0
-  BarH = ESLineHeightFromFontSize(BarFS)
+  BarH = KKLineHeightFromFontSize(BarFS)
   BarFH = BarH + 0
   BarLM = TitleLM
   BarRM = 1
@@ -122,8 +122,8 @@ class BarView < UIView
   def self.renderingMode
     case 
       when iphone? then :narrow
-      when ES.landscape? && ES.app.chartController.fullScreen? then :ultraWide
-      when ES.landscape? || ES.app.chartController.fullScreen? then :wide
+      when ES.landscape? && KK.app.delegate.chartController.fullScreen? then :ultraWide
+      when ES.landscape? || KK.app.delegate.chartController.fullScreen? then :wide
       else :narrow
     end
   end
@@ -136,8 +136,8 @@ class BarView < UIView
 
   def self.heightForComparisionItem(item)
     height = 0
-    height += BarView::ModelTitleH + BarView::ModelTitleBM if renderingMode == :narrow || renderingMode == :wide && item.firstForModel?
-    height += item.comparision.params.count * BarView::BarFH
+    height += ChartBarView::ModelTitleH + ChartBarView::ModelTitleBM if renderingMode == :narrow || renderingMode == :wide && item.firstForModel?
+    height += item.comparision.params.count * ChartBarView::BarFH
     height += item.lastForModel?? LastItemBM : ItemBM
   end
 
@@ -148,7 +148,7 @@ class BarView < UIView
   
     def initWithStyle(style, reuseIdentifier:identifier)
       super UITableViewCellStyleValue1, reuseIdentifier:identifier
-      self.barView = BarView.alloc.initWithFrame(CGRectMake(0, 0, contentView.bounds.width, contentView.bounds.height))
+      self.barView = ChartBarView.alloc.initWithFrame(CGRectMake(0, 0, contentView.bounds.width, contentView.bounds.height))
       self.barView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
       self.contentView.addSubview barView
       self

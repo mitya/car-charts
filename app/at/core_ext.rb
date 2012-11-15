@@ -1,10 +1,3 @@
-M_PI = Math::PI
-YES = true
-NO = false
-NONE = NO
-ZERO = 0
-NULL = nil
-
 class Object
   def presence
     present? ? self : nil
@@ -55,6 +48,16 @@ class NSString
   def blank?
     empty?
   end
+  
+  PluralizationRules = { }
+
+  def pluralizeFor(count)
+    count == 1 ? self : pluralize
+  end
+  
+  def pluralize
+    PluralizationRules[self] || self + "s"
+  end  
 end
 
 class NSNumber
@@ -62,8 +65,6 @@ class NSNumber
     false
   end
 end
-
-###############################################################################
 
 class NSArray
   def dupWithToggledObject(item)
@@ -153,24 +154,17 @@ class NSMutableDictionary
   end  
 end
 
-class NSString
-  PluralizationRules = { }
-
-  def pluralizeFor(count)
-    count == 1 ? self : pluralize
-  end
-  
-  def pluralize
-    PluralizationRules[self] || self + "s"
-  end
-end
-
 class NSIndexPath
   def inspect
     "{#{section}, #{row}}"
   end
 end
 
-def pp(*args)
-  puts "*** " + args.map(&:inspect).join(', ')
+class NSManagedObjectContext
+  def fetchEntity(entity, predicate:predicateArgs)
+    fetchRequest = NSFetchRequest.fetchRequestWithEntityName(entity.name)    
+    fetchRequest.predicate = NSPredicate.predicateWithFormat(predicateArgs.first, argumentArray:predicateArgs.tail)
+    error = ES.ptr
+    executeFetchRequest(fetchRequest, error:error) || raise("Error when fetching data: #{error.value.description}")
+  end
 end

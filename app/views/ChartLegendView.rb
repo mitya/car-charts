@@ -1,4 +1,4 @@
-class ParametersLegendView < UIView
+class ChartLegendView < UIView
   attr_accessor :parameters
   attr_accessor :content, :topBorder
 
@@ -7,7 +7,7 @@ class ParametersLegendView < UIView
   ContentBM = 8
   ContentHM = 5
   ItemFS = 14.0
-  ItemH = ESLineHeightFromFontSize(ItemFS)
+  ItemH = KKLineHeightFromFontSize(ItemFS)
   ItemVM = 1
   ItemRM = ItemFS / 2
   ItemFH = ItemH + ItemVM
@@ -62,7 +62,7 @@ class ParametersLegendView < UIView
 
     def drawRect(rect)
       context = UIGraphicsGetCurrentContext()
-      colorGradient = BarView.colors[index]
+      colorGradient = ChartBarView.colors[index]
       colorFrame = CGRectMake(leftMargin, (ItemH - ColorH) / 2.0, ColorW, ColorH)
       textSize = param.name.sizeWithFont(textFont)
       textFrame = CGRectMake(colorFrame.x + colorFrame.width + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
@@ -76,9 +76,9 @@ class ParametersLegendView < UIView
     end
     
     def leftMargin
-      case BarView.renderingMode
-        when :wide then BarView::WideBarLabelW + BarView::WideBarLM - ContentHM
-        when :ultraWide then BarView::UltraWideBarLabelW + BarView::WideBarLM - ContentHM
+      case ChartBarView.renderingMode
+        when :wide then ChartBarView::WideBarLabelW + ChartBarView::WideBarLM - ContentHM
+        when :ultraWide then ChartBarView::UltraWideBarLabelW + ChartBarView::WideBarLM - ContentHM
         when :narrow then 0
       end
     end
