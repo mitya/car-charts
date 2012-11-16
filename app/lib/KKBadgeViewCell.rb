@@ -69,8 +69,12 @@ class KKBadgeViewCell < UITableViewCell
   #   badgeView.setNeedsDisplay
   # end
 
-  def badgeText=(value)
-    @badgeText = value != nil && value != 0 ? value.to_s : nil
+  def badgeText=(text)
+    text = text.present? && text != 0 ? text.to_s : nil
+    return if @badgeText == text
+    @badgeText = text
+    self.setNeedsLayout
+    badgeView.setNeedsDisplay
   end
   
   def textField

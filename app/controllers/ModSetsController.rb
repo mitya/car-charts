@@ -31,14 +31,14 @@ class ModSetsController < UITableViewController
     cell = tableView.dequeueReusableCell(klass:KKBadgeViewCell, style:UITableViewCellStyleSubtitle) do |cell|
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
       cell.textFieldEnabled = true
-      cell.textFieldEndEditingBlock = ->(cell) { modSetWasRenamed(cell) }
+      cell.textFieldEndEditingBlock = ->(cell) { modSetCellDidEndEditing(cell) }
       cell.textField.placeholder = "Set Title"
     end
     cell.textLabel.text = set.name
     cell.textField.text = set.name
     cell.detailTextLabel.text = set.modPreviewString
     cell.badgeText = set.modCount
-    cell        
+    cell
   end
 
   def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
@@ -58,24 +58,23 @@ class ModSetsController < UITableViewController
   end
 
 
-  
   def alertView(alertView, clickedButtonAtIndex:buttonIndex)
     if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
       ModSet.create(name: alertView.textFieldAtIndex(0).text)
       refreshView
     end
   end    
-    
 
-  def modSetWasRenamed(cell)
+  def modSetCellDidEndEditing(cell)
     index = tableView.indexPathForCell(cell)
     @set = @sets[index.row] # save as ivar because after refreshData is called @sets will be different
-    @set.renameTo(cell.textField.text)
+    @set.renameTo(cell.textField.text.strip)
     cell.textField.text = @set.name # set name is not changed if the rename has failed
     cell.textLabel.text = @set.name
     refreshData
     tableView.moveRowAtIndexPath index, toIndexPath:ES.indexPath(index.section, @set.position)
   end
+
 
   def showNewSetDialog
     ModSetsController.showNewSetDialogFor(self)
@@ -89,6 +88,7 @@ class ModSetsController < UITableViewController
     tableView.reloadData
     editButtonItem.enabled = @sets.any?
   end
+
 
   class << self
     def showNewSetDialogFor(controller)
