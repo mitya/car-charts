@@ -118,7 +118,7 @@ class ModelsController < UIViewController
       model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
       modelSelectedModsCount = model.selectedModsCount
 
-      cell = table.dequeueReusableCell(klass: DSBadgeViewCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell = table.dequeueReusableCell(klass: KKBadgeViewCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
       cell.textLabel.text = model.unbrandedName
       cell.badgeText = modelSelectedModsCount
       cell
@@ -202,7 +202,7 @@ class ModelsController < UIViewController
       model = @filteredModels[indexPath.row]
       modelSelectedModsCount = model.selectedModsCount
 
-      cell = tableView.dequeueReusableCell(klass:DSBadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell = tableView.dequeueReusableCell(klass:KKBadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
       cell.text = model.name
       cell.badgeText = modelSelectedModsCount
       cell

@@ -157,11 +157,24 @@ class Helpers
       CGContextStrokeRect(context, rect)
     end
     
-    def animateWithDuration(duration)
-      UIView.beginAnimations(nil, context:NULL)
-      UIView.setAnimationDuration(duration)
-      yield
-      UIView.commitAnimations      
+    def animateWithDuration(duration, options = {}, &animations)
+      completion = options[:completion]
+
+      if duration == 0
+        animations.call
+        completion.call if completion
+      else
+        if completion        
+          UIView.animateWithDuration(duration, animations:animations, completion:completion)
+        else
+          UIView.animateWithDuration(duration, animations:animations)
+        end
+
+        # UIView.beginAnimations(nil, context:NULL)
+        # UIView.setAnimationDuration(duration)
+        # yield
+        # UIView.commitAnimations
+      end
     end
   end
   

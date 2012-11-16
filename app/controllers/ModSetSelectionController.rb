@@ -15,7 +15,7 @@ class ModSetSelectionController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    cell = tv.dequeueReusableCell(klass:DSBadgeViewCell, style:UITableViewCellStyleSubtitle)
+    cell = tv.dequeueReusableCell(klass:KKBadgeViewCell, style:UITableViewCellStyleSubtitle)
     cell.textLabel.text = set.name
     cell.detailTextLabel.text = set.modPreviewString
     cell

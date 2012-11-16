@@ -17,7 +17,7 @@ class CategoriesController < UITableViewController
   end
 
   def tableView(table, cellForRowAtIndexPath:indexPath)
-    cell = table.dequeueReusableCell(klass: DSBadgeViewCell)
+    cell = table.dequeueReusableCell(klass: KKBadgeViewCell)
 
     if indexPath.row == 0
       cell.textLabel.text = "All Models"

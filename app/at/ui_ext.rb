@@ -132,7 +132,7 @@ class UITableView
     id = options && options[:id] || "cell"
     
     cell = dequeueReusableCellWithIdentifier(id) || klass.alloc.initWithStyle(style, reuseIdentifier:id).tap do |cell|
-      cell.textLabel.backgroundColor = UIColor.clearColor if klass == DSBadgeViewCell
+      cell.textLabel.backgroundColor = UIColor.clearColor if klass == KKBadgeViewCell
       block.call(cell) if block
     end
   end

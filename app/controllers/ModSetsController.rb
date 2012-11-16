@@ -14,10 +14,10 @@ class ModSetsController < UITableViewController
     refreshView # update badges
   end
 
-  def setEditing(editing, animated:animated)
-    super
-    refreshView # redraws cells for editing
-  end
+  # def setEditing(editing, animated:animated)
+  #   super
+  #   refreshView # redraws cells for editing
+  # end
 
 
 
@@ -28,27 +28,17 @@ class ModSetsController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    if isEditing
-      cell = tv.dequeueReusableCell(id: "EditorCell") do |cell|
-        textField = UITextField.alloc.initWithFrame(CGRectMake(40, 0, 200, 43))
-        textField.font = UIFont.boldSystemFontOfSize(20)
-        textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter
-        textField.placeholder = "Set Title"
-        textField.tag = 1
-        textField.delegate = self
-        textField.returnKeyType = UIReturnKeyDone
-        textField.enablesReturnKeyAutomatically = true
-        cell.addSubview textField
-      end
-      textField = cell.viewWithTag(1)
-      textField.text = set.name
-    else
-      cell = tv.dequeueReusableCell(klass:DSBadgeViewCell, style:UITableViewCellStyleSubtitle) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
-      cell.textLabel.text = set.name
-      cell.detailTextLabel.text = set.modPreviewString
-      cell.badgeText = set.modCount
+    cell = tableView.dequeueReusableCell(klass:KKBadgeViewCell, style:UITableViewCellStyleSubtitle) do |cell|
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+      cell.textFieldEnabled = true
+      cell.textFieldEndEditingBlock = ->(cell) { modSetWasRenamed(cell) }
+      cell.textField.placeholder = "Set Title"
     end
-    cell    
+    cell.textLabel.text = set.name
+    cell.textField.text = set.name
+    cell.detailTextLabel.text = set.modPreviewString
+    cell.badgeText = set.modCount
+    cell        
   end
 
   def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
@@ -69,21 +59,6 @@ class ModSetsController < UITableViewController
 
 
   
-  def textFieldDidEndEditing(textField)
-    cell = textField.superview
-    index = tableView.indexPathForCell(cell)
-    @set = set = @sets[index.row] # save as ivar because of some MM problems
-    set.renameTo(textField.text)
-    textField.text = set.name # set name is not changed if the rename has failed
-    refreshData
-    tableView.moveRowAtIndexPath index, toIndexPath:ES.indexPath(index.section, set.position)
-  end
-  
-  def textFieldShouldReturn(textField)
-    textField.resignFirstResponder
-    true
-  end
-  
   def alertView(alertView, clickedButtonAtIndex:buttonIndex)
     if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
       ModSet.create(name: alertView.textFieldAtIndex(0).text)
@@ -92,6 +67,15 @@ class ModSetsController < UITableViewController
   end    
     
 
+  def modSetWasRenamed(cell)
+    index = tableView.indexPathForCell(cell)
+    @set = @sets[index.row] # save as ivar because after refreshData is called @sets will be different
+    @set.renameTo(cell.textField.text)
+    cell.textField.text = @set.name # set name is not changed if the rename has failed
+    cell.textLabel.text = @set.name
+    refreshData
+    tableView.moveRowAtIndexPath index, toIndexPath:ES.indexPath(index.section, @set.position)
+  end
 
   def showNewSetDialog
     ModSetsController.showNewSetDialogFor(self)
