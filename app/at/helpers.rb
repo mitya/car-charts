@@ -32,8 +32,6 @@ class Helpers
     def navigationForController(controller, withDelegate:delegate)
       KKNavigationController.alloc.initWithRootViewController(controller).tap do |navigation|
         navigation.delegate = delegate
-        navigation.navigationBar.barStyle = UIBarStyleBlack
-        navigation.toolbar.barStyle = UIBarStyleBlack
       end
     end
   end

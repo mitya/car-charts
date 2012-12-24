@@ -9,6 +9,10 @@ class AppDelegate
     Disk.load
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
+    UINavigationBar.appearance.tintColor = KK.hsb(210, 100, 30)
+    UIToolbar.appearance.tintColor = UINavigationBar.appearance.tintColor
+    UITabBar.appearance.tintColor = KK.hsb(210, 100, 10)
+
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
 
     self.chartController = ChartController.new

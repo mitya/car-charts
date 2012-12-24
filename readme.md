@@ -54,6 +54,11 @@
   216.26.66-215.44.56 - ios 6 segment divider t-b  
   211.18.46-213.35.42 - ios 6 segment button border t-b  
 
+### Tints
+  brown hsb(30, 100, 15)
+  gray  hsb(0, 0, 20)
+  blue  hsb(210, 100, 25)
+
 ## Model
 * Mod         - RO, 2500 objects, many fields
 * Model       - RO,  250 objects, few fields
