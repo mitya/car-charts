@@ -1,5 +1,5 @@
 class ModSetSelectionController < UITableViewController
-  attr_accessor :sets, :closeProc
+  attr_accessor :sets, :closeProc, :mode
 
   def initialize
     self.title = "Select Model Set"
@@ -23,7 +23,7 @@ class ModSetSelectionController < UITableViewController
 
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    set.mods = Disk.currentMods
+    updateSet(set)
     tableView.deselectRowAtIndexPath indexPath, animated:YES
     tableView.cellForRowAtIndexPath(indexPath).toggleCheckmarkAccessory
     closeProc.call
@@ -36,7 +36,14 @@ class ModSetSelectionController < UITableViewController
     end
   end    
 
-  ####
+
+  def updateSet(set)
+    if mode == :replace
+      set.mods = Disk.currentMods
+    else
+      set.mods = set.mods + Disk.currentMods
+    end
+  end
   
   def reloadSets
     @sets = ModSet.all

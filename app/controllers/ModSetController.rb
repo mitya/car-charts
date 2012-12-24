@@ -58,7 +58,7 @@ class ModSetController < UITableViewController
     navigationController.pushViewController ModController.new(mod), animated:YES
   end
     
-  ####
+
   
   def setEditing(editing, animated:animated)
     super
@@ -69,7 +69,7 @@ class ModSetController < UITableViewController
     @actionsButtonItem ||= ES.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showSetActionSheet:')
   end
   
-  ####
+
   
   def showSetActionSheet(bbi)
     sheet = UIActionSheet.alloc.initWithTitle(NIL, delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)

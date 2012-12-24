@@ -31,18 +31,36 @@ class RecentModsController < UITableViewController
     tableView.dataSource = tableView.delegate = dataSource
     tableView.reloadData
     
-    navigationItem.setRightBarButtonItem dataSourceIndex == 0 ? saveButtonItem : nil, animated:NO
+    navigationItem.setRightBarButtonItem dataSourceIndex == 0 ? actionsButtonItem : nil, animated:NO
     saveButtonItem.enabled = Disk.currentMods.any?
   end
 
-  ###
+
+  def actionsButtonItem
+    @actionsButtonItem ||= ES.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showActionSheet:')
+  end
 
   def saveButtonItem
-    @saveButtonItem ||= ES.textBBI("Save", target:self, action:'saveAsSet')
+    @saveButtonItem ||= ES.textBBI("Save", target:self, action:'saveSelectedAsSet')
   end
   
-  def saveAsSet
+  def showActionSheet(bbi)
+    sheet = UIActionSheet.alloc.initWithTitle(nil, delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
+    sheet.addButtonWithTitle "Add to Set"
+    sheet.addButtonWithTitle "Replace Set"
+    sheet.showFromBarButtonItem bbi, animated:YES
+  end
+  
+  def actionSheet(sheet, clickedButtonAtIndex:buttonIndex)
+    case sheet.buttonTitleAtIndex(buttonIndex)
+      when "Add to Set" then saveSelectedAsSet(:add)
+      when "Replace Set" then saveSelectedAsSet(:replace)
+    end
+  end
+    
+  def saveSelectedAsSet(mode = :add)
     selectionCtr = ModSetSelectionController.new
+    selectionCtr.mode = mode
     if iphone?
       selectionCtr.closeProc = -> { dismissModalViewControllerAnimated true, completion:NIL }
       presentNavigationController selectionCtr
@@ -51,6 +69,8 @@ class RecentModsController < UITableViewController
       @popover = presentPopoverController selectionCtr, fromBarItem:navigationItem.rightBarButtonItem
     end
   end
+  
+  
 
   class DataSource
     attr_reader :controller
