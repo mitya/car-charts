@@ -487,7 +487,8 @@ class Helpers
     end
 
     def profileEnd
-      text = $es_profiling_results.map { |data| "%s %.3f" % data }.join(', ')
+      text = $es_profiling_results.map { |label, time| "#{label} %.3f" % time }.join(', ')
+      # text = $es_profiling_results.map { |label, time| "%s %.3f" % [label, time] }.join(', ') # MEMORY BUG
       NSLog("TIMING #{$es_profiling_title} #{text}")
     end    
   end

@@ -160,9 +160,9 @@ class ModelsController < UIViewController
       controller.tableView.reloadVisibleRows
       controller.navigationItem.backBarButtonItemTitle = controller.currentShortTitle
     end
-  
 
-  
+
+
     def loadDataForSearchString(newSearchString)
       if newSearchString.empty?
         @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands

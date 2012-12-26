@@ -35,6 +35,9 @@ class AppDelegate
       end
     end
 
+    # tempController = KKStringListController.new
+    # window.rootViewController = tempController
+
     window.makeKeyAndVisible
 
     # tabBarController.selectedIndex = 2

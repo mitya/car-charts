@@ -96,9 +96,20 @@ class ChartBarView < UIView
     labelRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
     modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersion : Mod::NameBodyEngineVersion
     modTitle = mod.modName(modTitleOptions)
+    
+    if iphone? && KK.portrait? 
+      modelTitleWidth = mod.model.name.sizeWithFont(ES.boldFont(ModelTitleFS)).width
+      modTitleWidth = modTitle.sizeWithFont(ES.mainFont(ModelTitleFS)).width
+      fullWidth = modelTitleWidth + modelTitleWidth + ModelTitleRM * 2
+      extraWidth = fullWidth - labelRect.width
+      modTitleFSFix = extraWidth > 0 ? [extraWidth / 25.0, 2.0].min.round_to(0.25) : 0
+    else
+      modTitleFSFix = 0
+    end
+
     ES.drawInRect labelRect, stringsSpecs:[
-      [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
-      [modTitle, UIColor.grayColor, ES.mainFont(ModTitleFS), 0]
+      [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS - modTitleFSFix), ModelTitleRM],
+      [modTitle, UIColor.grayColor, ES.mainFont(ModTitleFS - modTitleFSFix), 0]
     ]
 
     pixelRange = maxBarWidth - BarMinW

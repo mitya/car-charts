@@ -82,3 +82,9 @@ Conclusion
 ### Fonts
   convert -list font | grep Font:
 
+
+## Long Model Names
+Dodge RAM                  - 51
+Mitsubishi Lancer Ralliart – 50
+Audi A6 allroad quattro    - 48
+MB GLK                     - 47  
