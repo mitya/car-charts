@@ -115,6 +115,7 @@ class ModelsController < UIViewController
     end
 
     def tableView(table, cellForRowAtIndexPath:indexPath)  
+      @modelsIndex[@brands[indexPath.section].key][indexPath.row]
       model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
       modelSelectedModsCount = model.selectedModsCount
 
@@ -149,9 +150,9 @@ class ModelsController < UIViewController
     end  
   
     def searchDisplayController(ctl, shouldReloadTableForSearchString:newSearchString)
-      currentModels = @models
+      @currentModels = @models
       loadDataForSearchString(newSearchString)
-      currentModels != @models
+      @currentModels != @models
     end
     
     def searchBarCancelButtonClicked(searchBar)
@@ -166,12 +167,10 @@ class ModelsController < UIViewController
       if newSearchString.empty?
         @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
       else
-        ES.benchmark "Model Search" do
-          collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
-          @models = Model.modelsForText(newSearchString, inCollection:collectionToSearch)
-          @modelsIndex = @models.indexBy { |ml| ml.brand.key }
-          @brands = @modelsIndex.keys.sort.map { |k| Brand[k] }
-        end
+        collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
+        @models = Model.modelsForText(newSearchString, inCollection:collectionToSearch)
+        @modelsIndex = @models.indexBy { |ml| ml.brand.key }
+        @brands = @modelsIndex.keys.sort.map { |k| Brand[k] }
       end
       @currentSearchString = newSearchString
     end    
@@ -227,19 +226,16 @@ class ModelsController < UIViewController
     end  
   
     def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
-      currentModels = @filteredModels
+      @currentModels = @filteredModels
       loadDataForSearchString(newSearchString)
-      currentModels != @filteredModels
+      @currentModels != @filteredModels
     end
-  
 
   
     def loadDataForSearchString(newSearchString)
-      ES.benchmark "Model Search" do
-        collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
-        @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsForText(newSearchString, inCollection:collectionToSearch)
-        @currentSearchString = newSearchString
-      end
+      collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
+      @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsForText(newSearchString, inCollection:collectionToSearch)
+      @currentSearchString = newSearchString
     end    
   end
 end
