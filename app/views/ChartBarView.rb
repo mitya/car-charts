@@ -19,7 +19,7 @@ class ChartBarView < UIView
   BarRM = 1
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
-  BarMinW = 40
+  BarMinW = 60
   
   WideBarLabelW = 250
   WideBarLM = 5
@@ -118,7 +118,8 @@ class ChartBarView < UIView
     comparision.params.each do |param|
       index = comparision.params.index(param)
       value = mod[param] || 0
-      barWidth = (value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
+      p [mod.key, comparision.relativeValueFor(param, value)]
+      barWidth = comparision.relativeValueFor(param, value) * pixelRange + BarMinW
       rect = CGRectMake(BarLM, barsOffset + index * BarFH, barWidth, BarH)
       isWiderThanBounds = rect.width >= maxBarWidth
       maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)

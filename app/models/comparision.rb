@@ -13,18 +13,33 @@ class Comparision
   
   def maxValueFor(param)
     @max_values ||= {}
-    @max_values[param] ||= valuesFor(param).max
+    @max_values[param] ||= digitize(param, valuesFor(param).max)
   end
 
   def minValueFor(param)
-    # @min_values ||= {}
-    # @min_values[param] ||= valuesFor(param).min
-    0
+    @min_values ||= {}
+    @min_values[param] ||= digitize(param, valuesFor(param).min) || 0
   end
   
   def rangeFor(param)
     @ranges ||= {}
     @ranges[param] ||= maxValueFor(param) - minValueFor(param)
+  end
+  
+  def relativeValueFor(param, value)
+    (digitize(param, value) - minValueFor(param)).to_f / rangeFor(param)
+  end
+  
+  def digitize(param, value)
+    case 
+    when Numeric === value
+      value
+    when String === value && (param.key == :produced_since || param.key == :produced_till)
+      year, month = value.split('.').map(&:to_i)
+      year * 12 + month
+    else
+      0
+    end
   end
   
   def items
