@@ -57,8 +57,6 @@ class Disk
       self.currentParameters ||= []
       self.currentMods ||= []      
 
-      
-
       if NSUserDefaults.standardUserDefaults["firstLaunchTime"].nil? && 
            NSUserDefaults.standardUserDefaults["mods"].nil? && 
            NSUserDefaults.standardUserDefaults["recentMods"].nil? && 

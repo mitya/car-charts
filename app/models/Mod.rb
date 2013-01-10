@@ -154,8 +154,8 @@ class Mod < DSCoreModel
     ['cylinder_valves',        NSInteger32AttributeType, false],
 
     ['countries',              NSStringAttributeType,    false],
-    ['produced_since',         NSStringAttributeType,    false],
-    ['produced_till',          NSStringAttributeType,    false],
+    ['produced_since',         NSInteger32AttributeType, false],
+    ['produced_till',          NSInteger32AttributeType, false],
                               
     ['doors',                  NSInteger32AttributeType, false],
     ['seats_min',              NSInteger32AttributeType, false],

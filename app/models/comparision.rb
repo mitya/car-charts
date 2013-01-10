@@ -31,15 +31,8 @@ class Comparision
   end
   
   def digitize(param, value)
-    case 
-    when Numeric === value
-      value
-    when String === value && (param.key == :produced_since || param.key == :produced_till)
-      year, month = value.split('.').map(&:to_i)
-      year * 12 + month
-    else
-      0
-    end
+    puts "digitize"
+    value || 0
   end
   
   def items

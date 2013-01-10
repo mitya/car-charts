@@ -51,9 +51,10 @@ class YAFinalParser
           if string.length > 4
             month, year = string.split(SPACE_RE)
             month_number = Rus_Months.index(month) + 1
-            parsed[key] = "#{year}.#{month_number.to_s.rjust(2, '0')}"
+            parsed[key] = year.to_i * 100 + month_number
+            # parsed[key] = "#{year}.#{month_number.to_s.rjust(2, '0')}"
           else
-            parsed[key] = string
+            parsed[key] = string.to_i * 100
           end
         when :top_speed, :displacement, :cylinder_count, :cylinder_valves, :gears, :max_power, :max_power_kw, :max_torque,
              :max_power_revs, :max_torque_revs, :length, :width, :height, :ground_clearance, :front_tire_rut, :rear_tire_rut,

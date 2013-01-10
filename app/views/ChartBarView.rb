@@ -117,8 +117,7 @@ class ChartBarView < UIView
     textFont = ES.mainFont(BarFS)
     comparision.params.each do |param|
       index = comparision.params.index(param)
-      value = mod[param] || 0
-      p [mod.key, comparision.relativeValueFor(param, value)]
+      value = mod[param]
       barWidth = comparision.relativeValueFor(param, value) * pixelRange + BarMinW
       rect = CGRectMake(BarLM, barsOffset + index * BarFH, barWidth, BarH)
       isWiderThanBounds = rect.width >= maxBarWidth
