@@ -8,17 +8,17 @@ class Comparision
   
   def valuesFor(param)
     @values ||= {}
-    @values[param] ||= mods.map { |mod| mod[param] }.compact
+    @values[param] ||= mods.map { |mod| mod[param] || 0 }.compact.uniq
   end
   
   def maxValueFor(param)
     @max_values ||= {}
-    @max_values[param] ||= digitize(param, valuesFor(param).max)
+    @max_values[param] ||= valuesFor(param).max || 0
   end
 
   def minValueFor(param)
     @min_values ||= {}
-    @min_values[param] ||= digitize(param, valuesFor(param).min) || 0
+    @min_values[param] ||= valuesFor(param).min || 0
   end
   
   def rangeFor(param)
@@ -27,12 +27,7 @@ class Comparision
   end
   
   def relativeValueFor(param, value)
-    (digitize(param, value) - minValueFor(param)).to_f / rangeFor(param)
-  end
-  
-  def digitize(param, value)
-    puts "digitize"
-    value || 0
+    ((value || 0) - minValueFor(param)) / rangeFor(param).to_f
   end
   
   def items

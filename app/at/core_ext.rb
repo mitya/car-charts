@@ -47,7 +47,7 @@ end
 class Float
   def round_to(precision)
     (self / precision).round * precision
-  end
+  end  
 end
 
 class NSString

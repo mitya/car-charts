@@ -20,6 +20,7 @@ class ChartBarView < UIView
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
   BarMinW = 60
+  BarEmptyW = 20
   
   WideBarLabelW = 250
   WideBarLM = 5
@@ -77,13 +78,18 @@ class ChartBarView < UIView
     comparision.params.each do |param|
       index = comparision.params.index(param)
       value = mod[param]
-      barWidth = (value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
-      rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, barWidth, BarH)
-      isWiderThanBounds = rect.width >= bounds.width - labelWidth
-      maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
-      bgColors = self.class.colors[index.remainder(self.class.colors.count)]
-      textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
-      
+      if value == nil || value == 0
+        rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, BarEmptyW, BarH)        
+        textRect = CGRectMake(rect.x, rect.y, BarEmptyW, rect.height)
+        bgColors = self.class.emptyBarColors
+      else
+        barWidth = (value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
+        rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, barWidth, BarH)
+        isWiderThanBounds = rect.width >= bounds.width - labelWidth
+        maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
+        bgColors = self.class.colors[index.remainder(self.class.colors.count)]
+        textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
+      end      
       ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
       ES.drawString param.formattedValue(value), inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
     end    
@@ -118,15 +124,20 @@ class ChartBarView < UIView
     comparision.params.each do |param|
       index = comparision.params.index(param)
       value = mod[param]
-      barWidth = comparision.relativeValueFor(param, value) * pixelRange + BarMinW
-      rect = CGRectMake(BarLM, barsOffset + index * BarFH, barWidth, BarH)
-      isWiderThanBounds = rect.width >= maxBarWidth
-      maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
-      textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
-      bgColors = self.class.colors[index.remainder(self.class.colors.count)]
-            
+      if value == nil || value == 0
+        rect = CGRectMake(BarLM, barsOffset + index * BarFH, BarEmptyW, BarH)
+        textRect = CGRectMake(rect.x, rect.y, BarEmptyW, rect.height)
+        bgColors = self.class.emptyBarColors
+      else
+        barWidth = comparision.relativeValueFor(param, value) * pixelRange + BarMinW
+        rect = CGRectMake(BarLM, barsOffset + index * BarFH, barWidth, BarH)
+        isWiderThanBounds = rect.width >= maxBarWidth
+        maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
+        textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
+        bgColors = self.class.colors[index.remainder(self.class.colors.count)]
+      end
       ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      ES.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight
+      ES.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight      
     end    
   end
 
@@ -143,6 +154,10 @@ class ChartBarView < UIView
     @colors ||= Metadata.colors.map do |h,s,b|
       [ES.hsb(h, s - 20, b + 5), ES.hsb(h, s + 10, b - 5)]
     end
+  end
+  
+  def self.emptyBarColors
+    @emptyBarColors ||= [ES.hsb(0, 0, 95), ES.hsb(0, 0, 90)]
   end
 
   def self.heightForComparisionItem(item)
