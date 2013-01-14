@@ -8,7 +8,7 @@ class Comparision
   
   def valuesFor(param)
     @values ||= {}
-    @values[param] ||= mods.map { |mod| mod[param] || 0 }.compact.uniq
+    @values[param] ||= mods.map { |mod| mod[param] }.compact.uniq
   end
   
   def maxValueFor(param)

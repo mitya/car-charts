@@ -78,7 +78,7 @@ class ChartBarView < UIView
     comparision.params.each do |param|
       index = comparision.params.index(param)
       value = mod[param]
-      if value == nil || value == 0
+      if value == nil
         rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, BarEmptyW, BarH)        
         textRect = CGRectMake(rect.x, rect.y, BarEmptyW, rect.height)
         bgColors = self.class.emptyBarColors
@@ -124,7 +124,7 @@ class ChartBarView < UIView
     comparision.params.each do |param|
       index = comparision.params.index(param)
       value = mod[param]
-      if value == nil || value == 0
+      if value == nil
         rect = CGRectMake(BarLM, barsOffset + index * BarFH, BarEmptyW, BarH)
         textRect = CGRectMake(rect.x, rect.y, BarEmptyW, rect.height)
         bgColors = self.class.emptyBarColors
