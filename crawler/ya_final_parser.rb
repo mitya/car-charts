@@ -1,5 +1,6 @@
 class YAFinalParser
   SPACE_RE = %r{\s+}
+  NON_ZERO_KEYS = [:consumption_city, :consumption_highway, :consumption_mixed, :gears, :ground_clearance, :bore, :luggage_min, :luggage_max].to_set
 
   def build_modifications
     mods = JSON.load(WORKDIR + "ya-mods-rus.json")
@@ -19,25 +20,25 @@ class YAFinalParser
         when :front_suspension, :rear_suspension, :front_brakes, :rear_brakes, :model_title, :body_title, :body_type, :price, :engine_title, :engine_spec, :category
           # ignore          
         when :fuel_consumption
-          values = string.split(%r{ / }).map(&:to_f)
+          values = string.split(%r{ / }).map { |str| YY.to_f(str) }
           parsed[:consumption_city], parsed[:consumption_highway], parsed[:consumption_mixed] = values
         when :bore_and_stroke
-          values = string.split('x').map(&:to_f)
+          values = string.split(/x|х/).map { |str| YY.to_f(str) }
           parsed[:bore], parsed[:stroke] = values
         when :max_power
-          values = string.split(%r{ / }).map(&:to_i)
+          values = string.split(%r{ / }).map { |str| YY.to_i(str) }
           parsed[:max_power], parsed[:max_power_kw], parsed[:max_power_range_start], parsed[:max_power_range_end] = values
         when :max_torque
-          values = string.split(%r{ / }).map(&:to_i)
+          values = string.split(%r{ / }).map { |str| YY.to_i(str) }
           parsed[:max_torque], parsed[:max_torque_range_start], parsed[:max_torque_range_end] = values
         when :tires
           parsed[:tires] = string.gsub(SPACE_RE, ' ')
         when :luggage_capacity
-          values = string.split(SPACE_RE).map(&:to_i)
+          values = string.split(SPACE_RE).map { |str| YY.to_i(str) }
           parsed[:luggage_min], parsed[:luggage_max] = values.first, values.last
         when :seats
           string = '4' if string == '2+2'
-          values = string.split(SPACE_RE).map(&:to_i)
+          values = string.split(SPACE_RE).map { |str| YY.to_i(str) }
           parsed[:seats_min], parsed[:seats_max] = values.first, values.last
         when :countries
           names = string.split(SPACE_RE)
@@ -52,16 +53,15 @@ class YAFinalParser
             month, year = string.split(SPACE_RE)
             month_number = Rus_Months.index(month) + 1
             parsed[key] = year.to_i * 100 + month_number
-            # parsed[key] = "#{year}.#{month_number.to_s.rjust(2, '0')}"
-          else
+          elsif string.length == 4
             parsed[key] = string.to_i * 100
           end
         when :top_speed, :displacement, :cylinder_count, :cylinder_valves, :gears, :max_power, :max_power_kw, :max_torque,
              :max_power_revs, :max_torque_revs, :length, :width, :height, :ground_clearance, :front_tire_rut, :rear_tire_rut,
              :wheelbase, :luggage_capacity, :tank_capacity, :kerbweight, :gross_mass, :doors
-          parsed[key] = string.to_i
+          parsed[key] = YY.to_i(string)
         when :acceleration_100kmh, :bore, :stroke, :compression, :displacement_key
-          parsed[key] = string.to_f
+          parsed[key] = YY.to_f(string)
         when :cylinder_placement, :injection, :engine_layout, :front_suspension, :rear_suspension, 
              :front_brakes, :rear_brakes, :fuel, :fuel_rating, :compressor, :transmission
           translations = Translations_Values.fetch(key)
@@ -80,6 +80,9 @@ class YAFinalParser
       parsed[:model_key] = [brand_key, model_subkey].join('--')
       parsed[:version_key] = version_subkey
       parsed[:displacement_key] = engine[0..-2]
+
+      # replace zeros with nils for some keys
+      parsed.each { |k, v| parsed.delete(k) if v == 0 && NON_ZERO_KEYS.include?(k) }
 
       # remove nil values because plists can't contain it
       parsed.delete_if { |k,v| v.nil? }

@@ -208,6 +208,7 @@ class Mod < DSCoreModel
     end
   
     def import
+      deleteAll
       puts "Param delta: #{Metadata[:parameters] - @fields.map(&:first)} / #{@fields.map(&:first) - Metadata[:parameters]}"
       
       fields = @fields.map(&:first).reject { |field| field == 'key' }

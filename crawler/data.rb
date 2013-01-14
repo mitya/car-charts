@@ -217,7 +217,7 @@ Translations_Values = {
     "объемный нагнетатель с механическим приводом"    => 20301, # :supercharger,
     "турбонаддув"                                     => 20302, # :turbo,
     "турбонаддув с промежуточным охлаждением воздуха" => 20303, # :turbo_intercooler,
-    "нет"                                             => 0, # nil 
+    "нет"                                             => nil 
   },
   front_suspension: Translations_Values_Suspensions,
   rear_suspension:  Translations_Values_Suspensions,

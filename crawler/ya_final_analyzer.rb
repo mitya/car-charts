@@ -3,7 +3,15 @@ class YAFinalAnalyzer
     param = 'body'
     mods = JSON.load(OUTDIR + "db-mods-kv.json")
     # mods = mods.select { |k, mod| mod[param] }
-    all = mods.values.map { |mod| mod[param] } 
+    # all = mods.values.map { |mod| mod[param] } 
+
+    keys = ["mazda 2 2010 hatch_5d 1.5i-103ps-MT-FWD", "lexus es 2009 sedan 3.5i-275ps-AT-FWD"]
+    keys.each do |key|
+      puts key
+      puts "  bore: #{mods[key]["bore"]}"
+      puts "  bore_and_stroke: #{mods[key]["bore_and_stroke"]}"
+    end
+    
 
     # params = %w(version_key model_key)
     # mods.each do |key, mod|
@@ -12,9 +20,9 @@ class YAFinalAnalyzer
     # end
     # puts "Total: #{mods.count}"
 
-    uniq = all.flatten.uniq.compact.sort
-    uniq.each { |val| puts val }
-    puts "Total: #{all.count}, non-blank: #{all.compact.count}, uniq: #{uniq.count}" 
+    # uniq = all.flatten.uniq.compact.sort
+    # uniq.each { |val| puts val }
+    # puts "Total: #{all.count}, non-blank: #{all.compact.count}, uniq: #{uniq.count}" 
   end
 
   def print_models_by_length
@@ -26,7 +34,7 @@ class YAFinalAnalyzer
 
     bodies = mods.map { |k,d| k.split(/---?/)[3] }.uniq.sort
 
-    body_mods = {}
+    body_mods = {} 
     mods.each do |k, data|
       body = k.split(/---?/)[3]
       model = k.split(/---?/).first(2).join(' ')

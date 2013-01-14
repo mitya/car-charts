@@ -69,6 +69,15 @@ module YAHelper
     stats = keys.each_with_object({}) { |e,h| h[e] = h[e].to_i + 1 }
     Hash[*stats.sort_by {|k,v| v}.flatten]
   end
+  
+  def to_i(str)
+    Integer(str) rescue nil
+  end
+  
+  def to_f(str)
+    Float(str) rescue nil
+  end
 end
 
 KK = YAHelper
+YY = KK
