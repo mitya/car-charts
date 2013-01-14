@@ -109,8 +109,9 @@ class Mod < DSCoreModel
   
   def fieldTextFor(parameter)
     value = get(parameter.key)
-    valueText = Float === value ? "%.1f" % value : value.to_s
-    "#{valueText} #{parameter.unitName}"
+    return "" unless value
+    formattedValue = Float === value ? "%.1f" % value : value.to_s
+    "#{formattedValue} #{parameter.unitName}"
   end
   
   AutomaticTransmissions = %w(AT AMT CVT)  
