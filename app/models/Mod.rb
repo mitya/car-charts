@@ -106,7 +106,7 @@ class Mod < DSCoreModel
     key = key.key if Parameter === key
     get(key)
   end
-  
+
   def fieldTextFor(parameter)
     value = get(parameter.key)
     return "" unless value
@@ -188,7 +188,7 @@ class Mod < DSCoreModel
     end
     
     def modsForModelKey(modelKey)
-      context.fetchEntity(entity, predicate:["model_key = %@", modelKey])
+      context.fetchEntity(entity, predicate:["model_key = %@", modelKey], order:"key")
     end
 
     def filterOptionsForMods(mods)
