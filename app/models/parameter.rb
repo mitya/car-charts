@@ -30,6 +30,7 @@ class Parameter
   end
   
   def formattedValue(value)
+    return "" if value == nil
     text = case 
       when key == :produced_since || key == :produced_till
         year, month = value.to_i.divmod(100)

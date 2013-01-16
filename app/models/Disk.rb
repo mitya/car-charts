@@ -62,12 +62,16 @@ class Disk
            NSUserDefaults.standardUserDefaults["recentMods"].nil? && 
            NSUserDefaults.standardUserDefaults["parameters"].nil? && 
            ModSet.count == 0
+
         Mod.import if $devdata
 
         ModSet.create name:"Business (Sample)", modKeys:Metadata.sampleModSets[:business]
         ModSet.create name:"SUVs (Sample)", modKeys:Metadata.sampleModSets[:midSuvs]
         ModSet.create name:"Compact (Sample)", modKeys:Metadata.sampleModSets[:compact]
-        ModSet.all.first.replaceCurrentMods
+        ModSet.create name:"Set 100", modKeys:Mod.all[100..200].map(&:key)
+        ModSet.create name:"Set 500", modKeys:Mod.all[1000..1500].map(&:key)
+        
+        ModSet.first.replaceCurrentMods
 
         self.currentParameters = %w(acceleration_100kmh max_power length).map { |key| Parameter.parameterForKey(key.to_sym) }
 
@@ -77,3 +81,4 @@ class Disk
     end
   end
 end
+

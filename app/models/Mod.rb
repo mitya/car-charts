@@ -187,6 +187,10 @@ class Mod < DSCoreModel
       keys.map { |key| mods.detect { |mod| mod.key == key } }.compact
     end
     
+    def unorderedModsForKeys(keys) 
+      context.fetchEntity(entity, predicate:["key in %@", keys]).sort_by(&:key)    
+    end
+    
     def modsForModelKey(modelKey)
       context.fetchEntity(entity, predicate:["model_key = %@", modelKey], order:"key")
     end

@@ -467,6 +467,12 @@ class Helpers
     end    
   end
 
+  # KK.profileBegin
+  # KK.profilePrint("action")
+  # 
+  # KK.profileBegin
+  # KK.profile("action")
+  # KK.profileEnd
   module Profiling
     def profileBegin(title = nil)
       $es_profiling_title = title
@@ -476,7 +482,7 @@ class Helpers
 
     def profilePrint(label)
       elapsed = (Time.now - $es_profiling_time) * 1_000
-      NSLog("TIMING #{label}: #{"%.3f" % elapsed}ms")
+      NSLog("TIMING #{$es_profiling_title} #{label}: #{"%.3f" % elapsed}ms")
       $es_profiling_time = Time.now
     end
 
@@ -486,7 +492,8 @@ class Helpers
       $es_profiling_time = Time.now
     end
 
-    def profileEnd
+    def profileEnd(label = nil)
+      profile(label) if label      
       text = $es_profiling_results.map { |label, time| "#{label} %.3f" % time }.join(', ')
       # text = $es_profiling_results.map { |label, time| "%s %.3f" % [label, time] }.join(', ') # MEMORY BUG
       NSLog("TIMING #{$es_profiling_title} #{text}")

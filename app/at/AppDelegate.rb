@@ -108,15 +108,16 @@ class AppDelegate
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
       
-      if UIDevice.currentDevice.model =~ /Simulator/ 
-        $devdata = true
-        storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
-        storeOptions = {}
-        # NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL)
-      else
-        storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
-        storeOptions = {NSReadOnlyPersistentStoreOption => YES}
-      end
+      storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
+      storeOptions = {NSReadOnlyPersistentStoreOption => YES}
+
+      # if UIDevice.currentDevice.model =~ /Simulator/ 
+      #   storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
+      #   storeOptions = {}
+      #   $devdata = true
+      #   NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL)
+      # end
+
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = ES.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
@@ -130,8 +131,10 @@ class AppDelegate
 
   def userContext
     @userContext ||= begin
+      classes = [ModSet, ModSet::ModProxy]
       model = NSManagedObjectModel.alloc.init
-      model.entities = [ModSet.entity]
+      model.entities = classes.map(&:entity)
+      classes.each(&:initRelationships)
 
       storeURL = ES.documentsURL.URLByAppendingPathComponent('db-user.sqlite')
       storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}

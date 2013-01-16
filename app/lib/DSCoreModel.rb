@@ -25,13 +25,16 @@ class DSCoreModel < NSManagedObject
         end
       end
     end
-    
+
     def contextName
       @contextName || :userContext
     end
-    
+
     def context
       KK.app.delegate.send(contextName)
+    end
+    
+    def initRelationships
     end
     
     def save
