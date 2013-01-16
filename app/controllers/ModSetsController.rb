@@ -35,14 +35,8 @@ class ModSetsController < UITableViewController
       cell.textField.placeholder = "Set Title"
     end
     cell.textLabel.text = set.name
-    KK.profileBegin("cell #{indexPath.inspect} #{set.modProxies.count}")
-    set.modKeys
-    KK.profile("keys")
-    set.mods
-    KK.profile("mods")    
     cell.detailTextLabel.text = set.modPreviewString
     cell.badgeText = set.modCount
-    KK.profileEnd("else")
     cell
   end
 

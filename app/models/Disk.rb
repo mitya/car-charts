@@ -53,24 +53,16 @@ class Disk
     def load
       ES.benchmark "Load All" do
         [Metadata, Brand, Category, Model, Parameter].each { |klass| ES.benchmark("Load #{klass.name}") { klass.load } }
-      end     
+      end
+      
       self.currentParameters ||= []
       self.currentMods ||= []      
 
-      if NSUserDefaults.standardUserDefaults["firstLaunchTime"].nil? && 
-           NSUserDefaults.standardUserDefaults["mods"].nil? && 
-           NSUserDefaults.standardUserDefaults["recentMods"].nil? && 
-           NSUserDefaults.standardUserDefaults["parameters"].nil? && 
-           ModSet.count == 0
-
-        Mod.import if $devdata
-
+      if firstLaunch?
         ModSet.create name:"Business (Sample)", modKeys:Metadata.sampleModSets[:business]
         ModSet.create name:"SUVs (Sample)", modKeys:Metadata.sampleModSets[:midSuvs]
         ModSet.create name:"Compact (Sample)", modKeys:Metadata.sampleModSets[:compact]
-        ModSet.create name:"Set 100", modKeys:Mod.all[100..200].map(&:key)
-        ModSet.create name:"Set 500", modKeys:Mod.all[1000..1500].map(&:key)
-        
+
         ModSet.first.replaceCurrentMods
 
         self.currentParameters = %w(acceleration_100kmh max_power length).map { |key| Parameter.parameterForKey(key.to_sym) }
@@ -78,6 +70,14 @@ class Disk
         NSUserDefaults.standardUserDefaults["firstLaunchTime"] = Time.now
         NSUserDefaults.standardUserDefaults.synchronize
       end
+    end
+    
+    def firstLaunch?
+      NSUserDefaults.standardUserDefaults["firstLaunchTime"].nil? && 
+      NSUserDefaults.standardUserDefaults["mods"].nil? && 
+      NSUserDefaults.standardUserDefaults["recentMods"].nil? && 
+      NSUserDefaults.standardUserDefaults["parameters"].nil? && 
+      ModSet.count == 0
     end
   end
 end

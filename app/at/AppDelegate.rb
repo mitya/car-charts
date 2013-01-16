@@ -111,6 +111,7 @@ class AppDelegate
       storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
       storeOptions = {NSReadOnlyPersistentStoreOption => YES}
 
+      # # Switches static database to the one located in the documents directory
       # if UIDevice.currentDevice.model =~ /Simulator/ 
       #   storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
       #   storeOptions = {}
@@ -131,10 +132,10 @@ class AppDelegate
 
   def userContext
     @userContext ||= begin
-      classes = [ModSet, ModSet::ModProxy]
+      modelClasses = [ModSet]
       model = NSManagedObjectModel.alloc.init
-      model.entities = classes.map(&:entity)
-      classes.each(&:initRelationships)
+      model.entities = modelClasses.map(&:entity)
+      modelClasses.each(&:initRelationships)
 
       storeURL = ES.documentsURL.URLByAppendingPathComponent('db-user.sqlite')
       storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
