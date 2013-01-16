@@ -76,7 +76,7 @@ def makeButton(width, height, cornerRad, gradient, borderCl, shadowCl, file, opt
   fullHeight = options[:fullHeight] || height
   
   cmd = %{ convert
-    -size #{width}x#{heightWoShadow} gradient:#{gradient} -sigmoidal-contrast 3,50%
+    -size #{width}x#{heightWoShadow} gradient:#{gradient} -sigmoidal-contrast 3,50%  
     ( +clone -threshold -1
        -draw "fill black polygon 0,0 0,#{cornerRad} #{cornerRad},0 fill white circle #{cornerRad},#{cornerRad} #{cornerRad},0"
        ( +clone -flip ) -compose Multiply -composite ( +clone -flop ) -compose Multiply -composite )
@@ -158,23 +158,18 @@ task :buttons do
   ]
 
   items = [
-    #        gradient               border       divider
-    ## blue - dk.blue
-    ['on',   '214.21.75-214.53.55', '213.35.42', '217.36.58-217.57.48'],
-    ['off',  '214.16.80-214.37.60', '213.35.42', '216.26.66-215.44.56'],
+    #         gradient               border       shadow       divider                divider-sh     
+    ['on',   '210.15.60-210.99.20', '210.65.20', '210.40.50', '213.16.40-213.99.13', '210.58.42'], # dark blue
+    ['off',  '000.00.70-000.00.20', '210.65.20', '210.40.50', '213.16.40-213.99.13', '210.58.42'], # gray
 
-    ## blue - br.blue
-    # ['on',   '218.42.90-219.80.85', '218.75.55', '218.60.75-218.75.60'],
-    # ['off',  '212.16.80-212.37.64', '213.35.42', '216.26.66-215.44.56'],
-
-    ## br.blue - black
-    # ['on',   '218.42.91-219.80.85', '218.75.55', '218.78.54-218.75.55'],
-    # ['off',  '000.00.45-000.00.12', '000.00.18', '000.00.25-000.00.10'],
-
-    ## red-green-yellow
-    # ['none', '050.50.85-050.70.50', '050.50.50', '050.50.70-050.50.50'],
-    # ['on',   '150.40.60-150.80.40', '150.70.40', '150.70.50-150.70.35'],
-    # ['off',  '000.60.70-000.80.45', '000.70.50', '000.70.55-000.70.50'],
+    # ['off',  '000.00.50-000.00.00', '210.65.20', '000.00.30', '213.16.40-213.99.13', '210.45.31'], # black
+    # ['on',   '214.21.75-214.53.55', '213.35.42', '214 18 76', '217.36.58-217.57.48', '214 25 70'], # blue
+    # ['off',  '214.16.80-214.37.60', '213.35.42', '214 18 76', '216.26.66-215.44.56', '214 25 70'], # dark blue
+    # ['on',   '218.42.90-219.80.85', '218.75.55', '218.60.75-218.75.60'], # blue
+    # ['off',  '212.16.80-212.37.64', '213.35.42', '216.26.66-215.44.56'], # bright blue
+    # ['none', '050.50.85-050.70.50', '050.50.50', '050.50.70-050.50.50'], # yellow
+    # ['on',   '150.40.60-150.80.40', '150.70.40', '150.70.50-150.70.35'], # green
+    # ['off',  '000.60.70-000.80.45', '000.70.50', '000.70.55-000.70.50'], # red
   ]    
   
   sizes.each do |sizeData|
@@ -183,26 +178,23 @@ task :buttons do
     halfHeightWoShadow = heightWoShadow / 2
         
     items.each do |data|
-      name, gradient, borderCl, dividerGr = data
+      name, gradient, borderCl, shadowCl, dividerGr, dividerShadowCl = data
       gradient = parseHSVGradient(gradient)
       borderCl = parseHSV(borderCl)
       dividerGr = parseHSVGradient(dividerGr)
       dividerBottomCl = lastGradientColor(dividerGr)
+      shadowCl = parseHSV(shadowCl)
+      dividerShadowCl = parseHSV(dividerShadowCl)
       suffix = "ui-multisegment#{sizeName}-#{name}"
-      baseFile = "resources/xx-#{suffix}-base@2x.png"
-      borderFile = "tmp/#{suffix}-divider@2x.png"
+      baseFile = "resources/#{suffix}-base@2x.png"
+      dividerFile = "tmp/#{suffix}-divider@2x.png"
     
-      shadow = parseHSV('214 18 76')
-      borderShadow = parseHSV('214 25 70')
-
-      # -size #{width}x#{halfHeightWoShadow} gradient:#{topGr} -size #{width}x#{halfHeightWoShadow} gradient:#{bottomGr} -append
-
-      makeButton width, height, cornerRad, gradient, borderCl, shadow, baseFile
-
-      run "convert -size 1x1 xc:#{borderCl} -size 1x#{heightWoShadow-2} gradient:#{dividerGr} -size 1x1 xc:#{borderCl} -size 1x2 xc:#{borderShadow} -append #{borderFile}"
-      run "convert #{baseFile} -gravity West -crop #{halfWidth}x#{height}+0+0 +repage #{borderFile} +append resources/#{suffix}-left@2x.png"
-      run "convert #{borderFile} #{baseFile} -gravity North -crop 4x#{height}+0+0  +repage #{borderFile} +append resources/#{suffix}-mid@2x.png"
-      run "convert #{borderFile} #{baseFile} -gravity East -crop #{halfWidth}x#{height}+0+0 +repage +append resources/#{suffix}-right@2x.png"
+      makeButton width, height, cornerRad, gradient, borderCl, shadowCl, baseFile
+      
+      run "convert -size 1x1 xc:#{borderCl} -size 1x#{heightWoShadow-2} gradient:#{dividerGr} -size 1x1 xc:#{borderCl} -size 1x2 xc:#{dividerShadowCl} -append #{dividerFile}"
+      run "convert #{baseFile} -gravity West -crop #{halfWidth}x#{height}+0+0 +repage #{dividerFile} +append resources/#{suffix}-left@2x.png"
+      run "convert #{dividerFile} #{baseFile} -gravity North -crop 4x#{height}+0+0  +repage #{dividerFile} +append resources/#{suffix}-mid@2x.png"
+      run "convert #{dividerFile} #{baseFile} -gravity East -crop #{halfWidth}x#{height}+0+0 +repage +append resources/#{suffix}-right@2x.png"
     end
   end
 end

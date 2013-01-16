@@ -141,7 +141,7 @@ class DSMultisegmentView < UIView
       basename, h, corner, border = "ui-multisegmentmini", 10, 5, 0.5
     end
     images = {}
-    %w(on off none).each do |state|
+    %w(on off).each do |state|
       images["#{state}-base"]  = UIImage.imageNamed("#{basename}-#{state}-base") .resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner))
       images["#{state}-left"]  = UIImage.imageNamed("#{basename}-#{state}-left") .resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border))
       images["#{state}-mid"]   = UIImage.imageNamed("#{basename}-#{state}-mid")  .resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border))
