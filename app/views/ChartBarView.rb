@@ -19,7 +19,7 @@ class ChartBarView < UIView
   BarRM = 1
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
-  BarMinW = 60
+  BarMinW = 80
   BarEmptyW = 20
   
   WideBarLabelW = 250
@@ -152,7 +152,7 @@ class ChartBarView < UIView
   
   def self.colors
     @colors ||= Metadata.colors.map do |h,s,b|
-      [ES.hsb(h, s - 20, b + 5), ES.hsb(h, s + 10, b - 5)]
+      [ES.hsb(h, s > 20 ? s - 20 : 0, b + 5), ES.hsb(h, s < 90 ? s + 10 : 100, b - 5)]
     end
   end
   

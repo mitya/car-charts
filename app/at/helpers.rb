@@ -470,9 +470,9 @@ class Helpers
   # KK.profileBegin
   # KK.profilePrint("action")
   # 
-  # KK.profileBegin
-  # KK.profile("action")
-  # KK.profileEnd
+  # KK.profileBegin("Title")
+  # KK.profile("action name")
+  # KK.profileEnd("last action name")
   module Profiling
     def profileBegin(title = nil)
       $es_profiling_title = title
