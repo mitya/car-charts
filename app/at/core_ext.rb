@@ -122,14 +122,18 @@ class NSArray
     map { |obj| obj.send(method) }
   end
   
-  def swap(i, j)
-    a, b = self[i], self[j]
-    self[i], self[j] = b, a
-    self
+  def swap!(i, j)
+    self[i], self[j] = self[j], self[i]
   end
   
   def blank?
     empty?
+  end
+  
+  def sortAsIn!(referenceArray, from:startIndex)
+    fixedPart = self[0...startIndex]
+    referenceWithoutFixedItems = referenceArray - fixedPart
+    self[startIndex..length] = referenceWithoutFixedItems
   end
 end
 

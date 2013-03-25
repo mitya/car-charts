@@ -87,7 +87,12 @@ class ChartBarView < UIView
         rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, barWidth, BarH)
         isWiderThanBounds = rect.width >= bounds.width - labelWidth
         maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
-        bgColors = self.class.colors[index.remainder(self.class.colors.count)]
+        bgColorsIndex = self.class.sessionColorIndexes[index.remainder(self.class.sessionColorIndexes.count)]
+        bgColors = self.class.colors[bgColorsIndex]
+        
+        # bgColorsIndex = sessionColorMap[index.remainder(backgroundColors.count)]
+        # bgColors = backgroundColors[bgColorsIndex]
+        
         textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
       end      
       ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
@@ -134,7 +139,8 @@ class ChartBarView < UIView
         isWiderThanBounds = rect.width >= maxBarWidth
         maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
         textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
-        bgColors = self.class.colors[index.remainder(self.class.colors.count)]
+        bgColorsIndex = self.class.sessionColorIndexes[index.remainder(self.class.sessionColorIndexes.count)]
+        bgColors = self.class.colors[bgColorsIndex]
       end
       ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
       ES.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight      
@@ -166,7 +172,27 @@ class ChartBarView < UIView
     height += item.comparision.params.count * ChartBarView::BarFH
     height += item.lastForModel?? LastItemBM : ItemBM
   end
+  
+  def self.sessionColors
+    @sessionColors ||= colors
+  end
+  
+  def self.sessionColorsInitialIndexes
+    @sessionColorsInitialIndexes ||= (0...colors.length).to_a
+  end
+  
+  def self.sessionColorIndexes
+    @sessionColorIndexes ||= sessionColorsInitialIndexes
+  end
 
+  def self.adjustSessionColors(removedParamIndex, totalParamsLeft)
+    # __p "adjusting", removedParamIndex, totalParamsLeft
+    firstUnusedParamIndex = totalParamsLeft
+    sessionColorIndexes.swap! removedParamIndex, firstUnusedParamIndex
+    sessionColorIndexes.sortAsIn! sessionColorsInitialIndexes, from:firstUnusedParamIndex
+    # __p "sorted", sessionColorIndexes
+  end
+  
 
   class TableCell < UITableViewCell
     attr_accessor :barView

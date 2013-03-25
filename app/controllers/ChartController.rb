@@ -7,20 +7,20 @@ class ChartController < UIViewController
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:1)
     navigationItem.backBarButtonItem = ES.textBBI("Chart")
 
-    Disk.addObserver(self, forKeyPath:"currentParameters", options:NO, context:nil)
+    Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
   
   def dealloc
     Disk.removeObserver(self, forKeyPath:"currentParameters")
-    Disk.removeObserver(self, forKeyPath:"currentMods")    
+    Disk.removeObserver(self, forKeyPath:"currentMods")
     super
   end
   
   def viewDidLoad
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain).tap do |tableView|
       tableView.rowHeight = 25
-      tableView.separatorStyle = UITableViewCellSeparatorStyleNone      
+      tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     end
     
     navigationItem.rightBarButtonItems = [ ES.fixedSpaceBBIWithWidth(5), toggleFullScreenModeBarItem ]
@@ -35,6 +35,16 @@ class ChartController < UIViewController
   end
 
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    if keyPath == 'currentParameters'
+      # __p "params changed", change[:old], change[:new]
+      if removedParam = (change[:old] - change[:new]).first
+        # __p "param removed", removedParam
+        removedParamIndex = change[:old].index(removedParam)
+        totalParamsLeft = change[:new].count
+        ChartBarView.adjustSessionColors(removedParamIndex, totalParamsLeft)
+      end
+    end
+    
     isViewVisible ? reload : (@reloadPending = true ) if object == Disk
   end
 

@@ -43,6 +43,10 @@ class Parameter
     "#{text} #{unitName}".strip
   end
   
+  def inspect
+    "{#{key}}"
+  end
+  
   class << self
     attr_reader :all
 
