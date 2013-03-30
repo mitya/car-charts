@@ -27,16 +27,14 @@ class ChartController < UIViewController
     
     @reloadPending = true
     
-    # # test icons
-    # self.title = nil
-    # self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:UIImage.imageNamed("wip/tbi-fson2"), tag:5)
-    # navigationItem.rightBarButtonItems = [
-    #   ES.imageBBI("wip/bbiMenu", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-    #   ES.imageBBI("wip/bbiExpand", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-    #   ES.imageBBI("wip/bbiCollapse", style:UIBarButtonItemStylePlain, target:nil, action:nil),      
-    #   ES.imageBBI("wip/bbiSedan", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-    #   ES.imageBBI("wip/bbiSedanHf", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-    # ]    
+    # test icons
+    self.title = nil
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:UIImage.imageNamed("wip/tbi-fson2"), tag:5)
+    navigationItem.rightBarButtonItems = [
+      ES.imageBBI("wip/bbiSedan", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+      ES.imageBBI("wip/bbiHatch", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+      ES.imageBBI("wip/bbiWagon", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+    ]    
   end
   
   def viewWillAppear(animated)
