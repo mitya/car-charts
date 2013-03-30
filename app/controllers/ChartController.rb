@@ -26,6 +26,17 @@ class ChartController < UIViewController
     navigationItem.rightBarButtonItems = [ ES.fixedSpaceBBIWithWidth(5), toggleFullScreenModeBarItem ]
     
     @reloadPending = true
+    
+    # # test icons
+    # self.title = nil
+    # self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:UIImage.imageNamed("wip/tbi-fson2"), tag:5)
+    # navigationItem.rightBarButtonItems = [
+    #   ES.imageBBI("wip/bbiMenu", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+    #   ES.imageBBI("wip/bbiExpand", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+    #   ES.imageBBI("wip/bbiCollapse", style:UIBarButtonItemStylePlain, target:nil, action:nil),      
+    #   ES.imageBBI("wip/bbiSedan", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+    #   ES.imageBBI("wip/bbiSedanHf", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+    # ]    
   end
   
   def viewWillAppear(animated)
@@ -130,7 +141,8 @@ class ChartController < UIViewController
   end
   
   def toggleFullScreenModeBarItem
-    @toggleFullScreenModeBarItem ||= ES.plainBBI("ico-bbi-fs-expand", target:self, action:'toggleFullScreenMode', options:{ 
+    # ico-bbi-fs-expand
+    @toggleFullScreenModeBarItem ||= ES.plainBBI("wip/bbiExpand", target:self, action:'toggleFullScreenMode', options:{ 
       size:[20, 20] 
     })
   end
@@ -139,7 +151,7 @@ class ChartController < UIViewController
     @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 35, 5, 30, 30)).tap do |button|
       button.backgroundColor = UIColor.blackColor    
       button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
-      button.setImage UIImage.imageNamed("ico-bbi-fs-shrink"), forState:UIControlStateNormal
+      button.setImage UIImage.imageNamed("wip/bbiCollapse"), forState:UIControlStateNormal # ico-bbi-fs-shrink
       button.alpha = 0.3
       button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)
       button.showsTouchWhenHighlighted = true

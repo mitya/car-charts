@@ -135,6 +135,35 @@ task :bb_icon do
   system "convert #{input} #{input} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{input}"
 end
 
+## black with transparency
+# system "convert #{input} -negate #{output}"
+## transparency + grayscale to grayscale
+# system "convert #{input} -background white -flatten +matte #{output}"
+## grayscale to white + transparency
+# system "convert #{output} #{output} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite -fx '#fff' #{output}"
+## black with transparency
+# system "convert #{input} -alpha extract -alpha copy -fx '#fff' #{output}"
+
+# takes PNGs from assets/wip, resizes them according to their type, and puts into resources/wip
+task :rsti do
+  Dir.glob("assets/wip/{bbi,tbi}*.png") do |src|
+    basename = File.basename(src, '.png')
+    prefix = basename[0..2]
+    size = {bbi: 40, tbi: 60}[prefix.to_sym]
+    file = "resources/wip/#{basename}@2x.png"
+    
+    # system "convert #{input} -background white -flatten +matte -resize #{size}x#{size} #{output}"
+    # system "convert #{output} #{output} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite -fx '#fff' #{output}"
+
+    # system "convert #{input} -alpha copy -channel alpha -negate +channel -fx '#000' #{output}"
+    # system "convert #{output} #{output} -alpha Off -negate -alpha Off -compose Copy_Opacity -composite #{output}"
+
+    system "convert #{src} -background white -flatten #{file}"
+    system "convert #{file} #{file} -negate -compose Copy_Opacity -composite -fx white #{file}"
+    system "convert #{file} -filter point -resize #{size}x#{size} #{file}"
+  end
+end
+
 task :main do
   # run "rake svg2png in=assets/triangle.svg out=resources/tmp/triangle@2x.png size=40"
   run "rake bb_icon in=resources/tmp/bbi-forward@2x.png"
