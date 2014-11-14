@@ -23,14 +23,20 @@ class DSMultisegmentView < UIView
     super
   end
   
-  def addButton(label, unselected = nil, &handler)
+  def addButton(titleOrImage, unselected = nil, &handler)
     button = UIButton.buttonWithType(UIButtonTypeCustom)
     button.selected = unselected
-    button.setTitle(label, forState:UIControlStateNormal)
-    button.setTitleShadowColor(ES.hsb(212,22,46), forState:UIControlStateSelected)
-    button.setTitleShadowColor(ES.hsb(212,22,42), forState:UIControlStateNormal)
-    button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
-    button.titleLabel.shadowOffset = CGSizeMake(0, -1)
+    
+    if String === titleOrImage
+      button.setTitle(titleOrImage, forState:UIControlStateNormal)
+      button.setTitleShadowColor(ES.hsb(212,22,46), forState:UIControlStateSelected)
+      button.setTitleShadowColor(ES.hsb(212,22,42), forState:UIControlStateNormal)
+      button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
+      button.titleLabel.shadowOffset = CGSizeMake(0, -1)      
+    else
+      button.setImage(titleOrImage, forState:UIControlStateNormal)
+    end
+    
     button.addTarget self, action:'segmentButtonDown:', forControlEvents:UIControlEventTouchDown
     button.addTarget self, action:'segmentButtonUp:', forControlEvents:UIControlEventTouchUpInside
 

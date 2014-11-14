@@ -41,8 +41,9 @@ class AppDelegate
     window.makeKeyAndVisible
 
     # controller = ModController.new(Mod.modForKey("citroen c5 2007 sedan 2.0i-143ps-AT-FWD"))
-    # tabBarController.selectedIndex = 2
-    # tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
+    controller = ModsController.new(Model.modelForKey("ford--focus"))
+    tabBarController.selectedIndex = 2
+    tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
 
     true
   end

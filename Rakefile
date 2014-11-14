@@ -1,20 +1,26 @@
+# -*- coding: utf-8 -*-
 $:.unshift("/Library/RubyMotion/lib")
-require 'motion/project'
-require 'rubygems'
-require 'color'
+require 'motion/project/template/ios'
+
+begin
+  require 'bundler'
+  Bundler.require
+rescue LoadError
+end
+
+ENV['device_name'] ||= 'iPhone 5s'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
-  app.version = "0.1"
+  app.version = "1.0"
   app.icons = ["ico-app-iphone.png", "ico-app-iphone@2x.png"]
-  app.sdk_version = "6.1"
-  app.deployment_target = "5.0"
+  app.sdk_version = "8.1"
+  app.deployment_target = "7.0"
   app.libs += ['/usr/lib/libsqlite3.dylib']
   app.detect_dependencies = false
   app.frameworks += ['CoreData']
-  app.interface_orientations = [:portrait, :landscape_left, :landscape_right]
-  app.device_family = ENV['IPAD'] == '1' ? [:ipad, :iphone] : [:iphone, :ipad]
+  app.device_family = [:iphone, :ipad]
   
   # app.info_plist['CFBundleURLTypes'] = [
   #   { 'CFBundleURLName' => 'com.mycompany.x-videoplayer', 'CFBundleURLSchemes' => ['x-videoplayer'] }

@@ -115,16 +115,20 @@ class ModsController < UIViewController
 
       if availableFilterOptions[:body].count > 1
         @bodyFilter = DSMultisegmentView.new
-        @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
-        @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
-        @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
+        # @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
+        # @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
+        # @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
+
+        @bodyFilter.addButton(UIImage.imageNamed('wip/bbiSedan'), Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
+        @bodyFilter.addButton(UIImage.imageNamed('wip/bbiWagon'), Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
+        @bodyFilter.addButton(UIImage.imageNamed('wip/bbiHatch'), Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
       end
 
-      if availableFilterOptions[:fuel].count > 1
-        @fuelFilter = DSMultisegmentView.new
-        @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
-        @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
-      end
+      # if availableFilterOptions[:fuel].count > 1
+      #   @fuelFilter = DSMultisegmentView.new
+      #   @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
+      #   @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
+      # end
 
       [@transmissionFilter, @bodyFilter, @fuelFilter].compact.map{ |filter| ES.customBBI(filter) }.arraySeparatedBy(ES.flexibleSpaceBBI)
     end
