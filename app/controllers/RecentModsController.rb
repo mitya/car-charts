@@ -24,10 +24,12 @@ class RecentModsController < UITableViewController
     end
   end
   
+  # switch table view data source between selected & recent mods
   def switchView
     dataSourceIndex = modeSegmentedControl.selectedSegmentIndex
     dataSource = @dataSources[dataSourceIndex]
     dataSource.reload
+    
     tableView.dataSource = tableView.delegate = dataSource
     tableView.reloadData
     
@@ -92,8 +94,9 @@ class RecentModsController < UITableViewController
       mod = @mods[indexPath.row]
       modIsSelected = mod.selected?
       tableView.reusableCellWith(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle) do |cell|
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
+        cell.accessoryType = UITableViewCellAccessoryDetailButton
         cell.textLabel.text = mod.model.name
+        cell.tintColor = Configuration.tintColor
         cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
         cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
       end

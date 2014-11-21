@@ -21,6 +21,7 @@ Motion::Project::App.setup do |app|
   app.detect_dependencies = false
   app.frameworks += ['CoreData']
   app.device_family = [:iphone, :ipad]
+  app.provisioning_profile = '/Volumes/Vault/Sources/active/_profiles/iOS_Team_Provisioning_Profile_.mobileprovision'
   
   # app.info_plist['CFBundleURLTypes'] = [
   #   { 'CFBundleURLName' => 'com.mycompany.x-videoplayer', 'CFBundleURLSchemes' => ['x-videoplayer'] }

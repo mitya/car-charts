@@ -9,9 +9,9 @@ class AppDelegate
     Disk.load
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
-    UINavigationBar.appearance.tintColor = KK.hsb(210, 100, 30)
-    UIToolbar.appearance.tintColor = UINavigationBar.appearance.tintColor
-    UITabBar.appearance.tintColor = KK.hsb(210, 100, 10)
+    UINavigationBar.appearance.tintColor = Configuration.tintColor
+    UIToolbar.appearance.tintColor = Configuration.tintColor
+    UITabBar.appearance.tintColor = Configuration.tintColor
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
 
@@ -41,9 +41,9 @@ class AppDelegate
     window.makeKeyAndVisible
 
     # controller = ModController.new(Mod.modForKey("citroen c5 2007 sedan 2.0i-143ps-AT-FWD"))
-    controller = ModsController.new(Model.modelForKey("ford--focus"))
-    tabBarController.selectedIndex = 2
-    tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
+    # controller = ModsController.new(Model.modelForKey("ford--focus"))
+    # tabBarController.selectedIndex = 2
+    # tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
 
     true
   end
