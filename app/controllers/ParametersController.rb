@@ -3,7 +3,7 @@ class ParametersController < UITableViewController
   
   def initialize
     self.title = "Parameters"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:UIImage.imageNamed("ico-tbi-weight"), tag:2)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tbi-weight"), tag:2)
   end
 
   def numberOfSectionsInTableView(tv)

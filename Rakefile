@@ -14,7 +14,7 @@ Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
   app.version = "1.0"
-  app.icons = ["ico-app-iphone.png", "ico-app-iphone@2x.png"]
+  app.icons = %w(Icon-60 Icon-76 Icon-Small-40 Icon-Small)
   app.sdk_version = "8.1"
   app.deployment_target = "7.0"
   app.libs += ['/usr/lib/libsqlite3.dylib']

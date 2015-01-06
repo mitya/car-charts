@@ -148,10 +148,10 @@ class DSMultisegmentView < UIView
     end
     images = {}
     %w(on off).each do |state|
-      images["#{state}-base"]  = UIImage.imageNamed("#{basename}-#{state}-base") .resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner))
-      images["#{state}-left"]  = UIImage.imageNamed("#{basename}-#{state}-left") .resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border))
-      images["#{state}-mid"]   = UIImage.imageNamed("#{basename}-#{state}-mid")  .resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border))
-      images["#{state}-right"] = UIImage.imageNamed("#{basename}-#{state}-right").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner))
+      images["#{state}-base"]  = KK.image("#{basename}-#{state}-base") .resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, corner))
+      images["#{state}-left"]  = KK.image("#{basename}-#{state}-left") .resizableImageWithCapInsets(UIEdgeInsetsMake(h, corner, h, border))
+      images["#{state}-mid"]   = KK.image("#{basename}-#{state}-mid")  .resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, border))
+      images["#{state}-right"] = KK.image("#{basename}-#{state}-right").resizableImageWithCapInsets(UIEdgeInsetsMake(h, border, h, corner))
     end    
     images
   end

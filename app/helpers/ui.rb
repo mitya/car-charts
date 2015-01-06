@@ -1,6 +1,6 @@
 module KK::UI
   def capImage(imageName, top, left, bottom, right)
-    UIImage.imageNamed(imageName).resizableImageWithCapInsets(UIEdgeInsetsMake(top, left, bottom, right))
+    KK.image(imageName).resizableImageWithCapInsets(UIEdgeInsetsMake(top, left, bottom, right))
   end
   
   def stackSpacer(view, width, height)
@@ -117,11 +117,11 @@ module KK::UI
   end
 
   def imageBBI(imageName, target:target, action:action)
-    UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed(imageName), style:UIBarButtonItemStyleBordered, target:target, action:action)      
+    UIBarButtonItem.alloc.initWithImage(KK.image(imageName), style:UIBarButtonItemStyleBordered, target:target, action:action)      
   end
 
   def imageBBI(imageName, style:style, target:target, action:action)
-    UIBarButtonItem.alloc.initWithImage(UIImage.imageNamed(imageName), style:style, target:target, action:action)      
+    UIBarButtonItem.alloc.initWithImage(KK.image(imageName), style:style, target:target, action:action)      
   end
 
   def textBBI(text)
@@ -153,8 +153,8 @@ module KK::UI
 
     button = UIButton.buttonWithType(UIButtonTypeCustom)
     button.frame = [[0, 0], options[:size] || [20, 20]]
-    button.setImage UIImage.imageNamed(imageName), forState:UIControlStateNormal
-    button.setImage UIImage.imageNamed(options[:selected]), forState:UIControlStateSelected if options[:selected]
+    button.setImage KK.image(imageName), forState:UIControlStateNormal
+    button.setImage KK.image(options[:selected]), forState:UIControlStateSelected if options[:selected]
     button.showsTouchWhenHighlighted = YES
     button.addTarget target, action:action, forControlEvents:UIControlEventTouchUpInside
 

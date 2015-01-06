@@ -4,7 +4,7 @@ class ModelsController < UIViewController
   
   def initialize
     self.title = "Models"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:UIImage.imageNamed("ico-tbi-car-1"), tag:3)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tbi-car-1"), tag:3)
 
     self.navigationItem.titleView = UIView.alloc.init
     self.navigationItem.rightBarButtonItems = [KK.flexibleSpaceBBI, viewSelectorBarItem, KK.flexibleSpaceBBI]

@@ -4,7 +4,7 @@ class ChartController < UIViewController
 
   def initialize
     self.title = "CarCharts"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:1)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:KK.image("tbi-chart"), tag:1)
     navigationItem.backBarButtonItem = KK.textBBI("Chart")
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld, context:nil)
@@ -29,7 +29,7 @@ class ChartController < UIViewController
     
     # test icons
     self.title = nil
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:UIImage.imageNamed("wip/tbi-fson2"), tag:5)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:KK.image("wip/tbi-fson2"), tag:5)
     navigationItem.rightBarButtonItems = [
       KK.imageBBI("wip/bbiSedan", style:UIBarButtonItemStylePlain, target:nil, action:nil),
       KK.imageBBI("wip/bbiHatch", style:UIBarButtonItemStylePlain, target:nil, action:nil),
@@ -139,7 +139,7 @@ class ChartController < UIViewController
   end
   
   def toggleFullScreenModeBarItem
-    # ico-bbi-fs-expand
+    # bbi-fs-expand
     @toggleFullScreenModeBarItem ||= KK.plainBBI("wip/bbiExpand", target:self, action:'toggleFullScreenMode', options:{ 
       size:[20, 20] 
     })
@@ -149,7 +149,7 @@ class ChartController < UIViewController
     @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 35, 5, 30, 30)).tap do |button|
       button.backgroundColor = UIColor.blackColor    
       button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
-      button.setImage UIImage.imageNamed("wip/bbiCollapse"), forState:UIControlStateNormal # ico-bbi-fs-shrink
+      button.setImage KK.image("wip/bbiCollapse"), forState:UIControlStateNormal # bbi-fs-shrink
       button.alpha = 0.3
       button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)
       button.showsTouchWhenHighlighted = true

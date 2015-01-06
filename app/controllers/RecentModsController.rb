@@ -98,7 +98,7 @@ class RecentModsController < UITableViewController
         cell.textLabel.text = mod.model.name
         cell.tintColor = Configuration.tintColor
         cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
-        cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
+        cell.imageView.image = modIsSelected ? KK.image("list_checkmark") : KK.image("list_checkmark_stub")
       end
     end
 

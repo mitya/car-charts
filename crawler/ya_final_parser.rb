@@ -153,7 +153,7 @@ class YAFinalParser
     metadata['models_by_brand'] = all_model_names.keys.sort.inject({}) { |hash, key| brand = key.split('--').first; (hash[brand] ||= []) << key; hash }    
     metadata['parameters'] = Keys_Used
 
-    KK.save_plist metadata, "db-metadata", OUTDIR
+    KK.save_plist metadata, "data/db-metadata", OUTDIR
   end
 
 private

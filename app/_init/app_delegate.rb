@@ -85,12 +85,12 @@ class AppDelegate
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
       
-      storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db-static", ofType:"sqlite"))
+      storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("data/db-static", ofType:"sqlite"))
       storeOptions = {NSReadOnlyPersistentStoreOption => YES}
 
       # # Switches static database to the one located in the documents directory
       # if UIDevice.currentDevice.model =~ /Simulator/ 
-      #   storeURL = KK.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
+      #   storeURL = KK.documentsURL.URLByAppendingPathComponent('data/db-static.sqlite')
       #   storeOptions = {}
       #   $devdata = true
       #   NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL)

@@ -31,7 +31,7 @@ class ModSetController < UITableViewController
 
     cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
-    cell.imageView.image = mod.selected? ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
+    cell.imageView.image = mod.selected? ? KK.image("list_checkmark") : KK.image("list_checkmark_stub")
     cell
   end
 

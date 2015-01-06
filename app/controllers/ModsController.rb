@@ -59,7 +59,7 @@ class ModsController < UIViewController
 
     cell = tv.dequeueReusableCell(klass:DSCheckmarkCell)
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
-    cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
+    cell.imageView.image = modIsSelected ? KK.image("list_checkmark") : KK.image("list_checkmark_stub")
     cell.textLabel.textColor = modIsSelected ? KK.checkedTableViewItemColor : UIColor.darkTextColor
     cell.textLabel.text = mod.modName(Mod::NameEngineVersion)
     cell
@@ -119,9 +119,9 @@ class ModsController < UIViewController
         # @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
         # @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
 
-        @bodyFilter.addButton(UIImage.imageNamed('wip/bbiSedan'), Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
-        @bodyFilter.addButton(UIImage.imageNamed('wip/bbiWagon'), Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
-        @bodyFilter.addButton(UIImage.imageNamed('wip/bbiHatch'), Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
+        @bodyFilter.addButton(KK.image('wip/bbiSedan'), Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
+        @bodyFilter.addButton(KK.image('wip/bbiWagon'), Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
+        @bodyFilter.addButton(KK.image('wip/bbiHatch'), Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
       end
 
       # if availableFilterOptions[:fuel].count > 1

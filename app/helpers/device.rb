@@ -24,6 +24,10 @@ module KK::Device
     return $device_is_iphone if $device_is_iphone != nil
     $device_is_iphone = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone
   end
+  
+  def image(filename)
+    UIImage.imageNamed "images/#{filename}.png"
+  end
 end
 
 KK.extend(KK::Device)

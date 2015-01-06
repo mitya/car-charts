@@ -3,7 +3,7 @@ class Metadata
     attr_reader :store
     
     def load
-      @store = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db-metadata", ofType:"plist"))
+      @store = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("data/db-metadata", ofType:"plist"))
     end
 
     def method_missing(selector, *args, &block)

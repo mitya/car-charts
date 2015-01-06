@@ -29,7 +29,7 @@ module KK::Colors
   end
 
   def patternColor(imageName)
-    UIColor.colorWithPatternImage(UIImage.imageNamed(imageName))
+    UIColor.colorWithPatternImage(KK.image(imageName))
   end
   
   def blueTextColor
