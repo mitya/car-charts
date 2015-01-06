@@ -1,3 +1,4 @@
+# represt model category, e.g. 'E class'
 class CategoriesController < UITableViewController
   attr_accessor :category
   
@@ -17,15 +18,15 @@ class CategoriesController < UITableViewController
   end
 
   def tableView(table, cellForRowAtIndexPath:indexPath)
-    cell = table.dequeueReusableCell(klass: KKBadgeViewCell)
+    cell = table.dequeueReusableCell(style: UITableViewCellStyleValue1)
 
     if indexPath.row == 0
       cell.textLabel.text = "All Models"
-      cell.badgeText = Disk.currentMods.count
+      cell.detailTextLabel.text = Disk.currentMods.count.to_s_or_nil
     else
       category = Category.all[indexPath.row - 1]
       cell.textLabel.text = category.name
-      cell.badgeText = category.selectedModsCount      
+      cell.detailTextLabel.text = category.selectedModsCount.to_s_or_nil
     end
     
     cell

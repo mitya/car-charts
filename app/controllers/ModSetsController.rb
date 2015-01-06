@@ -4,9 +4,12 @@ class ModSetsController < UITableViewController
   def initialize
     self.title = "Model Sets"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:KK.image("tbi-star3"), tag:5)
+
     navigationItem.leftBarButtonItem = editButtonItem
     navigationItem.backBarButtonItem = KK.textBBI("Sets")
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
+    
+    tableView.rowHeight = ThreeLabelCell.rowHeight
   end
 
   def viewWillAppear(animated)
@@ -14,10 +17,10 @@ class ModSetsController < UITableViewController
     refreshView # update badges
   end
 
-  # def setEditing(editing, animated:animated)
-  #   super
-  #   refreshView # redraws cells for editing
-  # end
+  def setEditing(editing, animated:animated)
+    super
+    refreshView # redraws cells for editing
+  end
 
 
 
@@ -28,15 +31,15 @@ class ModSetsController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    cell = tableView.dequeueReusableCell(klass:KKBadgeViewCell, style:UITableViewCellStyleSubtitle) do |cell|
+    cell = tableView.dequeueReusableCell(klass:ThreeLabelCell, style:UITableViewCellStyleValue1) do |cell|
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-      cell.textFieldEnabled = true
-      cell.textFieldEndEditingBlock = ->(cell) { modSetCellDidEndEditing(cell) }
-      cell.textField.placeholder = "Set Title"
+      # cell.textFieldEnabled = true
+      # cell.textFieldEndEditingBlock = ->(cell) { modSetCellDidEndEditing(cell) }
+      # cell.textField.placeholder = "Set Title"
     end
     cell.textLabel.text = set.name
-    cell.detailTextLabel.text = set.modPreviewString
-    cell.badgeText = set.modCount
+    cell.detailTextLabel.text = set.modCount.to_s_or_nil
+    cell.commentLabel.text = set.modPreviewString
     cell
   end
 

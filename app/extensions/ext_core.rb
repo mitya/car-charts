@@ -74,6 +74,10 @@ class NSNumber
   def blank?
     false
   end
+  
+  def to_s_or_nil
+    self == 0 ? nil : to_s
+  end
 end
 
 

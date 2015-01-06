@@ -119,9 +119,9 @@ class ModelsController < UIViewController
       model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
       modelSelectedModsCount = model.selectedModsCount
 
-      cell = table.dequeueReusableCell(klass: KKBadgeViewCell) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell = table.dequeueReusableCell(style: UITableViewCellStyleValue1) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
       cell.textLabel.text = model.unbrandedName
-      cell.badgeText = modelSelectedModsCount
+      cell.detailTextLabel.text = modelSelectedModsCount.to_s_or_nil
       cell
     end
 
@@ -177,7 +177,6 @@ class ModelsController < UIViewController
   end
   
   
-  
   class FlatModelsDataSource
     attr_accessor :controller, :models, :category
     
@@ -201,9 +200,9 @@ class ModelsController < UIViewController
       model = @filteredModels[indexPath.row]
       modelSelectedModsCount = model.selectedModsCount
 
-      cell = tableView.dequeueReusableCell(klass:KKBadgeViewCell) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
-      cell.text = model.name
-      cell.badgeText = modelSelectedModsCount
+      cell = tableView.dequeueReusableCell(style: UITableViewCellStyleValue1) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell.textLabel.text = model.name
+      cell.detailTextLabel.text = modelSelectedModsCount.to_s_or_nil
       cell
     end
 
