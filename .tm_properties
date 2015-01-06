@@ -1,1 +1,1 @@
-exclude = {build,assets,resources,tmp,.repl_history,.dat*}
+exclude = {build,originals,resources,tmp,.repl_history,.dat*}
