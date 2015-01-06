@@ -5,7 +5,7 @@ class ChartController < UIViewController
   def initialize
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:KK.image("tbi-chart"), tag:1)
-    navigationItem.backBarButtonItem = KK.textBBI("Chart")
+    self.navigationItem.backBarButtonItem = KK.textBBI("Chart")
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
@@ -26,15 +26,7 @@ class ChartController < UIViewController
     navigationItem.rightBarButtonItems = [ KK.fixedSpaceBBIWithWidth(5), toggleFullScreenModeBarItem ]
     
     @reloadPending = true
-    
-    # test icons
-    self.title = nil
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:KK.image("wip/tbi-fson2"), tag:5)
-    navigationItem.rightBarButtonItems = [
-      KK.imageBBI("wip/bbiSedan", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-      KK.imageBBI("wip/bbiHatch", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-      KK.imageBBI("wip/bbiWagon", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-    ]    
+
   end
   
   def viewWillAppear(animated)
@@ -45,9 +37,7 @@ class ChartController < UIViewController
 
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
     if keyPath == 'currentParameters'
-      # __p "params changed", change[:old], change[:new]
       if removedParam = (change[:old] - change[:new]).first
-        # __p "param removed", removedParam
         removedParamIndex = change[:old].index(removedParam)
         totalParamsLeft = change[:new].count
         ChartBarView.adjustSessionColors(removedParamIndex, totalParamsLeft)

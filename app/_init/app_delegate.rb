@@ -35,15 +35,9 @@ class AppDelegate
       end
     end
 
-    # tempController = KKStringListController.new
-    # window.rootViewController = tempController
-
     window.makeKeyAndVisible
 
-    # controller = ModController.new(Mod.modForKey("citroen c5 2007 sedan 2.0i-143ps-AT-FWD"))
-    # controller = ModsController.new(Model.modelForKey("ford--focus"))
-    # tabBarController.selectedIndex = 2
-    # tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
+    # openControllerForModel("ford--focus")
 
     true
   end
@@ -140,5 +134,14 @@ class AppDelegate
     Disk.currentParameters = []
     NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
     $lastLaunchDidFail = true    
+  end
+  
+  
+  #### development helpers
+  
+  def openControllerForModel(modelKey)
+    controller = ModsController.new(Model.modelForKey(modelKey))
+    tabBarController.selectedIndex = 2
+    tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
   end
 end

@@ -1,6 +1,9 @@
+# Just displays a table view of strings.
+# It can be used to determine if those strings fit the screen.
+# window.rootViewController = KKStringListController.new(Scripts.modNames)
 class KKStringListController < UITableViewController
-  def initialize
-    @strings = Scripts.modNames
+  def initialize(strings)
+    @strings = strings
   end
 
   def viewDidLoad
