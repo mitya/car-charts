@@ -71,7 +71,7 @@ class DSCoreModel < NSManagedObject
         request = NSFetchRequest.alloc.init
         request.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext:context)
         request.sortDescriptors = [NSSortDescriptor.alloc.initWithKey(defaultSortField, ascending:YES)]
-        err = ES.ptr
+        err = KK.ptr
         unless results = context.executeFetchRequest(request, error:err)
           raise "Error when fetching data: #{err[0].description}"
         end

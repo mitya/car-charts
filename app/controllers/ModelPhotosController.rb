@@ -7,7 +7,7 @@ class ModelPhotosController < UIViewController
     self.year = year
     self.hidesBottomBarWhenPushed = iphone?
     navigationItem.hidesBackButton = YES
-    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
+    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
   end
   
   def viewDidLoad
@@ -24,8 +24,8 @@ class ModelPhotosController < UIViewController
       view.addSubview(spinner)
     end
     
-    self.goBackBBI = ES.imageBBI("bbi-left", style:UIBarButtonItemStylePlain, target:webView, action:'goBack')
-    self.goForwardBBI = ES.imageBBI("bbi-right", style:UIBarButtonItemStylePlain, target:webView, action:'goForward')
+    self.goBackBBI = KK.imageBBI("bbi-left", style:UIBarButtonItemStylePlain, target:webView, action:'goBack')
+    self.goForwardBBI = KK.imageBBI("bbi-right", style:UIBarButtonItemStylePlain, target:webView, action:'goForward')
   end
   
   def viewWillAppear(animated)
@@ -62,7 +62,7 @@ class ModelPhotosController < UIViewController
     goBackBBI.enabled = webView.canGoBack
     goForwardBBI.enabled = webView.canGoForward
     if webView.canGoBack || webView.canGoForward
-      self.toolbarItems ||= [ES.flexibleSpaceBBI, goBackBBI, ES.flexibleSpaceBBI, goForwardBBI, ES.flexibleSpaceBBI]
+      self.toolbarItems ||= [KK.flexibleSpaceBBI, goBackBBI, KK.flexibleSpaceBBI, goForwardBBI, KK.flexibleSpaceBBI]
       navigationController.setToolbarHidden(NO, animated:YES)
     end
   end  

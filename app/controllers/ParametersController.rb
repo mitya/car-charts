@@ -28,7 +28,7 @@ class ParametersController < UITableViewController
     cell = table.dequeueReusableCell
     cell.textLabel.text = parameter.name  
     cell.accessoryType = parameterIsSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
-    cell.textLabel.textColor = parameterIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
+    cell.textLabel.textColor = parameterIsSelected ? KK.checkedTableViewItemColor : UIColor.darkTextColor
     cell
   end  
   

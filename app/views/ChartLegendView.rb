@@ -25,7 +25,7 @@ class ChartLegendView < UIView
 
     self.topBorder = CALayer.layer.tap do |topBorder|
       topBorder.frame = CGRectMake(0, 0, ZERO, 1)
-      topBorder.backgroundColor = ES.separatorColor.CGColor
+      topBorder.backgroundColor = KK.separatorColor.CGColor
       content.layer.addSublayer(topBorder)
     end
 
@@ -43,7 +43,7 @@ class ChartLegendView < UIView
   def layoutSubviews
     super
     options = {containerHM:0, containerTM:ContentTP, viewFH:ItemFH}
-    viewsBottomEdge = ES.alignBlockViews content.subviews.select(&Item), inContainer:content, withOptions:options
+    viewsBottomEdge = KK.alignBlockViews content.subviews.select(&Item), inContainer:content, withOptions:options
     content.frame = [content.frame.origin, [bounds.width - ContentHM * 2, viewsBottomEdge]]
     topBorder.frame = [topBorder.frame.origin, [content.frame.width, topBorder.frame.height]]
     self.frame = [frame.origin, [frame.width, content.frame.height + ContentTM + ContentBM]]
@@ -66,8 +66,8 @@ class ChartLegendView < UIView
       colorFrame = CGRectMake(leftMargin, (ItemH - ColorH) / 2.0, ColorW, ColorH)
       textSize = param.name.sizeWithFont(textFont)
       textFrame = CGRectMake(colorFrame.x + colorFrame.width + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
-      ES.drawRect colorFrame, inContext:context, withGradientColors:colorGradient, cornerRadius:3
-      ES.drawString param.name, inRect:textFrame, withColor:UIColor.darkGrayColor, font:textFont, alignment:UITextAlignmentLeft
+      KK.drawRect colorFrame, inContext:context, withGradientColors:colorGradient, cornerRadius:3
+      KK.drawString param.name, inRect:textFrame, withColor:UIColor.darkGrayColor, font:textFont, alignment:UITextAlignmentLeft
     end
 
     def sizeThatFits(oldSize)

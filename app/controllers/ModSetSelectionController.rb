@@ -4,8 +4,8 @@ class ModSetSelectionController < UITableViewController
   def initialize
     self.title = "Select Model Set"
     self.contentSizeForViewInPopover = [320, 640]
-    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
-    navigationItem.leftBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
+    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
+    navigationItem.leftBarButtonItem = KK.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
   end
 
   def tableView(tv, numberOfRowsInSection:section)

@@ -45,11 +45,11 @@ module KK::Colors
   end
   
   def tableViewFooterColor
-    ES.rgbf(0.298, 0.337, 0.424)
+    KK.rgbf(0.298, 0.337, 0.424)
   end
   
   def checkedTableViewItemColor
-    ES.rgbf(0.22, 0.33, 0.53)
+    KK.rgbf(0.22, 0.33, 0.53)
   end
 end
 

@@ -5,8 +5,8 @@ class ModSetsController < UITableViewController
     self.title = "Model Sets"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:UIImage.imageNamed("tbi-star3"), tag:5)
     navigationItem.leftBarButtonItem = editButtonItem
-    navigationItem.backBarButtonItem = ES.textBBI("Sets")
-    navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
+    navigationItem.backBarButtonItem = KK.textBBI("Sets")
+    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
   end
 
   def viewWillAppear(animated)
@@ -71,7 +71,7 @@ class ModSetsController < UITableViewController
     cell.textField.text = @set.name # set name is not changed if the rename has failed
     cell.textLabel.text = @set.name
     refreshData
-    tableView.moveRowAtIndexPath index, toIndexPath:ES.indexPath(index.section, @set.position)
+    tableView.moveRowAtIndexPath index, toIndexPath:KK.indexPath(index.section, @set.position)
   end
 
 

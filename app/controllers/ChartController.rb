@@ -5,7 +5,7 @@ class ChartController < UIViewController
   def initialize
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:UIImage.imageNamed("ico-tbi-chart"), tag:1)
-    navigationItem.backBarButtonItem = ES.textBBI("Chart")
+    navigationItem.backBarButtonItem = KK.textBBI("Chart")
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
@@ -23,7 +23,7 @@ class ChartController < UIViewController
       tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     end
     
-    navigationItem.rightBarButtonItems = [ ES.fixedSpaceBBIWithWidth(5), toggleFullScreenModeBarItem ]
+    navigationItem.rightBarButtonItems = [ KK.fixedSpaceBBIWithWidth(5), toggleFullScreenModeBarItem ]
     
     @reloadPending = true
     
@@ -31,9 +31,9 @@ class ChartController < UIViewController
     self.title = nil
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:UIImage.imageNamed("wip/tbi-fson2"), tag:5)
     navigationItem.rightBarButtonItems = [
-      ES.imageBBI("wip/bbiSedan", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-      ES.imageBBI("wip/bbiHatch", style:UIBarButtonItemStylePlain, target:nil, action:nil),
-      ES.imageBBI("wip/bbiWagon", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+      KK.imageBBI("wip/bbiSedan", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+      KK.imageBBI("wip/bbiHatch", style:UIBarButtonItemStylePlain, target:nil, action:nil),
+      KK.imageBBI("wip/bbiWagon", style:UIBarButtonItemStylePlain, target:nil, action:nil),
     ]    
   end
   
@@ -128,19 +128,19 @@ class ChartController < UIViewController
       else
         "No Models/Parameters Selected"        
       end
-      ES.emptyViewLabel(text, view.bounds.rectWithHorizMargins(15))
+      KK.emptyViewLabel(text, view.bounds.rectWithHorizMargins(15))
     end
   end
 
   def toggleSettingsBarItem
-    @toggleSettingsBarItem ||= ES.plainBBI("bbi-back", target:self, action:'toggleFullScreenMode', options:{ 
+    @toggleSettingsBarItem ||= KK.plainBBI("bbi-back", target:self, action:'toggleFullScreenMode', options:{ 
       selected:"bbi-right", size:[15, 15] 
     })
   end
   
   def toggleFullScreenModeBarItem
     # ico-bbi-fs-expand
-    @toggleFullScreenModeBarItem ||= ES.plainBBI("wip/bbiExpand", target:self, action:'toggleFullScreenMode', options:{ 
+    @toggleFullScreenModeBarItem ||= KK.plainBBI("wip/bbiExpand", target:self, action:'toggleFullScreenMode', options:{ 
       size:[20, 20] 
     })
   end

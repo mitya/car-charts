@@ -33,7 +33,7 @@ class ChartBarView < UIView
   def initWithFrame(frame)
     super
     self.opaque = true
-    self.backgroundColor = UIColor.whiteColor # ES.patternColor("bg-chart")
+    self.backgroundColor = UIColor.whiteColor # KK.patternColor("bg-chart")
     self.contentMode = UIViewContentModeRedraw
     self
   end
@@ -57,23 +57,23 @@ class ChartBarView < UIView
       if comparisionItem.firstForModel?
         headerHeight = ModelTitleH + ModelTitleBM
         modelTitleRect = CGRectMake(0, 0, labelWidth, ModelTitleH)
-        ES.drawString mod.model.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:ES.boldFont(ModelTitleFS), alignment:UITextAlignmentRight 
+        KK.drawString mod.model.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:KK.boldFont(ModelTitleFS), alignment:UITextAlignmentRight 
       end
       labelRect = CGRectMake(0, headerHeight, labelWidth, labelHeight)
-      ES.drawString modTitle, inRect:labelRect, withColor:UIColor.darkGrayColor, font:ES.mainFont(ModTitleFS), alignment:UITextAlignmentRight
+      KK.drawString modTitle, inRect:labelRect, withColor:UIColor.darkGrayColor, font:KK.mainFont(ModTitleFS), alignment:UITextAlignmentRight
     when :ultraWide
       labelWidth = UltraWideBarLabelW
       labelHeight = ModelTitleH
       labelRect = CGRectMake(0, headerHeight, labelWidth, labelHeight)
-      ES.drawInRect labelRect, stringsSpecs:[
-        [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS), ModelTitleRM],
-        [modTitle, UIColor.grayColor, ES.mainFont(ModTitleFS), ModelTitleRM]
+      KK.drawInRect labelRect, stringsSpecs:[
+        [mod.model.name, UIColor.blackColor, KK.boldFont(ModelTitleFS), ModelTitleRM],
+        [modTitle, UIColor.grayColor, KK.mainFont(ModTitleFS), ModelTitleRM]
       ], alignment:UITextAlignmentRight
     end
     
     pixelRange = bounds.width - labelWidth - BarMinW - WideBarRM
     textColor = UIColor.whiteColor
-    textFont = ES.mainFont(BarFS)
+    textFont = KK.mainFont(BarFS)
     barsOffset = (labelHeight - BarH) / 2 + headerHeight
     comparision.params.each do |param|
       index = comparision.params.index(param)
@@ -95,8 +95,8 @@ class ChartBarView < UIView
         
         textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
       end      
-      ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      ES.drawString param.formattedValue(value), inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
+      KK.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
+      KK.drawString param.formattedValue(value), inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
     end    
   end
 
@@ -109,8 +109,8 @@ class ChartBarView < UIView
     modTitle = mod.modName(modTitleOptions)
     
     if iphone? && KK.portrait? 
-      modelTitleWidth = mod.model.name.sizeWithFont(ES.boldFont(ModelTitleFS)).width
-      modTitleWidth = modTitle.sizeWithFont(ES.mainFont(ModelTitleFS)).width
+      modelTitleWidth = mod.model.name.sizeWithFont(KK.boldFont(ModelTitleFS)).width
+      modTitleWidth = modTitle.sizeWithFont(KK.mainFont(ModelTitleFS)).width
       fullWidth = modelTitleWidth + modelTitleWidth + ModelTitleRM * 2
       extraWidth = fullWidth - labelRect.width
       modTitleFSFix = extraWidth > 0 ? [extraWidth / 25.0, 2.0].min.round_to(0.25) : 0
@@ -118,14 +118,14 @@ class ChartBarView < UIView
       modTitleFSFix = 0
     end
 
-    ES.drawInRect labelRect, stringsSpecs:[
-      [mod.model.name, UIColor.blackColor, ES.boldFont(ModelTitleFS - modTitleFSFix), ModelTitleRM],
-      [modTitle, UIColor.grayColor, ES.mainFont(ModTitleFS - modTitleFSFix), 0]
+    KK.drawInRect labelRect, stringsSpecs:[
+      [mod.model.name, UIColor.blackColor, KK.boldFont(ModelTitleFS - modTitleFSFix), ModelTitleRM],
+      [modTitle, UIColor.grayColor, KK.mainFont(ModTitleFS - modTitleFSFix), 0]
     ]
 
     pixelRange = maxBarWidth - BarMinW
     barsOffset = ModelTitleH + ModelTitleBM
-    textFont = ES.mainFont(BarFS)
+    textFont = KK.mainFont(BarFS)
     comparision.params.each do |param|
       index = comparision.params.index(param)
       value = mod[param]
@@ -142,28 +142,28 @@ class ChartBarView < UIView
         bgColorsIndex = self.class.sessionColorIndexes[index.remainder(self.class.sessionColorIndexes.count)]
         bgColors = self.class.colors[bgColorsIndex]
       end
-      ES.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      ES.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight      
+      KK.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
+      KK.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight      
     end    
   end
 
   def self.renderingMode
     case 
       when iphone? then :narrow
-      when ES.landscape? && KK.app.delegate.chartController.fullScreen? then :ultraWide
-      when ES.landscape? || KK.app.delegate.chartController.fullScreen? then :wide
+      when KK.landscape? && KK.app.delegate.chartController.fullScreen? then :ultraWide
+      when KK.landscape? || KK.app.delegate.chartController.fullScreen? then :wide
       else :narrow
     end
   end
   
   def self.colors
     @colors ||= Metadata.colors.map do |h,s,b|
-      [ES.hsb(h, s > 20 ? s - 20 : 0, b + 5), ES.hsb(h, s < 90 ? s + 10 : 100, b - 5)]
+      [KK.hsb(h, s > 20 ? s - 20 : 0, b + 5), KK.hsb(h, s < 90 ? s + 10 : 100, b - 5)]
     end
   end
   
   def self.emptyBarColors
-    @emptyBarColors ||= [ES.hsb(0, 0, 95), ES.hsb(0, 0, 90)]
+    @emptyBarColors ||= [KK.hsb(0, 0, 95), KK.hsb(0, 0, 90)]
   end
 
   def self.heightForComparisionItem(item)

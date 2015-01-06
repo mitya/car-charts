@@ -6,7 +6,7 @@ class ModsController < UIViewController
     self.mods = model.mods
     self.title = model.name
     self.hidesBottomBarWhenPushed = iphone?
-    self.navigationItem.backBarButtonItem = ES.textBBI("Versions")
+    self.navigationItem.backBarButtonItem = KK.textBBI("Versions")
   end
 
   def viewDidLoad
@@ -20,7 +20,7 @@ class ModsController < UIViewController
         self.toolbar.items = toolbarItemsForFilter
         self.view.addSubview(toolbar)
         self.tableView.frame = CGRectOffset(tableView.frame, 0, UIToolbarHeight)
-        self.tableView.addSubview(ES.tableViewGrayBackground)
+        self.tableView.addSubview(KK.tableViewGrayBackground)
       end
     end
     
@@ -60,7 +60,7 @@ class ModsController < UIViewController
     cell = tv.dequeueReusableCell(klass:DSCheckmarkCell)
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
     cell.imageView.image = modIsSelected ? UIImage.imageNamed("list_checkmark") : UIImage.imageNamed("list_checkmark_stub")
-    cell.textLabel.textColor = modIsSelected ? ES.checkedTableViewItemColor : UIColor.darkTextColor
+    cell.textLabel.textColor = modIsSelected ? KK.checkedTableViewItemColor : UIColor.darkTextColor
     cell.textLabel.text = mod.modName(Mod::NameEngineVersion)
     cell
   end
@@ -130,7 +130,7 @@ class ModsController < UIViewController
       #   @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
       # end
 
-      [@transmissionFilter, @bodyFilter, @fuelFilter].compact.map{ |filter| ES.customBBI(filter) }.arraySeparatedBy(ES.flexibleSpaceBBI)
+      [@transmissionFilter, @bodyFilter, @fuelFilter].compact.map{ |filter| KK.customBBI(filter) }.arraySeparatedBy(KK.flexibleSpaceBBI)
     end
   end  
 end

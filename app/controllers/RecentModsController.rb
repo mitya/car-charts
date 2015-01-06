@@ -39,11 +39,11 @@ class RecentModsController < UITableViewController
 
 
   def actionsButtonItem
-    @actionsButtonItem ||= ES.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showActionSheet:')
+    @actionsButtonItem ||= KK.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showActionSheet:')
   end
 
   def saveButtonItem
-    @saveButtonItem ||= ES.textBBI("Save", target:self, action:'saveSelectedAsSet')
+    @saveButtonItem ||= KK.textBBI("Save", target:self, action:'saveSelectedAsSet')
   end
   
   def showActionSheet(bbi)

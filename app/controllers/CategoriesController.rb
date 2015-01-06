@@ -4,7 +4,7 @@ class CategoriesController < UITableViewController
   def initialize
     self.title = "Categories"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:UIImage.imageNamed("ico-tbi-car"), tag:3)
-    self.navigationItem.rightBarButtonItem = ES.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'close')
+    self.navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'close')
   end
 
   def viewWillAppear(animated)

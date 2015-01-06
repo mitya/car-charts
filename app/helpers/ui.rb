@@ -53,7 +53,7 @@ module KK::UI
       subtitleLabel.numberOfLines = 0
     end
     
-    ES.stackViews [ES.stackSpacer(view, view.frame.width, 70), titleLabel, ES.stackSpacer(view, view.frame.width, 8), subtitleLabel].compact
+    KK.stackViews [KK.stackSpacer(view, view.frame.width, 70), titleLabel, KK.stackSpacer(view, view.frame.width, 8), subtitleLabel].compact
     
     view.addSubview(titleLabel)
     view.addSubview(subtitleLabel) if subtitleLabel
@@ -84,7 +84,7 @@ module KK::UI
       label.text = text
       label.backgroundColor = UIColor.clearColor
       label.font = font
-      label.textColor = ES.tableViewFooterColor
+      label.textColor = KK.tableViewFooterColor
       label.shadowColor = UIColor.colorWithWhite(1, alpha:1)
       label.shadowOffset = CGSizeMake(0, 1)
       label.textAlignment = UITextAlignmentCenter
@@ -98,7 +98,7 @@ module KK::UI
   def tableViewGrayBackground
     screen = UIScreen.mainScreen.applicationFrame
     topview = UIView.alloc.initWithFrame(CGRectMake(0, -screen.height, screen.width, screen.height))
-    topview.backgroundColor = ES.rgb(226, 231, 238)
+    topview.backgroundColor = KK.rgb(226, 231, 238)
     topview.autoresizingMask = UIViewAutoresizingFlexibleWidth
     topview
   end  
@@ -137,15 +137,15 @@ module KK::UI
   end
   
   def flexibleSpaceBBI
-    ES.systemBBI(UIBarButtonSystemItemFlexibleSpace)
+    KK.systemBBI(UIBarButtonSystemItemFlexibleSpace)
   end
 
   def fixedSpaceBBI(width = nil)
-    ES.fixedSpaceBBIWithWidth(nil)
+    KK.fixedSpaceBBIWithWidth(nil)
   end
 
   def fixedSpaceBBIWithWidth(width = nil)
-    ES.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = width if width }
+    KK.systemBBI(UIBarButtonSystemItemFixedSpace, target:nil, action:nil).tap { |bbi| bbi.width = width if width }
   end
 
   def plainBBI(imageName, target:target, action:action, options:options)

@@ -11,7 +11,7 @@ class ModController < UITableViewController
   end
 
   def viewDidLoad
-    self.tableView.tableHeaderView = ES.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersion))
+    self.tableView.tableHeaderView = KK.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersion))
   end
 
 
@@ -48,7 +48,7 @@ class ModController < UITableViewController
       cell = tv.dequeueReusableCell(style:UITableViewCellStyleValue1)
       cell.selectionStyle = UITableViewCellSelectionStyleNone
       cell.textLabel.text = parameter.name
-      cell.textLabel.font = ES.boldFont(parameter.long?? 16.0 : 17.0)
+      cell.textLabel.font = KK.boldFont(parameter.long?? 16.0 : 17.0)
       cell.detailTextLabel.text = @mod.fieldTextFor(parameter)
       cell
     end

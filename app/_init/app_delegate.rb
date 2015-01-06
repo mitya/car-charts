@@ -19,7 +19,7 @@ class AppDelegate
     self.tabBarController = UITabBarController.new.tap do |tbc|
       tabControllers = [chartController, ParametersController.new, ModelsController.new, RecentModsController.new, ModSetsController.new]
       tabControllers.shift if ipad?
-      tbc.viewControllers = tabControllers.map { |ctr| ES.navigationForController(ctr, withDelegate:self) }
+      tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
       tbc.selectedIndex = 0
       tbc.contentSizeForViewInPopover = [320, 640]
@@ -28,7 +28,7 @@ class AppDelegate
     window.rootViewController = if iphone?
       tabBarController
     else
-      mainController = ES.navigationForController(chartController, withDelegate:self)
+      mainController = KK.navigationForController(chartController, withDelegate:self)
       UISplitViewController.alloc.init.tap do |splitViewController|
         splitViewController.viewControllers = [tabBarController, mainController]
         splitViewController.delegate = self
@@ -50,7 +50,7 @@ class AppDelegate
   
   def applicationWillTerminate(application)
     saveObjectContext
-    ES.defaults.synchronize
+    KK.defaults.synchronize
   end
 
   def applicationDidFailWithException(exception)
@@ -66,7 +66,7 @@ class AppDelegate
   end
 
   def splitViewController(svc, shouldHideViewController:vc, inOrientation:orientation)
-    hidesMasterView # NO # ES.portrait?(orientation)
+    hidesMasterView # NO # KK.portrait?(orientation)
   end
   
   def splitViewController(svc, willHideViewController:vc, withBarButtonItem:bbi, forPopoverController:pc)
@@ -90,14 +90,14 @@ class AppDelegate
 
       # # Switches static database to the one located in the documents directory
       # if UIDevice.currentDevice.model =~ /Simulator/ 
-      #   storeURL = ES.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
+      #   storeURL = KK.documentsURL.URLByAppendingPathComponent('db-static.sqlite')
       #   storeOptions = {}
       #   $devdata = true
       #   NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL)
       # end
 
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
-      err = ES.ptr
+      err = KK.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
       raise "Can't open static database: #{err.value.description}" if err.value
       
@@ -114,10 +114,10 @@ class AppDelegate
       model.entities = modelClasses.map(&:entity)
       modelClasses.each(&:initRelationships)
 
-      storeURL = ES.documentsURL.URLByAppendingPathComponent('db-user.sqlite')
+      storeURL = KK.documentsURL.URLByAppendingPathComponent('db-user.sqlite')
       storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
-      err = ES.ptr
+      err = KK.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
       raise "Can't open user database: #{err.value.description}" if err.value
 

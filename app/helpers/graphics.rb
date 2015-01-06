@@ -59,7 +59,7 @@ module KK::Graphics
           CGRectMake(frame.width - size.width, frame.y + (frame.height - size.height), size.width, size.height)
       end
 
-      ES.drawString string, inRect:rect, withColor:colorize(color), font:font, lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentLeft
+      KK.drawString string, inRect:rect, withColor:colorize(color), font:font, lineBreakMode:UILineBreakModeClip, alignment:UITextAlignmentLeft
     end            
   end
   

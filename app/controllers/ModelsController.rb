@@ -7,12 +7,12 @@ class ModelsController < UIViewController
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:UIImage.imageNamed("ico-tbi-car-1"), tag:3)
 
     self.navigationItem.titleView = UIView.alloc.init
-    self.navigationItem.rightBarButtonItems = [ES.flexibleSpaceBBI, viewSelectorBarItem, ES.flexibleSpaceBBI]
+    self.navigationItem.rightBarButtonItems = [KK.flexibleSpaceBBI, viewSelectorBarItem, KK.flexibleSpaceBBI]
   end
   
   def viewDidLoad
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
-    tableView.addSubview ES.tableViewGrayBackground
+    tableView.addSubview KK.tableViewGrayBackground
 
     self.searchBar = UISearchBar.alloc.init
     searchBar.frame = CGRectMake(0, 0, 0, UIToolbarHeight)
@@ -77,7 +77,7 @@ class ModelsController < UIViewController
   end
 
   def viewSelectorBarItem
-    @viewSelectorBarItem ||= ES.textBBI(currentTitle, target:self, action:'showCategories')
+    @viewSelectorBarItem ||= KK.textBBI(currentTitle, target:self, action:'showCategories')
   end
     
   def categoriesController
@@ -146,7 +146,7 @@ class ModelsController < UIViewController
 
   
     def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
-      controller.navigationItem.backBarButtonItem = ES.textBBI("Search")  
+      controller.navigationItem.backBarButtonItem = KK.textBBI("Search")  
     end  
   
     def searchDisplayController(ctl, shouldReloadTableForSearchString:newSearchString)
@@ -222,7 +222,7 @@ class ModelsController < UIViewController
     end
   
     def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
-      controller.navigationItem.backBarButtonItem = ES.textBBI("Search")
+      controller.navigationItem.backBarButtonItem = KK.textBBI("Search")
     end  
   
     def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)

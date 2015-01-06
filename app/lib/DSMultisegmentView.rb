@@ -29,8 +29,8 @@ class DSMultisegmentView < UIView
     
     if String === titleOrImage
       button.setTitle(titleOrImage, forState:UIControlStateNormal)
-      button.setTitleShadowColor(ES.hsb(212,22,46), forState:UIControlStateSelected)
-      button.setTitleShadowColor(ES.hsb(212,22,42), forState:UIControlStateNormal)
+      button.setTitleShadowColor(KK.hsb(212,22,46), forState:UIControlStateSelected)
+      button.setTitleShadowColor(KK.hsb(212,22,42), forState:UIControlStateNormal)
       button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
       button.titleLabel.shadowOffset = CGSizeMake(0, -1)      
     else
@@ -81,7 +81,7 @@ class DSMultisegmentView < UIView
   end
   
   def reapplyButtonBackgrounds
-    orientationKey = ES.orientationKey
+    orientationKey = KK.orientationKey
     dim = self.class.buttonDimensions[orientationKey]    
     groupIsActive = active?
 
@@ -105,7 +105,7 @@ class DSMultisegmentView < UIView
   def layoutSubviews
     super
     
-    dim = self.class.buttonDimensions[ES.orientationKey]
+    dim = self.class.buttonDimensions[KK.orientationKey]
     
     segmentButtons.each_with_index do |button, index|
       button.frame = CGRectMake(dim.margin + index * (dim.width + dim.spacing), (dim.barHeight - dim.height) / 2 + 1, dim.width, dim.height)

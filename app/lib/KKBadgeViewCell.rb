@@ -118,7 +118,7 @@ class KKBadgeView < UIView
     
     currentSummaryColor = UIColor.blackColor
     currentDetailColor = UIColor.grayColor
-    currentBadgeColor = cell.badgeColor || ES.rgbf(0.53, 0.6, 0.738)
+    currentBadgeColor = cell.badgeColor || KK.rgbf(0.53, 0.6, 0.738)
     
     if cell.highlighted? || cell.selected?
       currentSummaryColor = UIColor.whiteColor
