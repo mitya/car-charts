@@ -217,7 +217,7 @@ class Mod < DSCoreModel
       puts "Param delta: #{Metadata[:parameters] - @fields.map(&:first)} / #{@fields.map(&:first) - Metadata[:parameters]}"
       
       fields = @fields.map(&:first).reject { |field| field == 'key' }
-      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("tmp/db-mods", ofType:"plist"))
+      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("data/db-mods", ofType:"plist"))
 
       plist.each do |key, data|
         mod = Mod.build(key: key)
