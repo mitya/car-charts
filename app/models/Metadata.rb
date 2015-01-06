@@ -8,14 +8,14 @@ class Metadata
 
     def method_missing(selector, *args, &block)
       case 
-        when StaticData.has_key?(selector) then StaticData[selector]
+        when Statics.has_key?(selector) then Statics[selector]
         when @store.has_key?(selector) then @store[selector]
         else super
       end
     end
     
     def [](key)
-      StaticData[key] || @store[key]
+      Statics[key] || @store[key]
     end
     
     def brandNamesList

@@ -1,4 +1,4 @@
-StaticData = {
+Statics = {
   bodyNames: {
    "sedan"        =>"sedan",
    "sedan_long"   =>"sedan long",
@@ -34,13 +34,13 @@ StaticData = {
   },
   parameterNames: {
     top_speed:              "Top Speed",
-    acceleration_100kmh: "Acelleration (0-100 km/h)",
+    acceleration_100kmh:    "Acelleration (0-100 km/h)",
     consumption_city:       "Consumption (city)",
     consumption_highway:    "Consumption (highway)",
     consumption_mixed:      "Consumption (mixed)",
-    displacement:          "Displacement",
+    displacement:           "Displacement",
     cylinder_count:         "Cylider Count",
-    cylinder_valves:    "Valves per Cylider",
+    cylinder_valves:        "Valves per Cylider",
     compression:            "Compression",
     bore:                   "Bore",
     max_power:              "Power (hp)",

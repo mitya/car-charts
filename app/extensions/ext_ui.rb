@@ -1,38 +1,10 @@
-UIViewAutoresizingFlexibleAllMargins = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin
+UIViewAutoresizingFlexibleAllMargins = UIViewAutoresizingFlexibleLeftMargin | 
+                                       UIViewAutoresizingFlexibleRightMargin | 
+                                       UIViewAutoresizingFlexibleTopMargin | 
+                                       UIViewAutoresizingFlexibleBottomMargin
 UISafariUA = "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7"
 UIToolbarHeight = 44.0
 
-class CGPoint
-  def inspect
-    "{#{x}, #{y}}"
-  end  
-end
-
-class CGRect
-  def x
-    origin.x
-  end
-
-  def y
-    origin.y
-  end
-
-  def width
-    size.width
-  end
-
-  def height
-    size.height
-  end
-  
-  def rectWithHorizMargins(margin)
-    CGRectMake(x + margin, y, width - margin * 2, height)
-  end
-  
-  def inspect
-    "{#{x}, #{y}, #{width}, #{height}}"
-  end
-end
 
 class UIColor
   def hsbString
@@ -58,11 +30,13 @@ class UIColor
   end
 end
 
+
 class UIFont
   def inspect
     "#<#{self.class.name}:'#{fontName}' #{pointSize}/#{lineHeight}>"
   end
 end
+
 
 class UIView
   def xdBorder(color = UIColor.redColor)
@@ -73,6 +47,7 @@ class UIView
     ES.setRoundedCornersForView(self, withRadius:radius, width:width, color:color)
   end
 end
+
 
 class UIViewController
   def self.autorotationPolicy
@@ -131,6 +106,7 @@ class UIViewController
   end
 end
 
+
 class UITableView
   def dequeueReusableCell(options = nil, &block)
     klass = options && options[:klass] || UITableViewCell
@@ -154,6 +130,7 @@ class UITableView
   end
 end
 
+
 class UITableViewCell
   def toggleLeftCheckmarkAccessory(options = {})
     wasChecked = imageView.image == UIImage.imageNamed("list_checkmark")
@@ -170,6 +147,7 @@ class UITableViewCell
   end
 end
 
+
 class UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStylePlain
   
@@ -183,12 +161,14 @@ class UITableViewController
   end  
 end
 
+
 class UINavigationItem
   def backBarButtonItemTitle=(title)
     self.backBarButtonItem ||= ES.textBBI(title)
     self.backBarButtonItem.title = title
   end
 end
+
 
 class UITabBarController
   def setTabBarHidden(hidden, animated:animated)
@@ -204,29 +184,4 @@ class UITabBarController
       end      
     end    
   end
-end
-
-class KKNavigationController < UINavigationController
-  # enables autorotation support for OS 5.0
-  def shouldAutorotateToInterfaceOrientation(toInterfaceOrientation)
-    ipad? ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown
-  end
-
-  # def shouldAutorotate
-  #   topViewController.shouldAutorotate
-  # end  
-  # 
-  # def supportedInterfaceOrientations
-  #   topViewController.supportedInterfaceOrientations
-  # end
-end
-
-class KKTabBarController < UITabBarController
-  # def shouldAutorotate
-  #   selectedViewController.shouldAutorotate
-  # end  
-  # 
-  # def supportedInterfaceOrientations
-  #   selectedViewController.supportedInterfaceOrientations
-  # end
 end
