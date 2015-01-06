@@ -137,10 +137,10 @@ class KKBadgeView < UIView
       path = CGPathCreateMutable()
       CGPathAddArc(path, nil, 
         badgeViewFrame.x + badgeViewFrame.width - badgeViewFrame.height / 2, badgeViewFrame.y + badgeViewFrame.height / 2, 
-        badgeViewFrame.height / 2, M_PI / 2, M_PI * 3 / 2, true)
+        badgeViewFrame.height / 2, Math::PI / 2, Math::PI * 3 / 2, true)
       CGPathAddArc(path, nil, 
         badgeViewFrame.x + badgeViewFrame.height / 2, badgeViewFrame.y + badgeViewFrame.height / 2, 
-        badgeViewFrame.height / 2, M_PI * 3 / 2, M_PI / 2, true)
+        badgeViewFrame.height / 2, Math::PI * 3 / 2, Math::PI / 2, true)
       CGContextAddPath(context, path)
       CGContextDrawPath(context, KCGPathFill)
       CGContextRestoreGState(context)

@@ -7,7 +7,7 @@ class ChartLegendView < UIView
   ContentBM = 8
   ContentHM = 5
   ItemFS = 14.0
-  ItemH = KKLineHeightFromFontSize(ItemFS)
+  ItemH = KK.lineHeightFromFontSize(ItemFS)
   ItemVM = 1
   ItemRM = ItemFS / 2
   ItemFH = ItemH + ItemVM

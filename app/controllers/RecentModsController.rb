@@ -63,7 +63,7 @@ class RecentModsController < UITableViewController
   def saveSelectedAsSet(mode = :add)
     selectionCtr = ModSetSelectionController.new
     selectionCtr.mode = mode
-    if iphone?
+    if KK.iphone?
       selectionCtr.closeProc = -> { dismissModalViewControllerAnimated true, completion:NIL }
       presentNavigationController selectionCtr
     else     

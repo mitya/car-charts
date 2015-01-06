@@ -5,7 +5,7 @@ class ModsController < UIViewController
     self.model = model
     self.mods = model.mods
     self.title = model.name
-    self.hidesBottomBarWhenPushed = iphone?
+    self.hidesBottomBarWhenPushed = KK.iphone?
     self.navigationItem.backBarButtonItem = KK.textBBI("Versions")
   end
 
@@ -13,7 +13,7 @@ class ModsController < UIViewController
     self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
     
     if toolbarItemsForFilter.any?
-      if iphone?
+      if KK.iphone?
         self.toolbarItems = toolbarItemsForFilter
       else
         self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, UIToolbarHeight))

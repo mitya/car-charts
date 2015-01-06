@@ -5,7 +5,7 @@ class ModelPhotosController < UIViewController
   def initialize(model = nil, year = nil)
     self.model = model
     self.year = year
-    self.hidesBottomBarWhenPushed = iphone?
+    self.hidesBottomBarWhenPushed = KK.iphone?
     navigationItem.hidesBackButton = YES
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
   end

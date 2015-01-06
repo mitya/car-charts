@@ -99,7 +99,7 @@ class ChartController < UIViewController
   end
 
   def toggleFullScreenMode
-    if iphone?
+    if KK.iphone?
       shouldSwitchOn = !UIApplication.sharedApplication.isStatusBarHidden
       UIApplication.sharedApplication.setStatusBarHidden(shouldSwitchOn, animated:YES)
       navigationController.setNavigationBarHidden(shouldSwitchOn, animated:YES)

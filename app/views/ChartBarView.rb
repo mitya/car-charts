@@ -5,15 +5,15 @@ class ChartBarView < UIView
   TitleLM = 4
 
   ModelTitleFS = 15.0
-  ModelTitleH = KKLineHeightFromFontSize(ModelTitleFS)
+  ModelTitleH = KK.lineHeightFromFontSize(ModelTitleFS)
   ModelTitleBM = 0
   ModelTitleRM = 4
   ModTitleFS = 14.0
-  ModTitleH = KKLineHeightFromFontSize(ModTitleFS)
+  ModTitleH = KK.lineHeightFromFontSize(ModTitleFS)
   ModTitleBM = 0
     
   BarFS = 13.0
-  BarH = KKLineHeightFromFontSize(BarFS)
+  BarH = KK.lineHeightFromFontSize(BarFS)
   BarFH = BarH + 0
   BarLM = TitleLM
   BarRM = 1
@@ -108,7 +108,7 @@ class ChartBarView < UIView
     modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersion : Mod::NameBodyEngineVersion
     modTitle = mod.modName(modTitleOptions)
     
-    if iphone? && KK.portrait? 
+    if KK.iphone? && KK.portrait? 
       modelTitleWidth = mod.model.name.sizeWithFont(KK.boldFont(ModelTitleFS)).width
       modTitleWidth = modTitle.sizeWithFont(KK.mainFont(ModelTitleFS)).width
       fullWidth = modelTitleWidth + modelTitleWidth + ModelTitleRM * 2
@@ -149,7 +149,7 @@ class ChartBarView < UIView
 
   def self.renderingMode
     case 
-      when iphone? then :narrow
+      when KK.iphone? then :narrow
       when KK.landscape? && KK.app.delegate.chartController.fullScreen? then :ultraWide
       when KK.landscape? || KK.app.delegate.chartController.fullScreen? then :wide
       else :narrow

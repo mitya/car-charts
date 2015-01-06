@@ -18,14 +18,14 @@ class AppDelegate
     self.chartController = ChartController.new
     self.tabBarController = UITabBarController.new.tap do |tbc|
       tabControllers = [chartController, ParametersController.new, ModelsController.new, RecentModsController.new, ModSetsController.new]
-      tabControllers.shift if ipad?
+      tabControllers.shift if KK.ipad?
       tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
       tbc.selectedIndex = 0
       tbc.contentSizeForViewInPopover = [320, 640]
     end
 
-    window.rootViewController = if iphone?
+    window.rootViewController = if KK.iphone?
       tabBarController
     else
       mainController = KK.navigationForController(chartController, withDelegate:self)
