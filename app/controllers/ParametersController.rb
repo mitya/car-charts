@@ -10,17 +10,17 @@ class ParametersController < UITableViewController
     Parameter.groupKeys.count
   end
     
-  def tableView(tv, numberOfRowsInSection:section)
+  def tableView(tv, numberOfRowsInSection: section)
     groupKey = Parameter.groupKeys[section]
     Parameter.parametersForGroup(groupKey).count
   end
   
-  def tableView(tv, titleForHeaderInSection:section)
+  def tableView(tv, titleForHeaderInSection: section)
     groupKey = Parameter.groupKeys[section]
     Parameter.nameForGroup(groupKey)
   end
   
-  def tableView(table, cellForRowAtIndexPath:indexPath)
+  def tableView(table, cellForRowAtIndexPath: indexPath)
     groupKey = Parameter.groupKeys[indexPath.section]
     parameter = Parameter.parametersForGroup(groupKey)[indexPath.row]
     parameterIsSelected = parameter.selected?
