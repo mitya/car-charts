@@ -26,7 +26,6 @@ class ChartController < UIViewController
     navigationItem.rightBarButtonItems = [ KK.fixedSpaceBBIWithWidth(5), toggleFullScreenModeBarItem ]
     
     @reloadPending = true
-
   end
   
   def viewWillAppear(animated)
