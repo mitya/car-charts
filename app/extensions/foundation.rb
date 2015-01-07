@@ -53,6 +53,13 @@ class Float
 end
 
 
+class Symbol
+  def uicolor
+    UIColor.send("#{to_s}Color")
+  end
+end
+
+
 class NSString
   def blank?
     empty?
