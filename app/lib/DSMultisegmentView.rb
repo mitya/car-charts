@@ -11,13 +11,13 @@ class DSMultisegmentView < UIView
     addGestureRecognizer UITapGestureRecognizer.alloc.initWithTarget(self, action:'tapRecognized:').tap { |r| r.delegate = self }
       
     UIDevice.currentDevice.beginGeneratingDeviceOrientationNotifications
-    NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', 
-        name:UIApplicationDidChangeStatusBarOrientationNotification, object:NIL
+    NSNotificationCenter.defaultCenter.addObserver self, selector:'orientationChanged:', name:UIApplicationDidChangeStatusBarOrientationNotification, object:nil
 
     self
   end
 
   def dealloc
+    puts 'dealloc DSMultisegmentView'
     UIDevice.currentDevice.endGeneratingDeviceOrientationNotifications
     NSNotificationCenter.defaultCenter.removeObserver self
     super
