@@ -33,9 +33,6 @@ class ModSetsController < UITableViewController
     set = @sets[indexPath.row]
     cell = tableView.dequeueReusableCell(klass:ThreeLabelCell, style:UITableViewCellStyleValue1) do |cell|
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-      # cell.textFieldEnabled = true
-      # cell.textFieldEndEditingBlock = ->(cell) { modSetCellDidEndEditing(cell) }
-      # cell.textField.placeholder = "Set Title"
     end
     cell.textLabel.text = set.name
     cell.detailTextLabel.text = set.modCount.to_s_or_nil

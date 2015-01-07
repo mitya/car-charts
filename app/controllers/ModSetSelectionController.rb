@@ -6,6 +6,7 @@ class ModSetSelectionController < UITableViewController
     self.contentSizeForViewInPopover = [320, 640]
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
     navigationItem.leftBarButtonItem = KK.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
+    tableView.rowHeight = ThreeLabelCell.rowHeight
   end
 
   def tableView(tv, numberOfRowsInSection:section)
@@ -15,9 +16,10 @@ class ModSetSelectionController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    cell = tv.dequeueReusableCell(klass:KKBadgeViewCell, style:UITableViewCellStyleSubtitle)
+    cell = tv.dequeueReusableCell(klass:ThreeLabelCell, style:UITableViewCellStyleValue1)
     cell.textLabel.text = set.name
-    cell.detailTextLabel.text = set.modPreviewString
+    cell.detailTextLabel.text = set.modCount.to_s_or_nil
+    cell.commentLabel.text = set.modPreviewString
     cell
   end
 
