@@ -28,7 +28,7 @@ class ModSet < DSCoreModel
   end
   
   def modPreviewString
-    mods.map(&:model).uniq.map(&:unbrandedName).first(10).join(', ')
+    mods.map(&:model).uniq.map(&:unbrandedName).first(15).join(', ')
   end
   
   def mods
