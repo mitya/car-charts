@@ -26,7 +26,7 @@ module KK::Device
   end
   
   def image(filename)
-    UIImage.imageNamed("images/#{filename}.png") or raise ArgumentError, "no image with '#{filename}'"
+    UIImage.imageNamed("images/#{filename}.png") or fail "no image with '#{filename}'"
   end
   
   def templateImage(filename)
@@ -34,7 +34,7 @@ module KK::Device
   end
   
   def listCheckmarkImage
-    @listCheckmarkImage ||= templateImage("list_checkmark")
+    @listCheckmarkImage ||= templateImage("list_checkmark_bad")
   end
   
   def listCheckmarkStubImage

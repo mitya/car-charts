@@ -109,9 +109,9 @@ end
 
 class UITableView
   def dequeueReusableCell(options = nil, &block)
+    id = options && options[:id] || "cell"
     klass = options && options[:klass] || UITableViewCell
     style = options && options[:style] || UITableViewCellStyleDefault
-    id = options && options[:id] || "cell"
     
     cell = dequeueReusableCellWithIdentifier(id) || klass.alloc.initWithStyle(style, reuseIdentifier:id).tap do |cell|
       cell.accessoryType = options[:accessoryType] if options && options[:accessoryType]
@@ -134,7 +134,7 @@ end
 
 class UITableViewCell
   def toggleCheckmarkAccessory(value = nil)
-    value = not (accessoryType == UITableViewCellAccessoryCheckmark) if value == nil
+    value = accessoryType != UITableViewCellAccessoryCheckmark if value == nil
     self.accessoryType = value ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
   end
 end
