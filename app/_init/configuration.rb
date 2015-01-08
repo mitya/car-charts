@@ -3,6 +3,7 @@ module Configuration
   
   def tintColor
     KK.hsb(210, 100, 30)
+    # :red.uicolor
   end
   
   def tabBarTintColor

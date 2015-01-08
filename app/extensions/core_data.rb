@@ -9,7 +9,7 @@ class NSManagedObjectContext
       fetchRequest.sortDescriptors = [NSSortDescriptor.alloc.initWithKey(sortField, ascending:asc)]
     end    
     
-    error = ES.ptr
+    error = KK.ptr
     executeFetchRequest(fetchRequest, error:error) || raise("Error when fetching data: #{error.value.description}")
   end
 

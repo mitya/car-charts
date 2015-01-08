@@ -50,6 +50,7 @@ module KK::Colors
   
   def checkedTableViewItemColor
     KK.rgbf(0.22, 0.33, 0.53)
+    # Configuration.tintColor
   end
 end
 
