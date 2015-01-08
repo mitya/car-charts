@@ -92,7 +92,7 @@ class RecentModsController < UITableViewController
     def tableView(tableView, cellForRowAtIndexPath:indexPath)
       mod = @mods[indexPath.row]
       modIsSelected = mod.selected?
-      tableView.reusableCellWith(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle) do |cell|
+      tableView.reusableCellWith(klass:CheckmarkCell, style:UITableViewCellStyleSubtitle) do |cell|
         cell.accessoryType = UITableViewCellAccessoryDetailButton
         cell.textLabel.text = mod.model.name
         cell.tintColor = Configuration.tintColor

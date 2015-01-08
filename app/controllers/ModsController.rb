@@ -57,7 +57,7 @@ class ModsController < UIViewController
     mod = modsByBody.objectForIndexPath(indexPath)
     modIsSelected = mod.selected?
 
-    cell = tv.dequeueReusableCell(klass:DSCheckmarkCell)
+    cell = tv.dequeueReusableCell(klass:CheckmarkCell)
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
     cell.toggleLeftCheckmarkAccessory(modIsSelected)
     cell.textLabel.text = mod.modName(Mod::NameEngineVersion)
