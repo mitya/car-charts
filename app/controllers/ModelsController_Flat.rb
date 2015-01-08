@@ -22,7 +22,7 @@ class ModelsController
       model = @filteredModels[indexPath.row]
       modelSelectedModsCount = model.selectedModsCount
 
-      cell = tableView.dequeueReusableCell(style: UITableViewCellStyleValue1) { |cl| cl.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell = tableView.dequeueReusableCell style:UITableViewCellStyleValue1, accessoryType:UITableViewCellAccessoryDisclosureIndicator
       cell.textLabel.text = model.name
       cell.detailTextLabel.text = modelSelectedModsCount.to_s_or_nil
       cell

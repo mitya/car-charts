@@ -26,7 +26,19 @@ module KK::Device
   end
   
   def image(filename)
-    UIImage.imageNamed "images/#{filename}.png"
+    UIImage.imageNamed("images/#{filename}.png") or raise ArgumentError, "no image with '#{filename}'"
+  end
+  
+  def templateImage(filename)
+    image(filename).imageWithRenderingMode(UIImageRenderingModeAlwaysTemplate)
+  end
+  
+  def listCheckmarkImage
+    @listCheckmarkImage ||= templateImage("list_checkmark")
+  end
+  
+  def listCheckmarkStubImage
+    @listCheckmarkStubImage ||= templateImage("list_checkmark_stub")
   end
 end
 

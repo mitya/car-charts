@@ -25,13 +25,11 @@ class ModSetController < UITableViewController
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     mod = @set.mods[indexPath.row]
 
-    cell = tv.dequeueReusableCell(klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle) do |cell|
-      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton
-    end
+    cell = tv.dequeueReusableCell klass:DSCheckmarkCell, style:UITableViewCellStyleSubtitle, accessoryType:UITableViewCellAccessoryDetailButton
 
     cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
-    cell.imageView.image = mod.selected? ? KK.image("list_checkmark") : KK.image("list_checkmark_stub")
+    cell.toggleLeftCheckmarkAccessory(mod.selected?)
     cell
   end
 
@@ -49,7 +47,7 @@ class ModSetController < UITableViewController
   
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
-    tableView.cellForRowAtIndexPath(indexPath).toggleLeftCheckmarkAccessory(textColor:NO)
+    tableView.cellForRowAtIndexPath(indexPath).toggleLeftCheckmarkAccessory
     @set.mods[indexPath.row].select!
   end
     

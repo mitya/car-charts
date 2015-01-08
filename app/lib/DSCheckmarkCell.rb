@@ -1,19 +1,15 @@
+# Customizzes the image view size so it fit a checkmark image better
+# It's about twice smaller than the default image view size
 class DSCheckmarkCell < UITableViewCell
-  DefaultImageViewMargin = 10
-  ImageViewMargin = 6
+  ImageViewMargin = 8
     
   def layoutSubviews
     super
-    imageView.frame = CGRectMake(
-      ImageViewMargin, imageView.frame.y, imageView.frame.width, imageView.frame.height
-    ) if imageView
-    textLabel.frame = CGRectMake(
-      imageView.frame.width + ImageViewMargin * 2, textLabel.frame.y, 
-      textLabel.frame.width + (DefaultImageViewMargin - ImageViewMargin) * 2, textLabel.frame.height
-    ) if textLabel
-    detailTextLabel.frame = CGRectMake(
-      imageView.frame.width + ImageViewMargin * 2, detailTextLabel.frame.y, 
-      detailTextLabel.frame.width + (DefaultImageViewMargin - ImageViewMargin) * 2, detailTextLabel.frame.height
-    ) if detailTextLabel
+    
+    imageViewWidthWithMargins = imageView.frame.width + ImageViewMargin * 2
+    
+    imageView.frame = imageView.frame.change x: ImageViewMargin if imageView
+    textLabel.frame = textLabel.frame.change x: imageViewWidthWithMargins if textLabel
+    detailTextLabel.frame = detailTextLabel.frame.change x: imageViewWidthWithMargins if detailTextLabel
   end
 end

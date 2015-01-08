@@ -14,7 +14,6 @@ class RecentModsController < UITableViewController
     switchView
   end
 
-
   
   def modeSegmentedControl
     @modeSegmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Selected Recents)).tap do |segm|
@@ -98,7 +97,7 @@ class RecentModsController < UITableViewController
         cell.textLabel.text = mod.model.name
         cell.tintColor = Configuration.tintColor
         cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
-        cell.imageView.image = modIsSelected ? KK.image("list_checkmark") : KK.image("list_checkmark_stub")
+        cell.toggleLeftCheckmarkAccessory(modIsSelected)
       end
     end
 
@@ -106,7 +105,7 @@ class RecentModsController < UITableViewController
       tableView.deselectRowAtIndexPath(indexPath, animated:YES)
 
       cell = tableView.cellForRowAtIndexPath(indexPath)
-      cell.toggleLeftCheckmarkAccessory(textColor:NO)
+      cell.toggleLeftCheckmarkAccessory
 
       mod = @mods[indexPath.row]
       mod.select!

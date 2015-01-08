@@ -57,7 +57,7 @@ class ChartController < UIViewController
   end
   
   def tableView(tv, cellForRowAtIndexPath:ip)
-    cell = tv.dequeueReusableCell(klass:ChartBarView::TableCell) { |c| c.selectionStyle = UITableViewCellSelectionStyleNone }
+    cell = tv.dequeueReusableCell klass:ChartBarView::TableCell, selectionStyle:UITableViewCellSelectionStyleNone
     cell.comparisionItem = comparision.items[ip.row]
     cell
   end

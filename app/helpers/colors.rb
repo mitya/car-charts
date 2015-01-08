@@ -32,25 +32,12 @@ module KK::Colors
     UIColor.colorWithPatternImage(KK.image(imageName))
   end
   
-  def blueTextColor
-    rgb(81, 102, 145)
-  end
-  
-  def grayTextColor
-    grayShade(0.5)
-  end
-  
   def separatorColor
     grayShade(0.8)
   end
   
   def tableViewFooterColor
     KK.rgbf(0.298, 0.337, 0.424)
-  end
-  
-  def checkedTableViewItemColor
-    KK.rgbf(0.22, 0.33, 0.53)
-    # Configuration.tintColor
   end
 end
 

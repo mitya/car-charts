@@ -114,6 +114,8 @@ class UITableView
     id = options && options[:id] || "cell"
     
     cell = dequeueReusableCellWithIdentifier(id) || klass.alloc.initWithStyle(style, reuseIdentifier:id).tap do |cell|
+      cell.accessoryType = options[:accessoryType] if options && options[:accessoryType]
+      cell.selectionStyle = options[:selectionStyle] if options && options[:selectionStyle]
       block.call(cell) if block
     end
   end
@@ -131,18 +133,14 @@ end
 
 
 class UITableViewCell
-  def toggleLeftCheckmarkAccessory(options = {})
-    wasChecked = imageView.image == UIImage.imageNamed("list_checkmark")
-    imageView.image = UIImage.imageNamed(wasChecked ? "list_checkmark_stub" : "list_checkmark")
-    textLabel.textColor = wasChecked ? UIColor.darkTextColor : KK.checkedTableViewItemColor if options[:textColor] != NO
-    wasChecked
+  def toggleCheckmarkAccessory(value = nil)
+    value = not (accessoryType == UITableViewCellAccessoryCheckmark) if value == nil
+    self.accessoryType = value ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
   end
-  
-  def toggleCheckmarkAccessory
-    wasChecked = accessoryType == UITableViewCellAccessoryCheckmark
-    textLabel.textColor = wasChecked ? UIColor.darkTextColor : KK.checkedTableViewItemColor
-    self.accessoryType = wasChecked ? UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark
-    wasChecked
+
+  def toggleLeftCheckmarkAccessory(value = nil)
+    value = not (imageView.image == KK.listCheckmarkImage) if value == nil
+    imageView.image = value ? KK.listCheckmarkImage : KK.listCheckmarkStubImage
   end
 end
 

@@ -8,7 +8,7 @@ begin
 rescue LoadError
 end
 
-ENV['device_name'] ||= 'iPhone 5s'
+ENV['device_name'] ||= 'iPhone 6 Plus'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
