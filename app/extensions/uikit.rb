@@ -120,11 +120,11 @@ class UITableView
     end
   end
   
-  def reusableCellWith(options = nil)
-    cell = dequeueReusableCell(options)
-    yield cell if block_given?
-    cell
-  end
+  # def reusableCellWith(options = nil)
+  #   cell = dequeueReusableCell(options)
+  #   yield cell if block_given?
+  #   cell
+  # end
   
   def reloadVisibleRows
     reloadRowsAtIndexPaths(indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone)

@@ -33,7 +33,7 @@ class ChartBarView < UIView
   def initWithFrame(frame)
     super
     self.opaque = true
-    self.backgroundColor = UIColor.whiteColor # KK.patternColor("bg-chart")
+    self.backgroundColor = :white.uicolor
     self.contentMode = UIViewContentModeRedraw
     self
   end
@@ -143,49 +143,52 @@ class ChartBarView < UIView
       KK.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight      
     end    
   end
-
-  def self.renderingMode
-    case 
-      when KK.iphone? then :narrow
-      when KK.landscape? && KK.app.delegate.chartController.fullScreen? then :ultraWide
-      when KK.landscape? || KK.app.delegate.chartController.fullScreen? then :wide
-      else :narrow
+  
+  
+  class << self
+    def renderingMode
+      case 
+        when KK.iphone? then :narrow
+        when KK.landscape? && KK.app.delegate.chartController.fullScreen? then :ultraWide
+        when KK.landscape? || KK.app.delegate.chartController.fullScreen? then :wide
+        else :narrow
+      end
     end
-  end
   
-  def self.colors
-    @colors ||= Metadata.colors.map do |h,s,b|
-      [KK.hsb(h, s > 20 ? s - 20 : 0, b + 5), KK.hsb(h, s < 90 ? s + 10 : 100, b - 5)]
+    def colors
+      @colors ||= Metadata.colors.map do |h,s,b|
+        [KK.hsb(h, s > 20 ? s - 20 : 0, b + 5), KK.hsb(h, s < 90 ? s + 10 : 100, b - 5)]
+      end
     end
-  end
   
-  def self.emptyBarColors
-    @emptyBarColors ||= [KK.hsb(0, 0, 95), KK.hsb(0, 0, 90)]
-  end
+    def emptyBarColors
+      @emptyBarColors ||= [KK.hsb(0, 0, 95), KK.hsb(0, 0, 90)]
+    end
 
-  def self.heightForComparisionItem(item)
-    height = 0
-    height += ChartBarView::ModelTitleH + ChartBarView::ModelTitleBM if renderingMode == :narrow || renderingMode == :wide && item.firstForModel?
-    height += item.comparision.params.count * ChartBarView::BarFH
-    height += item.lastForModel?? LastItemBM : ItemBM
-  end
+    def heightForComparisionItem(item)
+      height = 0
+      height += ChartBarView::ModelTitleH + ChartBarView::ModelTitleBM if renderingMode == :narrow || renderingMode == :wide && item.firstForModel?
+      height += item.comparision.params.count * ChartBarView::BarFH
+      height += item.lastForModel?? LastItemBM : ItemBM
+    end
   
-  def self.sessionColors
-    @sessionColors ||= colors
-  end
+    def sessionColors
+      @sessionColors ||= colors
+    end
   
-  def self.sessionColorsInitialIndexes
-    @sessionColorsInitialIndexes ||= (0...colors.length).to_a
-  end
+    def sessionColorsInitialIndexes
+      @sessionColorsInitialIndexes ||= (0...colors.length).to_a
+    end
   
-  def self.sessionColorIndexes
-    @sessionColorIndexes ||= sessionColorsInitialIndexes
-  end
+    def sessionColorIndexes
+      @sessionColorIndexes ||= sessionColorsInitialIndexes
+    end
 
-  def self.adjustSessionColors(removedParamIndex, totalParamsLeft)
-    firstUnusedParamIndex = totalParamsLeft
-    sessionColorIndexes.swap! removedParamIndex, firstUnusedParamIndex
-    sessionColorIndexes.sortAsIn! sessionColorsInitialIndexes, from:firstUnusedParamIndex
+    def adjustSessionColors(removedParamIndex, totalParamsLeft)
+      firstUnusedParamIndex = totalParamsLeft
+      sessionColorIndexes.swap! removedParamIndex, firstUnusedParamIndex
+      sessionColorIndexes.sortAsIn! sessionColorsInitialIndexes, from:firstUnusedParamIndex
+    end
   end
   
 

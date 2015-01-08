@@ -91,14 +91,11 @@ class ModsControllerForRecent < UITableViewController
 
     def tableView(tableView, cellForRowAtIndexPath:indexPath)
       mod = @mods[indexPath.row]
-      modIsSelected = mod.selected?
-      tableView.reusableCellWith(klass:CheckmarkCell, style:UITableViewCellStyleSubtitle) do |cell|
-        cell.accessoryType = UITableViewCellAccessoryDetailButton
-        cell.textLabel.text = mod.model.name
-        cell.tintColor = Configuration.tintColor
-        cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
-        cell.toggleLeftCheckmarkAccessory(modIsSelected)
-      end
+      cell = tableView.dequeueReusableCell klass:CheckmarkCell, style:UITableViewCellStyleSubtitle, accessoryType:UITableViewCellAccessoryDetailButton
+      cell.textLabel.text = mod.model.name
+      cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
+      cell.toggleLeftCheckmarkAccessory(mod.selected?)
+      return cell
     end
 
     def tableView(tableView, didSelectRowAtIndexPath:indexPath)

@@ -38,19 +38,16 @@ class ModController < UITableViewController
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     if indexPath.section == SystemSectionIndex
-      cell = tv.dequeueReusableCell(id:'Action', style:UITableViewCellStyleDefault) do |cell|
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+      cell = tv.dequeueReusableCell id:'Action', style:UITableViewCellStyleDefault, accessoryType:UITableViewCellAccessoryDisclosureIndicator do |cell|
         cell.textLabel.text = "Photos"
         cell.imageView.image = KK.image("tvc-google")
-      end  
+      end
     else
       parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]
-      cell = tv.dequeueReusableCell(style:UITableViewCellStyleValue1)
-      cell.selectionStyle = UITableViewCellSelectionStyleNone
+      cell = tv.dequeueReusableCell style:UITableViewCellStyleValue1, selectionStyle:UITableViewCellSelectionStyleNone
       cell.textLabel.text = parameter.name
-      cell.textLabel.font = KK.boldFont(parameter.long?? 16.0 : 17.0)
       cell.detailTextLabel.text = @mod.fieldTextFor(parameter)
-      cell
+      return cell
     end
   end
   
