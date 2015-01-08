@@ -2,7 +2,7 @@ class ChartBarView < UIView
   attr_accessor :comparisionItem
   attr_delegated 'comparisionItem', :mod, :mods, :index, :comparision
 
-  TitleLM = 4
+  TitleLM = 2
 
   ModelTitleFS = 15.0
   ModelTitleH = KK.lineHeightFromFontSize(ModelTitleFS)
@@ -16,7 +16,7 @@ class ChartBarView < UIView
   BarH = KK.lineHeightFromFontSize(BarFS)
   BarFH = BarH + 0
   BarLM = TitleLM
-  BarRM = 1
+  BarRM = TitleLM
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
   BarMinW = 80
@@ -89,10 +89,7 @@ class ChartBarView < UIView
         maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
         bgColorsIndex = self.class.sessionColorIndexes[index.remainder(self.class.sessionColorIndexes.count)]
         bgColors = self.class.colors[bgColorsIndex]
-        
-        # bgColorsIndex = sessionColorMap[index.remainder(backgroundColors.count)]
-        # bgColors = backgroundColors[bgColorsIndex]
-        
+    
         textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
       end      
       KK.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
@@ -186,11 +183,9 @@ class ChartBarView < UIView
   end
 
   def self.adjustSessionColors(removedParamIndex, totalParamsLeft)
-    # __p "adjusting", removedParamIndex, totalParamsLeft
     firstUnusedParamIndex = totalParamsLeft
     sessionColorIndexes.swap! removedParamIndex, firstUnusedParamIndex
     sessionColorIndexes.sortAsIn! sessionColorsInitialIndexes, from:firstUnusedParamIndex
-    # __p "sorted", sessionColorIndexes
   end
   
 
