@@ -1,4 +1,4 @@
-class ModSetSelectionController < UITableViewController
+class ModSetsControllerForSelection < UITableViewController
   attr_accessor :sets, :closeProc, :mode
 
   def initialize

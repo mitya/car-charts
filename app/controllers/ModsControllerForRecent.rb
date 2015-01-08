@@ -1,4 +1,4 @@
-class RecentModsController < UITableViewController
+class ModsControllerForRecent < UITableViewController
   def initialize
     self.title = "Recents"
     self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemRecents, tag:3)
@@ -60,7 +60,7 @@ class RecentModsController < UITableViewController
   end
     
   def saveSelectedAsSet(mode = :add)
-    selectionCtr = ModSetSelectionController.new
+    selectionCtr = ModSetsControllerForSelection.new
     selectionCtr.mode = mode
     if KK.iphone?
       selectionCtr.closeProc = -> { dismissModalViewControllerAnimated true, completion:NIL }

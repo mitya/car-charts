@@ -34,7 +34,7 @@ module KK::Device
   end
   
   def listCheckmarkImage
-    @listCheckmarkImage ||= templateImage("list_checkmark_bad")
+    @listCheckmarkImage ||= templateImage("list_checkmark")
   end
   
   def listCheckmarkStubImage
