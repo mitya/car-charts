@@ -32,14 +32,6 @@ module KK::Device
   def templateImage(filename)
     image(filename).imageWithRenderingMode(UIImageRenderingModeAlwaysTemplate)
   end
-  
-  def listCheckmarkImage
-    @listCheckmarkImage ||= templateImage("list_checkmark")
-  end
-  
-  def listCheckmarkStubImage
-    @listCheckmarkStubImage ||= templateImage("list_checkmark_stub")
-  end
 end
 
 KK.extend(KK::Device)

@@ -14,7 +14,15 @@ class CheckmarkCell < UITableViewCell
   end
 
   def toggleLeftCheckmarkAccessory(value = nil)
-    value = imageView.image != KK.listCheckmarkImage if value == nil
-    imageView.image = value ? KK.listCheckmarkImage : KK.listCheckmarkStubImage
+    value = imageView.image != self.class.listCheckmarkImage if value == nil
+    imageView.image = value ? self.class.listCheckmarkImage : self.class.listCheckmarkStubImage
+  end
+
+  def self.listCheckmarkImage
+    @listCheckmarkImage ||= KK.templateImage("ci-checkmark")
+  end
+  
+  def self.listCheckmarkStubImage
+    @listCheckmarkStubImage ||= KK.image("ci-checkmarkStub")
   end
 end

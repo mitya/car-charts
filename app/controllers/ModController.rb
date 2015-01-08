@@ -40,7 +40,7 @@ class ModController < UITableViewController
     if indexPath.section == SystemSectionIndex
       cell = tv.dequeueReusableCell id:'Action', style:UITableViewCellStyleDefault, accessoryType:UITableViewCellAccessoryDisclosureIndicator do |cell|
         cell.textLabel.text = "Photos"
-        cell.imageView.image = KK.image("tvc-google")
+        cell.imageView.image = KK.image("ci-google")
       end
     else
       parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]

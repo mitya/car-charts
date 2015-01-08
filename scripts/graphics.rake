@@ -1,5 +1,9 @@
-src_dir = "assets"; dst_dir = "resources"; tmp_dir = "tmp"
+src = "resources/images_src"
+dst = "resources/images"
+tmp = "tmp"
 icons = %w(categories parameters)
+wsrc = "resources/images/wipsrc"
+wdst = "resources/images/wip"
 
 def hsb(hue, sat, val)
   hue = hue / 360.0; sat = sat / 100.0; val = val / 100.0
@@ -199,4 +203,29 @@ namespace 'app:g' do
       end
     end
   end
+
+  task :make_empty do
+    img_name = "ci-checkmarkStub@2x.png"
+    img = Magick::Image.new(26, 20) { self.background_color = "transparent" }
+    img.write "#{dst}/#{img_name}"
+  end
+    
+  task :make_template do
+    img_name = "ci-checkmark@2x.png"
+    img = Magick::Image.read("#{wsrc}/#{img_name}").first
+    img = img.quantize 256, Magick::GRAYColorspace
+    img = img.transparent 'white'
+    img = img.scale(0.66)
+    img.write "#{wdst}/#{img_name}"
+  end
 end
+
+
+
+# source = Magick::Image.read("octocat.png").first
+# source = source.resize_to_fill(70, 70).quantize(256, Magick::GRAYColorspace).contrast(true)
+# overlay = Magick::Image.read("stamp_overlay.png").first
+# source.composite!(overlay, 0, 0, Magick::OverCompositeOp)
+# colored = Magick::Image.new(70, 70) { self.background_color = "red" }
+# colored.composite!(source.negate, 0, 0, Magick::CopyOpacityCompositeOp)
+# colored.write("stamp.png")
