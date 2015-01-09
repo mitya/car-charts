@@ -24,8 +24,8 @@ class ModelPhotosController < UIViewController
       view.addSubview(spinner)
     end
     
-    self.goBackBBI = KK.imageBBI("bbi-left", style:UIBarButtonItemStylePlain, target:webView, action:'goBack')
-    self.goForwardBBI = KK.imageBBI("bbi-right", style:UIBarButtonItemStylePlain, target:webView, action:'goForward')
+    self.goBackBBI = KK.imageBBI("bbi-left", target:webView, action:'goBack')
+    self.goForwardBBI = KK.imageBBI("bbi-right", target:webView, action:'goForward')
   end
   
   def viewWillAppear(animated)

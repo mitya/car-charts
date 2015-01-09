@@ -26,7 +26,7 @@ module KK::Device
   end
   
   def image(filename)
-    UIImage.imageNamed("images/#{filename}.png") or fail "no image with '#{filename}'"
+    UIImage.imageNamed("images/#{filename}.png") or fail "Image '#{filename}' was not found."
   end
   
   def templateImage(filename)

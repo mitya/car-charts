@@ -117,19 +117,15 @@ module KK::UI
   end
 
   def imageBBI(imageName, target:target, action:action)
-    UIBarButtonItem.alloc.initWithImage(KK.image(imageName), style:UIBarButtonItemStyleBordered, target:target, action:action)      
-  end
-
-  def imageBBI(imageName, style:style, target:target, action:action)
-    UIBarButtonItem.alloc.initWithImage(KK.image(imageName), style:style, target:target, action:action)      
+    UIBarButtonItem.alloc.initWithImage(KK.image(imageName), style:UIBarButtonItemStylePlain, target:target, action:action)      
   end
 
   def textBBI(text)
-    textBBI(text, style:UIBarButtonItemStyleBordered, target:NIL, action:NIL)
+    textBBI(text, style:UIBarButtonItemStylePlain, target:NIL, action:NIL)
   end
 
   def textBBI(text, target:target, action:action)
-    textBBI(text, style:UIBarButtonItemStyleBordered, target:target, action:action)
+    textBBI(text, style:UIBarButtonItemStylePlain, target:target, action:action)
   end
 
   def textBBI(text, style:style, target:target, action:action)

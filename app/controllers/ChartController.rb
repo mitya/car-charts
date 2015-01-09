@@ -88,15 +88,14 @@ class ChartController < UIViewController
   end
 
   def toggleFullScreenMode
-    if KK.iphone?
-      shouldSwitchOn = !UIApplication.sharedApplication.isStatusBarHidden
-      UIApplication.sharedApplication.setStatusBarHidden(shouldSwitchOn, animated:YES)
-      navigationController.setNavigationBarHidden(shouldSwitchOn, animated:YES)
-      tabBarController.setTabBarHidden(shouldSwitchOn, animated:YES)
-      exitFullScreenModeButton.hidden = !shouldSwitchOn
+    @fullScreen = !@fullScreen
+    if KK.iphone?      
+      UIApplication.sharedApplication.setStatusBarHidden(@fullScreen, withAnimation:UIStatusBarAnimationSlide)
+      navigationController.setNavigationBarHidden(@fullScreen, animated:YES)
+      tabBarController.setTabBarHidden(@fullScreen, animated:YES)
+      exitFullScreenModeButton.hidden = !@fullScreen      
     else
-      KK.app.delegate.hidesMasterView = !KK.app.delegate.hidesMasterView
-      @fullScreen = KK.app.delegate.hidesMasterView
+      KK.app.delegate.hidesMasterView = @fullScreen
       toggleSettingsBarItem.customView.selected = !toggleSettingsBarItem.customView.selected?
       splitViewController.view.setNeedsLayout
       splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
@@ -104,6 +103,9 @@ class ChartController < UIViewController
   end
   
 
+  def prefersStatusBarHidden
+    fullScreen? || super
+  end
 
   def fullScreen?
     @fullScreen
@@ -128,20 +130,18 @@ class ChartController < UIViewController
   end
   
   def toggleFullScreenModeBarItem
-    # bbi-fs-expand
-    @toggleFullScreenModeBarItem ||= KK.plainBBI("wip/bbiExpand", target:self, action:'toggleFullScreenMode', options:{ 
-      size:[20, 20] 
-    })
+    @toggleFullScreenModeBarItem ||= KK.imageBBI("bi-fullScreenEnter", target:self, action:'toggleFullScreenMode')
   end
     
   def exitFullScreenModeButton
-    @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 35, 5, 30, 30)).tap do |button|
+    # button frame with respect to orientation = view.bounds.width - 52, KK.landscape?? 6 : 26, 30, 30
+    @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 52, 22, 30, 30)).tap do |button|
       button.backgroundColor = UIColor.blackColor    
       button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
-      button.setImage KK.image("wip/bbiCollapse"), forState:UIControlStateNormal # bbi-fs-shrink
-      button.alpha = 0.3
+      button.setImage KK.templateImage("bi-fullScreenExit"), forState:UIControlStateNormal
+      button.tintColor = :white.uicolor
+      button.alpha = 0.5
       button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)
-      button.showsTouchWhenHighlighted = true
       button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
       view.addSubview(button)
     end    

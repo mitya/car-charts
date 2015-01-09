@@ -26,6 +26,8 @@ Motion::Project::App.setup do |app|
   # app.info_plist['CFBundleURLTypes'] = [
   #   { 'CFBundleURLName' => 'com.mycompany.x-videoplayer', 'CFBundleURLSchemes' => ['x-videoplayer'] }
   # ]
+
+  app.info_plist['UIViewControllerBasedStatusBarAppearance'] = 'NO'
   
   # app.pods do
   #   pod 'FMDB'

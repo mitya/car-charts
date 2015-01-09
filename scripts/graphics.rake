@@ -211,12 +211,13 @@ namespace 'app:g' do
   end
     
   task :make_template do
-    img_name = "ci-checkmark@2x.png"
-    img = Magick::Image.read("#{wsrc}/#{img_name}").first
+    img_name = "bi-expand@2x.png"
+    img = Magick::Image.read("#{src}/#{img_name}").first
     img = img.quantize 256, Magick::GRAYColorspace
-    img = img.transparent 'white'
-    img = img.scale(0.66)
-    img.write "#{wdst}/#{img_name}"
+    # img = img.transparent 'white'
+    # img = img.scale(0.66)
+    img = img.negate
+    img.write "#{dst}/#{img_name}"
   end
 end
 
