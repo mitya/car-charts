@@ -95,13 +95,14 @@ module KK::UI
     view
   end
 
-  def tableViewGrayBackground
-    screen = UIScreen.mainScreen.applicationFrame
-    topview = UIView.alloc.initWithFrame(CGRectMake(0, -screen.height, screen.width, screen.height))
-    topview.backgroundColor = KK.rgb(226, 231, 238)
-    topview.autoresizingMask = UIViewAutoresizingFlexibleWidth
-    topview
-  end  
+  # iOS6
+  # def tableViewGrayBackground
+  #   screen = UIScreen.mainScreen.applicationFrame
+  #   topview = UIView.alloc.initWithFrame(CGRectMake(0, -screen.height, screen.width, screen.height))
+  #   topview.backgroundColor = KK.rgb(226, 231, 238)
+  #   topview.autoresizingMask = UIViewAutoresizingFlexibleWidth
+  #   topview
+  # end
 
   def customBBI(view = nil)
     view ||= yield

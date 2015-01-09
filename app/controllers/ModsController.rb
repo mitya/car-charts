@@ -10,7 +10,7 @@ class ModsController < UIViewController
   end
 
   def viewDidLoad
-    self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
+    self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain)
     
     if toolbarItemsForFilter.any?
       if KK.iphone?
@@ -20,7 +20,6 @@ class ModsController < UIViewController
         self.toolbar.items = toolbarItemsForFilter
         self.view.addSubview(toolbar)
         self.tableView.frame = CGRectOffset(tableView.frame, 0, UIToolbarHeight)
-        self.tableView.addSubview(KK.tableViewGrayBackground)
       end
     end
     

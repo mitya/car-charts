@@ -5,6 +5,7 @@ resources/*.nib
 resources/*.momd
 resources/*.storyboardc
 resources/tmp/*
+resources/images_src
 resources/images/wip/*
 resources/data/db-static.sqlite
 resources/data/db-mods.plist

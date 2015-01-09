@@ -65,7 +65,7 @@ class UIViewController
     alloc.init.tap { |this| this.send(:initialize, *args) if this.respond_to?(:initialize, true) }
   end
 
-  def setupTableViewWithStyle(tableViewStyle, options = nil)
+  def setupInnerTableViewWithStyle(tableViewStyle, options = nil)
     offset = options ? options[:offset].to_f : 0.0
     delegate = options && options.include?(:delegate) ? options[:delegate] : self
     bounds = CGRectOffset(view.bounds, 0, offset)

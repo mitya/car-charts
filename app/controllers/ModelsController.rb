@@ -11,11 +11,11 @@ class ModelsController < UIViewController
   end
   
   def viewDidLoad
-    self.tableView = setupTableViewWithStyle(UITableViewStylePlain)
-    tableView.addSubview KK.tableViewGrayBackground
+    self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain)
+    self.tableView.sectionIndexBackgroundColor = UIColor.clearColor
 
     self.searchBar = UISearchBar.alloc.init
-    searchBar.frame = CGRectMake(0, 0, 0, UIToolbarHeight)
+    searchBar.frame = CGRectMake(0, 0, view.bounds.width, UIToolbarHeight)
     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth
     searchBar.placeholder = "Search"
@@ -25,8 +25,6 @@ class ModelsController < UIViewController
 
   def viewWillAppear(animated)
     super
-    
-    searchBar.frame = CGRectMake(0, 0, view.bounds.width, UIToolbarHeight)
     
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
     activeTableView.reloadVisibleRows

@@ -18,7 +18,7 @@ class ChartController < UIViewController
   end
   
   def viewDidLoad
-    self.tableView = setupTableViewWithStyle(UITableViewStylePlain).tap do |tableView|
+    self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain).tap do |tableView|
       tableView.rowHeight = 25
       tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     end
