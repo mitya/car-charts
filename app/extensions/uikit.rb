@@ -154,14 +154,6 @@ class UITableViewController
 end
 
 
-class UINavigationItem
-  def backBarButtonItemTitle=(title)
-    self.backBarButtonItem ||= KK.textBBI(title)
-    self.backBarButtonItem.title = title
-  end
-end
-
-
 class UITabBarController
   def setTabBarHidden(hidden, animated:animated)
     duration = animated ? 0.2 : 0

@@ -39,7 +39,7 @@ class ModelsController
     def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
       loadDataForSearchString("")
       controller.tableView.reloadVisibleRows
-      controller.navigationItem.backBarButtonItemTitle = controller.currentShortTitle
+      controller.navigationItem.backBarButtonItem = KK.textBBI(controller.currentShortTitle)
     end
 
     def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)

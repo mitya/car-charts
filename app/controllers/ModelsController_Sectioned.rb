@@ -67,7 +67,7 @@ class ModelsController
     def searchBarCancelButtonClicked(searchBar)
       loadDataForSearchString("")
       controller.tableView.reloadVisibleRows
-      controller.navigationItem.backBarButtonItemTitle = controller.currentShortTitle
+      controller.navigationItem.backBarButtonItem = KK.textBBI(controller.currentShortTitle)
     end
 
 

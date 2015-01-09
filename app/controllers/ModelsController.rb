@@ -6,8 +6,8 @@ class ModelsController < UIViewController
     self.title = "Models"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tbi-car-1"), tag:3)
 
-    self.navigationItem.titleView = UIView.alloc.init
-    self.navigationItem.rightBarButtonItems = [KK.flexibleSpaceBBI, viewSelectorBarItem, KK.flexibleSpaceBBI]
+    navigationItem.titleView = UIView.alloc.init
+    navigationItem.rightBarButtonItems = [KK.flexibleSpaceBBI, viewSelectorBarItem, KK.flexibleSpaceBBI]
   end
   
   def viewDidLoad
@@ -15,7 +15,6 @@ class ModelsController < UIViewController
     self.tableView.sectionIndexBackgroundColor = UIColor.clearColor
 
     self.searchBar = UISearchBar.alloc.init
-    searchBar.frame = CGRectMake(0, 0, view.bounds.width, UIToolbarHeight)
     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth
     searchBar.placeholder = "Search"
@@ -31,8 +30,8 @@ class ModelsController < UIViewController
 
     self.category = categoriesController.category if @categoriesController
         
-    navigationItem.title = viewSelectorBarItem.title = currentTitle
-    navigationItem.backBarButtonItemTitle = currentShortTitle
+    viewSelectorBarItem.title = currentTitle
+    navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
 
     if tableView.dataSource != currentDataSource || searchDisplayController.searchResultsDataSource != currentDataSource
       tableView.dataSource = currentDataSource
@@ -44,13 +43,13 @@ class ModelsController < UIViewController
       tableView.reloadData
       tableView.tableHeaderView = nil
       tableView.tableHeaderView = searchBar      
-      tableView.contentOffset = currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, UIToolbarHeight)
+      # tableView.contentOffset = CGPointMake(0, 0) # currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, UIToolbarHeight)
     end
   end
 
 
   def currentTitle
-    category ? category.name : "All Models"
+    (category ? category.name : "All Models") + ' ▾'
   end
   
   def currentShortTitle
