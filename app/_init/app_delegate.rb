@@ -10,13 +10,14 @@ class AppDelegate
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
-    self.window.tintColor = Configuration.tintColor
+
+    setTintColors
 
     self.chartController = ChartController.new
     self.tabBarController = UITabBarController.new.tap do |tbc|
       tabControllers = [chartController, ParametersController.new, ModelsController.new, ModsControllerForRecent.new, ModSetsController.new]
       tabControllers.shift if KK.ipad?
-      tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
+      tbc.viewControllers = tabControllers.map { |ctr| nav = KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
       tbc.selectedIndex = 0
       tbc.contentSizeForViewInPopover = [320, 640]
@@ -67,6 +68,20 @@ class AppDelegate
   
   def splitViewController(svc, willShowViewController:vc, invalidatingBarButtonItem:bbi)
     chartController.navigationItem.setLeftBarButtonItem(chartController.navigationItem.leftBarButtonItems.to_a - [bbi], animated:YES)
+  end
+
+  ####
+  
+  def setTintColors
+    window.tintColor = Configuration.tintColor
+    
+    [UINavigationBar, UIToolbar, UISearchBar, UITabBar].each do |bar|
+      bar.appearance.barTintColor = Configuration.barTintColor
+      bar.appearance.tintColor    = Configuration.barIconColor
+      bar.appearance.barStyle     = UIBarStyleBlack
+    end
+
+    UINavigationBar.appearance.setTitleTextAttributes NSForegroundColorAttributeName => Configuration.barTextColor
   end
 
   ####

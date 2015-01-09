@@ -20,13 +20,13 @@ class ThreeLabelCell < UITableViewCell
     textLabel.frame = textLabel.frame.change(y: DEFAULT_LABEL_TOP_MARGIN)
     detailTextLabel.frame = detailTextLabel.frame.change(y: DEFAULT_LABEL_TOP_MARGIN)
     commentLabel.frame = CGRectMake(
-      textLabel.frame.x, textLabel.frame.y + textLabel.frame.height + 2, 
-      contentView.bounds.width - textLabel.frame.x * 2, commentLabel.font.lineHeight
+      textLabel.frame.x, textLabel.frame.y + textLabel.frame.height + 4,
+      contentView.bounds.width - textLabel.frame.x, commentLabel.font.lineHeight
     )
   end
   
   # esimated height is 2 + 14 + 2, so row height should be 44 + 18 = 62
   def self.rowHeight
-    62
+    64
   end
 end
