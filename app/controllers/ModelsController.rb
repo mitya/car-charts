@@ -1,3 +1,8 @@
+# Displays the list of models. There are few variants:
+# - all models grouped by make
+# - all models withing a category
+# - all models matching a search string (either by make or by model name)
+# - all models matching a search string within a category
 class ModelsController < UIViewController
   attr_accessor :searchBar, :tableView
   attr_accessor :category, :currentDataSource
@@ -46,6 +51,11 @@ class ModelsController < UIViewController
       # tableView.contentOffset = CGPointMake(0, 0) # currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, UIToolbarHeight) # iOS6
     end
   end
+
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+  end  
+
 
 
   def currentTitle

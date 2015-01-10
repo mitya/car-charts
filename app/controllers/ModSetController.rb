@@ -15,7 +15,11 @@ class ModSetController < UITableViewController
     tableView.reloadData
   end
 
-
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+  end  
+  
+  
 
   def tableView(tv, numberOfRowsInSection:section)    
     actionsButtonItem.enabled = !empty?

@@ -9,6 +9,10 @@ class ParametersController < UITableViewController
   def numberOfSectionsInTableView(tv)
     Parameter.groupKeys.count
   end
+
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+  end  
     
   def tableView(tv, numberOfRowsInSection: section)
     groupKey = Parameter.groupKeys[section]

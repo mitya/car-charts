@@ -1,4 +1,4 @@
-# represt model category, e.g. 'E class'
+# represent model category, e.g. 'E class'
 class CategoriesController < UITableViewController
   attr_accessor :category
   
@@ -12,6 +12,12 @@ class CategoriesController < UITableViewController
     super
     tableView.reloadData # refresh badges
   end
+
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+  end  
+
+  
   
   def tableView(tv, numberOfRowsInSection:section)
     Category.all.count + 1
@@ -38,7 +44,7 @@ class CategoriesController < UITableViewController
     close
   end
   
-  ###
+
   
   def close
     dismissModalViewControllerAnimated(YES, completion:NIL)

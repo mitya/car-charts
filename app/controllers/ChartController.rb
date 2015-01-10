@@ -1,7 +1,7 @@
 class ChartController < UIViewController
   attr_accessor :mods, :params, :comparision, :data
   attr_accessor :tableView, :exitFullScreenModeButton, :emptyView
-
+  
   def initialize
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:KK.image("tbi-chart"), tag:1)
@@ -33,7 +33,12 @@ class ChartController < UIViewController
     reload if @reloadPending
     @reloadPending = false
   end
-
+  
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration) unless fullScreen?
+  end  
+                                      
+                                        
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
     if keyPath == 'currentParameters'
       if removedParam = (change[:old] - change[:new]).first
@@ -92,8 +97,8 @@ class ChartController < UIViewController
     if KK.iphone?      
       UIApplication.sharedApplication.setStatusBarHidden(@fullScreen, withAnimation:UIStatusBarAnimationSlide)
       navigationController.setNavigationBarHidden(@fullScreen, animated:YES)
-      tabBarController.setTabBarHidden(@fullScreen, animated:YES)
-      exitFullScreenModeButton.hidden = !@fullScreen      
+      tabBarController.setTabBarHidden(@fullScreen || KK.landscape?, animated:YES)
+      exitFullScreenModeButton.hidden = !@fullScreen
     else
       KK.app.delegate.hidesMasterView = @fullScreen
       toggleSettingsBarItem.customView.selected = !toggleSettingsBarItem.customView.selected?
@@ -102,6 +107,7 @@ class ChartController < UIViewController
     end
   end
   
+
 
   def prefersStatusBarHidden
     fullScreen? || super

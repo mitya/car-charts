@@ -78,10 +78,12 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 150}">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="166"/>
     <note-split-view height="132"/>
-    <selected-rows ids="loH9eiExqn7"/>
+    <selected-rows ids="dvTlVHPcvUV"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{33, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,6 +138,17 @@
         </text>
       </values>
       <children>
+        <item id="dvTlVHPcvUV">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>set tint colors for action sheets</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="h0BBgS4lEBw">
           <values>
             <text>
@@ -172,6 +185,17 @@
         <item id="cqMJ6AXsG2V">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="biWcnaneW5T" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>hide tab bar in landscape mode</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="a-F6zTnxL0C" state="checked">
@@ -554,7 +578,7 @@
         </item>
       </children>
     </item>
-    <item id="hMLzRS4FJ0q">
+    <item id="hMLzRS4FJ0q" expanded="yes">
       <values>
         <text>
           <p>
@@ -570,7 +594,7 @@
             <text>
               <p>
                 <run>
-                  <lit>Filter Pane for mods</lit>
+                  <lit>Filter Pane for mods instead of segment buttons</lit>
                 </run>
               </p>
             </text>
@@ -601,7 +625,7 @@
             <text>
               <p>
                 <run>
-                  <lit>replace tab bar with some other kind of UI</lit>
+                  <lit>Tabbar-less UI to consume less v-space</lit>
                 </run>
               </p>
             </text>
@@ -638,7 +662,7 @@
         <null/>
       </values>
     </item>
-    <item id="loH9eiExqn7" expanded="yes">
+    <item id="loH9eiExqn7">
       <values>
         <text>
           <p>
@@ -649,17 +673,6 @@
         </text>
       </values>
       <children>
-        <item id="oYIeFy6pPE5">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>hide tab bar in landscape mode</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="nBQkU5N_Jw4">
           <values>
             <text>

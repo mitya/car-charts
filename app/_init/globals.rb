@@ -12,3 +12,7 @@ def ppx(label, *args)
   inspection = ": #{inspection}" if inspection.present?
   puts "--- #{label}#{inspection}"
 end
+
+def __assert(condition)
+  raise unless condition
+end

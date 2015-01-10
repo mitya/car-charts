@@ -72,6 +72,15 @@ class AppDelegate
 
   ####
   
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    return unless KK.iphone?
+    __assert duration > 0
+    tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true
+  end  
+  
+  
+  ####
+  
   def setTintColors
     window.tintColor = Configuration.tintColor
     

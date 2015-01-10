@@ -17,6 +17,10 @@ class ModSetsController < UITableViewController
     refreshView # update badges
   end
 
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+  end  
+
   def setEditing(editing, animated:animated)
     super
     refreshView # redraws cells for editing

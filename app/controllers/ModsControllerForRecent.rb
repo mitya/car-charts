@@ -14,6 +14,9 @@ class ModsControllerForRecent < UITableViewController
     switchView
   end
 
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+  end  
   
   def modeSegmentedControl
     @modeSegmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Selected Recents)).tap do |segm|
