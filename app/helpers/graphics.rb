@@ -4,10 +4,6 @@ module KK::Graphics
   end    
 
   def drawRect(rect, inContext:context, withGradientColors:colors, cornerRadius:cornerRadius)
-    # locationsPtr = Pointer.new(:float, 2)
-    # locationsPtr[0] = 0.0
-    # locationsPtr[1] = 1.0
-
     colorSpace = CGColorSpaceCreateDeviceRGB()
     colors = colors.map { |c| c.CGColor }
     gradient = CGGradientCreateWithColors(colorSpace, colors, nil)
@@ -16,7 +12,7 @@ module KK::Graphics
     endPoint = CGPointMake(CGRectGetMaxX(rect), CGRectGetMinY(rect))
 
     path = UIBezierPath.bezierPathWithRoundedRect(rect, 
-      byRoundingCorners: UIRectCornerAllCorners, # UIRectCornerTopRight | UIRectCornerBottomRight, 
+      byRoundingCorners: UIRectCornerAllCorners,
       cornerRadii: CGSizeMake(cornerRadius, cornerRadius)
     )
    
@@ -25,9 +21,6 @@ module KK::Graphics
     CGContextClip(context) unless CGContextIsPathEmpty(context)
     CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0)
     CGContextRestoreGState(context)
-
-    # CGGradientRelease(gradient)
-    # CGColorSpaceRelease(colorSpace)    
   end  
 
   def drawString(string, inRect:rect, withColor:color, font:font, lineBreakMode:lineBreakMode, alignment:alignment)
