@@ -1,0 +1,128 @@
+KK.app.delegate.tabBarController
+KK.app.delegate.tabBarController.shouldAutorotate
+KK.app.delegate.tabBarController.supportedInterfaceOrientations
+KK.app.delegate.tabBarController.preferredInterfaceOrientationForPresentation
+
+KK.app.delegate.window.rootViewController.viewControllers.first.navigationBar.tintColor
+KK.app.delegate.window.rootViewController.tabBar.tintColor
+
+Mod.first
+
+
+ModSet.create name:"Compact (Sample)", modKeys:Metadata.sampleModSets[:compact]
+ModSet::ModProxy.create modKey:"mod key 3", modSet:ModSet.all.last
+ModSet.first.modProxies
+ModSet.first.modProxies.addObject(mp)
+
+ms = ModSet.first
+mp = ModSet::ModProxy.first
+
+
+brand model year body engine-vol engine-type power transmission drive
+brand model year variant
+1014 9025 2010 12 90123 — 1014902520101290123 — 1014002520101200123
+brand model year variant
+brand model variant
+
+ar-147-004-hb3-20d-150-mf
+alpha_romeo-147-2004-hatch3d-2.0d-150ps-mt-fwd
+
+AR-147-004-HB3-20d-150-MF
+LX-GS-012-SED-i25-209-AR
+
+
+seat cordoba 2003-2009 sedan 1.4d-70ps-MT-FWD
+st-cordoba-003-sed-14d-70-mf
+seat-cordoba-003-sed-14-70-dmf
+alpha-
+
+
+# acura:         "acura",
+# alfa_romeo:    "alfaromeo",
+# audi:          "audi",
+# bmw:           "bmw",
+# cadillac:      "cadillac",
+# chery:         "chery",
+# chevrolet:     "chevrolet",
+# chrysler:      "chrysler",
+# citroen:       "citroen",
+# daewoo:        "daewoo",
+# dodge:         "dodge",
+# fiat:          "fiat",
+# ford:          "ford",
+# gaz:           "gaz",
+# great_wall:    "gw",
+# honda:         "honda",
+# hummer:        "hummer",
+# hyundai:       "hyundai",
+# infiniti:      "infiniti",
+# jaguar:        "jaguar",
+# jeep:          "jeep",
+# kia:           "kia",
+# land_rover:    "lr",
+# lexus:         "lexus",
+# mazda:         "mazda",
+# mercedes_benz: "mb",
+# mini:          "mini",
+# mitsubishi:    "mitsubishi",
+# nissan:        "nissan",
+# opel:          "opel",
+# peugeot:       "peugeot",
+# porsche:       "porsche",
+# renault:       "renault",
+# saab:          "saab",
+# seat:          "seat",
+# skoda:         "skoda",
+# ssangyong:     "ssangyong",
+# subaru:        "subaru",
+# suzuki:        "suzuki",
+# toyota:        "toyota",
+# uaz:           "uaz",
+# vaz:           "vaz",
+# volkswagen:    "vw",
+# volvo:         "volvo",
+
+
+ford transit.kombi 2006-2011 minivan 2.2d-115ps-MT-FWD
+ford-transit-06-mvn.kombi-22d.115.mf
+
+ford fiesta 2008 hatch_5d 1.6d-90ps-MT-FWD
+ford-fiesta-08-hb5.best-16d.90.mf
+
+peugeot-607-05-sed-22i.158.af
+
+
+
+
+CategoryListController.rb
+ChartController.rb
+ModController.rb
+ModListController.rb
+ModRecentListController.rb
+ModSetController.rb
+ModSetSelectionController.rb
+ModSetListController.rb
+ModelPhotosController.rb
+ModelListController.rb
+ModelListController_Flat.rb
+ModelListController_Sectioned.rb
+ParameterListController.rb
+
+
+
+CategoriesController.rb
+ChartController.rb
+
+
+ModSetController.rb
+ModSetsController+Selection.rb
+ModSetsController.rb
+ModelPhotosController.rb
+ModelsController.rb
+ModelsController_Flat.rb
+ModelsController_Sectioned.rb
+ModController.rb
+ModsController.rb
+ModsController+Recents.rb
+ParametersController.rb
+

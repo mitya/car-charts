@@ -43,7 +43,7 @@ class ModelsController < UIViewController
       tableView.reloadData
       tableView.tableHeaderView = nil
       tableView.tableHeaderView = searchBar      
-      # tableView.contentOffset = CGPointMake(0, 0) # currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, UIToolbarHeight)
+      # tableView.contentOffset = CGPointMake(0, 0) # currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, UIToolbarHeight) # iOS6
     end
   end
 

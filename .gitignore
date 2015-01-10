@@ -10,6 +10,5 @@ resources/images/wip/*
 resources/data/db-static.sqlite
 resources/data/db-mods.plist
 carchartscrawler
-docs/*
 .dat*
 tmp/*
