@@ -78,12 +78,10 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 150}">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="166"/>
     <note-split-view height="132"/>
-    <selected-rows ids="nGpW79V662a"/>
-    <selected-columns ids="jFqHUGd_Dg1"/>
-    <selected-characters range="{19, 0}"/>
+    <selected-rows ids="hMLzRS4FJ0q"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -138,17 +136,6 @@
         </text>
       </values>
       <children>
-        <item id="fZ43W9GFECc">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>replace segment control with filter screen</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="lMn5ZYoFSAB">
           <values>
             <text>
@@ -165,7 +152,29 @@
             <text>
               <p>
                 <run>
-                  <lit>иконки кнопок</lit>
+                  <lit>иконку для параметров</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="dtmdoWPbBEI">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>тестирование</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="khFxJWC8sWh">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>обновление данных</lit>
                 </run>
               </p>
             </text>
@@ -174,6 +183,17 @@
         <item id="cqMJ6AXsG2V">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="fZ43W9GFECc" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>replace segment control with filter screen</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="h0BBgS4lEBw" state="checked">
@@ -414,7 +434,7 @@
         <null/>
       </values>
     </item>
-    <item id="crgktXnqYe6">
+    <item id="crgktXnqYe6" expanded="yes">
       <values>
         <text>
           <p>
@@ -438,7 +458,7 @@
         </item>
       </children>
     </item>
-    <item id="k2i1TjT69t2">
+    <item id="k2i1TjT69t2" expanded="yes">
       <values>
         <text>
           <p>
@@ -473,7 +493,7 @@
         </item>
       </children>
     </item>
-    <item id="gA-gDP4tIyt" expanded="yes">
+    <item id="gA-gDP4tIyt">
       <values>
         <text>
           <p>
@@ -508,7 +528,7 @@
         </item>
       </children>
     </item>
-    <item id="ja4onxkzuHm" expanded="yes">
+    <item id="ja4onxkzuHm">
       <values>
         <text>
           <p>
@@ -552,28 +572,6 @@
             </text>
           </values>
         </item>
-        <item id="oOpKGXr14GV">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>app crashes because of who know whats </lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="i7PBx-5Hje0">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>test on tablets</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
       </children>
     </item>
     <item id="c35hFKhKHz2">
@@ -600,7 +598,7 @@
         </item>
       </children>
     </item>
-    <item id="hMLzRS4FJ0q" expanded="yes">
+    <item id="hMLzRS4FJ0q">
       <values>
         <text>
           <p>
@@ -706,23 +704,23 @@
             </text>
           </values>
         </item>
-        <item id="imABNKIywer">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>remove deallocs</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="e0L8XJvUs8P">
           <values>
             <text>
               <p>
                 <run>
                   <lit>change empty screen messaging to fin OS 7 style</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="cU1hkyDhnsV">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>сменить второй цвет с синего на что-нибудь другое</lit>
                 </run>
               </p>
             </text>
