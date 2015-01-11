@@ -8,8 +8,6 @@ begin
 rescue LoadError
 end
 
-ENV['device_name'] ||= 'iPhone 6 Plus'
-
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
@@ -37,3 +35,7 @@ end
 load 'scripts/crawler.rake'
 load 'scripts/graphics.rake'
 
+task :iphone5  do ENV['device_name'] = 'iPhone 5s';     Rake::Task['simulator'].invoke end
+task :iphone6  do ENV['device_name'] = 'iPhone 6';      Rake::Task['simulator'].invoke end
+task :iphone6p do ENV['device_name'] = 'iPhone 6 Plus'; Rake::Task['simulator'].invoke end
+task :ipad     do ENV['device_name'] = 'iPad Air';      Rake::Task['simulator'].invoke end
