@@ -1,4 +1,4 @@
-# represent model category, e.g. 'E class'
+# Represents a category of models, e.g. 'E class'.
 class CategoriesController < UITableViewController
   attr_accessor :category
   

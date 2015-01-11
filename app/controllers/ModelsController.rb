@@ -82,6 +82,7 @@ class ModelsController < UIViewController
     @mainDataSource ||= SectionedModelsDataSource.new(self)
   end
 
+
   def viewSelectorBarItem
     @viewSelectorBarItem ||= KK.textBBI(currentTitle, target:self, action:'showCategories')
   end

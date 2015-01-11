@@ -155,7 +155,7 @@ module KK::UI
     button.showsTouchWhenHighlighted = YES
     button.addTarget target, action:action, forControlEvents:UIControlEventTouchUpInside
 
-    customBBI(button)      
+    customBBI(button)
   end
 
   def segmentedControl(items)
