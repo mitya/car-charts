@@ -51,7 +51,6 @@ class AppDelegate
     NSLog "FATAL ERROR: #{exception}"
   end
 
-  ####
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
@@ -70,31 +69,14 @@ class AppDelegate
     chartController.navigationItem.setLeftBarButtonItem(chartController.navigationItem.leftBarButtonItems.to_a - [bbi], animated:YES)
   end
 
-  ####
   
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     return unless KK.iphone?
     __assert duration > 0
     tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true
   end  
-  
-  
-  ####
-  
-  def setTintColors
-    window.tintColor = Configuration.tintColor
-    
-    [UINavigationBar, UIToolbar, UISearchBar, UITabBar].each do |bar|
-      bar.appearance.barTintColor = Configuration.barTintColor
-      bar.appearance.tintColor    = Configuration.barIconColor
-      bar.appearance.barStyle     = UIBarStyleBlack
-    end
 
-    UINavigationBar.appearance.setTitleTextAttributes NSForegroundColorAttributeName => Configuration.barTextColor
-  end
-
-  ####
-
+  
   def staticContext
     @staticContext ||= begin
       model = NSManagedObjectModel.alloc.init
@@ -146,7 +128,6 @@ class AppDelegate
     context.save(NULL)
   end
 
-  ####
   
   def recoverAfterCrash
     NSLog "Recovering after crash ..."
@@ -156,9 +137,21 @@ class AppDelegate
     NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
     $lastLaunchDidFail = true    
   end
-  
-  
-  #### development helpers
+
+  def setTintColors
+    window.tintColor = Configuration.tintColor
+    
+    [UINavigationBar, UIToolbar, UISearchBar, UITabBar].each do |bar|
+      bar.appearance.barTintColor = Configuration.barTintColor
+      bar.appearance.tintColor    = Configuration.barIconColor
+      bar.appearance.barStyle     = UIBarStyleBlack
+    end
+    
+    UISwitch.appearance.onTintColor = Configuration.barIconColor
+
+    UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent
+    UINavigationBar.appearance.setTitleTextAttributes NSForegroundColorAttributeName => Configuration.barTextColor
+  end  
   
   def openControllerForModel(modelKey)
     controller = ModsController.new(Model.modelForKey(modelKey))

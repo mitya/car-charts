@@ -26,6 +26,7 @@ Motion::Project::App.setup do |app|
   # ]
 
   app.info_plist['UIViewControllerBasedStatusBarAppearance'] = 'NO'
+  app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
   
   # app.pods do
   #   pod 'FMDB'

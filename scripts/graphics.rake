@@ -66,7 +66,7 @@ def makeButton(width, height, cornerRad, gradient, borderCl, shadowCl, file, opt
   run cmd
 end
 
-namespace 'app:g' do
+namespace 'g' do
   desc "Make icons for tabs"
   task :icons do
     icons.each do |icon|
@@ -79,9 +79,9 @@ namespace 'app:g' do
   desc "Generate app icon"
   task :appicon do
     label = "Cc"
-    options = "-background blue -fill white -font LuxiSansB -gravity center"
-    system "convert #{options} -size   57x57 -pointsize 40 label:#{label} resources/icon_iphone.png"
-    system "convert #{options} -size 114x114 -pointsize 80 label:#{label} resources/icon_iphone@2x.png"
+    
+    options = "-background 'hsb(8.33%, 59%, 36%)' -fill white -font LuxiSansB -gravity center"
+    system "convert #{options} -size 120x120 -pointsize 80 label:#{label} resources/icon_iphone@2x.png"
   end
 
   desc "Generate an icon with a letter, eg: rake letters text=Hey size=44"
@@ -210,23 +210,13 @@ namespace 'app:g' do
     img.write "#{dst}/#{img_name}"
   end
     
-  task :make_template do
-    img_name = "bi-expand@2x.png"
+  task :make do
+    img_name = "ti-star@2x.png"
     img = Magick::Image.read("#{src}/#{img_name}").first
-    img = img.quantize 256, Magick::GRAYColorspace
+    # img = img.quantize 256, Magick::GRAYColorspace
     # img = img.transparent 'white'
     # img = img.scale(0.66)
     img = img.negate
     img.write "#{dst}/#{img_name}"
   end
 end
-
-
-
-# source = Magick::Image.read("octocat.png").first
-# source = source.resize_to_fill(70, 70).quantize(256, Magick::GRAYColorspace).contrast(true)
-# overlay = Magick::Image.read("stamp_overlay.png").first
-# source.composite!(overlay, 0, 0, Magick::OverCompositeOp)
-# colored = Magick::Image.new(70, 70) { self.background_color = "red" }
-# colored.composite!(source.negate, 0, 0, Magick::CopyOpacityCompositeOp)
-# colored.write("stamp.png")

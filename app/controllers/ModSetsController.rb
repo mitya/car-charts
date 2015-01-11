@@ -3,7 +3,7 @@ class ModSetsController < UITableViewController
 
   def initialize
     self.title = "Model Sets"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:KK.image("tbi-star3"), tag:5)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:KK.image("ti-star"), tag:5)
 
     navigationItem.leftBarButtonItem = editButtonItem
     navigationItem.backBarButtonItem = KK.textBBI("Sets")

@@ -4,7 +4,7 @@ class ChartController < UIViewController
   
   def initialize
     self.title = "CarCharts"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:KK.image("tbi-chart"), tag:1)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:KK.image("ti-chart"), tag:1)
     self.navigationItem.backBarButtonItem = KK.textBBI("Chart")
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld, context:nil)
@@ -28,7 +28,7 @@ class ChartController < UIViewController
     
     @reloadPending = true
   end
-  
+
   def viewWillAppear(animated)
     super
     reload if @reloadPending
@@ -57,7 +57,6 @@ class ChartController < UIViewController
   end
 
 
-
   def tableView(tv, numberOfRowsInSection:section)
     @comparision.complete?? @comparision.mods.count : 0
   end
@@ -72,13 +71,11 @@ class ChartController < UIViewController
     ChartBarView.heightForComparisionItem(@comparision.items[ip.row])
   end
 
-  ####
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated
   end
-  
-  ####
+
 
   def reload
     @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
@@ -102,12 +99,10 @@ class ChartController < UIViewController
       exitFullScreenModeButton.hidden = !@fullScreen
     else
       KK.app.delegate.hidesMasterView = @fullScreen
-      toggleSettingsBarItem.customView.selected = !toggleSettingsBarItem.customView.selected?
       splitViewController.view.setNeedsLayout
       splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
     end
   end
-  
 
 
   def prefersStatusBarHidden
@@ -130,12 +125,6 @@ class ChartController < UIViewController
     end
   end
 
-  def toggleSettingsBarItem
-    @toggleSettingsBarItem ||= KK.plainBBI("bbi-back", target:self, action:'toggleFullScreenMode', options:{ 
-      selected:"bbi-right", size:[15, 15] 
-    })
-  end
-  
   def toggleFullScreenModeBarItem
     @toggleFullScreenModeBarItem ||= KK.imageBBI("bi-fullScreenEnter", target:self, action:'toggleFullScreenMode')
   end
