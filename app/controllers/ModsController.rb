@@ -12,17 +12,6 @@ class ModsController < UIViewController
 
   def viewDidLoad
     self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain)
-    
-    # if toolbarItemsForFilter.any?
-    #   if KK.iphone?
-    #     self.toolbarItems = toolbarItemsForFilter
-    #   else
-    #     self.toolbar = UIToolbar.alloc.initWithFrame(CGRectMake(0, 0, realWidth, UIToolbarHeight))
-    #     self.toolbar.items = toolbarItemsForFilter
-    #     self.view.addSubview(toolbar)
-    #     self.tableView.frame = CGRectOffset(tableView.frame, 0, UIToolbarHeight)
-    #   end
-    # end
   end
   
   def viewWillAppear(animated)
@@ -103,53 +92,6 @@ class ModsController < UIViewController
     tableView.reloadData
   end
     
-  # def applyFilter(options = {})
-  #   opts = Disk.filterOptions = Disk.filterOptions.merge(options).delete_if { |k,v| !v }
-  #   self.filteredMods = opts.empty? ? mods : mods.select do |mod|
-  #     next false if @transmissionFilter && opts[:at] && mod.automatic?
-  #     next false if @transmissionFilter && opts[:mt] && mod.manual?
-  #     next false if @bodyFilter && opts[:sedan] && mod.sedan?
-  #     next false if @bodyFilter && opts[:hatch] && mod.hatch?
-  #     next false if @bodyFilter && opts[:wagon] && mod.wagon?
-  #     next false if @fuelFilter && opts[:gas] && mod.gas?
-  #     next false if @fuelFilter && opts[:diesel] && mod.diesel?
-  #     next true
-  #   end
-  #   self.modsByBody = filteredMods.group_by { |m| m.body }
-  #   tableView.reloadData
-  # end
-  #
-  # def toolbarItemsForFilter
-  #   @toolbarItemsForFilter ||= begin
-  #     availableFilterOptions = Mod.filterOptionsForMods(mods)
-  #
-  #     if availableFilterOptions[:transmission].count > 1
-  #       @transmissionFilter = DSMultisegmentView.new
-  #       @transmissionFilter.addButton("MT", Disk.filterOptions[:mt]) { |state| applyFilter(mt: state) } if availableFilterOptions[:mt]
-  #       @transmissionFilter.addButton("AT", Disk.filterOptions[:at]) { |state| applyFilter(at: state) } if availableFilterOptions[:at]
-  #     end
-  #
-  #     if availableFilterOptions[:body].count > 1
-  #       @bodyFilter = DSMultisegmentView.new
-  #       # @bodyFilter.addButton("Sed", Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
-  #       # @bodyFilter.addButton("Wag", Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
-  #       # @bodyFilter.addButton("Hat", Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
-  #
-  #       @bodyFilter.addButton(KK.image('wip/bbiSedan'), Disk.filterOptions[:sedan]) { |state| applyFilter(sedan: state) } if availableFilterOptions[:sedan]
-  #       @bodyFilter.addButton(KK.image('wip/bbiWagon'), Disk.filterOptions[:wagon]) { |state| applyFilter(wagon: state) } if availableFilterOptions[:wagon]
-  #       @bodyFilter.addButton(KK.image('wip/bbiHatch'), Disk.filterOptions[:hatch]) { |state| applyFilter(hatch: state) } if availableFilterOptions[:hatch]
-  #     end
-  #
-  #     # if availableFilterOptions[:fuel].count > 1
-  #     #   @fuelFilter = DSMultisegmentView.new
-  #     #   @fuelFilter.addButton("Gas", Disk.filterOptions[:gas]) { |state| applyFilter(gas: state) } if availableFilterOptions[:gas]
-  #     #   @fuelFilter.addButton("Di", Disk.filterOptions[:diesel]) { |state| applyFilter(diesel: state) } if availableFilterOptions[:diesel]
-  #     # end
-  #
-  #     [@transmissionFilter, @bodyFilter, @fuelFilter].compact.map{ |filter| KK.customBBI(filter) }.arraySeparatedBy(KK.flexibleSpaceBBI)
-  #   end
-  # end
-  
   def showFilterPane
     @filterController ||= ModsFilterController.new
     presentNavigationController @filterController, presentationStyle:UIModalPresentationCurrentContext
