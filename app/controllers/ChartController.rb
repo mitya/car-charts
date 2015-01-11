@@ -12,6 +12,7 @@ class ChartController < UIViewController
   end
   
   def dealloc
+    puts 'ChartController.dealloc'
     Disk.removeObserver(self, forKeyPath:"currentParameters")
     Disk.removeObserver(self, forKeyPath:"currentMods")
     super
@@ -23,7 +24,7 @@ class ChartController < UIViewController
       tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     end
     
-    navigationItem.rightBarButtonItems = [ KK.fixedSpaceBBIWithWidth(5), toggleFullScreenModeBarItem ]
+    navigationItem.rightBarButtonItem = toggleFullScreenModeBarItem
     
     @reloadPending = true
   end

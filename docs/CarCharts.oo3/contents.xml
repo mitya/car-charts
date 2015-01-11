@@ -81,7 +81,9 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="166"/>
     <note-split-view height="132"/>
-    <selected-rows ids="fmdsRAD3BUn"/>
+    <selected-rows ids="fZ43W9GFECc"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{42, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,12 +138,12 @@
         </text>
       </values>
       <children>
-        <item id="h0BBgS4lEBw">
+        <item id="fZ43W9GFECc">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>сегмент-контрол</lit>
+                  <lit>replace segment control with filter screen</lit>
                 </run>
               </p>
             </text>
@@ -172,6 +174,17 @@
         <item id="cqMJ6AXsG2V">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="h0BBgS4lEBw" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Х update segment control for OS 7</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="dvTlVHPcvUV" state="checked">

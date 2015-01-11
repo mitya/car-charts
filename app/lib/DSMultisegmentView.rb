@@ -17,7 +17,7 @@ class DSMultisegmentView < UIView
   end
 
   def dealloc
-    puts 'dealloc DSMultisegmentView'
+    puts 'DSMultisegmentView.dealloc'
     UIDevice.currentDevice.endGeneratingDeviceOrientationNotifications
     NSNotificationCenter.defaultCenter.removeObserver self
     super
@@ -31,8 +31,8 @@ class DSMultisegmentView < UIView
       button.setTitle(titleOrImage, forState:UIControlStateNormal)
       button.setTitleShadowColor(KK.hsb(212,22,46), forState:UIControlStateSelected)
       button.setTitleShadowColor(KK.hsb(212,22,42), forState:UIControlStateNormal)
-      button.titleLabel.font = UIFont.fontWithName("Helvetica-Bold", size: 12)
-      button.titleLabel.shadowOffset = CGSizeMake(0, -1)      
+      button.titleLabel.font = UIFont.fontWithName("HelveticaNeue-Light", size: 12)
+      button.titleLabel.shadowOffset = CGSizeMake(0, -1)
     else
       button.setImage(titleOrImage, forState:UIControlStateNormal)
     end
@@ -117,6 +117,8 @@ class DSMultisegmentView < UIView
     super
     reapplyButtonBackgrounds
   end
+  
+  
   
   class ButtonDimensions
     attr_reader :width, :height, :margin, :spacing, :barHeight

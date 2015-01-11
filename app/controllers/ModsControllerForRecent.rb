@@ -26,7 +26,7 @@ class ModsControllerForRecent < UITableViewController
     end
   end
   
-  # switch table view data source between selected & recent mods
+  # switches table view data source between Selected & Recent mod lists
   def switchView
     dataSourceIndex = modeSegmentedControl.selectedSegmentIndex
     dataSource = @dataSources[dataSourceIndex]
