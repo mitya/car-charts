@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="166"/>
     <note-split-view height="132"/>
-    <selected-rows ids="hMLzRS4FJ0q"/>
+    <selected-rows ids="cWukoJBxJkg"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -125,7 +125,7 @@
     <style>
       <value key="font-size">14</value>
     </style>
-    <item id="h3PCT_bppjc" expanded="yes">
+    <item id="h3PCT_bppjc">
       <values>
         <text>
           <p>
@@ -429,17 +429,12 @@
         </item>
       </children>
     </item>
-    <item id="pgf83nGt1_g">
-      <values>
-        <null/>
-      </values>
-    </item>
-    <item id="crgktXnqYe6" expanded="yes">
+    <item id="crgktXnqYe6">
       <values>
         <text>
           <p>
             <run>
-              <lit>Next 1</lit>
+              <lit>Next</lit>
             </run>
           </p>
         </text>
@@ -456,20 +451,7 @@
             </text>
           </values>
         </item>
-      </children>
-    </item>
-    <item id="k2i1TjT69t2" expanded="yes">
-      <values>
-        <text>
-          <p>
-            <run>
-              <lit>Next 2</lit>
-            </run>
-          </p>
-        </text>
-      </values>
-      <children>
-        <item id="ljaAdAwHXWo">
+        <item id="k834oDicN22">
           <values>
             <text>
               <p>
@@ -480,12 +462,28 @@
             </text>
           </values>
         </item>
-        <item id="p4h1i6BbkkW">
+        <item id="eIWkNK5RqOq">
           <values>
             <text>
               <p>
                 <run>
                   <lit>восстановление после падений</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="l21g3iZoUAU">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="cezJtKeuY26">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>styled font for app title</lit>
                 </run>
               </p>
             </text>
@@ -545,6 +543,17 @@
               <p>
                 <run>
                   <lit>fix filters on iPad</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="k0rTFkdNWjD">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>fix status bar text on iPad</lit>
                 </run>
               </p>
             </text>
@@ -669,7 +678,7 @@
             <text>
               <p>
                 <run>
-                  <lit>обновить сплэш скрин</lit>
+                  <lit>обновить сплэш скрины</lit>
                 </run>
               </p>
             </text>
@@ -682,7 +691,7 @@
         <null/>
       </values>
     </item>
-    <item id="loH9eiExqn7">
+    <item id="loH9eiExqn7" expanded="yes">
       <values>
         <text>
           <p>
@@ -724,6 +733,22 @@
                 </run>
               </p>
             </text>
+          </values>
+        </item>
+        <item id="cWukoJBxJkg">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>update chart colors to match keynote charts</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="bLBr0iBshnf">
+          <values>
+            <null/>
           </values>
         </item>
         <item id="cp8RpSw2k2B">
