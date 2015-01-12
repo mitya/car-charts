@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="cWukoJBxJkg"/>
+    <selected-rows ids="oEOqeCxTCUm"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -125,18 +125,18 @@
     <style>
       <value key="font-size">14</value>
     </style>
-    <item id="h3PCT_bppjc">
+    <item id="gAldG0sNLEg" expanded="yes">
       <values>
         <text>
           <p>
             <run>
-              <lit>16 141229</lit>
+              <lit>17 120115</lit>
             </run>
           </p>
         </text>
       </values>
       <children>
-        <item id="lMn5ZYoFSAB">
+        <item id="a2kHeCV7vaV">
           <values>
             <text>
               <p>
@@ -147,7 +147,7 @@
             </text>
           </values>
         </item>
-        <item id="fmdsRAD3BUn">
+        <item id="oEOqeCxTCUm">
           <values>
             <text>
               <p>
@@ -158,7 +158,7 @@
             </text>
           </values>
         </item>
-        <item id="dtmdoWPbBEI">
+        <item id="kNrX2Q8Qown">
           <values>
             <text>
               <p>
@@ -169,259 +169,12 @@
             </text>
           </values>
         </item>
-        <item id="khFxJWC8sWh">
+        <item id="agbxNrSzN-m">
           <values>
             <text>
               <p>
                 <run>
                   <lit>обновление данных</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="cqMJ6AXsG2V">
-          <values>
-            <null/>
-          </values>
-        </item>
-        <item id="fZ43W9GFECc" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>replace segment control with filter screen</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="h0BBgS4lEBw" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>Х update segment control for OS 7</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="dvTlVHPcvUV" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>X set tint colors for action sheets</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="biWcnaneW5T" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>hide tab bar in landscape mode</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="a-F6zTnxL0C" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>add an arrow to show that Models title is clickable</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="jWXzs80yg1n" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix search view size</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="buincu0N6iW" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix the always-white Zoom button on the chart screen</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="g4IXuik2hiZ" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>tint the exit from FS button</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="m81bK1m-qK2" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>hide status bar in FS mode</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="giN4j_P_zoD" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix exiting from FS mode</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="fV6nTh_zBBb" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>добавить тинт</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="eKKizSI71qq" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>родные галки и где иконки от iOS</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="hco9TVSwrq8" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>выравнять правый и левый отступ на графике</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="pkbxLXbOtQH" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>переименовать контроллеры</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="atlns5t7bu0" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>попробовать руби 2 опции</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="a7VTIO66vGn" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>переименовать CheckmarkView</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="kJEjHG8XlCT" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>левые галки</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="gVwha-nD4GQ" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>цвет инфо иконки на странице сета и галки в параметрах</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="eJPLtFcm2Zy" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>баджи с кол-вом</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ms4AqJDRiEA" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>сменить пререндеренный скрин</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="br74ETZ9q1V" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>почему исчезает первая вкладка</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="bl0ehrkUxDb" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>инфо иконки</lit>
                 </run>
               </p>
             </text>
@@ -691,7 +444,7 @@
         <null/>
       </values>
     </item>
-    <item id="loH9eiExqn7" expanded="yes">
+    <item id="loH9eiExqn7">
       <values>
         <text>
           <p>
@@ -1151,6 +904,17 @@
               <p>
                 <run>
                   <lit>использовать motion-layout для ячейки с деталями</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="f4lem4qn4wH">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>затинтить таблицы</lit>
                 </run>
               </p>
             </text>
@@ -1645,7 +1409,7 @@
         </item>
       </children>
     </item>
-    <item id="ppfSVp-O6Iu" state="checked">
+    <item id="ppfSVp-O6Iu" expanded="yes" state="checked">
       <values>
         <text>
           <p>
@@ -4437,7 +4201,7 @@
             <text>
               <p>
                 <run>
-                  <lit>15 250313</lit>
+                  <lit>15 250313 хх</lit>
                 </run>
               </p>
             </text>
@@ -4482,6 +4246,261 @@
                   <p>
                     <run>
                       <lit>когда добавляется параметр использовать первый цвет из списка свободных</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+          </children>
+        </item>
+        <item id="cVDxCDPSEcc">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>16 291214 хххх</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="ahespHh8PK_" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>replace segment control with filter screen</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="oHYC3k4wUh1" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>Х update segment control for OS 7</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="oL7ZuRAQsAw" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>X set tint colors for action sheets</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="hmB7Y1Pt0UH" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>hide tab bar in landscape mode</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="pv_Z-R6NrLj" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>add an arrow to show that Models title is clickable</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="ieoXickr9Br" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>fix search view size</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="mEfRhVtClls" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>fix the always-white Zoom button on the chart screen</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="plGiEXcROs1" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>tint the exit from FS button</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="mEGB-rhnc9f" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>hide status bar in FS mode</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="a75Vjvu401t" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>fix exiting from FS mode</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="cIy2gKmF46C" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>добавить тинт</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="euE815Zn73f" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>родные галки и где иконки от iOS</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="bZuDT4-ZCSm" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>выравнять правый и левый отступ на графике</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="k8OuF4Ktjy_" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>переименовать контроллеры</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="kS5ebpixL-X" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>попробовать руби 2 опции</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="ponnKL99G23" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>переименовать CheckmarkView</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="lpkR7IEH5pT" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>левые галки</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="dtz8ClGo-hd" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>цвет инфо иконки на странице сета и галки в параметрах</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="ah5dyQo7svw" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>баджи с кол-вом</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="eeKedTzsR36" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>сменить пререндеренный скрин</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="mhwhKjrZfDi" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>почему исчезает первая вкладка</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="byLT9DcXXpY" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>инфо иконки</lit>
                     </run>
                   </p>
                 </text>
