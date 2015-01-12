@@ -218,5 +218,7 @@ namespace 'g' do
     # img = img.scale(0.66)
     img = img.negate
     img.write "#{dst}/#{img_name}"
+
+    # img.crop!(0, 0, 500, 300)
   end
 end
