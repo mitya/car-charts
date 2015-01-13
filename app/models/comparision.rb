@@ -3,32 +3,40 @@ class Comparision
   
   def initialize(mods, params)
     @mods = mods
+    @activeMods = nil
+    @uniqMods = nil
     @params = params
+    @values ||= {}
+    @min_values ||= {}
+    @max_values ||= {}
+    @ranges ||= {}
+    @containsOnlyBodyParams = nil
   end
+
   
   def valuesFor(param)
-    @values ||= {}
     @values[param] ||= mods.map { |mod| mod[param] }.compact.uniq
   end
   
   def maxValueFor(param)
-    @max_values ||= {}
     @max_values[param] ||= valuesFor(param).max || 0
   end
 
   def minValueFor(param)
-    @min_values ||= {}
     @min_values[param] ||= valuesFor(param).min || 0
   end
   
   def rangeFor(param)
-    @ranges ||= {}
     @ranges[param] ||= maxValueFor(param) - minValueFor(param)
   end
   
   def relativeValueFor(param, value)
-    ((value || 0) - minValueFor(param)) / rangeFor(param).to_f
+    range = rangeFor(param).to_f
+    value ||= 0
+    return 1.0 if range == 0
+    return (value - minValueFor(param)) / range
   end
+
   
   def items
     @items ||= (0...mods.count).map { |index| Item.new(self, index) }
@@ -49,7 +57,7 @@ class Comparision
   end
   
   def containsOnlyBodyParams?
-    @containsOnlyBodyParams ||= params.all? { |param| param.appliesToBody? } if @containsOnlyBodyParams.nil?
+    @containsOnlyBodyParams = params.all? { |param| param.appliesToBody? } if @containsOnlyBodyParams.nil?
     @containsOnlyBodyParams
   end
   
@@ -60,6 +68,7 @@ class Comparision
   def complete?
     !incomplete?
   end
+
 
   class Item
     attr_accessor :index, :comparision

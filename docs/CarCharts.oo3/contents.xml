@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="oEOqeCxTCUm"/>
+    <selected-rows ids="kNrX2Q8Qown"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,7 +136,7 @@
         </text>
       </values>
       <children>
-        <item id="a2kHeCV7vaV">
+        <item id="a2kHeCV7vaV" state="checked">
           <values>
             <text>
               <p>
@@ -147,7 +147,7 @@
             </text>
           </values>
         </item>
-        <item id="oEOqeCxTCUm">
+        <item id="oEOqeCxTCUm" state="checked">
           <values>
             <text>
               <p>
@@ -1409,7 +1409,7 @@
         </item>
       </children>
     </item>
-    <item id="ppfSVp-O6Iu" expanded="yes" state="checked">
+    <item id="ppfSVp-O6Iu" state="checked">
       <values>
         <text>
           <p>

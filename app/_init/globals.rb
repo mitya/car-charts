@@ -7,12 +7,11 @@ def pp(*args)
   puts "*** " + args.map(&:inspect).join(', ')
 end
 
-def ppx(label, *args)
-  inspection = args.inspect[1...-1]
-  inspection = ": #{inspection}" if inspection.present?
-  puts "--- #{label}#{inspection}"
-end
-
 def __assert(condition)
   raise unless condition
+end
+
+def __p(label, *args)
+  inspection = ": #{args.inspect[1...-1]}" if args.any?
+  puts "--- #{label}#{inspection}"
 end

@@ -140,8 +140,8 @@ class ChartBarView < UIView
         bgColors = self.class.colors[bgColorsIndex]
       end
       KK.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      KK.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight      
-    end    
+      KK.drawString param.formattedValue(value), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight
+    end  
   end
   
   
