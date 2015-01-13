@@ -1,0 +1,20 @@
+2015-01-13 18:34:43.724 CarCharts[14632:96481] Comparision.rb:30:in `rangeFor:': undefined method `-' for "215/60/R16 215/50/R17 225/50/R17":String (NoMethodError)
+	from Comparision.rb:34:in `relativeValueFor:'
+	from ChartBarView.rb:134:in `block in drawNarrow:'
+	from ChartBarView.rb:126:in `drawNarrow:'
+	from ChartBarView.rb:43:in `drawRect:'
+2015-01-13 18:34:43.751 CarCharts[14632:96481] FATAL ERROR: undefined method `-' for "215/60/R16 215/50/R17 225/50/R17":String
+2015-01-13 18:34:43.751 CarCharts[14632:96481] *** Terminating app due to uncaught exception 'NoMethodError', reason: 'Comparision.rb:30:in `rangeFor:': undefined method `-' for "215/60/R16 215/50/R17 225/50/R17":String (NoMethodError)
+	from Comparision.rb:34:in `relativeValueFor:'
+	from ChartBarView.rb:134:in `block in drawNarrow:'
+	from ChartBarView.rb:126:in `drawNarrow:'
+	from ChartBarView.rb:43:in `drawRect:'
+  
+  
+  
+  2015-01-13 18:32:39.174 CarCharts[14125:93917] graphics.rb:8:in `drawRect:inContext:withGradientColors:cornerRadius:': undefined method `map' for nil:NilClass (NoMethodError)
+  	from ChartLegendView.rb:69:in `drawRect:'
+  2015-01-13 18:32:39.201 CarCharts[14125:93917] FATAL ERROR: undefined method `map' for nil:NilClass
+  2015-01-13 18:32:39.201 CarCharts[14125:93917] *** Terminating app due to uncaught exception 'NoMethodError', reason: 'graphics.rb:8:in `drawRect:inContext:withGradientColors:cornerRadius:': undefined method `map' for nil:NilClass (NoMethodError)
+  
+  

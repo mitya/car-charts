@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="kNrX2Q8Qown"/>
+    <selected-rows ids="jQMSQCTNRuA"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -279,7 +279,7 @@
         </item>
       </children>
     </item>
-    <item id="ja4onxkzuHm">
+    <item id="ja4onxkzuHm" expanded="yes">
       <values>
         <text>
           <p>
@@ -290,6 +290,39 @@
         </text>
       </values>
       <children>
+        <item id="jQMSQCTNRuA" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>tires comparision (or remove them altogether)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="chiHKnYs1oi">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>production dates comparision (or remove)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="bXpR7tPCQfh">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>production dates in photos browser</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="nGpW79V662a">
           <values>
             <text>
@@ -318,17 +351,6 @@
               <p>
                 <run>
                   <lit>back/fwd buttons are not shown in browser</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="k-uFL0mRfpX">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>app crashes because of some params</lit>
                 </run>
               </p>
             </text>
@@ -439,10 +461,29 @@
         </item>
       </children>
     </item>
-    <item id="hHih3IGce_5">
+    <item id="moIjrlZvecY">
       <values>
-        <null/>
+        <text>
+          <p>
+            <run>
+              <lit>Features</lit>
+            </run>
+          </p>
+        </text>
       </values>
+      <children>
+        <item id="nI5VLVhdDXW">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Tires: show tire sizes on the chart w/o any visualization</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
     </item>
     <item id="loH9eiExqn7">
       <values>
@@ -455,34 +496,12 @@
         </text>
       </values>
       <children>
-        <item id="nBQkU5N_Jw4">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>remove search on Category screen</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="e0L8XJvUs8P">
           <values>
             <text>
               <p>
                 <run>
                   <lit>change empty screen messaging to fin OS 7 style</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="cU1hkyDhnsV">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>сменить второй цвет с синего на что-нибудь другое</lit>
                 </run>
               </p>
             </text>
@@ -502,28 +521,6 @@
         <item id="bLBr0iBshnf">
           <values>
             <null/>
-          </values>
-        </item>
-        <item id="cp8RpSw2k2B">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>картинки на пустые экраны</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="iSLNvuJxLQo">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>кнопки свертывания боковой панели</lit>
-                </run>
-              </p>
-            </text>
           </values>
         </item>
         <item id="nWZ6uM5LzQw">
@@ -658,28 +655,6 @@
             </text>
           </values>
         </item>
-        <item id="pye7WvMKboH">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>переименовать BMW 3 в 3-er</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="dW-bcTEMQSD">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>свойство полных имен для моделей (VW Passat – Passat, BMW 3 – BMW 3)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="aIzwzUmPSk9">
           <values>
             <text>
@@ -702,28 +677,6 @@
             </text>
           </values>
         </item>
-        <item id="kO9MxxFAjZq">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>сравнение колес</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ce3RmB93qbt">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>укоротить ключи модов</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="nLCv69goNPL">
           <values>
             <text>
@@ -741,6 +694,120 @@
               <p>
                 <run>
                   <lit>увеличить фрейм поля в редактируемых клетках, попадать сложно</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="a8JiyLEGfFA">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Отмененное</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="hPY_ioJXCK1">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>картинки на пустые экраны</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="iWWxIIjcUOQ">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>кнопки свертывания боковой панели</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ewZwN8XvJ9s">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>сравнение колес</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="azwHhk16foy">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>укоротить ключи модов</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hQ-xabgd2B8">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>переименовать BMW 3 в 3-er</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="g3gagt_KrXt">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>свойство полных имен для моделей (VW Passat – Passat, BMW 3 – BMW 3)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="lCc33sCC4L6">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Удаление</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="jLfpzzv6xc0">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>remove search on Category screen</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ix7piVLqFMt">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>запретить вращение на телефоне</lit>
                 </run>
               </p>
             </text>
@@ -967,11 +1034,6 @@
           </values>
         </item>
       </children>
-    </item>
-    <item id="dARyST4NYb9">
-      <values>
-        <null/>
-      </values>
     </item>
     <item id="mL6QG7v-9sw">
       <values>

@@ -15,24 +15,21 @@ class ParametersController < UITableViewController
   end  
     
   def tableView(tv, numberOfRowsInSection: section)
-    groupKey = Parameter.groupKeys[section]
-    Parameter.parametersForGroup(groupKey).count
+    Parameter.chartableParametersForGroup( Parameter.groupKeys[section] ).count
   end
   
   def tableView(tv, titleForHeaderInSection: section)
-    groupKey = Parameter.groupKeys[section]
-    Parameter.nameForGroup(groupKey)
+    Parameter.nameForGroup( Parameter.groupKeys[section] )
   end
   
   def tableView(table, cellForRowAtIndexPath: indexPath)
     groupKey = Parameter.groupKeys[indexPath.section]
-    parameter = Parameter.parametersForGroup(groupKey)[indexPath.row]
-    parameterIsSelected = parameter.selected?
+    parameter = Parameter.chartableParametersForGroup(groupKey)[indexPath.row]
 
     cell = table.dequeueReusableCell
-    cell.textLabel.text = parameter.name  
-    cell.toggleCheckmarkAccessory(parameterIsSelected)
-    cell
+    cell.textLabel.text = parameter.name
+    cell.toggleCheckmarkAccessory(parameter.selected?)
+    return cell
   end  
   
   def tableView(table, didSelectRowAtIndexPath:indexPath)
@@ -41,7 +38,7 @@ class ParametersController < UITableViewController
     cell.toggleCheckmarkAccessory
 
     groupKey = Parameter.groupKeys[indexPath.section]
-    parameter = Parameter.parametersForGroup(groupKey)[indexPath.row]
+    parameter = Parameter.chartableParametersForGroup(groupKey)[indexPath.row]
     parameter.select!
   end
 end

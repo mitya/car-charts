@@ -32,6 +32,11 @@ Statics = {
     dimensions: ["Dimensions", [:length, :width, :height, :ground_clearance, :wheelbase, :kerbweight, :gross_mass, :tires, :front_tire_rut, :rear_tire_rut, :luggage_min, :luggage_max, :tank_capacity, :doors, :seats_min, :seats_max]],
     other: ["Other", [:produced_since, :produced_till]]
   },
+  parameterGroupsDataForCharting: {
+    engine: ["Engine", [:acceleration_100kmh, :top_speed, :max_power, :max_power_kw, :max_torque, :displacement, :cylinder_count, :cylinder_valves, :compression, :bore, :gears, :consumption_city, :consumption_highway, :consumption_mixed]],
+    dimensions: ["Dimensions", [:length, :width, :height, :ground_clearance, :wheelbase, :kerbweight, :gross_mass, :front_tire_rut, :rear_tire_rut, :luggage_min, :luggage_max, :tank_capacity, :doors, :seats_min, :seats_max]],
+    other: ["Other", [:produced_since, :produced_till]]
+  },
   parameterNames: {
     top_speed:              "Top Speed",
     acceleration_100kmh:    "Acelleration (0-100 km/h)",

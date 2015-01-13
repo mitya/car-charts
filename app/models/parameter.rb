@@ -70,6 +70,11 @@ class Parameter
     def parametersForGroup(groupKey)
       Metadata[:parameterGroupsData][groupKey][1].map { |k| parameterForKey(k) }
     end
+    
+
+    def chartableParametersForGroup(groupKey)
+      Metadata[:parameterGroupsDataForCharting][groupKey][1].map { |k| parameterForKey(k) }
+    end
   end
   
   BodyParameters = NSSet.setWithArray([:length, :width, :height])
