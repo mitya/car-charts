@@ -10,31 +10,34 @@ class Disk
       NSUserDefaults.standardUserDefaults["filterOptions"] = hash
     end
   
+    # sort order is not specified
     def currentMods
-      @currentMods ||= Mod.modsForKeys(NSUserDefaults.standardUserDefaults["mods"].to_a)
+      @currentMods ||= Mod.modsForKeys NSUserDefaults.standardUserDefaults["mods"].to_a
     end
 
     def currentMods=(array)
-      willChangeValueForKey('currentMods')
-      NSUserDefaults.standardUserDefaults["mods"] = array.map(&:key)
-      @currentMods = array
-      didChangeValueForKey('currentMods')
+      changeValueForKey('currentMods') do
+        NSUserDefaults.standardUserDefaults["mods"] = array.map(&:key)
+        @currentMods = array        
+      end
     end
   
+    # sort order is not specified
     def recentMods
-      @recentMods ||= Mod.modsForKeys(NSUserDefaults.standardUserDefaults["recentMods"].to_a)
+      @recentMods ||= Mod.modsForKeys NSUserDefaults.standardUserDefaults["recentMods"].to_a 
     end
 
     def recentMods=(array)
-      array = array.last(MaxRecentModCount)
-      NSUserDefaults.standardUserDefaults["recentMods"] = array.map(&:key)      
-      @recentMods = array
+      changeValueForKey('recentMods') do
+        array = array.last(MaxRecentModCount)
+        NSUserDefaults.standardUserDefaults["recentMods"] = array.map(&:key)
+        @recentMods = array
+      end
     end
   
     def toggleModInCurrentList(mod)
       self.recentMods = recentMods.dupWithToggledObject(mod) if currentMods.include?(mod) || recentMods.include?(mod)
       self.currentMods = currentMods.dupWithToggledObject(mod)
-      NSUserDefaults.standardUserDefaults.synchronize
     end
 
     def currentParameters
@@ -42,11 +45,10 @@ class Disk
     end
   
     def currentParameters=(array)
-      willChangeValueForKey('currentParameters')
-      NSUserDefaults.standardUserDefaults["parameters"] = array.map { |p| p.key.to_s }
-      NSUserDefaults.standardUserDefaults.synchronize
-      @currentParameters = array
-      didChangeValueForKey('currentParameters')
+      changeValueForKey('currentParameters') do
+        NSUserDefaults.standardUserDefaults["parameters"] = array.map { |p| p.key.to_s }
+        @currentParameters = array
+      end
     end
   
 
@@ -78,6 +80,13 @@ class Disk
       NSUserDefaults.standardUserDefaults["recentMods"].nil? && 
       NSUserDefaults.standardUserDefaults["parameters"].nil? && 
       ModSet.count == 0
+    end
+    
+    private def changeValueForKey(key)
+      willChangeValueForKey(key)
+      yield
+      NSUserDefaults.standardUserDefaults.synchronize
+      didChangeValueForKey(key)
     end
   end
 end

@@ -15,3 +15,10 @@ def __p(label, *args)
   inspection = ": #{args.inspect[1...-1]}" if args.any?
   puts "--- #{label}#{inspection}"
 end
+
+def __pla(array)
+  array.each do |item|
+    puts "--- #{item.inspect}"
+  end
+  nil
+end

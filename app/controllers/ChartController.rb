@@ -49,7 +49,13 @@ class ChartController < UIViewController
       end
     end
     
-    isViewVisible ? reload : (@reloadPending = true ) if object == Disk
+    if object == Disk
+      if isViewVisible
+        reload
+      else
+        @reloadPending = true
+      end
+    end
   end
 
   def didRotateFromInterfaceOrientation(fromInterfaceOrientation)    
@@ -63,8 +69,8 @@ class ChartController < UIViewController
   
   def tableView(tv, cellForRowAtIndexPath:ip)
     cell = tv.dequeueReusableCell klass:ChartBarView::TableCell, selectionStyle:UITableViewCellSelectionStyleNone
-    cell.comparisionItem = comparision.items[ip.row]
-    cell
+    cell.comparisionItem = @comparision.items[ip.row]
+    return cell
   end
   
   def tableView(tv, heightForRowAtIndexPath:ip)

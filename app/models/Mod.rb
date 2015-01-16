@@ -41,6 +41,14 @@ class Mod < DSCoreModel
     else ''
     end
   end
+  
+  def inspect
+    to_s
+  end
+  
+  def to_s
+    "{#{key}}"
+  end
 
   ####
 

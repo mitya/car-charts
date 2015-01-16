@@ -100,5 +100,13 @@ class Comparision
     def lastForModel?
       mod == mods.last || mods[index + 1].model != mod.model
     end
+    
+    def to_s
+      "CI(#{index}, #{mod.key})"
+    end
+    
+    def inspect
+      to_s
+    end
   end
 end

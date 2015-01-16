@@ -49,6 +49,7 @@ class ModSet < DSCoreModel
   end
 
   def replaceCurrentMods
+    Disk.recentMods = Disk.recentMods + Disk.currentMods
     Disk.currentMods = mods
   end
 

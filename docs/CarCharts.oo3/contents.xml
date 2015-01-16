@@ -81,7 +81,9 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="gtzXBBOQMLA"/>
+    <selected-rows ids="iLOjUat9BYx"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{39, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -312,6 +314,17 @@
             </text>
           </values>
         </item>
+        <item id="ec2U8AyhD7i">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>wrong models displayed after replacing current models with some set</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="chiHKnYs1oi">
           <values>
             <text>
@@ -329,6 +342,17 @@
               <p>
                 <run>
                   <lit>production dates in photos browser</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="iLOjUat9BYx">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>canceling search on models page crashes the app</lit>
                 </run>
               </p>
             </text>

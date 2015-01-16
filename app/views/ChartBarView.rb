@@ -43,6 +43,13 @@ class ChartBarView < UIView
     renderingMode == :wide || renderingMode == :ultraWide ? drawWide(rect) : drawNarrow(rect)
   end
   
+  def comparisionItem=(item)
+    if @comparisionItem != item
+      @comparisionItem = item
+      setNeedsDisplay
+    end
+  end
+    
   private
 
   def drawWide(rect)
