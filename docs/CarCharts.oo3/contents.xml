@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="iLOjUat9BYx"/>
+    <selected-rows ids="nGpW79V662a"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -290,34 +290,12 @@
         </text>
       </values>
       <children>
-        <item id="jQMSQCTNRuA" state="checked">
+        <item id="iLOjUat9BYx">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>tires comparision (or remove them altogether)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="gtzXBBOQMLA" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix color overflow</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ec2U8AyhD7i" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>wrong models displayed after replacing current models with some set</lit>
+                  <lit>canceling search on models page crashes the app</lit>
                 </run>
               </p>
             </text>
@@ -340,17 +318,6 @@
               <p>
                 <run>
                   <lit>production dates in photos browser</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="iLOjUat9BYx">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>canceling search on models page crashes the app</lit>
                 </run>
               </p>
             </text>
@@ -384,6 +351,39 @@
               <p>
                 <run>
                   <lit>back/fwd buttons are not shown in browser</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="jQMSQCTNRuA" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>tires comparision (or remove them altogether)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="gtzXBBOQMLA" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>fix color overflow</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ec2U8AyhD7i" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>wrong models displayed after replacing current models with some set</lit>
                 </run>
               </p>
             </text>

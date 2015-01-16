@@ -10,6 +10,7 @@ class ModelsController
       @initialBrands = @isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
       @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
     end
+
   
     def numberOfSectionsInTableView(tv)
       @brands.count
@@ -59,14 +60,14 @@ class ModelsController
     end  
 
     def searchDisplayController(ctl, shouldReloadTableForSearchString:newSearchString)
-      @currentModels = @models
+      currentModels = @models
       loadDataForSearchString(newSearchString)
-      @currentModels != @models
+      return currentModels != @models
     end
   
     def searchBarCancelButtonClicked(searchBar)
       loadDataForSearchString("")
-      controller.tableView.reloadVisibleRows
+      controller.tableView.reloadData
       controller.navigationItem.backBarButtonItem = KK.textBBI(controller.currentShortTitle)
     end
 

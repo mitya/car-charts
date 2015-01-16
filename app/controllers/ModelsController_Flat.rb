@@ -13,6 +13,7 @@ class ModelsController
       @initialModels = objects
       @filteredModels = @initialModels
     end
+
   
     def tableView(tv, numberOfRowsInSection:section)
       @filteredModels.count
@@ -38,7 +39,7 @@ class ModelsController
 
     def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
       loadDataForSearchString("")
-      controller.tableView.reloadVisibleRows
+      controller.tableView.reloadData
       controller.navigationItem.backBarButtonItem = KK.textBBI(controller.currentShortTitle)
     end
 
@@ -47,9 +48,9 @@ class ModelsController
     end  
 
     def searchDisplayController(controller, shouldReloadTableForSearchString:newSearchString)
-      @currentModels = @filteredModels
+      currentModels = @filteredModels
       loadDataForSearchString(newSearchString)
-      @currentModels != @filteredModels
+      return currentModels != @filteredModels
     end
 
 
