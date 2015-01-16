@@ -218,7 +218,20 @@ namespace 'g' do
     # img = img.scale(0.66)
     img = img.negate
     img.write "#{dst}/#{img_name}"
-
-    # img.crop!(0, 0, 500, 300)
+  end
+  
+  task :chop_statusbar do
+    statusbar_height = 40
+    [
+      '',
+      '-568h',
+      '-667h'
+    ].each do |suffix|
+      ss = Magick::Image.read("resources/Default#{suffix}@2x.png").first
+      ss.background_color = "#5c4129"
+      ss.crop! 0, statusbar_height, ss.columns, ss.rows, true
+      ss = ss.extent ss.columns, ss.rows + statusbar_height, 0, -statusbar_height
+      ss.write ss.filename
+    end
   end
 end
