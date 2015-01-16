@@ -1,3 +1,4 @@
+# http://blog.willrax.com/custom-uitableviewcells-in-rubymotion/
 class ThreeLabelCell < UITableViewCell
   attr_accessor :commentLabel
   

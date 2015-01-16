@@ -62,7 +62,8 @@ class ChartLegendView < UIView
 
     def drawRect(rect)
       context = UIGraphicsGetCurrentContext()
-      colorGradient = ChartBarView.colors[index]
+      bgColorsIndex = ChartBarView.sessionColorIndexes[index.remainder(ChartBarView.sessionColorIndexes.count)]
+      colorGradient = ChartBarView.colors[bgColorsIndex]
       colorFrame = CGRectMake(leftMargin, (ItemH - ColorH) / 2.0, ColorW, ColorH)
       textSize = param.name.sizeWithFont(textFont)
       textFrame = CGRectMake(colorFrame.x + colorFrame.width + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)

@@ -74,16 +74,16 @@ class ModSetController < UITableViewController
   
   def showSetActionSheet(bbi)
     sheet = UIActionSheet.alloc.initWithTitle(NIL, delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
-    sheet.addButtonWithTitle "Add Models to Chart"
-    sheet.addButtonWithTitle "Replace Models on Chart"
+    sheet.addButtonWithTitle "Add All to Chart"
+    sheet.addButtonWithTitle "Replace All on Chart"
     sheet.addButtonWithTitle "Edit Set"
     sheet.showFromBarButtonItem bbi, animated:YES
   end
   
   def actionSheet(sheet, clickedButtonAtIndex:buttonIndex)
     case sheet.buttonTitleAtIndex(buttonIndex)
-      when "Replace Models on Chart" then @set.replaceCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
-      when "Add Models to Chart" then @set.addToCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
+      when "Add All to Chart" then @set.addToCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
+      when "Replace All on Chart" then @set.replaceCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
       when "Edit Set" then setEditing(YES, animated:YES)
     end
   end

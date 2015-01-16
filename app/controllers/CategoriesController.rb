@@ -4,7 +4,7 @@ class CategoriesController < UITableViewController
   
   def initialize
     self.title = "Categories"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tbi-car"), tag:3)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("ti-car"), tag:3)
     self.navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'close')
   end
 
