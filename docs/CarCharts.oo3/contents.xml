@@ -81,9 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="ir3tgud3ASJ"/>
-    <selected-columns ids="jFqHUGd_Dg1"/>
-    <selected-characters range="{37, 0}"/>
+    <selected-rows ids="dLW8OcVgNnc"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -138,17 +136,6 @@
         </text>
       </values>
       <children>
-        <item id="fPyQBn5r-js">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>production dates comparision (or remove)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="nbyJSHdeUhX">
           <values>
             <text>
@@ -198,7 +185,7 @@
             <null/>
           </values>
         </item>
-        <item id="ir3tgud3ASJ">
+        <item id="ir3tgud3ASJ" state="checked">
           <values>
             <text>
               <p>
@@ -209,9 +196,15 @@
             </text>
           </values>
         </item>
-        <item id="mRrNCb1DlBR">
+        <item id="fPyQBn5r-js" state="checked">
           <values>
-            <null/>
+            <text>
+              <p>
+                <run>
+                  <lit>production dates comparision (or remove)</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="boPLDfB-tLw" state="checked">

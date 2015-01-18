@@ -64,7 +64,7 @@ class Mod < DSCoreModel
   end
   
   def year
-    @year ||= produced_since.to_s.gsub(/[^\d\.]/, '').to_i
+    @year ||= produced_since / 100 if produced_since
   end
 
   
