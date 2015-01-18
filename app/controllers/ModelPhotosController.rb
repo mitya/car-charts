@@ -5,10 +5,10 @@ class ModelPhotosController < UIViewController
   def initialize(model = nil, year = nil)
     self.model = model
     self.year = year
-    self.hidesBottomBarWhenPushed = KK.iphone?
-    navigationItem.hidesBackButton = YES
+    self.hidesBottomBarWhenPushed = KK.iphone?    
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
   end
+
   
   def viewDidLoad
     self.title = "Photos"
@@ -49,7 +49,6 @@ class ModelPhotosController < UIViewController
     webView.stopLoading
     spinner.stopAnimating
   end
-
   
 
   def close
@@ -61,6 +60,7 @@ class ModelPhotosController < UIViewController
     spinner.stopAnimating
     goBackBBI.enabled = webView.canGoBack
     goForwardBBI.enabled = webView.canGoForward
+    
     if webView.canGoBack || webView.canGoForward
       self.toolbarItems ||= [KK.flexibleSpaceBBI, goBackBBI, KK.flexibleSpaceBBI, goForwardBBI, KK.flexibleSpaceBBI]
       navigationController.setToolbarHidden(NO, animated:YES)

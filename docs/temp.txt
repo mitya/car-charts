@@ -126,3 +126,7 @@ ModsController.rb
 ModsController+Recents.rb
 ParametersController.rb
 
+
+
+window.rootViewController.navigationController
+visibleViewController

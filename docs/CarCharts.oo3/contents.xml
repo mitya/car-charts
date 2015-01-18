@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="dLW8OcVgNnc"/>
+    <selected-rows ids="loH9eiExqn7"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,17 +136,6 @@
         </text>
       </values>
       <children>
-        <item id="nbyJSHdeUhX">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>production dates in photos browser</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="mPyCq2VbPfV">
           <values>
             <text>
@@ -180,9 +169,31 @@
             </text>
           </values>
         </item>
+        <item id="iBFSoLNGwty">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>rename controllers to include View / List suffixes</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="pKamBxTtk9z">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="nbyJSHdeUhX" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>production dates in photos browser</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="ir3tgud3ASJ" state="checked">
@@ -389,113 +400,12 @@
         </text>
       </values>
     </item>
-    <item id="c35hFKhKHz2">
-      <values>
-        <text>
-          <p>
-            <run>
-              <lit>iOS / API Updates</lit>
-            </run>
-          </p>
-        </text>
-      </values>
-      <children>
-        <item id="krhASeet9nd">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>new search bar API</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="nW5JQwRo8OV">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>change empty screen messaging to fit OS 7 style</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-      </children>
-    </item>
-    <item id="hMLzRS4FJ0q" expanded="yes">
-      <values>
-        <text>
-          <p>
-            <run>
-              <lit>UI Improvements</lit>
-            </run>
-          </p>
-        </text>
-      </values>
-      <children>
-        <item id="fUTl0VIPDcu">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>Filter Pane for mods instead of segment buttons</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-          <note expanded="yes">
-            <text>
-              <p>
-                <run>
-                  <lit>Replace segment radio buttons with a filter pane opened from a BBI. The pane can either take a small part of the screen, either slide from the top and take all the h-space on the screen and about 50% of the v-space</lit>
-                </run>
-              </p>
-            </text>
-          </note>
-        </item>
-        <item id="oIJz3J4ecKX">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>iPhone 6+ version</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="gQDdb5V7iYp">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>Tabbar-less UI to consume less v-space</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ljyQjGOY_TZ">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>Present empty values in some other way</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-      </children>
-    </item>
     <item id="aB5Sv1EYaW2">
       <values>
         <text>
           <p>
             <run>
-              <lit>Final</lit>
+              <lit>Финальное</lit>
             </run>
           </p>
         </text>
@@ -525,31 +435,12 @@
         </item>
       </children>
     </item>
-    <item id="moIjrlZvecY" expanded="yes">
+    <item id="lihIDQDClkO">
       <values>
-        <text>
-          <p>
-            <run>
-              <lit>Features</lit>
-            </run>
-          </p>
-        </text>
+        <null/>
       </values>
-      <children>
-        <item id="nI5VLVhdDXW">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>tires: show tire sizes on the chart w/o any visualization</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-      </children>
     </item>
-    <item id="loH9eiExqn7" expanded="yes">
+    <item id="loH9eiExqn7">
       <values>
         <text>
           <p>
@@ -571,17 +462,34 @@
             </text>
           </values>
         </item>
-        <item id="bLBr0iBshnf">
-          <values>
-            <null/>
-          </values>
-        </item>
-        <item id="nWZ6uM5LzQw">
+        <item id="pJuwjakAxFB">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>пересмотреть вид неизвестного значения (серая полоса во все ширину?)</lit>
+                  <lit>present empty values in some other way</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="gfRuugJg2Xp">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>split tire sizes with comma on Mod View</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hNyr1PfUUsO">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>change empty screen messaging to fit OS 7 style</lit>
                 </run>
               </p>
             </text>
@@ -609,56 +517,12 @@
             </text>
           </values>
         </item>
-        <item id="epf1F6ubGQf">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>стилизовать версию в ячейке мода</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="dGdMll_ChCG">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>стилизовать кузов на графике</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="oWjZ6-T0W9q">
           <values>
             <text>
               <p>
                 <run>
                   <lit>поле поиска в строке заголовка для моделей</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="j1XZc-TiyIT">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>таппинг на графике должен открывать детали</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="iVB072HCMvL">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>слайдинг, сортировка, меню для графика</lit>
                 </run>
               </p>
             </text>
@@ -697,34 +561,12 @@
             </text>
           </values>
         </item>
-        <item id="aIzwzUmPSk9">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>показывать бейдж или подпись сета при редактировании</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="cjSl6N-yOp3">
           <values>
             <text>
               <p>
                 <run>
                   <lit>использовать специальные хэши для сравнения списков модов вместо трекинга событий</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="nLCv69goNPL">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>переформатировать страницу мода</lit>
                 </run>
               </p>
             </text>
@@ -743,120 +585,6 @@
         </item>
       </children>
     </item>
-    <item id="a8JiyLEGfFA">
-      <values>
-        <text>
-          <p>
-            <run>
-              <lit>Отмененное</lit>
-            </run>
-          </p>
-        </text>
-      </values>
-      <children>
-        <item id="hPY_ioJXCK1">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>картинки на пустые экраны</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="iWWxIIjcUOQ">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>кнопки свертывания боковой панели</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ewZwN8XvJ9s">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>сравнение колес</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="azwHhk16foy">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>укоротить ключи модов</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="hQ-xabgd2B8">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>переименовать BMW 3 в 3-er</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="g3gagt_KrXt">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>свойство полных имен для моделей (VW Passat – Passat, BMW 3 – BMW 3)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-      </children>
-    </item>
-    <item id="lCc33sCC4L6">
-      <values>
-        <text>
-          <p>
-            <run>
-              <lit>Можно удаленить</lit>
-            </run>
-          </p>
-        </text>
-      </values>
-      <children>
-        <item id="jLfpzzv6xc0">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>remove search on Category screen</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ix7piVLqFMt">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>запретить вращение на телефоне</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-      </children>
-    </item>
     <item id="jAqFH9xdzCL">
       <values>
         <text>
@@ -868,6 +596,17 @@
         </text>
       </values>
       <children>
+        <item id="gSjXRumb7nL">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Tabbar-less UI to consume less v-space</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="nNEqGniZRLn">
           <values>
             <text>
@@ -1001,7 +740,7 @@
         <text>
           <p>
             <run>
-              <lit>Пробное</lit>
+              <lit>Технологическое</lit>
             </run>
           </p>
         </text>
@@ -1029,47 +768,232 @@
             </text>
           </values>
         </item>
+        <item id="aocSJy_-QoS">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>new search bar API</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
       </children>
     </item>
-    <item id="kwB9ppLYKaR">
+    <item id="moIjrlZvecY">
       <values>
         <text>
           <p>
             <run>
-              <lit>Рефаторинг</lit>
+              <lit>Новое</lit>
             </run>
           </p>
         </text>
       </values>
       <children>
-        <item id="mbrJOlC2k6Z">
+        <item id="nI5VLVhdDXW">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>убрать статику из ChartBarView</lit>
+                  <lit>tires: show tire sizes on the chart w/o any visualization</lit>
                 </run>
               </p>
             </text>
           </values>
         </item>
-        <item id="cwDagYguq8C">
+        <item id="lr5h7QtKhU-">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>вынос строк</lit>
+                  <lit>iPhone 6+ version</lit>
                 </run>
               </p>
             </text>
           </values>
         </item>
-        <item id="gsz22j4qQFD">
+        <item id="fkEo8eYmd7g">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>построение метаданных</lit>
+                  <lit>таппинг на графике должен открывать детали</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="gYwSvPvIUAY">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>слайдинг, сортировка, меню для графика</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="bnyA5GXzJDn">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>переформатировать страницу мода</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="fHinR8tYal4">
+      <values>
+        <null/>
+      </values>
+    </item>
+    <item id="a8JiyLEGfFA">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Отмененное</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="jX3yxkgNx-O">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>показывать бейдж или подпись сета при редактировании</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="eorPHtJ0d1i">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>стилизовать кузов на графике</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="g3IQdLRuPXe">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>стилизовать версию в ячейке мода</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hPY_ioJXCK1">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>картинки на пустые экраны</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="iWWxIIjcUOQ">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>кнопки свертывания боковой панели</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ewZwN8XvJ9s">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>сравнение колес</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="azwHhk16foy">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>укоротить ключи модов</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hQ-xabgd2B8">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>переименовать BMW 3 в 3-er</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="g3gagt_KrXt">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>свойство полных имен для моделей (VW Passat – Passat, BMW 3 – BMW 3)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="lCc33sCC4L6">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Лишнее из написанного</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="jLfpzzv6xc0">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>remove search on Category screen</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ix7piVLqFMt">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>запретить вращение на телефоне</lit>
                 </run>
               </p>
             </text>
@@ -1122,6 +1046,11 @@
           </values>
         </item>
       </children>
+    </item>
+    <item id="m55knM5zPBb">
+      <values>
+        <null/>
+      </values>
     </item>
     <item id="kPYemT4C8Sb">
       <values>
@@ -4357,7 +4286,7 @@
             </item>
           </children>
         </item>
-        <item id="cVDxCDPSEcc">
+        <item id="cVDxCDPSEcc" expanded="yes">
           <values>
             <text>
               <p>

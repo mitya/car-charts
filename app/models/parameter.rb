@@ -16,19 +16,19 @@ class Parameter
   def long?
     LongParameters.containsObject(key)
   end
-  
+
   def appliesToBody?
     BodyParameters.containsObject(key)
   end
-  
+
   def selected?
     Disk.currentParameters.include?(self)
   end
-  
+
   def select!
     Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(self)
   end
-  
+
   def formattedValue(value)
     return "" if value == nil
     text = case 
