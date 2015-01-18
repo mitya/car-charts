@@ -5,7 +5,6 @@ class ModsController < UIViewController
     self.model = model
     self.mods = model.mods
     self.title = model.name
-    self.hidesBottomBarWhenPushed = KK.iphone?
     navigationItem.backBarButtonItem = KK.textBBI("Versions")                    
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
   end

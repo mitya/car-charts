@@ -113,7 +113,7 @@ Statics = {
   parameterUnitNames: {
     kmh:    "km/h",
     s:      "s",
-    l100km: "l/100km",
+    l100km: "ℓ/100km",
     cc:     "cc",
     count:  "",
     value:  "",
