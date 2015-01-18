@@ -50,7 +50,6 @@ class Mod < DSCoreModel
     "{#{key}}"
   end
 
-  ####
 
   def model
     @model ||= Model.modelForKey(model_key)
@@ -68,7 +67,6 @@ class Mod < DSCoreModel
     @year ||= produced_since.to_s.gsub(/[^\d\.]/, '').to_i
   end
 
-  ####
   
   def selected?
     Disk.currentMods.include?(self)
@@ -77,8 +75,7 @@ class Mod < DSCoreModel
   def select!
     Disk.toggleModInCurrentList(self)
   end
-  
-  ####
+
   
   def gas?
     fuel == 'P'
@@ -108,19 +105,12 @@ class Mod < DSCoreModel
     body.start_with?('hatch')
   end
 
-  ####
 
   def [](key)
     key = key.key if Parameter === key
     get(key)
   end
 
-  def fieldTextFor(parameter)
-    value = get(parameter.key)
-    return "" unless value
-    formattedValue = Float === value ? "%.1f" % value : value.to_s
-    "#{formattedValue} #{parameter.unitName}"
-  end
   
   AutomaticTransmissions = %w(AT AMT CVT)  
 
@@ -184,6 +174,7 @@ class Mod < DSCoreModel
     ['tank_capacity',          NSInteger32AttributeType, false],
     ['tires',                  NSStringAttributeType,    false],
   ]
+
   
   class << self
     def modForKey(key)

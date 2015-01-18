@@ -46,7 +46,7 @@ class ModController < UITableViewController
       parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]
       cell = tv.dequeueReusableCell style:UITableViewCellStyleValue1, selectionStyle:UITableViewCellSelectionStyleNone
       cell.textLabel.text = parameter.name
-      cell.detailTextLabel.text = @mod.fieldTextFor(parameter)
+      cell.detailTextLabel.text = parameter.formattedValueForMod(@mod)
       return cell
     end
   end

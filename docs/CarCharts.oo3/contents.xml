@@ -81,7 +81,9 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="nGpW79V662a"/>
+    <selected-rows ids="ir3tgud3ASJ"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{37, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,6 +138,126 @@
         </text>
       </values>
       <children>
+        <item id="fPyQBn5r-js">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>production dates comparision (or remove)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="nbyJSHdeUhX">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>production dates in photos browser</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="mPyCq2VbPfV">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>back/fwd buttons are not shown in browser</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ha7ljmvUUQy">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>fix filters on ipad </lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="dLW8OcVgNnc">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>fix status bar text on ipad</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="pKamBxTtk9z">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="ir3tgud3ASJ">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>don’t hide the tab bar on models page</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="mRrNCb1DlBR">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="boPLDfB-tLw" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>canceling search on models page crashes the app</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="nzkEVnBTPlQ" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>tires comparision (or remove them altogether)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="fWCohReRvgi" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>fix color overflow</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="pMxYplqvL2B" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>wrong models displayed after replacing current models with some set</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="a2kHeCV7vaV" state="checked">
           <values>
             <text>
@@ -153,28 +275,6 @@
               <p>
                 <run>
                   <lit>иконку для параметров</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="kNrX2Q8Qown">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>тестирование</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="agbxNrSzN-m">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>обновление данных</lit>
                 </run>
               </p>
             </text>
@@ -226,9 +326,15 @@
             </text>
           </values>
         </item>
-        <item id="l21g3iZoUAU">
+        <item id="guM-7ql0xdZ">
           <values>
-            <null/>
+            <text>
+              <p>
+                <run>
+                  <lit>update chart colors to match keynote charts</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="cezJtKeuY26">
@@ -279,7 +385,7 @@
         </item>
       </children>
     </item>
-    <item id="ja4onxkzuHm" expanded="yes">
+    <item id="ja4onxkzuHm">
       <values>
         <text>
           <p>
@@ -289,114 +395,13 @@
           </p>
         </text>
       </values>
-      <children>
-        <item id="iLOjUat9BYx">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>canceling search on models page crashes the app</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="chiHKnYs1oi">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>production dates comparision (or remove)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="bXpR7tPCQfh">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>production dates in photos browser</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="nGpW79V662a">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix filters on iPad</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="k0rTFkdNWjD">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix status bar text on iPad</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="lPDRvxoO-gx">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>back/fwd buttons are not shown in browser</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="jQMSQCTNRuA" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>tires comparision (or remove them altogether)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="gtzXBBOQMLA" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix color overflow</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ec2U8AyhD7i" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>wrong models displayed after replacing current models with some set</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-      </children>
     </item>
     <item id="c35hFKhKHz2">
       <values>
         <text>
           <p>
             <run>
-              <lit>Updates</lit>
+              <lit>iOS / API Updates</lit>
             </run>
           </p>
         </text>
@@ -413,9 +418,20 @@
             </text>
           </values>
         </item>
+        <item id="nW5JQwRo8OV">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>change empty screen messaging to fit OS 7 style</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
       </children>
     </item>
-    <item id="hMLzRS4FJ0q">
+    <item id="hMLzRS4FJ0q" expanded="yes">
       <values>
         <text>
           <p>
@@ -468,6 +484,17 @@
             </text>
           </values>
         </item>
+        <item id="ljyQjGOY_TZ">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Present empty values in some other way</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
       </children>
     </item>
     <item id="aB5Sv1EYaW2">
@@ -481,6 +508,17 @@
         </text>
       </values>
       <children>
+        <item id="l76MSlVA4xY">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>попробовать оставить только некоторые launch images</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="gf8pr6jpB0i">
           <values>
             <text>
@@ -494,7 +532,7 @@
         </item>
       </children>
     </item>
-    <item id="moIjrlZvecY">
+    <item id="moIjrlZvecY" expanded="yes">
       <values>
         <text>
           <p>
@@ -510,7 +548,7 @@
             <text>
               <p>
                 <run>
-                  <lit>Tires: show tire sizes on the chart w/o any visualization</lit>
+                  <lit>tires: show tire sizes on the chart w/o any visualization</lit>
                 </run>
               </p>
             </text>
@@ -518,7 +556,7 @@
         </item>
       </children>
     </item>
-    <item id="loH9eiExqn7">
+    <item id="loH9eiExqn7" expanded="yes">
       <values>
         <text>
           <p>
@@ -529,23 +567,12 @@
         </text>
       </values>
       <children>
-        <item id="e0L8XJvUs8P">
+        <item id="hoD0IZFjxrJ">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>change empty screen messaging to fin OS 7 style</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="cWukoJBxJkg">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>update chart colors to match keynote charts</lit>
+                  <lit>set some params after crash</lit>
                 </run>
               </p>
             </text>
@@ -573,17 +600,6 @@
               <p>
                 <run>
                   <lit>уменьшить градиент на айпаде</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="mWchlJFJpr9">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>сделать границу мультикнопок темнее чтобы избежать искажений прямых</lit>
                 </run>
               </p>
             </text>
@@ -818,7 +834,7 @@
         <text>
           <p>
             <run>
-              <lit>Удаление</lit>
+              <lit>Можно удаленить</lit>
             </run>
           </p>
         </text>

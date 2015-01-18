@@ -32,15 +32,19 @@ class Parameter
   def formattedValue(value)
     return "" if value == nil
     text = case 
-      when key == :produced_since || key == :produced_till
-        year, month = value.to_i.divmod(100)
-        month == 0 ? year : "#{year}.#{month.to_s.rjust(2, '0')}"
-      when Float === value
-        "%.1f" % value
-      else 
-        value
+    when key == :produced_since || key == :produced_till
+      year, month = value.to_i.divmod(100)
+      month == 0 ? year : "#{year}.#{month.to_s.rjust(2, '0')}"
+    when Float === value
+      "%.1f" % value
+    else 
+      value
     end
-    "#{text} #{unitName}".strip
+    return "#{text} #{unitName}".strip
+  end
+  
+  def formattedValueForMod(mod)
+    formattedValue( mod.get(key) )
   end
   
   def inspect
