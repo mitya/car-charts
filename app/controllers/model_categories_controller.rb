@@ -1,5 +1,5 @@
 # Represents a category of models, e.g. 'E class'.
-class CategoriesController < UITableViewController
+class ModelCategoriesController < UITableViewController
   attr_accessor :category
   
   def initialize

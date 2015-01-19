@@ -1,4 +1,4 @@
-class ModSetsController < UITableViewController
+class ModSetListController < UITableViewController
   attr_accessor :sets
 
   def initialize
@@ -57,7 +57,7 @@ class ModSetsController < UITableViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
     tableView.deselectRowAtIndexPath indexPath, animated:YES
-    navigationController.pushViewController ModSetController.new(set), animated:YES
+    navigationController.pushViewController ModSetViewController.new(set), animated:YES
   end
 
 
@@ -80,7 +80,7 @@ class ModSetsController < UITableViewController
 
 
   def showNewSetDialog
-    ModSetsController.showNewSetDialogFor(self)
+    ModSetListController.showNewSetDialogFor(self)
   end
   
   def refreshData

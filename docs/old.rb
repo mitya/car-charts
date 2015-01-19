@@ -126,7 +126,7 @@ tableView.endUpdates
 # multicontroller segment
 
 def initialize
-  @controllers = [SelectedModsController.new, RecentModsController.new]
+  @controllers = [SelectedModListController.new, RecentModListController.new]
   self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemRecents, tag:1)
   self.navigationItem.titleView = modeSegmentedControl
 end
@@ -157,7 +157,7 @@ def switchChildController
   view.subviews.each { |subview| subview.removeFromSuperview }
   view.addSubview(@controller.view)    
 
-  navigationItem.setRightBarButtonItem SelectedModsController === @controller ? saveButtonItem : nil, animated:NO
+  navigationItem.setRightBarButtonItem SelectedModListController === @controller ? saveButtonItem : nil, animated:NO
 end
 
 ### events

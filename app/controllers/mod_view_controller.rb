@@ -1,4 +1,4 @@
-class ModController < UITableViewController
+class ModViewController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   SystemSectionIndex = 0
 

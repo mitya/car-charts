@@ -1,4 +1,4 @@
-class ModsFilterController < UITableViewController
+class ModListFilterController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   
   attr_accessor :filter

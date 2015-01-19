@@ -15,7 +15,7 @@ class AppDelegate
 
     self.chartController = ChartController.new
     self.tabBarController = UITabBarController.new.tap do |tbc|
-      tabControllers = [chartController, ParametersController.new, ModelsController.new, ModsControllerForRecent.new, ModSetsController.new]
+      tabControllers = [chartController, ParameterListController.new, ModelListController.new, ModRecentsController.new, ModSetListController.new]
       tabControllers.shift if KK.ipad?
       tbc.viewControllers = tabControllers.map { |ctr| nav = KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
@@ -154,7 +154,7 @@ class AppDelegate
   end  
   
   def openControllerForModel(modelKey)
-    controller = ModsController.new(Model.modelForKey(modelKey))
+    controller = ModListController.new(Model.modelForKey(modelKey))
     tabBarController.selectedIndex = 2
     tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
   end

@@ -1,4 +1,4 @@
-class ModSetsControllerForSelection < UITableViewController
+class ModSetSelectionController < UITableViewController
   attr_accessor :sets, :closeProc, :mode
 
   def initialize
@@ -56,6 +56,6 @@ class ModSetsControllerForSelection < UITableViewController
   end
 
   def showNewSetDialog
-    ModSetsController.showNewSetDialogFor(self)
+    ModSetListController.showNewSetDialogFor(self)
   end
 end

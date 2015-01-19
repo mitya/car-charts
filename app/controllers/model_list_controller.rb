@@ -3,7 +3,7 @@
 # - all models withing a category
 # - all models matching a search string (either by make or by model name)
 # - all models matching a search string within a category
-class ModelsController < UIViewController
+class ModelListController < UIViewController
   attr_accessor :searchBar, :tableView
   attr_accessor :category, :currentDataSource
   
@@ -88,7 +88,7 @@ class ModelsController < UIViewController
   end
     
   def categoriesController
-    @categoriesController ||= CategoriesController.new
+    @categoriesController ||= ModelCategoriesController.new
   end
   
   def showCategories

@@ -1,4 +1,4 @@
-class ModsControllerForRecent < UITableViewController
+class ModRecentsController < UITableViewController
   def initialize
     self.title = "Recents"
     self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemRecents, tag:3)
@@ -63,7 +63,7 @@ class ModsControllerForRecent < UITableViewController
   end
     
   def saveSelectedAsSet(mode = :add)
-    selectionCtr = ModSetsControllerForSelection.new
+    selectionCtr = ModSetSelectionController.new
     selectionCtr.mode = mode
     if KK.iphone?
       selectionCtr.closeProc = -> { dismissModalViewControllerAnimated true, completion:NIL }
@@ -113,7 +113,7 @@ class ModsControllerForRecent < UITableViewController
   
     def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
       mod = @mods[indexPath.row]
-      controller.navigationController.pushViewController ModController.new(mod), animated:YES
+      controller.navigationController.pushViewController ModViewController.new(mod), animated:YES
     end    
   end
 end

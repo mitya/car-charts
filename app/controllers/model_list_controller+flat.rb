@@ -1,4 +1,4 @@
-class ModelsController
+class ModelListController < UIViewController
   class FlatModelsDataSource
     attr_accessor :controller, :models, :category
   
@@ -32,7 +32,7 @@ class ModelsController
     def tableView(tableView, didSelectRowAtIndexPath:indexPath)
       model = @filteredModels[indexPath.row]
       tableView.deselectRowAtIndexPath indexPath, animated:YES
-      controller.navigationController.pushViewController ModsController.new(model), animated:YES
+      controller.navigationController.pushViewController ModListController.new(model), animated:YES
     end
 
 

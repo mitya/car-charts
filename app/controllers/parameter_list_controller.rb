@@ -1,4 +1,4 @@
-class ParametersController < UITableViewController
+class ParameterListController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   
   def initialize

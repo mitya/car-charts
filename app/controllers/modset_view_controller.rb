@@ -1,4 +1,4 @@
-class ModSetController < UITableViewController
+class ModSetViewController < UITableViewController
   attr_accessor :set
 
   def initialize(set)
@@ -56,7 +56,7 @@ class ModSetController < UITableViewController
     
   def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
     mod = @set.mods[indexPath.row]
-    navigationController.pushViewController ModController.new(mod), animated:YES
+    navigationController.pushViewController ModViewController.new(mod), animated:YES
   end
     
 

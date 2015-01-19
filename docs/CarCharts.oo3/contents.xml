@@ -78,12 +78,10 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 487}">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="dk2rwU5CjiH"/>
-    <selected-columns ids="jFqHUGd_Dg1"/>
-    <selected-characters range="{59, 0}"/>
+    <selected-rows ids="aoMW3iCdhUM"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -127,18 +125,18 @@
     <style>
       <value key="font-size">14</value>
     </style>
-    <item id="gAldG0sNLEg" expanded="yes">
+    <item id="n_kswQwfTk1" expanded="yes">
       <values>
         <text>
           <p>
             <run>
-              <lit>17 120115</lit>
+              <lit>18 190115</lit>
             </run>
           </p>
         </text>
       </values>
       <children>
-        <item id="dLW8OcVgNnc">
+        <item id="cI56SvE1FE0">
           <values>
             <text>
               <p>
@@ -149,7 +147,7 @@
             </text>
           </values>
         </item>
-        <item id="iBFSoLNGwty">
+        <item id="aoMW3iCdhUM">
           <values>
             <text>
               <p>
@@ -160,124 +158,9 @@
             </text>
           </values>
         </item>
-        <item id="pKamBxTtk9z">
-          <values>
-            <null/>
-          </values>
-        </item>
-        <item id="mPyCq2VbPfV" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>back/fwd buttons are not shown in browser</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="nbyJSHdeUhX" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>production dates in photos browser</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ir3tgud3ASJ" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>don’t hide the tab bar on models page</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="fPyQBn5r-js" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>production dates comparision (or remove)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="boPLDfB-tLw" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>canceling search on models page crashes the app</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="nzkEVnBTPlQ" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>tires comparision (or remove them altogether)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="fWCohReRvgi" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix color overflow</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="pMxYplqvL2B" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>wrong models displayed after replacing current models with some set</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="a2kHeCV7vaV" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>иконка приложения</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="oEOqeCxTCUm" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>иконку для параметров</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
       </children>
     </item>
-    <item id="crgktXnqYe6" expanded="yes">
+    <item id="crgktXnqYe6">
       <values>
         <text>
           <p>
@@ -372,7 +255,7 @@
         </item>
       </children>
     </item>
-    <item id="gA-gDP4tIyt" expanded="yes">
+    <item id="gA-gDP4tIyt">
       <values>
         <text>
           <p>
@@ -469,7 +352,7 @@
         <null/>
       </values>
     </item>
-    <item id="loH9eiExqn7" expanded="yes">
+    <item id="loH9eiExqn7">
       <values>
         <text>
           <p>
@@ -636,7 +519,7 @@
         </item>
       </children>
     </item>
-    <item id="moIjrlZvecY" expanded="yes">
+    <item id="moIjrlZvecY">
       <values>
         <text>
           <p>
@@ -647,28 +530,6 @@
         </text>
       </values>
       <children>
-        <item id="nI5VLVhdDXW">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>tires: show tire sizes on the chart w/o any visualization</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="fkEo8eYmd7g">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>chart interactivity — тэп, слай, лонг тэп — детали и удаление</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="iBW4BfZ2Il_">
           <values>
             <text>
@@ -686,6 +547,28 @@
               <p>
                 <run>
                   <lit>use centered dialog for mod details on ipad</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="fkEo8eYmd7g">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>chart interactivity — тэп, слай, лонг тэп — детали и удаление</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="nI5VLVhdDXW">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>tires: show tire sizes on the chart w/o any visualization</lit>
                 </run>
               </p>
             </text>
@@ -4270,6 +4153,9 @@
           </children>
         </item>
         <item id="glZcfMHq9PZ" state="indeterminate">
+          <style>
+            <value key="font-weight">9</value>
+          </style>
           <values>
             <text>
               <p>
@@ -4326,7 +4212,10 @@
             </item>
           </children>
         </item>
-        <item id="cVDxCDPSEcc" expanded="yes">
+        <item id="cVDxCDPSEcc">
+          <style>
+            <value key="font-weight">9</value>
+          </style>
           <values>
             <text>
               <p>
@@ -4574,6 +4463,132 @@
                   <p>
                     <run>
                       <lit>инфо иконки</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+          </children>
+        </item>
+        <item id="gYS5sXya5IB">
+          <style>
+            <value key="font-weight">9</value>
+          </style>
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>17 120115 ххх</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="ltfV8_kuXEi" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>back/fwd buttons are not shown in browser</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="pxoWLo86aBp" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>production dates in photos browser</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="bQxlDCrfO88" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>don’t hide the tab bar on models page</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="dk5raXusduT" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>production dates comparision (or remove)</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="dJPNFcf7xLl" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>canceling search on models page crashes the app</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="aiOSgQnVQXP" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>tires comparision (or remove them altogether)</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="cWa5Hga5WMC" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>fix color overflow</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="mMaDxwy358X" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>wrong models displayed after replacing current models with some set</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="kgTDhQ21Dru" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>иконка приложения</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="aui09aejZZ5" state="checked">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>иконку для параметров</lit>
                     </run>
                   </p>
                 </text>

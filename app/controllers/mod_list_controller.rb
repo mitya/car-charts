@@ -1,4 +1,4 @@
-class ModsController < UIViewController
+class ModListController < UIViewController
   attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
 
   def initialize(model = nil)
@@ -64,7 +64,7 @@ class ModsController < UIViewController
   
   def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
     mod = modsByBody.objectForIndexPath(indexPath)
-    navigationController.pushViewController ModController.new(mod), animated:YES
+    navigationController.pushViewController ModViewController.new(mod), animated:YES
   end
   
   
@@ -92,7 +92,7 @@ class ModsController < UIViewController
   end
     
   def showFilterPane
-    @filterController ||= ModsFilterController.new
+    @filterController ||= ModListFilterController.new
     presentNavigationController @filterController, presentationStyle:UIModalPresentationCurrentContext
   end
 end
