@@ -8,7 +8,7 @@ begin
 rescue LoadError
 end
 
-ENV['device_name'] = 'iPad Air'
+# ENV['device_name'] = 'iPad Air'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -22,13 +22,6 @@ Motion::Project::App.setup do |app|
   app.frameworks += ['CoreData']
   app.device_family = [:iphone, :ipad]
   app.provisioning_profile = '/Volumes/Vault/Sources/active/_profiles/iOS_Team_Provisioning_Profile_.mobileprovision'
-  
-  app.info_plist['UIViewControllerBasedStatusBarAppearance'] = 'NO'
-  app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
-  
-  # app.pods do
-  #   pod 'FMDB'
-  # end
 end
 
 load 'scripts/crawler.rake'

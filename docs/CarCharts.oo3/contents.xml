@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="aoMW3iCdhUM"/>
+    <selected-rows ids="crgktXnqYe6"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -147,12 +147,56 @@
             </text>
           </values>
         </item>
-        <item id="aoMW3iCdhUM">
+        <item id="aoMW3iCdhUM" state="checked">
           <values>
             <text>
               <p>
                 <run>
                   <lit>rename controllers to include View / List suffixes</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="mpwkblq6pwa">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>rename Recents to Selected (and change the icon)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hU0BsDkHFPi">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>update chart colors to match keynote charts</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="a9RDHi-XwGO">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>use sharing-like pop-over for mod filter</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="n1GxRvhey3W">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>use centered dialog for mod details on ipad</lit>
                 </run>
               </p>
             </text>
@@ -171,55 +215,6 @@
         </text>
       </values>
       <children>
-        <item id="guFQSdduy_A">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>стабилизация</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="k834oDicN22">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>обновление базы</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="eIWkNK5RqOq">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>восстановление после падений</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="kJtDFKPrPIV">
-          <values>
-            <null/>
-          </values>
-        </item>
-        <item id="guM-7ql0xdZ">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>update chart colors to match keynote charts</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="cezJtKeuY26">
           <values>
             <text>
@@ -231,23 +226,23 @@
             </text>
           </values>
         </item>
-        <item id="hY9U-9ZUQJ2">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>rename Recents to Selected (and change the icon)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="cO4QTg02Jmz">
           <values>
             <text>
               <p>
                 <run>
                   <lit>rework the app icon</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="k834oDicN22">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>обновление базы</lit>
                 </run>
               </p>
             </text>
@@ -363,45 +358,12 @@
         </text>
       </values>
       <children>
-        <item id="dk2rwU5CjiH">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>change font attrs in the mod list (bold make, gray version)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="pJuwjakAxFB">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>present empty values in some other way</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="gfRuugJg2Xp">
           <values>
             <text>
               <p>
                 <run>
                   <lit>split tire sizes with comma on Mod View</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="hNyr1PfUUsO">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>change empty screen messaging to fit OS 7 style</lit>
                 </run>
               </p>
             </text>
@@ -429,12 +391,55 @@
             </text>
           </values>
         </item>
-        <item id="lQconOnIqQj">
+        <item id="lF-3TLe8E1M">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="dk2rwU5CjiH">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>уменьшить градиент на айпаде</lit>
+                  <lit>change font attrs in the mod list (bold make, gray version)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="pJuwjakAxFB">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>present empty values in some other way</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hNyr1PfUUsO">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>change empty screen messaging to fit OS 7 style</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="j8F6a2t4yw1">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="pSgMsY3ICON">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>выделять жирным только название модели</lit>
                 </run>
               </p>
             </text>
@@ -456,29 +461,7 @@
             <text>
               <p>
                 <run>
-                  <lit>поле поиска в строке заголовка для моделей</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="e8gIF-pgjSt">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>иконки брендов в плоский список моделей</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="pSgMsY3ICON">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>выделять жирным только название модели</lit>
+                  <lit>перенести поле поиска в тулбар для моделей</lit>
                 </run>
               </p>
             </text>
@@ -530,34 +513,23 @@
         </text>
       </values>
       <children>
-        <item id="iBW4BfZ2Il_">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>use sharing-like pop-over for mod filter</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="dF0ywzC5Ugs">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>use centered dialog for mod details on ipad</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="fkEo8eYmd7g">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>chart interactivity — тэп, слай, лонг тэп — детали и удаление</lit>
+                  <lit>chart interactivity — слайд + тэп / лонг тэп — удаление и детали</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="fUFIP0b_4Ri">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>help overlay showing the available gestures on chart</lit>
                 </run>
               </p>
             </text>
@@ -882,6 +854,17 @@
               <p>
                 <run>
                   <lit>свойство полных имен для моделей (VW Passat – Passat, BMW 3 – BMW 3)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="cqET-6RB_jG">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>иконки брендов в плоский список моделей</lit>
                 </run>
               </p>
             </text>

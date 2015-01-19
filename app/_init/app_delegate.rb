@@ -10,14 +10,11 @@ class AppDelegate
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
-
-    setTintColors
-
     self.chartController = ChartController.new
     self.tabBarController = UITabBarController.new.tap do |tbc|
       tabControllers = [chartController, ParameterListController.new, ModelListController.new, ModRecentsController.new, ModSetListController.new]
       tabControllers.shift if KK.ipad?
-      tbc.viewControllers = tabControllers.map { |ctr| nav = KK.navigationForController(ctr, withDelegate:self) }
+      tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
       tbc.selectedIndex = 0
       tbc.contentSizeForViewInPopover = [320, 640]
@@ -27,7 +24,7 @@ class AppDelegate
       tabBarController
     else
       mainController = KK.navigationForController(chartController, withDelegate:self)
-      UISplitViewController.alloc.init.tap do |splitViewController|
+      CustomSplitViewController.alloc.init.tap do |splitViewController|
         splitViewController.viewControllers = [tabBarController, mainController]
         splitViewController.delegate = self
       end
@@ -35,11 +32,13 @@ class AppDelegate
 
     window.makeKeyAndVisible
 
+    setTintColors
+        
     # openControllerForModel("ford--focus")
 
     true
   end
-  
+
   def applicationWillTerminate(application)
     saveObjectContext
     KK.defaults.synchronize
@@ -59,34 +58,34 @@ class AppDelegate
   def splitViewController(svc, shouldHideViewController:vc, inOrientation:orientation)
     hidesMasterView # NO # KK.portrait?(orientation)
   end
-  
+
   def splitViewController(svc, willHideViewController:vc, withBarButtonItem:bbi, forPopoverController:pc)
     bbi.title = "Options"
     chartController.navigationItem.setLeftBarButtonItems(chartController.navigationItem.leftBarButtonItems.to_a + [bbi], animated:YES)
   end
-  
+
   def splitViewController(svc, willShowViewController:vc, invalidatingBarButtonItem:bbi)
     chartController.navigationItem.setLeftBarButtonItem(chartController.navigationItem.leftBarButtonItems.to_a - [bbi], animated:YES)
   end
 
-  
+
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     return unless KK.iphone?
     __assert duration > 0
     tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true
-  end  
+  end
 
-  
+
   def staticContext
     @staticContext ||= begin
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
-      
+
       storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("data/db-static", ofType:"sqlite"))
       storeOptions = {NSReadOnlyPersistentStoreOption => YES}
 
       # # Switches static database to the one located in the documents directory
-      # if UIDevice.currentDevice.model =~ /Simulator/ 
+      # if UIDevice.currentDevice.model =~ /Simulator/
       #   storeURL = KK.documentsURL.URLByAppendingPathComponent('data/db-static.sqlite')
       #   storeOptions = {}
       #   $devdata = true
@@ -97,7 +96,7 @@ class AppDelegate
       err = KK.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
       raise "Can't open static database: #{err.value.description}" if err.value
-      
+
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = storeCoordinator
       context
@@ -122,37 +121,36 @@ class AppDelegate
       context.persistentStoreCoordinator = storeCoordinator
       context
     end
-  end  
+  end
 
   def saveObjectContext(context = userContext)
     context.save(NULL)
   end
 
-  
+
   def recoverAfterCrash
     NSLog "Recovering after crash ..."
     Disk.recentMods = Disk.currentMods + Disk.recentMods
     Disk.currentMods = []
     Disk.currentParameters = []
     NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
-    $lastLaunchDidFail = true    
+    $lastLaunchDidFail = true
   end
 
   def setTintColors
     window.tintColor = Configuration.tintColor
-    
+
     [UINavigationBar, UIToolbar, UISearchBar, UITabBar].each do |bar|
       bar.appearance.barTintColor = Configuration.barTintColor
       bar.appearance.tintColor    = Configuration.barIconColor
       bar.appearance.barStyle     = UIBarStyleBlack
     end
-    
-    UISwitch.appearance.onTintColor = Configuration.barIconColor
 
+    UISwitch.appearance.onTintColor = Configuration.barIconColor
     UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent
     UINavigationBar.appearance.setTitleTextAttributes NSForegroundColorAttributeName => Configuration.barTextColor
-  end  
-  
+  end
+
   def openControllerForModel(modelKey)
     controller = ModListController.new(Model.modelForKey(modelKey))
     tabBarController.selectedIndex = 2
