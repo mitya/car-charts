@@ -78,10 +78,12 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 487}">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="loH9eiExqn7"/>
+    <selected-rows ids="dk2rwU5CjiH"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{59, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,28 +138,6 @@
         </text>
       </values>
       <children>
-        <item id="mPyCq2VbPfV">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>back/fwd buttons are not shown in browser</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ha7ljmvUUQy">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix filters on ipad </lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="dLW8OcVgNnc">
           <values>
             <text>
@@ -183,6 +163,17 @@
         <item id="pKamBxTtk9z">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="mPyCq2VbPfV" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>back/fwd buttons are not shown in browser</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="nbyJSHdeUhX" state="checked">
@@ -286,7 +277,7 @@
         </item>
       </children>
     </item>
-    <item id="crgktXnqYe6">
+    <item id="crgktXnqYe6" expanded="yes">
       <values>
         <text>
           <p>
@@ -330,6 +321,11 @@
             </text>
           </values>
         </item>
+        <item id="kJtDFKPrPIV">
+          <values>
+            <null/>
+          </values>
+        </item>
         <item id="guM-7ql0xdZ">
           <values>
             <text>
@@ -352,9 +348,31 @@
             </text>
           </values>
         </item>
+        <item id="hY9U-9ZUQJ2">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>rename Recents to Selected (and change the icon)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="cO4QTg02Jmz">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>rework the app icon</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
       </children>
     </item>
-    <item id="gA-gDP4tIyt">
+    <item id="gA-gDP4tIyt" expanded="yes">
       <values>
         <text>
           <p>
@@ -382,6 +400,17 @@
               <p>
                 <run>
                   <lit>ads</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hrv-D0mkByd">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>iPhone 6+ version</lit>
                 </run>
               </p>
             </text>
@@ -440,7 +469,7 @@
         <null/>
       </values>
     </item>
-    <item id="loH9eiExqn7">
+    <item id="loH9eiExqn7" expanded="yes">
       <values>
         <text>
           <p>
@@ -451,12 +480,12 @@
         </text>
       </values>
       <children>
-        <item id="hoD0IZFjxrJ">
+        <item id="dk2rwU5CjiH">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>set some params after crash</lit>
+                  <lit>change font attrs in the mod list (bold make, gray version)</lit>
                 </run>
               </p>
             </text>
@@ -490,6 +519,28 @@
               <p>
                 <run>
                   <lit>change empty screen messaging to fit OS 7 style</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="nheVHSLOlp6">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>reformat production dates to be “produced 2011.11 – 2014.01”</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="pS3ypcb9wTw">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>reformat seats &amp; luggage to show min max in one cell</lit>
                 </run>
               </p>
             </text>
@@ -578,6 +629,63 @@
               <p>
                 <run>
                   <lit>увеличить фрейм поля в редактируемых клетках, попадать сложно</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="moIjrlZvecY" expanded="yes">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Новое</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="nI5VLVhdDXW">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>tires: show tire sizes on the chart w/o any visualization</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="fkEo8eYmd7g">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>chart interactivity — тэп, слай, лонг тэп — детали и удаление</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="iBW4BfZ2Il_">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>use sharing-like pop-over for mod filter</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="dF0ywzC5Ugs">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>use centered dialog for mod details on ipad</lit>
                 </run>
               </p>
             </text>
@@ -774,74 +882,6 @@
               <p>
                 <run>
                   <lit>new search bar API</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-      </children>
-    </item>
-    <item id="moIjrlZvecY">
-      <values>
-        <text>
-          <p>
-            <run>
-              <lit>Новое</lit>
-            </run>
-          </p>
-        </text>
-      </values>
-      <children>
-        <item id="nI5VLVhdDXW">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>tires: show tire sizes on the chart w/o any visualization</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="lr5h7QtKhU-">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>iPhone 6+ version</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="fkEo8eYmd7g">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>таппинг на графике должен открывать детали</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="gYwSvPvIUAY">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>слайдинг, сортировка, меню для графика</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="bnyA5GXzJDn">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>переформатировать страницу мода</lit>
                 </run>
               </p>
             </text>

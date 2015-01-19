@@ -86,7 +86,7 @@ class ChartBarView < UIView
     comparision.params.each do |param|
       index = comparision.params.index(param)
 
-      if value == mod[param]
+      if value = mod[param]
         barWidth = (value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
         rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, barWidth, BarH)
         isWiderThanBounds = rect.width >= bounds.width - labelWidth
