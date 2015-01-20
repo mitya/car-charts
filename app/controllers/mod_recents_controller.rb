@@ -1,7 +1,7 @@
 class ModRecentsController < UITableViewController
   def initialize
-    self.title = "Recents"
-    self.tabBarItem = UITabBarItem.alloc.initWithTabBarSystemItem(UITabBarSystemItemRecents, tag:3)
+    self.title = "Selected"
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("ti-selected"), tag:3)
     self.navigationItem.titleView = modeSegmentedControl
   end
   

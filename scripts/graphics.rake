@@ -66,6 +66,17 @@ def makeButton(width, height, cornerRad, gradient, borderCl, shadowCl, file, opt
   run cmd
 end
 
+def outfile(infile)
+  case infile
+  when /@2x\.png/
+    infile.gsub('@2x.png', '-out@2x.png')
+  when /\.png/
+    infile.gsub('.png', '-out.png')
+  else
+    raise "non parseable file name #{infile}"
+  end
+end
+
 namespace 'g' do
   desc "Make icons for tabs"
   task :icons do
@@ -234,4 +245,12 @@ namespace 'g' do
       ss.write ss.filename
     end
   end
+  
+  task :pad_icon do
+    pad = 5
+    im = Magick::Image.read("resources/images/tt-selected@2x.png").first
+    im.background_color = "transparent"
+    im = im.extent im.columns, im.rows + pad, 0, -pad
+    im.write outfile(im.filename)
+  end  
 end

@@ -107,4 +107,4 @@ MB GLK                     - 47
 
 
 ## Icon Sources
-- filter: icon8
+Almost everything – icon8 — they require to mention them on the AppStore page.

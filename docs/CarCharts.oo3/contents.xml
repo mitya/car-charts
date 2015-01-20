@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="crgktXnqYe6"/>
+    <selected-rows ids="jfM5XTX81y_"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,39 +136,6 @@
         </text>
       </values>
       <children>
-        <item id="cI56SvE1FE0">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>fix status bar text on ipad</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="aoMW3iCdhUM" state="checked">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>rename controllers to include View / List suffixes</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="mpwkblq6pwa">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>rename Recents to Selected (and change the icon)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="hU0BsDkHFPi">
           <values>
             <text>
@@ -197,6 +164,55 @@
               <p>
                 <run>
                   <lit>use centered dialog for mod details on ipad</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="jfM5XTX81y_">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>reconsider back/fwd icons</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hoX_4oCnEiI">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="mpwkblq6pwa" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>rename Recents to Selected (and change the icon)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="cI56SvE1FE0" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>fix status bar text color on ipad</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="aoMW3iCdhUM" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>rename controllers to include View / List suffixes</lit>
                 </run>
               </p>
             </text>
@@ -347,7 +363,7 @@
         <null/>
       </values>
     </item>
-    <item id="loH9eiExqn7">
+    <item id="loH9eiExqn7" expanded="yes">
       <values>
         <text>
           <p>
@@ -386,6 +402,39 @@
               <p>
                 <run>
                   <lit>reformat seats &amp; luggage to show min max in one cell</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="orghdiulVsA">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>show coloured gliph instead of the checkmark in the parameters view</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ppLCspJ9fP8">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>slide menu for mod sets</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="nRFPr-cwQix">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>перерисовать все чужие иконки</lit>
                 </run>
               </p>
             </text>
