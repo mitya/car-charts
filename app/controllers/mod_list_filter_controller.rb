@@ -1,10 +1,10 @@
 class ModListFilterController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   
-  attr_accessor :filter
+  attr_accessor :filter, :popover
 
   def initialize
-    self.title = "Filter Models"
+    self.title = "Filter Settings"
     self.filter = Disk.filterOptions.dup
     self.navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
   end
@@ -43,17 +43,21 @@ class ModListFilterController < UITableViewController
   end
   
   def switchUpdated(switch)
-    cell = switch.superview
+    cell = KK.closestSuperviewOfType(UITableViewCell, forView:switch)
     indexPath = tableView.indexPathForCell(cell)
-    
     options = self.class.tableOptions[ [indexPath.section, indexPath.row] ]
     filter[ options[:key] ] = switch.isOn
+    Disk.filterOptions = filter if popover
   end
 
 
   def close
     Disk.filterOptions = filter
-    dismissModalViewControllerAnimated true, completion:nil
+    if KK.iphone?
+      dismissModalViewControllerAnimated true, completion:nil
+    else
+      popover.dismissPopoverAnimated true if popover
+    end
   end
   
   

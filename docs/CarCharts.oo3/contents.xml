@@ -81,7 +81,9 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="jfM5XTX81y_"/>
+    <selected-rows ids="g4JoZofOEUd"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{23, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,17 +138,6 @@
         </text>
       </values>
       <children>
-        <item id="hU0BsDkHFPi">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>update chart colors to match keynote charts</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="a9RDHi-XwGO">
           <values>
             <text>
@@ -175,6 +166,50 @@
               <p>
                 <run>
                   <lit>reconsider back/fwd icons</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hU0BsDkHFPi">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>update chart colors to match keynote charts</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="itUTFP4lc4F">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>status bar text is black on launch</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="cZpEqkhsAYd">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>popover title font color is white on white (ipad)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="aVc1iRMj2Q-">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Add to Set popover is not shown on ipad</lit>
                 </run>
               </p>
             </text>
@@ -435,6 +470,28 @@
               <p>
                 <run>
                   <lit>перерисовать все чужие иконки</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="g4JoZofOEUd">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>change chart background on launch image&apos;</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="lQ2snOSBXHN">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>add titles to action sheets</lit>
                 </run>
               </p>
             </text>

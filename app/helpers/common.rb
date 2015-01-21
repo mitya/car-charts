@@ -29,6 +29,11 @@ module KK::Common
       navigation.delegate = delegate
     end
   end
+  
+  def closestSuperviewOfType(type, forView:view)
+    view = view.superview until view.is_a?(type) || view.nil?
+    return view
+  end
 end
 
 KK.extend(KK::Common)

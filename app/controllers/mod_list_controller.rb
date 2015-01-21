@@ -7,7 +7,18 @@ class ModListController < UIViewController
     self.title = model.name
     navigationItem.backBarButtonItem = KK.textBBI("Versions")                    
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
+    Disk.addObserver(self, forKeyPath:"filterOptions", options:false, context:nil)
   end
+  
+  def dealloc
+    Disk.removeObserver(self, forKeyPath:"filterOptions")    
+  end
+  
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    __assert keyPath == 'filterOptions'
+    applyFilter if isViewVisible
+  end
+  
 
   def viewDidLoad
     self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain)
@@ -93,6 +104,10 @@ class ModListController < UIViewController
     
   def showFilterPane
     @filterController ||= ModListFilterController.new
-    presentNavigationController @filterController, presentationStyle:UIModalPresentationCurrentContext
+    if KK.iphone?
+      presentNavigationController @filterController, presentationStyle:UIModalPresentationCurrentContext
+    else
+      @filterController.popover = presentPopoverController @filterController, fromBarItem:navigationItem.rightBarButtonItem
+    end
   end
 end

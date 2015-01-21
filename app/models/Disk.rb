@@ -7,7 +7,9 @@ class Disk
     end
 
     def filterOptions=(hash)
-      NSUserDefaults.standardUserDefaults["filterOptions"] = hash
+      changeValueForKey('filterOptions') do
+        NSUserDefaults.standardUserDefaults["filterOptions"] = hash
+      end
     end
   
     # sort order is not specified
