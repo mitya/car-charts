@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="itUTFP4lc4F"/>
+    <selected-rows ids="cKdH-flYO4P"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,17 +136,6 @@
         </text>
       </values>
       <children>
-        <item id="itUTFP4lc4F">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>status bar text is black on launch</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="fyVzotkmJ0K">
           <values>
             <text>
@@ -210,6 +199,17 @@
         <item id="hoX_4oCnEiI">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="itUTFP4lc4F" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>status bar text is black on launch</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="jfM5XTX81y_" state="checked">

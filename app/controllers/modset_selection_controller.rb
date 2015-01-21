@@ -4,7 +4,7 @@ class ModSetSelectionController < UITableViewController
   def initialize(mode)
     self.title = "Select Model Set"
     self.mode = mode
-    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
+    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'close')
     navigationItem.leftBarButtonItem = KK.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
     tableView.rowHeight = ThreeLabelCell.rowHeight
     reloadSets
@@ -33,7 +33,7 @@ class ModSetSelectionController < UITableViewController
     updateSet(set)
     tableView.deselectRowAtIndexPath indexPath, animated:YES
     tableView.cellForRowAtIndexPath(indexPath).toggleCheckmarkAccessory
-    closeProc.call
+    close
   end
 
   def alertView(alertView, clickedButtonAtIndex:buttonIndex)
@@ -56,7 +56,7 @@ class ModSetSelectionController < UITableViewController
     @sets = ModSet.all
   end
   
-  def cancel
+  def close
     dismissSelfAnimated
   end
 

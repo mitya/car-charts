@@ -36,17 +36,18 @@ class ModRecentsController < UITableViewController
     tableView.dataSource = tableView.delegate = dataSource
     tableView.reloadData
     
-    navigationItem.setRightBarButtonItem dataSourceIndex == 0 ? actionsButtonItem : nil, animated:NO
-    saveButtonItem.enabled = Disk.currentMods.any?
+    navigationItem.setRightBarButtonItem dataSourceIndex == 0 ? actionsButtonItem : nil, animated:true
+    
+    reenableButtons
   end
 
+
+  def reenableButtons
+    actionsButtonItem.enabled = Disk.currentMods.any?
+  end
 
   def actionsButtonItem
     @actionsButtonItem ||= KK.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showActionSheet:')
-  end
-
-  def saveButtonItem
-    @saveButtonItem ||= KK.textBBI("Save", target:self, action:'saveSelectedAsSet')
   end
   
   def showActionSheet(bbi)
@@ -66,7 +67,7 @@ class ModRecentsController < UITableViewController
     saveSelectedAsSet(actionKey) if actionKey
   end
     
-  def saveSelectedAsSet(mode = :add)        
+  def saveSelectedAsSet(mode = :add)
     @selectionController = ModSetSelectionController.new(mode)
     if KK.iphone?
       presentNavigationController @selectionController
@@ -110,6 +111,8 @@ class ModRecentsController < UITableViewController
 
       mod = @mods[indexPath.row]
       mod.select!
+      
+      controller.reenableButtons
     end
   
     def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
