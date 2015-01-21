@@ -22,6 +22,7 @@ Motion::Project::App.setup do |app|
   app.frameworks += ['CoreData']
   app.device_family = [:iphone, :ipad]
   app.provisioning_profile = '/Volumes/Vault/Sources/active/_profiles/iOS_Team_Provisioning_Profile_.mobileprovision'
+  app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
 end
 
 load 'scripts/crawler.rake'
