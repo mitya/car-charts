@@ -7,6 +7,7 @@ class ModListFilterController < UITableViewController
     self.title = "Filter Settings"
     self.filter = Disk.filterOptions.dup
     self.navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
+    self.preferredContentSize = [320, 510]
   end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
@@ -22,11 +23,9 @@ class ModListFilterController < UITableViewController
     {0 => 2, 1 => 2, 2 => 3}[section]
   end
 
-
   def tableView(tv, titleForHeaderInSection:section)
     {0 => "Transmission", 1 => "Fuel", 2 => "Body Type"}[section]
   end
-
 
   def tableView(table, cellForRowAtIndexPath:indexPath)
     cell = table.dequeueReusableCell selectionStyle:UITableViewCellSelectionStyleNone do |cell|
@@ -42,6 +41,7 @@ class ModListFilterController < UITableViewController
     return cell
   end
   
+
   def switchUpdated(switch)
     cell = KK.closestSuperviewOfType(UITableViewCell, forView:switch)
     indexPath = tableView.indexPathForCell(cell)
@@ -49,7 +49,6 @@ class ModListFilterController < UITableViewController
     filter[ options[:key] ] = switch.isOn
     Disk.filterOptions = filter if popover
   end
-
 
   def close
     Disk.filterOptions = filter

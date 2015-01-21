@@ -17,7 +17,6 @@ class AppDelegate
       tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
       tbc.selectedIndex = 0
-      tbc.contentSizeForViewInPopover = [320, 640]
     end
 
     window.rootViewController = if KK.iphone?

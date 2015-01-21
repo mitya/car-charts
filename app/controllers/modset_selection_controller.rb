@@ -3,10 +3,14 @@ class ModSetSelectionController < UITableViewController
 
   def initialize
     self.title = "Select Model Set"
-    self.contentSizeForViewInPopover = [320, 640]
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemCancel, target:self, action:'cancel')
     navigationItem.leftBarButtonItem = KK.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
     tableView.rowHeight = ThreeLabelCell.rowHeight
+    reloadSets
+  end
+
+  def preferredContentSize
+    [320, (@sets.count) * ThreeLabelCell.rowHeight]
   end
 
   def tableView(tv, numberOfRowsInSection:section)

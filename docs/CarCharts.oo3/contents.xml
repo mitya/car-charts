@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="aVc1iRMj2Q-"/>
+    <selected-rows ids="crqaQw_AeZj"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,6 +136,28 @@
         </text>
       </values>
       <children>
+        <item id="cZpEqkhsAYd">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>popover title font color is white on white (ipad)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="crqaQw_AeZj">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>popover is too small</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="n1GxRvhey3W">
           <values>
             <text>
@@ -145,6 +167,11 @@
                 </run>
               </p>
             </text>
+          </values>
+        </item>
+        <item id="lyUsw--MNzS">
+          <values>
+            <null/>
           </values>
         </item>
         <item id="jfM5XTX81y_">
@@ -175,17 +202,6 @@
               <p>
                 <run>
                   <lit>status bar text is black on launch</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="cZpEqkhsAYd">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>popover title font color is white on white (ipad)</lit>
                 </run>
               </p>
             </text>
