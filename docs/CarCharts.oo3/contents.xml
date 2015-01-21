@@ -78,10 +78,12 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 495}">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="crqaQw_AeZj"/>
+    <selected-rows ids="fLaL8YlEyCh"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{49, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -235,6 +237,17 @@
               <p>
                 <run>
                   <lit>ipad fails after selecting Mini category and them Compact</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="cKdH-flYO4P">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>hide share button in the empty Selected list</lit>
                 </run>
               </p>
             </text>
@@ -544,6 +557,11 @@
             </text>
           </values>
         </item>
+        <item id="bPvTVw0ywpc">
+          <values>
+            <null/>
+          </values>
+        </item>
         <item id="lF-3TLe8E1M">
           <values>
             <null/>
@@ -851,7 +869,7 @@
         </item>
       </children>
     </item>
-    <item id="bdTWw-3ewxt">
+    <item id="bdTWw-3ewxt" expanded="yes">
       <values>
         <text>
           <p>
@@ -862,6 +880,28 @@
         </text>
       </values>
       <children>
+        <item id="ccvQP0zIG0F">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>move some processing to background ?</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="fLaL8YlEyCh">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>use numerical ids instead of string keys for mods ?</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="hzwGCrY4sSN">
           <values>
             <text>

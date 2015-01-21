@@ -16,6 +16,8 @@ def __p(label, *args)
   puts "--- #{label}#{inspection}"
 end
 
+alias __P __p
+
 def __pla(array)
   array.each do |item|
     puts "--- #{item.inspect}"
