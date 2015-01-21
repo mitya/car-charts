@@ -49,16 +49,18 @@ class ModRecentsController < UITableViewController
   end
   
   def showActionSheet(bbi)
-    sheet = UIActionSheet.alloc.initWithTitle(nil, delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
-    sheet.addButtonWithTitle "Add to Set"
-    sheet.addButtonWithTitle "Replace Set"
+    sheet = UIActionSheet.alloc.initWithTitle nil, delegate:self, cancelButtonTitle:nil, destructiveButtonTitle:NIL, otherButtonTitles:NIL
+    sheet.addButtonWithTitle "Add Models to Set"
+    sheet.addButtonWithTitle "Replace Models in Set"
+    sheet.addButtonWithTitle "Cancel"
+    sheet.cancelButtonIndex = 2
     sheet.showFromBarButtonItem bbi, animated:YES
   end
   
   def actionSheet(sheet, clickedButtonAtIndex:buttonIndex)
-    case sheet.buttonTitleAtIndex(buttonIndex)
-      when "Add to Set" then saveSelectedAsSet(:add)
-      when "Replace Set" then saveSelectedAsSet(:replace)
+    case buttonIndex
+      when 0 then saveSelectedAsSet(:add)
+      when 1 then saveSelectedAsSet(:replace)
     end
   end
     

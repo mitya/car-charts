@@ -8,7 +8,7 @@ begin
 rescue LoadError
 end
 
-# ENV['device_name'] = 'iPad Air'
+ENV['device_name'] = 'iPad Air'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -31,3 +31,4 @@ task :iphone5  do ENV['device_name'] = 'iPhone 5s';     Rake::Task['simulator'].
 task :iphone6  do ENV['device_name'] = 'iPhone 6';      Rake::Task['simulator'].invoke end
 task :iphone6p do ENV['device_name'] = 'iPhone 6 Plus'; Rake::Task['simulator'].invoke end
 task :ipad     do ENV['device_name'] = 'iPad Air';      Rake::Task['simulator'].invoke end
+task d: 'device'

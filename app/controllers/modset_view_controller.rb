@@ -70,23 +70,24 @@ class ModSetViewController < UITableViewController
     @actionsButtonItem ||= KK.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showSetActionSheet:')
   end
   
-
+  
+  ACTIONS = ["Add Models to Chart", "Replace Models on Chart", "Edit Models in Set", "Cancel"]
   
   def showSetActionSheet(bbi)
-    sheet = UIActionSheet.alloc.initWithTitle(NIL, delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:NIL, otherButtonTitles:NIL)
-    sheet.addButtonWithTitle "Add All to Chart"
-    sheet.addButtonWithTitle "Replace All on Chart"
-    sheet.addButtonWithTitle "Edit Set"
-    sheet.showFromBarButtonItem bbi, animated:YES
+    @sheet = UIActionSheet.alloc.initWithTitle nil, delegate:self, cancelButtonTitle:nil, destructiveButtonTitle:nil, otherButtonTitles:nil
+    ACTIONS.each { |action| @sheet.addButtonWithTitle(action) }
+    @sheet.cancelButtonIndex = 3
+    @sheet.showFromBarButtonItem bbi, animated:YES  
   end
   
   def actionSheet(sheet, clickedButtonAtIndex:buttonIndex)
-    case sheet.buttonTitleAtIndex(buttonIndex)
-      when "Add All to Chart" then @set.addToCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
-      when "Replace All on Chart" then @set.replaceCurrentMods; tableView.reloadData; dismissModalViewControllerAnimated(YES)
-      when "Edit Set" then setEditing(YES, animated:YES)
+    case buttonIndex
+      when 0 then @set.addToCurrentMods; tableView.reloadData
+      when 1 then @set.replaceCurrentMods; tableView.reloadData
+      when 2 then setEditing(YES, animated:YES)
     end
   end
+  
   
   def empty?
     @set.mods.empty?

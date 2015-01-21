@@ -81,9 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="g4JoZofOEUd"/>
-    <selected-columns ids="jFqHUGd_Dg1"/>
-    <selected-characters range="{23, 0}"/>
+    <selected-rows ids="aVc1iRMj2Q-"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -138,17 +136,6 @@
         </text>
       </values>
       <children>
-        <item id="a9RDHi-XwGO">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>use sharing-like pop-over for mod filter</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="n1GxRvhey3W">
           <values>
             <text>
@@ -204,7 +191,45 @@
             </text>
           </values>
         </item>
-        <item id="aVc1iRMj2Q-">
+        <item id="lICmZ9QWYV3">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Add to New Set action for selected models</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="dkhKot4dtns">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>mod set editing should no show sort icon</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="fyVzotkmJ0K">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>ipad fails after selecting Mini category and them Compact</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hoX_4oCnEiI">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="aVc1iRMj2Q-" state="checked">
           <values>
             <text>
               <p>
@@ -215,9 +240,15 @@
             </text>
           </values>
         </item>
-        <item id="hoX_4oCnEiI">
+        <item id="a9RDHi-XwGO" state="checked">
           <values>
-            <null/>
+            <text>
+              <p>
+                <run>
+                  <lit>X use sharing-like pop-over for mod filter</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="mpwkblq6pwa" state="checked">
