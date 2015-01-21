@@ -5,7 +5,6 @@ class ModelPhotosController < UIViewController
   def initialize(model = nil, year = nil)
     self.model = model
     self.year = year
-    self.hidesBottomBarWhenPushed = KK.iphone?    
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
   end
 
@@ -24,8 +23,8 @@ class ModelPhotosController < UIViewController
       view.addSubview(spinner)
     end
     
-    self.goBackBBI = KK.imageBBI("bbi-left", target:webView, action:'goBack')
-    self.goForwardBBI = KK.imageBBI("bbi-right", target:webView, action:'goForward')
+    self.goBackBBI = KK.imageBBI("bi-navBack", target:webView, action:'goBack')
+    self.goForwardBBI = KK.imageBBI("bi-navForward", target:webView, action:'goForward')
   end
   
   def viewWillAppear(animated)

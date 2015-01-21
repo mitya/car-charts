@@ -81,7 +81,7 @@
   <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="n1GxRvhey3W"/>
+    <selected-rows ids="itUTFP4lc4F"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,67 +136,12 @@
         </text>
       </values>
       <children>
-        <item id="n1GxRvhey3W">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>use centered dialog for mod details on ipad</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="jfM5XTX81y_">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>reconsider back/fwd icons</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="hU0BsDkHFPi">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>update chart colors to match keynote charts</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="itUTFP4lc4F">
           <values>
             <text>
               <p>
                 <run>
                   <lit>status bar text is black on launch</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="dkhKot4dtns">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>mod set editing should not show sort icon</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ju00BBaPGSN">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>renaming doesn’t work for mod sets</lit>
                 </run>
               </p>
             </text>
@@ -224,9 +169,69 @@
             </text>
           </values>
         </item>
+        <item id="kEAhMmiCKx8">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="dkhKot4dtns">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>mod set editing should not show sort icon</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ju00BBaPGSN">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>renaming doesn’t work for mod sets</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hU0BsDkHFPi">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>update chart colors to match keynote charts</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="hoX_4oCnEiI">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="jfM5XTX81y_" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>reconsider back/fwd icons</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="n1GxRvhey3W" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>use form sheet for mod details on ipad</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="cZpEqkhsAYd" state="checked">

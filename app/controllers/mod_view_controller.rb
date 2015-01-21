@@ -7,7 +7,6 @@ class ModViewController < UITableViewController
   def initialize(mod)
     self.mod = mod
     self.title = mod.model.name
-    self.hidesBottomBarWhenPushed = KK.iphone?
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')    
   end
 
@@ -73,7 +72,6 @@ class ModViewController < UITableViewController
   end
   
   def self.showFor(presentingController, withMod:mod)
-    presentingController.presentNavigationController new(mod), 
-      presentationStyle:UIModalPresentationFormSheet, transitionStyle:UIModalTransitionStyleCoverVertical
+    presentingController.presentNavigationController new(mod), presentationStyle:UIModalPresentationFormSheet, transitionStyle:UIModalTransitionStyleCoverVertical
   end
 end
