@@ -74,8 +74,7 @@ class ModListController < UIViewController
   end
   
   def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
-    mod = modsByBody.objectForIndexPath(indexPath)
-    navigationController.pushViewController ModViewController.new(mod), animated:YES
+    ModViewController.showFor self, withMod: modsByBody.objectForIndexPath(indexPath)
   end
   
   

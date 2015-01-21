@@ -104,6 +104,16 @@ class UIViewController
     end
     popover
   end  
+  
+  def dismissSelfAnimated(animated = true)
+    if respond_to?(:popover) && popover
+      popover.dismissPopoverAnimated(animated)
+    elsif presentingViewController
+      presentingViewController.dismissModalViewControllerAnimated(animated, completion:nil)
+    elsif navigationController
+      navigationController.popViewControllerAnimated(animated)
+    end    
+  end
 end
 
 

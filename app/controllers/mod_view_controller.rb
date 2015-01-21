@@ -8,6 +8,7 @@ class ModViewController < UITableViewController
     self.mod = mod
     self.title = mod.model.name
     self.hidesBottomBarWhenPushed = KK.iphone?
+    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')    
   end
 
   def viewDidLoad
@@ -54,13 +55,25 @@ class ModViewController < UITableViewController
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
     if indexPath.section == SystemSectionIndex && indexPath.item == 0
-      presentNavigationController photosController, presentationStyle:UIModalPresentationFullScreen
+      if KK.iphone?
+        navigationController.pushViewController photosController, animated:true
+      else
+        presentNavigationController photosController, presentationStyle:UIModalPresentationFullScreen
+      end
     end
   end  
   
-
   
+  def close
+    dismissSelfAnimated
+  end  
+
   def photosController
     @photosController ||= ModelPhotosController.new(mod.model, mod.year)
+  end
+  
+  def self.showFor(presentingController, withMod:mod)
+    presentingController.presentNavigationController new(mod), 
+      presentationStyle:UIModalPresentationFormSheet, transitionStyle:UIModalTransitionStyleCoverVertical
   end
 end

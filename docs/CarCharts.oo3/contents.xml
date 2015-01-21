@@ -78,12 +78,10 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 495}">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="fLaL8YlEyCh"/>
-    <selected-columns ids="jFqHUGd_Dg1"/>
-    <selected-characters range="{49, 0}"/>
+    <selected-rows ids="n1GxRvhey3W"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -138,28 +136,6 @@
         </text>
       </values>
       <children>
-        <item id="cZpEqkhsAYd">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>popover title font color is white on white (ipad)</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="crqaQw_AeZj">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>popover is too small</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="n1GxRvhey3W">
           <values>
             <text>
@@ -169,11 +145,6 @@
                 </run>
               </p>
             </text>
-          </values>
-        </item>
-        <item id="lyUsw--MNzS">
-          <values>
-            <null/>
           </values>
         </item>
         <item id="jfM5XTX81y_">
@@ -209,23 +180,23 @@
             </text>
           </values>
         </item>
-        <item id="lICmZ9QWYV3">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>Add to New Set action for selected models</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="dkhKot4dtns">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>mod set editing should no show sort icon</lit>
+                  <lit>mod set editing should not show sort icon</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ju00BBaPGSN">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>renaming doesn’t work for mod sets</lit>
                 </run>
               </p>
             </text>
@@ -256,6 +227,28 @@
         <item id="hoX_4oCnEiI">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="cZpEqkhsAYd" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>popover title font color is white on white (ipad)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="crqaQw_AeZj" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>popover is too small</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="aVc1iRMj2Q-" state="checked">
@@ -546,20 +539,37 @@
             </text>
           </values>
         </item>
-        <item id="lQ2snOSBXHN">
+        <item id="bPvTVw0ywpc">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>add titles to action sheets</lit>
+                  <lit>replace action sheet + popover with a 2-page popover for saving mods as a set</lit>
                 </run>
               </p>
             </text>
           </values>
         </item>
-        <item id="bPvTVw0ywpc">
+        <item id="dZeiAPiCju5">
           <values>
-            <null/>
+            <text>
+              <p>
+                <run>
+                  <lit>animate added new set (in popover too)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="plU3fl7gLUa">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>resize Select Set popover after a new set is created</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="lF-3TLe8E1M">

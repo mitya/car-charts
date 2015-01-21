@@ -47,6 +47,6 @@ class ModelCategoriesController < UITableViewController
 
   
   def close
-    dismissModalViewControllerAnimated(YES, completion:NIL)
+    dismissSelfAnimated
   end
 end

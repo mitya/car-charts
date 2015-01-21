@@ -1,5 +1,5 @@
 class ModSetSelectionController < UITableViewController
-  attr_accessor :sets, :closeProc, :mode
+  attr_accessor :sets, :closeProc, :mode, :popover
 
   def initialize(mode)
     self.title = "Select Model Set"
@@ -57,7 +57,7 @@ class ModSetSelectionController < UITableViewController
   end
   
   def cancel
-    closeProc.call
+    dismissSelfAnimated
   end
 
   def showNewSetDialog

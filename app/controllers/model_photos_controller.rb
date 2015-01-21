@@ -52,7 +52,7 @@ class ModelPhotosController < UIViewController
   
 
   def close
-    presentingViewController ? dismissModalViewControllerAnimated(YES, completion:NIL) : navigationController.popViewControllerAnimated(YES)
+    dismissSelfAnimated
   end
 
   def webViewDidFinishLoad(webView)

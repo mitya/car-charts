@@ -69,11 +69,9 @@ class ModRecentsController < UITableViewController
   def saveSelectedAsSet(mode = :add)        
     @selectionController = ModSetSelectionController.new(mode)
     if KK.iphone?
-      @selectionController.closeProc = -> { dismissModalViewControllerAnimated true, completion:nil }
       presentNavigationController @selectionController
     else
-      @selectionController.closeProc = -> { @popover.dismissPopoverAnimated(YES) if @popover }
-      @popover = presentPopoverController @selectionController, fromBarItem:navigationItem.rightBarButtonItem
+      @selectionController.popover = presentPopoverController @selectionController, fromBarItem:navigationItem.rightBarButtonItem
     end
   end
   
@@ -115,8 +113,7 @@ class ModRecentsController < UITableViewController
     end
   
     def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
-      mod = @mods[indexPath.row]
-      controller.navigationController.pushViewController ModViewController.new(mod), animated:YES
+      ModViewController.showFor controller, withMod: @mods[indexPath.row]
     end    
   end
 end

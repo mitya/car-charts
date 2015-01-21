@@ -52,11 +52,7 @@ class ModListFilterController < UITableViewController
 
   def close
     Disk.filterOptions = filter
-    if KK.iphone?
-      dismissModalViewControllerAnimated true, completion:nil
-    else
-      popover.dismissPopoverAnimated true if popover
-    end
+    dismissSelfAnimated
   end
   
   
