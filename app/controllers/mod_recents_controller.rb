@@ -65,13 +65,14 @@ class ModRecentsController < UITableViewController
   end
     
   def saveSelectedAsSet(mode = :add)
-    @selectionController = ModSetSelectionController.new(mode)
+    selectionCtr = ModSetSelectionController.new
+    selectionCtr.mode = mode
     if KK.iphone?
-      @selectionController.closeProc = -> { dismissModalViewControllerAnimated true, completion:nil }
-      presentNavigationController @selectionController
+      selectionCtr.closeProc = -> { dismissModalViewControllerAnimated true, completion:NIL }
+      presentNavigationController selectionCtr
     else     
-      @selectionController.closeProc = -> { @popover.dismissPopoverAnimated(YES) if @popover }
-      @popover = presentPopoverController @selectionController, fromBarItem:navigationItem.rightBarButtonItem
+      selectionCtr.closeProc = -> { @popover.dismissPopoverAnimated(YES) }
+      @popover = presentPopoverController selectionCtr, fromBarItem:navigationItem.rightBarButtonItem
     end
   end
   

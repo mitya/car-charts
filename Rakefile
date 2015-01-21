@@ -8,7 +8,7 @@ begin
 rescue LoadError
 end
 
-ENV['device_name'] = 'Resizable iPad'
+ENV['device_name'] = 'iPad Air'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
