@@ -78,12 +78,10 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 615}">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 1}">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="ccvQP0zIG0F"/>
-    <selected-columns ids="jFqHUGd_Dg1"/>
-    <selected-characters range="{45, 0}"/>
+    <selected-rows ids="ju00BBaPGSN"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -138,22 +136,6 @@
         </text>
       </values>
       <children>
-        <item id="hU0BsDkHFPi">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>update chart colors to match keynote charts</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="b_Xg6GLTnu7">
-          <values>
-            <null/>
-          </values>
-        </item>
         <item id="ju00BBaPGSN">
           <values>
             <text>
@@ -187,9 +169,31 @@
             </text>
           </values>
         </item>
+        <item id="bV1hXcULFQl">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>app crashes after deselecting some colors</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="hoX_4oCnEiI">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="hU0BsDkHFPi" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>update chart colors to match colour wheel</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="fyVzotkmJ0K" state="checked">
@@ -469,7 +473,7 @@
         <null/>
       </values>
     </item>
-    <item id="loH9eiExqn7" expanded="yes">
+    <item id="loH9eiExqn7">
       <values>
         <text>
           <p>
@@ -892,7 +896,7 @@
         </item>
       </children>
     </item>
-    <item id="bdTWw-3ewxt" expanded="yes">
+    <item id="bdTWw-3ewxt">
       <values>
         <text>
           <p>
