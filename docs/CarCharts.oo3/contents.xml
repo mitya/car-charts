@@ -78,10 +78,12 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 615}">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="cKdH-flYO4P"/>
+    <selected-rows ids="ccvQP0zIG0F"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{45, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,55 +138,6 @@
         </text>
       </values>
       <children>
-        <item id="fyVzotkmJ0K">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>ipad fails after selecting Mini category and them Compact</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="cKdH-flYO4P">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>hide share button in the empty Selected list</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="kEAhMmiCKx8">
-          <values>
-            <null/>
-          </values>
-        </item>
-        <item id="dkhKot4dtns">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>mod set editing should not show sort icon</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="ju00BBaPGSN">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>renaming doesn’t work for mod sets</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="hU0BsDkHFPi">
           <values>
             <text>
@@ -196,9 +149,69 @@
             </text>
           </values>
         </item>
+        <item id="b_Xg6GLTnu7">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="ju00BBaPGSN">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>renaming doesn’t work for mod list editing</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="dkhKot4dtns">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>mod set content editing should not show sort icon</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="pqu5lFYnpVt">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>slide to delete is broken for mod sets list</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="hoX_4oCnEiI">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="fyVzotkmJ0K" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>X ipad fails after selecting Mini category and them Compact</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="cKdH-flYO4P" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>hide share button in the empty Selected list</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="itUTFP4lc4F" state="checked">
@@ -324,6 +337,17 @@
         </text>
       </values>
       <children>
+        <item id="k834oDicN22">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>обновление базы</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
         <item id="cezJtKeuY26">
           <values>
             <text>
@@ -341,17 +365,6 @@
               <p>
                 <run>
                   <lit>rework the app icon</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="k834oDicN22">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>обновление базы</lit>
                 </run>
               </p>
             </text>
@@ -500,17 +513,6 @@
             </text>
           </values>
         </item>
-        <item id="orghdiulVsA">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>show coloured gliph instead of the checkmark in the parameters view</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="ppLCspJ9fP8">
           <values>
             <text>
@@ -520,6 +522,22 @@
                 </run>
               </p>
             </text>
+          </values>
+        </item>
+        <item id="g4JoZofOEUd">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>change chart background on launch image</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="j8F6a2t4yw1">
+          <values>
+            <null/>
           </values>
         </item>
         <item id="nRFPr-cwQix">
@@ -533,34 +551,12 @@
             </text>
           </values>
         </item>
-        <item id="g4JoZofOEUd">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>change chart background on launch image&apos;</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="bPvTVw0ywpc">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>replace action sheet + popover with a 2-page popover for saving mods as a set</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="dZeiAPiCju5">
           <values>
             <text>
               <p>
                 <run>
-                  <lit>animate added new set (in popover too)</lit>
+                  <lit>animate additions to the set list (in popover too)</lit>
                 </run>
               </p>
             </text>
@@ -577,9 +573,15 @@
             </text>
           </values>
         </item>
-        <item id="lF-3TLe8E1M">
+        <item id="bPvTVw0ywpc">
           <values>
-            <null/>
+            <text>
+              <p>
+                <run>
+                  <lit>replace action sheet + popover with a 2-page popover for saving mods as a set</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="dk2rwU5CjiH">
@@ -615,9 +617,15 @@
             </text>
           </values>
         </item>
-        <item id="j8F6a2t4yw1">
+        <item id="orghdiulVsA">
           <values>
-            <null/>
+            <text>
+              <p>
+                <run>
+                  <lit>show coloured glyph instead of the checkmark in the parameters view</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="pSgMsY3ICON">
@@ -900,7 +908,7 @@
             <text>
               <p>
                 <run>
-                  <lit>move some processing to background ?</lit>
+                  <lit>move some processing to background (measure) ?</lit>
                 </run>
               </p>
             </text>

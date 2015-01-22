@@ -167,8 +167,8 @@ class ChartBarView < UIView
     end
   
     def colors
-      @colors ||= Metadata.colors.map do |h,s,b|
-        [KK.hsb(h, s > 20 ? s - 20 : 0, b + 5), KK.hsb(h, s < 90 ? s + 10 : 100, b - 5)]
+      @colors ||= Metadata.colors.map do |h1,s1,b1,h2,s2,b2|
+        [KK.hsb(h1,s1,b1), KK.hsb(h2,s2,b2)]
       end
     end
   
