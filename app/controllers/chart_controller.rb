@@ -84,7 +84,7 @@ class ChartController < UIViewController
 
 
   def reload
-    @comparision = Comparision.new(Disk.currentMods.sort_by(&:key), Disk.currentParameters)
+    @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     tableView.reloadData
     
     if @comparision.complete?
@@ -109,7 +109,6 @@ class ChartController < UIViewController
       splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
     end
   end
-
 
   def prefersStatusBarHidden
     fullScreen? || super

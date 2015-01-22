@@ -44,10 +44,6 @@ class ModSetViewController < UITableViewController
     end
   end
 
-  def tableView(tableView, moveRowAtIndexPath:fromIndexPath, toIndexPath:toIndexPath)
-    set.swapMods(fromIndexPath.row, toIndexPath.row)
-  end
-  
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
     tableView.cellForRowAtIndexPath(indexPath).toggleLeftCheckmarkAccessory
@@ -58,7 +54,6 @@ class ModSetViewController < UITableViewController
     ModViewController.showFor self, withMod: @set.mods[indexPath.row]
   end
     
-
   
   def setEditing(editing, animated:animated)
     super
@@ -70,7 +65,7 @@ class ModSetViewController < UITableViewController
   end
   
   
-  ACTIONS = ["Add Models to Chart", "Replace Models on Chart", "Edit Models in Set", "Cancel"]
+  ACTIONS = ["Add Models to Chart", "Replace Models on Chart", "Edit Set", "Cancel"]
   
   def showSetActionSheet(bbi)
     @sheet = UIActionSheet.alloc.initWithTitle nil, delegate:self, cancelButtonTitle:nil, destructiveButtonTitle:nil, otherButtonTitles:nil

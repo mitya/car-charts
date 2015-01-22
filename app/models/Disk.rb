@@ -19,8 +19,9 @@ class Disk
 
     def currentMods=(array)
       changeValueForKey('currentMods') do
+        array.sort_by!(&:key)
         NSUserDefaults.standardUserDefaults["mods"] = array.map(&:key)
-        @currentMods = array        
+        @currentMods = array
       end
     end
   

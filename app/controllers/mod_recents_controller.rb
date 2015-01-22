@@ -75,8 +75,7 @@ class ModRecentsController < UITableViewController
       @selectionController.popover = presentPopoverController @selectionController, fromBarItem:navigationItem.rightBarButtonItem
     end
   end
-  
-  
+    
 
   class DataSource
     attr_reader :controller
@@ -87,7 +86,7 @@ class ModRecentsController < UITableViewController
     end
     
     def reload
-      @mods = @dataLoadingBlock.call.sort_by(&:key)
+      @mods = @dataLoadingBlock.call
     end
         
     def tableView(tableView, numberOfRowsInSection:section)
