@@ -21,12 +21,6 @@ class ModSetListController < UITableViewController
     KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
   end  
 
-  def setEditing(editing, animated:animated)
-    super
-    refreshView # redraws cells for editing
-  end
-
-
 
   def tableView(tv, numberOfRowsInSection:section)
     refreshData
@@ -37,6 +31,14 @@ class ModSetListController < UITableViewController
     set = @sets[indexPath.row]
     cell = tableView.dequeueReusableCell(klass:ThreeLabelCell, style:UITableViewCellStyleValue1) do |cell|
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+      cell.editingAccessoryView = begin
+        editingImage = KK.templateImage('ca-edit')
+        editingButton = UIButton.buttonWithType(UIButtonTypeCustom)
+        editingButton.frame = [[0, 0], editingImage.size]
+        editingButton.setBackgroundImage editingImage, forState:UIControlStateNormal
+        editingButton.addTarget self, action:'editModName:', forControlEvents:UIControlEventTouchUpInside
+        editingButton
+      end
     end
     cell.textLabel.text = set.name
     cell.detailTextLabel.text = set.modCount.to_s_or_nil
@@ -56,28 +58,40 @@ class ModSetListController < UITableViewController
 
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
-    tableView.deselectRowAtIndexPath indexPath, animated:YES
-    navigationController.pushViewController ModSetViewController.new(set), animated:YES
+    tableView.deselectRowAtIndexPath indexPath, animated:true
+    navigationController.pushViewController ModSetViewController.new(set), animated:YES      
   end
 
 
-  def alertView(alertView, clickedButtonAtIndex:buttonIndex)
-    if alertView.buttonTitleAtIndex(buttonIndex) == "OK"
-      ModSet.create(name: alertView.textFieldAtIndex(0).text)
+  def alertView(alert, clickedButtonAtIndex:buttonIndex)
+    if alert.tag == -1 && alert.buttonTitleAtIndex(buttonIndex) == "OK"
+      ModSet.create(name: alert.textFieldAtIndex(0).text)
       refreshView
+    elsif alert.buttonTitleAtIndex(buttonIndex) == "Save"
+      set = @sets[ alert.tag ] 
+      newName = alert.textFieldAtIndex(0).text
+      set.renameTo(newName)
+      
+      oldIndexPath = KK.indexPath(0, alert.tag)
+      newIndexPath = KK.indexPath(0, set.position)
+      tableView.reloadData
+      # tableView.moveRowAtIndexPath oldIndexPath, toIndexPath:newIndexPath # can't move and refresh at the same time
     end
   end    
 
-  def modSetCellDidEndEditing(cell)
-    index = tableView.indexPathForCell(cell)
-    @set = @sets[index.row] # save as ivar because after refreshData is called @sets will be different
-    @set.renameTo(cell.textField.text.strip)
-    cell.textField.text = @set.name # set name is not changed if the rename has failed
-    cell.textLabel.text = @set.name
-    refreshData
-    tableView.moveRowAtIndexPath index, toIndexPath:KK.indexPath(index.section, @set.position)
+  def editModName(button)
+    cell = KK.closestSuperviewOfType(UITableViewCell, forView:button)
+    indexPath = tableView.indexPathForCell(cell)
+    set = @sets[indexPath.row]
+    
+    alert = UIAlertView.alloc.initWithTitle("Edit Model Set Title", message:nil, delegate:self, cancelButtonTitle:"Cancel", otherButtonTitles:nil)
+    alert.tag = indexPath.row
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput
+    alert.addButtonWithTitle "Save"
+    alert.textFieldAtIndex(0).autocapitalizationType = UITextAutocapitalizationTypeWords
+    alert.textFieldAtIndex(0).text = set.name
+    alert.show    
   end
-
 
   def showNewSetDialog
     ModSetListController.showNewSetDialogFor(self)
@@ -97,6 +111,7 @@ class ModSetListController < UITableViewController
     def showNewSetDialogFor(controller)
       alertView = UIAlertView.alloc.initWithTitle("New Model Set",
         message:"Enter the set title", delegate:controller, cancelButtonTitle:"Cancel", otherButtonTitles:nil)
+      alertView.tag = -1
       alertView.alertViewStyle = UIAlertViewStylePlainTextInput
       alertView.addButtonWithTitle "OK"
       alertView.textFieldAtIndex(0).autocapitalizationType = UITextAutocapitalizationTypeWords

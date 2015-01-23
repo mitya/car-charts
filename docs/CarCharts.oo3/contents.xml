@@ -147,17 +147,6 @@
             </text>
           </values>
         </item>
-        <item id="pqu5lFYnpVt">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>slide to delete is broken for mod sets list</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
         <item id="bV1hXcULFQl">
           <values>
             <text>
@@ -172,6 +161,17 @@
         <item id="hoX_4oCnEiI">
           <values>
             <null/>
+          </values>
+        </item>
+        <item id="pqu5lFYnpVt" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>slide to delete is broken for mod sets list</lit>
+                </run>
+              </p>
+            </text>
           </values>
         </item>
         <item id="dkhKot4dtns" state="checked">

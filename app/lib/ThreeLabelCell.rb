@@ -12,7 +12,6 @@ class ThreeLabelCell < UITableViewCell
      @commentLabel.font = UIFont.systemFontOfSize(UIFont.smallSystemFontSize)
      @commentLabel.textColor = UIColor.grayColor
      contentView.addSubview(@commentLabel)
-     
      self
    end
  
