@@ -19,4 +19,9 @@ namespace 'app:crawler' do
     require File.dirname(__FILE__) + "/crawler/ya_init.rb"
     $ya_final_analyzer.work
   end
+  
+  task :run do
+    require "#{Dir.pwd}/crawler/ya2_boot.rb"
+    YA2HomepageParser.new.run
+  end
 end

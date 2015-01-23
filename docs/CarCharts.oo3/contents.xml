@@ -78,10 +78,10 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 1}">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="ju00BBaPGSN"/>
+    <selected-rows ids="bdTWw-3ewxt"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -136,7 +136,23 @@
         </text>
       </values>
       <children>
-        <item id="ju00BBaPGSN">
+        <item id="krSHYCjRWXx">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>обновление базы</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="crMOo_uFbYt">
+          <values>
+            <null/>
+          </values>
+        </item>
+        <item id="ju00BBaPGSN" state="checked">
           <values>
             <text>
               <p>
@@ -145,22 +161,6 @@
                 </run>
               </p>
             </text>
-          </values>
-        </item>
-        <item id="bV1hXcULFQl">
-          <values>
-            <text>
-              <p>
-                <run>
-                  <lit>app crashes after deselecting some colors</lit>
-                </run>
-              </p>
-            </text>
-          </values>
-        </item>
-        <item id="hoX_4oCnEiI">
-          <values>
-            <null/>
           </values>
         </item>
         <item id="pqu5lFYnpVt" state="checked">
@@ -957,6 +957,17 @@
               <p>
                 <run>
                   <lit>new search bar API</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="lyDYop80wWd">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>rename the controllers once again</lit>
                 </run>
               </p>
             </text>
