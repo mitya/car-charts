@@ -9,7 +9,8 @@ module CW
     
     open(url, "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:35.0) Gecko/20100101 Firefox/35.0") do |page|
       puts "GET #{url} => #{path}"
-      open(dir + path, "w") { |file| file.write(page.read) }
+      write_file(dir + path, page.read)
+      # open(dir + path, "w") { |file| file.write(page.read) }
     end
     
     return true
@@ -23,13 +24,24 @@ module CW
   def save_ya_page_and_sleep(ya_path, path, overwrite: true)
     save_page_and_sleep YA_HOST + ya_path, path, overwrite: overwrite
   end
+  
+  def write_file(path, content)
+    open(path, "w") { |file| file.write(content) }
+  end
 
   def parse_file(file)
     return Nokogiri::HTML(open(file))
   end
 
-  def write_data(filename, data, dir = WORKDIR)
-    open("#{dir}/#{filename}.yaml", "w") { |f| f.write YAML.dump(data) }
+  def write_data(filename, data, dir: WORKDIR)
+    path = "#{dir}/#{filename}.yaml"
+
+    if data.is_a?(Array)
+      data.map! &:to_h if data.first.is_a?(OpenStruct)
+      puts "Write #{data.size} items to #{path}"
+    end
+
+    open(path, "w") { |f| f.write YAML.dump(data) }
   end
 
   def write_data_to_json(filename, data, dir = WORKDIR)
@@ -37,13 +49,20 @@ module CW
   end
 
   def read_hash(filename, dir = WORKDIR)
-    return YAML.load File.read("#{dir}/#{filename}.yaml")
+    return YAML.load( File.read("#{dir}/#{filename}.yaml") ).map { |hash| OpenStruct.new(hash) }
   end
   
   def read_hash_in_json(filename, dir = WORKDIR)
     return JSON.parse File.read("#{dir}/#{filename}.json")
   end
   
+  def parse_dir(directory)
+    Dir.glob(WORKDIR + "#{directory}/*.html").each do |path|
+      basename = File.basename(path, '.html')
+      doc = CW.parse_file(path)
+      yield doc, basename, path
+    end
+  end
 
   # def save_plist(data, filename, dir = OUTDIR)
   #   open(dir + "#{filename}.plist", "w") { |file| file.write data.to_plist }

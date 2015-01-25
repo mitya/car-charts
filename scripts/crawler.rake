@@ -1,3 +1,9 @@
+task 'app:crawler', [:action] do |t, args|
+  raise "No action specified" unless args[:action]
+  require "#{Dir.pwd}/crawler/ya2_boot.rb"
+  YA2HomepageParser.new.send( args[:action] )
+end
+
 namespace 'app:crawler' do
   desc "Rebuild metadata from raw files"
   task :meta do
