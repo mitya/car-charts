@@ -68,13 +68,14 @@ module CW
     return JSON.parse File.read("#{dir}/#{filename}.json")
   end
   
-  def parse_dir(directory)
+  def parse_dir(directory, limit: nil, silent: false)
     count = 0
     sec = Benchmark.realtime do
       Dir.glob(WORKDIR + "#{directory}/*.html").each do |path|
         count += 1
+        return if limit && count == limit
         basename = File.basename(path, '.html')
-        doc = CW.parse_file(path)
+        doc = CW.parse_file(path, silent:silent)
         yield doc, basename, path
       end
     end

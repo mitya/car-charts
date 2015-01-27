@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # loader & source parcer constants
 
 BASE_BODY_TYPES= {

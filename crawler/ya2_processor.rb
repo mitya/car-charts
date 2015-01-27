@@ -182,7 +182,7 @@ class YA2Processor
     end
   end
   
-  def parse_models
+  def parse_models_for_bodies
     results = []
     
     CW.parse_dir("models-initial") do |doc, basename, path|
@@ -194,7 +194,6 @@ class YA2Processor
     CW.write_data "models-other", results
     
     # extract names of other generations
-    # extract links to other bodies
     # extract links to mods
     # load mods
     
@@ -203,6 +202,35 @@ class YA2Processor
     # load mods
     
     # parse mods
+  end
+  
+  def parse_models_for_mods
+    results = []
+    
+    CW.parse_dir("models-all") do |doc, basename, path|
+      complectations = doc.css(".b-complectations__item:not(.b-complectations__item_state_current) a.link")
+      if complectations.any?
+        complectations.each do |a|
+          aggregate_key = parse_ya_aggregate_title(a['title'])
+          key = [ basename.split.join('-'), aggregate_key ].join('--')
+          results << OpenStruct.new( key: key, url: a['href'] )
+        end
+      else
+        # unique models
+      end      
+    end    
+    
+    results.uniq! { |r| r.key }
+    
+    CW.write_data "mods", results
+  end
+  
+  def process_mods
+    records = CW.read_hash('mods')
+    
+    urls = records.map &:url
+    p urls.count
+    p urls.uniq.count    
   end
   
   def process_models_2
@@ -221,6 +249,13 @@ class YA2Processor
     records.each { |r| r.body_key = "#{ r.key } #{ CWD::Bodies[r.title] }" }
     
     CW.write_data "models-other-2", records
+  end
+  
+  def load_mods
+    mods = CW.read_hash('mods')
+    mods.shuffle.each do |mod|
+      CW.save_ya_page_and_sleep mod.url, "mods/#{mod.key}.html", overwrite: false
+    end    
   end
   
   def work
@@ -249,5 +284,19 @@ class YA2Processor
     
     CW.write_csv(results)
   
+  end
+  
+  private
+  
+  # Momentum 1.6 AMT (150 л.с.) передний привод, бензин
+  # sDrive30i 3.0 AT (258 л.с.) задний привод, бензин  
+  # 1.4 MT (125 л.с.) передний привод, бензин
+  def parse_ya_aggregate_title(title)
+    re = /(\d\.\d) (\w{2,3}) \((\d+) л\.с\.\) (\p{L}+) привод, ([\p{L}\s\/]+)$/
+    volume, transmission, power, drive, fuel = title.scan(re).flatten
+    transmission_key = transmission
+    drive_key = CWD::Translations_Values[:drive][drive]
+    fuel_key = CWD::Translations_Values[:fuel_short][fuel]
+    "#{volume}#{fuel_key}-#{power}ps-#{transmission_key}-#{drive_key}"
   end
 end

@@ -78,10 +78,12 @@
     </print-info>
     <auto-generate-level-styles>no</auto-generate-level-styles>
   </settings>
-  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15">
+  <editor content-size="{738, 955}" vertical-scrollbar-visible-width="15" scroll-position="{0, 1}">
     <drawer display="sections" width="181" palette-height="165"/>
     <note-split-view height="132"/>
-    <selected-rows ids="bdTWw-3ewxt"/>
+    <selected-rows ids="i-s29_5y_MQ"/>
+    <selected-columns ids="jFqHUGd_Dg1"/>
+    <selected-characters range="{28, 0}"/>
   </editor>
   <columns>
     <column id="dTpN3JwYpBn" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
@@ -142,6 +144,50 @@
               <p>
                 <run>
                   <lit>обновление базы</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="iI_jw0zADdQ">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>look on hte longest titles (maybe rename MB to Mercedes)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="oKsbPIFM2DP">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>shorten mod titles that don’t fit the chart (MB AMG)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="lBkkbHC8C4W">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>review all dot models</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="i-s29_5y_MQ">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>diff compare old keys to new</lit>
                 </run>
               </p>
             </text>
