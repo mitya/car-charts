@@ -30,6 +30,7 @@ module CW
   end
 
   def parse_file(file)
+    puts "Parsing #{file}"
     return Nokogiri::HTML(open(file))
   end
 
@@ -47,6 +48,17 @@ module CW
   def write_data_to_json(filename, data, dir = WORKDIR)
     open("#{dir}/#{filename}.json", "w") { |f| f.write JSON.pretty_generate(data) }
   end
+  
+  def write_csv(data)
+    path = "#{WORKDIR}/output.csv"    
+    
+    if data.is_a?(Array)
+      data.map! &:to_h if data.first.is_a?(OpenStruct)
+      puts "Write #{data.size} items to #{path}"
+    end
+
+    open(path, "w") { |f| f.write data.map { |row| CSV.generate_line(row) }.join }
+  end
 
   def read_hash(filename, dir = WORKDIR)
     return YAML.load( File.read("#{dir}/#{filename}.yaml") ).map { |hash| OpenStruct.new(hash) }
@@ -57,11 +69,29 @@ module CW
   end
   
   def parse_dir(directory)
-    Dir.glob(WORKDIR + "#{directory}/*.html").each do |path|
-      basename = File.basename(path, '.html')
-      doc = CW.parse_file(path)
-      yield doc, basename, path
+    count = 0
+    sec = Benchmark.realtime do
+      Dir.glob(WORKDIR + "#{directory}/*.html").each do |path|
+        count += 1
+        basename = File.basename(path, '.html')
+        doc = CW.parse_file(path)
+        yield doc, basename, path
+      end
     end
+
+    printf "Processed #{count} files in %02d:%02d sec\n", *sec.divmod(60)
+  end
+  
+  def compress_dir(dir, selectors)
+    parse_dir(dir) do |doc, basename, path|
+      content = doc.css(selectors)
+      content.xpath('//@data-bem').remove
+      
+      doc.at_css('body').inner_html = content
+      doc.at_css('head').inner_html = ''
+      
+      write_file(path, doc.to_html)
+    end    
   end
 
   # def save_plist(data, filename, dir = OUTDIR)

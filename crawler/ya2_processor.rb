@@ -7,7 +7,7 @@
 # It was possible to load all the direct links to models instead of loading links to generations.
 # But it requires dealing with pagination on the mark pages.
 # 
-class YA2HomepageParser
+class YA2Processor
   def parse_homepage
     doc = CW.parse_file("crawler_data/p-marks/index.html")
     results = {}    
@@ -41,17 +41,7 @@ class YA2HomepageParser
   end
     
   def compress_marks
-    # dir = "marks/combined"
-    # dir = "generations"
-    CW.parse_dir(dir) do |doc, basename, path|
-      content = doc.css('.b-tabs__panel_name_cars .b-cars__page')
-      content.xpath('//@data-bem').remove
-      
-      doc.at_css('body').inner_html = content
-      doc.at_css('head').inner_html = ''
-      
-      CW.write_file(path, doc.to_html)
-    end
+    CW.compress_dir("generations", ".b-tabs__panel_name_cars .b-cars__page")
   end  
     
   def parse_marks
@@ -156,5 +146,86 @@ class YA2HomepageParser
       filename = [gen.mark_key, gen.model_key, gen.years_since].join(' ')
       CW.save_ya_page_and_sleep gen.url + "/specs", "models/#{filename}.html", overwrite: false
     end
+  end
+  
+  def load_models_2
+    models = CW.read_hash('models-other-2')    
+    models.shuffle.each do |model|      
+      filename = model.body_key
+      CW.save_ya_page_and_sleep model.url, "models-other/#{filename}.html", overwrite: false
+    end
+  end  
+  
+  def compress_models
+    CW.compress_dir("models-other", ".b-complectations, .b-car-head, .b-specifications")
+  end
+  
+  def parse_models
+    results = []
+    
+    CW.parse_dir("models-initial") do |doc, basename, path|
+      doc.css(".b-car-head .b-bodytypes a.link").each do |a|
+        results << { key: basename, url: a['href'], title: a.text }
+      end
+    end
+  
+    CW.write_data "models-other", results
+    
+    # extract names of other generations
+    # extract links to other bodies
+    # extract links to mods
+    # load mods
+    
+    # load other bodies
+    # extract links to mods
+    # load mods
+    
+    # parse mods
+  end
+  
+  def process_models_2
+    records = CW.read_hash('models-other')    
+    default_bodies = Set.new CWD::Bodies.keys
+    
+    records.each do |r|
+      mark = r.key.split.first.to_sym
+      if reduction = CWD::Reductions_Body_Body[ [mark, r.title] ]
+        r.title = reduction
+      end
+    end
+    
+    records.select! { |r| default_bodies.include? r.title }
+    
+    records.each { |r| r.body_key = "#{ r.key } #{ CWD::Bodies[r.title] }" }
+    
+    CW.write_data "models-other-2", records
+  end
+  
+  def work
+    results = []
+    records = CW.read_hash('models-other')
+    
+    default_bodies = Set.new CWD::Bodies.keys    
+    excluded_bodies = %w(микроавтобус фургон)
+    
+    records.each do |r|
+      mark = r.key.split.first.to_sym
+      if reduction = CWD::Reductions_Body_Body[ [mark, r.title] ] 
+        r.title = reduction
+      end
+    end
+    
+    records.reject! { |r| r.title.start_with?(*excluded_bodies) }
+    records.reject! { |r| default_bodies.include? r.title }
+    
+    records.sort_by!(&:key)
+    
+    records.each do |r|
+      printf "%-45s %s\n", r.url, r.title
+      results << [r.key, YA_HOST + r.url, r.title]
+    end
+    
+    CW.write_csv(results)
+  
   end
 end

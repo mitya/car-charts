@@ -1,7 +1,7 @@
 task 'app:crawler', [:action] do |t, args|
   raise "No action specified" unless args[:action]
   require "#{Dir.pwd}/crawler/ya2_boot.rb"
-  YA2HomepageParser.new.send( args[:action] )
+  YA2Processor.new.send( args[:action] )
 end
 
 namespace 'app:crawler' do
@@ -28,6 +28,6 @@ namespace 'app:crawler' do
   
   task :run do
     require "#{Dir.pwd}/crawler/ya2_boot.rb"
-    YA2HomepageParser.new.run
+    YA2Processor.new.run
   end
 end

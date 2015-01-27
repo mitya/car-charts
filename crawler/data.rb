@@ -257,24 +257,26 @@ Translations_Values = {
 #   minivan_5d_partner_tepee: :MV5
 # }
 
+
+
 Reductions_Body_Body = {
-  "audi--hatch_5d_sportback"  => "hatch_5d",           
+  "audi--hatch_5d_sportback"  => "hatch_5d",
   "audi--coupe_5d_sportback"  => "coupe_5d",
-  "audi--suv_v12_tdi"         => "suv",                  
-  "kia--coupe_koup"           => "coupe",                   
-  "land_rover--suv_3d_90"     => "suv_3d",                    
-  "land_rover--suv_4d"        => "suv_4d",                       
-  "land_rover--suv_5d_110"    => "suv_5d",        
-  "lexus--cabrio_is_250c"     => "cabrio",                            
-  "opel--wagon_sports_tourer" => "wagon",          
-  "peugeot--cabrio_cc"        => "cabrio",                    
+  "audi--suv_v12_tdi"         => "suv",
+  "kia--coupe_koup"           => "coupe",
+  "land_rover--suv_3d_90"     => "suv_3d",
+  "land_rover--suv_4d"        => "suv_4d",
+  "land_rover--suv_5d_110"    => "suv_5d",
+  "lexus--cabrio_is_250c"     => "cabrio",
+  "opel--wagon_sports_tourer" => "wagon",
+  "peugeot--cabrio_cc"        => "cabrio",
   "peugeot--wagon_sw"         => "wagon",
-  "peugeot--minivan_5d_partner_tepee" => "minivan_5d",       
-  "vaz--wagon_2104"           => "wagon",                   
-  "vaz--hatch_5d_sport"       => "hatch_5d",               
-  "vaz--hatch_3d_coupe"       => "hatch_3d",        
-  "volkswagen--hatch_3d_gti"  => "hatch_3d",                 
-  "volkswagen--hatch_5d_gti"  => "hatch_5d",         
+  "peugeot--minivan_5d_partner_tepee" => "minivan_5d",
+  "vaz--wagon_2104"           => "wagon",
+  "vaz--hatch_5d_sport"       => "hatch_5d",
+  "vaz--hatch_3d_coupe"       => "hatch_3d",
+  "volkswagen--hatch_3d_gti"  => "hatch_3d",
+  "volkswagen--hatch_5d_gti"  => "hatch_5d",
 }
 
 Reductions_Body_Model = {
