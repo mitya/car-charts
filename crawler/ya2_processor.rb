@@ -160,6 +160,28 @@ class YA2Processor
     CW.compress_dir("models-other", ".b-complectations, .b-car-head, .b-specifications")
   end
   
+  def rename_models_without_bodies
+    Dir.glob(WORKDIR + "models-initial/*.html").each do |path|
+      basename = File.basename(path, '.html')
+      doc = CW.parse_file(path, silent: true)
+      
+      body_name = doc.css(".b-bodytypes .button__text").text
+      body_name = doc.css(".b-bodytypes").text if body_name.empty?
+      
+      mark = basename.split.first.to_sym
+      reduction = CWD::Reductions_Body_Body[ [mark, body_name] ]
+      body_name = reduction if reduction
+
+      body_key = CWD::Bodies[body_name]
+
+      new_name = body_key ? basename + ' ' + body_key.to_s : 'x ' + basename
+      new_name = File.dirname(path) + '/' + new_name + '.html'
+      
+      printf "%-40s => %s\n", basename, new_name      
+      File.rename(path, new_name)
+    end
+  end
+  
   def parse_models
     results = []
     

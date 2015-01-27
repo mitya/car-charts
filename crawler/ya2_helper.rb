@@ -29,8 +29,8 @@ module CW
     open(path, "w") { |file| file.write(content) }
   end
 
-  def parse_file(file)
-    puts "Parsing #{file}"
+  def parse_file(file, silent:false)
+    puts "Parsing #{file}" unless silent
     return Nokogiri::HTML(open(file))
   end
 
