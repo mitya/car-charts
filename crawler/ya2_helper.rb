@@ -85,7 +85,7 @@ module CW
   
   def compress_dir(dir, outdir, selectors, limit: nil)
     FileUtils.mkdir_p File.join(WORKDIR, outdir)
-    parse_dir(dir, limit: limit, silent: true) do |doc, basename, path|
+    parse_dir(dir, limit: limit) do |doc, basename, path|
       content = doc.css(selectors)
       content.xpath('//@data-bem').remove
       content.xpath('//@style').remove
@@ -94,8 +94,7 @@ module CW
       doc.at_css('head').inner_html = ''
     
       new_path = File.join(WORKDIR, outdir, "#{basename}.html")
-      puts new_path
-      
+    
       write_file(new_path, doc.to_html)
     end    
   end

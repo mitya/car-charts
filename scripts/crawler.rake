@@ -1,9 +1,17 @@
-desc "Run a crawler action, eg: rake app:crawler[action_name]"
+desc "Run a crawler processor action, eg: rake app:crawler[action_name]"
 task 'app:crawler', [:action] do |t, args|
   raise "No action specified" unless args[:action]
   require "#{Dir.pwd}/crawler/ya2_boot.rb"
   YA2Processor.new.send( args[:action] )
 end
+
+desc "Run a crawler parser action, eg: rake app:crawler:parser[action_name]"
+task 'app:crawler:parser', [:action] do |t, args|
+  raise "No action specified" unless args[:action]
+  require "#{Dir.pwd}/crawler/ya2_boot.rb"
+  YA2Parser.new.send( args[:action] )
+end
+
 
 namespace 'app:crawler' do
   # desc "Rebuild metadata from raw files"

@@ -1,0 +1,442 @@
+---
+acura--mdx: Xe
+acura--rdx: 
+acura--rsx: 
+acura--tl: 
+alfa_romeo--147: 
+alfa_romeo--159: 
+alfa_romeo--gt: 
+alfa_romeo--mito: 
+alfa_romeo--spider: 
+audi--a1: A
+audi--a3: A
+audi--a4: D
+audi--a4_allroad_quattro: Wx
+audi--a5: 
+audi--a6: E
+audi--a6_allroad_quattro: Wx
+audi--a7: 
+audi--a8: F
+audi--q3: Xc
+audi--q5: Xd
+audi--q7: Xf
+audi--r8: 
+audi--rs3: 
+audi--rs5: 
+audi--rs6: 
+audi--s3: 
+audi--s4: 
+audi--s5: 
+audi--s6: 
+audi--s8: 
+audi--tt: Sr
+bmw--1: C
+bmw--1_m: 
+bmw--3: D
+bmw--5: E
+bmw--5_gran_turismo: 
+bmw--6: 
+bmw--7: F
+bmw--m3: 
+bmw--m5: 
+bmw--m6: 
+bmw--x1: Xc
+bmw--x3: Xd
+bmw--x5: Xe
+bmw--x5_m: 
+bmw--x6: Xe
+bmw--x6_m: 
+bmw--z4: Sr
+cadillac--bls: D
+cadillac--cts: E
+cadillac--escalade: Xf
+cadillac--srx: Xe
+cadillac--sts: E
+chery--amulet: 
+chery--bonus: 
+chery--cross_eastar: 
+chery--fora: 
+chery--indis: 
+chery--kimo: 
+chery--m11: 
+chery--qq6: 
+chery--tiggo: 
+chery--very: 
+chevrolet--aveo: B
+chevrolet--camaro: Sc
+chevrolet--captiva: Xd
+chevrolet--corvette: 
+chevrolet--cruze: C
+chevrolet--epica: D
+chevrolet--express: 
+chevrolet--lacetti: C
+chevrolet--lanos: B
+chevrolet--niva: 
+chevrolet--orlando: Me
+chevrolet--rezzo: 
+chevrolet--spark: A
+chevrolet--suburban: 
+chevrolet--tahoe: Xf
+chevrolet--tracker: 
+chevrolet--trail_blazer: Xe
+chrysler--300c: E
+chrysler--grand_voyager: 
+chrysler--pt_cruiser: 
+chrysler--sebring: D
+chrysler--town_and_country: 
+citroen--berlingo: 
+citroen--c1: A
+citroen--c3: B
+citroen--c3_picasso: Mb
+citroen--c4: C
+citroen--c4_picasso: Mc
+citroen--c5: D
+citroen--c6: E
+citroen--c_crosser: Xc
+citroen--ds3: 
+citroen--ds4: 
+citroen--grand_c4_picasso: 
+citroen--xsara_picasso: 
+daewoo--lanos: B
+daewoo--matiz: A
+daewoo--nexia: C
+dodge--avenger: 
+dodge--caliber: 
+dodge--challenger: 
+dodge--charger: 
+dodge--grand_caravan: 
+dodge--journey: 
+dodge--nitro: 
+dodge--ram: 
+dodge--viper: 
+fiat--500: A
+fiat--albea: 
+fiat--bravo: C
+fiat--croma: 
+fiat--doblo: 
+fiat--ducato: 
+fiat--grande_punto: C
+fiat--linea: 
+fiat--panda: 
+fiat--punto: B
+fiat--sedici: 
+ford--c_max: Mc
+ford--escape: Xd
+ford--explorer: Xf
+ford--fiesta: B
+ford--focus: C
+ford--focus_rs: 
+ford--focus_st: 
+ford--fusion: Mb
+ford--galaxy: Me
+ford--ka: A
+ford--kuga: Xc
+ford--maverick: Xd
+ford--mondeo: D
+ford--ranger: Pc
+ford--s_max: Me
+ford--torneo_connect: 
+ford--transit: 
+gaz--31105_volga: 
+gaz--volga_siber: 
+great_wall--deer: 
+great_wall--florid: 
+great_wall--hover: 
+great_wall--peri: 
+great_wall--safe: 
+great_wall--sailor: 
+honda--accord: D
+honda--civic: C
+honda--cr_v: Xd
+honda--crosstour: Wx
+honda--fr_v: 
+honda--jazz: B
+honda--legend: E
+honda--pilot: Xe
+honda--stream: 
+hummer--h2: Xf
+hummer--h3: Xe
+hyundai--accent: 
+hyundai--coupe: 
+hyundai--elantra: 
+hyundai--equus: F
+hyundai--genesis: 
+hyundai--getz: B
+hyundai--grandeur: 
+hyundai--h_1: 
+hyundai--i20: B
+hyundai--i30: C
+hyundai--i40: D
+hyundai--ix35: Xc
+hyundai--ix55: Xe
+hyundai--matrix: 
+hyundai--nf_sonata: 
+hyundai--santa_fe: Xd
+hyundai--santa_fe_classic: 
+hyundai--solaris: B
+hyundai--sonata: D
+hyundai--trajet: 
+hyundai--tucson: Xc
+hyundai--verna: 
+infiniti--ex: Xd
+infiniti--fx: Xe
+infiniti--g: D
+infiniti--m: E
+infiniti--qx: Xf
+jaguar--x_type: 
+jaguar--xf: 
+jaguar--xj: F
+jaguar--xk: 
+jeep--cherokee: 
+jeep--commander: 
+jeep--compass: 
+jeep--grand_cherokee: 
+jeep--liberty: 
+jeep--wrangler: 
+kia--carens: 
+kia--carnival: 
+kia--cee_d: C
+kia--cerato: 
+kia--magentis: 
+kia--mohave: Xe
+kia--opirus: 
+kia--optima: 
+kia--picanto: 
+kia--rio: 
+kia--sorento: Xd
+kia--soul: 
+kia--spectra: 
+kia--sportage: Xc
+kia--venga: 
+land_rover--defender: Xx
+land_rover--discovery: Xe
+land_rover--freelander: Xc
+land_rover--range_rover: Xf
+land_rover--range_rover_evoque: Xc
+land_rover--range_rover_sport: Xe
+lexus--ct: C
+lexus--es: E
+lexus--gs: E
+lexus--gx: Xe
+lexus--is: D
+lexus--ls: F
+lexus--lx: Xf
+lexus--rx: Xe
+lexus--sc: 
+mazda--2: B
+mazda--3: C
+mazda--3_mps: 
+mazda--5: 
+mazda--6: D
+mazda--bt_50: Pc
+mazda--cx_5: Xc
+mazda--cx_7: Xd
+mazda--cx_9: Xe
+mazda--mx_5: 
+mazda--rx_8: 
+mercedes_benz--a: A
+mercedes_benz--b: B
+mercedes_benz--c: D
+mercedes_benz--cl: 
+mercedes_benz--clc: 
+mercedes_benz--clk: 
+mercedes_benz--cls: 
+mercedes_benz--e: E
+mercedes_benz--g: Xx
+mercedes_benz--gl: Xf
+mercedes_benz--glk: Xd
+mercedes_benz--m: Xe
+mercedes_benz--r: Xe
+mercedes_benz--s: F
+mercedes_benz--sl: 
+mercedes_benz--slk: 
+mercedes_benz--slr: 
+mercedes_benz--vito: 
+mini--clubman: B
+mini--cooper: A
+mini--countryman: Xb
+mitsubishi--asx: Xc
+mitsubishi--colt: 
+mitsubishi--galant: 
+mitsubishi--grandis: 
+mitsubishi--l_200: Pc
+mitsubishi--lancer: C
+mitsubishi--lancer_classic: C
+mitsubishi--lancer_evolution: 
+mitsubishi--outlander: Xd
+mitsubishi--pajero: Xe
+mitsubishi--pajero_sport: Xe
+nissan--350z: 
+nissan--almera_classic: 
+nissan--gt_r: 
+nissan--juke: Xb
+nissan--micra: A
+nissan--murano: Xe
+nissan--navara: 
+nissan--note: 
+nissan--np300: 
+nissan--pathfinder: Xe
+nissan--patrol: Xf
+nissan--qashqai: Xc
+nissan--teana: D
+nissan--tiida: C
+nissan--x_trail: Xd
+opel--agila: 
+opel--antara: Xd
+opel--astra: C
+opel--astra_opc: 
+opel--combo: 
+opel--corsa: B
+opel--corsa_opc: 
+opel--insignia: D
+opel--meriva: 
+opel--tigra: 
+opel--zafira: 
+peugeot--107: A
+peugeot--206: B
+peugeot--207: B
+peugeot--3008: Xc
+peugeot--308: C
+peugeot--4007: Xd
+peugeot--407: D
+peugeot--607: E
+peugeot--807: 
+peugeot--partner: 
+porsche--911: 
+porsche--boxster: 
+porsche--cayenne: Xe
+porsche--cayman: 
+porsche--panamera: F
+renault--clio: B
+renault--duster: Xc
+renault--espace: 
+renault--fluence: C
+renault--grand_espace: 
+renault--grand_scenic: 
+renault--kangoo: 
+renault--koleos: Xd
+renault--laguna: 
+renault--latitude: 
+renault--logan: 
+renault--megane: C
+renault--modus: 
+renault--sandero: B
+renault--scenic: 
+renault--symbol: B
+renault--trafic: 
+renault--twingo: 
+renault--vel_satis: 
+saab--9_3: D
+saab--9_5: E
+saab--9_7x: Xe
+seat--alhambra: 
+seat--altea: 
+seat--arosa: 
+seat--cordoba: 
+seat--ibiza: B
+seat--leon: C
+seat--toledo: 
+skoda--fabia: B
+skoda--octavia: C
+skoda--octavia_tour: C
+skoda--roomster: Mc
+skoda--superb: D
+skoda--yeti: Xc
+ssangyong--actyon: Xc
+ssangyong--actyon_sports: 
+ssangyong--kyron: Xd
+ssangyong--rexton: Xe
+ssangyong--rodius: 
+subaru--forester: Xd
+subaru--impreza: C
+subaru--impreza_wrx: 
+subaru--impreza_wrx_sti: 
+subaru--impreza_xv: 
+subaru--legacy: D
+subaru--outback: Wx
+subaru--tribeca: Xe
+subaru--xv: Xc
+suzuki--alto: 
+suzuki--grand_vitara: Xc
+suzuki--jimny: Xx
+suzuki--kizashi: Xd
+suzuki--splash: 
+suzuki--swift: B
+suzuki--sx4: Xb
+suzuki--xl7: 
+toyota--4_runner: 
+toyota--alphard: 
+toyota--auris: C
+toyota--avensis: D
+toyota--aygo: 
+toyota--camry: D
+toyota--corolla: C
+toyota--corolla_verso: 
+toyota--fj_cruiser: 
+toyota--highlander: 
+toyota--hilux: 
+toyota--land_cruiser: Xf
+toyota--land_cruiser_prado: Xe
+toyota--prius: 
+toyota--rav4: Xc
+toyota--sequoia: Xf
+toyota--sienna: Me
+toyota--tundra: Pd
+toyota--verso: Mc
+toyota--yaris: A
+uaz--2206: 
+uaz--2360: 
+uaz--3153: 
+uaz--3160: 
+uaz--3303: 
+uaz--3741: 
+uaz--3909: 
+uaz--3962: 
+uaz--469: 
+uaz--hunter: 
+uaz--patriot: 
+uaz--pickup: 
+vaz--2104: 
+vaz--2105: 
+vaz--2107: 
+vaz--2111: 
+vaz--2113: 
+vaz--2114: 
+vaz--2115: 
+vaz--2121_niva: 
+vaz--2131_niva: 
+vaz--granta: 
+vaz--kalina: 
+vaz--oka: 
+vaz--priora: 
+volkswagen--amarok: Pc
+volkswagen--caddy: 
+volkswagen--caravelle: 
+volkswagen--eos: 
+volkswagen--golf: C
+volkswagen--golf_gti: 
+volkswagen--golf_plus: 
+volkswagen--jetta: C
+volkswagen--multivan: 
+volkswagen--new_beetle: 
+volkswagen--passat: D
+volkswagen--passat_cc: D
+volkswagen--phaeton: F
+volkswagen--pointer: 
+volkswagen--polo: B
+volkswagen--scirocco: 
+volkswagen--sharan: Me
+volkswagen--tiguan: Xc
+volkswagen--touareg: Xe
+volkswagen--touran: Mc
+volvo--c30: C
+volvo--c70: 
+volvo--s40: C
+volvo--s60: D
+volvo--s80: E
+volvo--v50: 
+volvo--v60: 
+volvo--v70: 
+volvo--xc60: Xd
+volvo--xc70: Wx
+volvo--xc90: Xe
