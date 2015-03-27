@@ -1,1 +1,0 @@
-/Volumes/Vault/Sources/xfiles/writings/notes/ios.md

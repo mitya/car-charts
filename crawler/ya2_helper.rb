@@ -83,15 +83,20 @@ module CW
     printf "Processed #{count} files in %02d:%02d sec\n", *sec.divmod(60)
   end
   
-  def compress_dir(dir, selectors)
-    parse_dir(dir) do |doc, basename, path|
+  def compress_dir(dir, outdir, selectors, limit: nil)
+    FileUtils.mkdir_p File.join(WORKDIR, outdir)
+    parse_dir(dir, limit: limit, silent: true) do |doc, basename, path|
       content = doc.css(selectors)
       content.xpath('//@data-bem').remove
+      content.xpath('//@style').remove
       
       doc.at_css('body').inner_html = content
       doc.at_css('head').inner_html = ''
+    
+      new_path = File.join(WORKDIR, outdir, "#{basename}.html")
+      puts new_path
       
-      write_file(path, doc.to_html)
+      write_file(new_path, doc.to_html)
     end    
   end
 

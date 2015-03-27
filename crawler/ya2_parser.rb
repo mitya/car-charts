@@ -1,0 +1,2 @@
+class YA2Parser
+end

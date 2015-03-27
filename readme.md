@@ -108,3 +108,10 @@ MB GLK                     - 47
 
 ## Icon Sources
 Almost everything – icon8 — they require to mention them on the AppStore page.
+
+
+## Other
+
+  * alfa_romeo-giulietta-2010-hatch_5d--1.4g-120ps-MT-FWD is loaded from a newer site
+
+
