@@ -45,3 +45,45 @@
   "engine_spec": "1.6 MT (105 л.с.)",
   "price": "611 000 руб."
 },
+
+
+brand_country: "Швеция"
+assembly_country: "Швеция"
+category: D
+doors: '5'
+top_speed: '210'
+acceleration_100kmh: '9.3'
+fuel_consumption: 9.3 / 6.1 / 7.3
+fuel_rating: "ДТ"
+co2_emission: '179'
+fuel: "дизель"
+engine_layout: "переднее, поперечное"
+displacement: '2400'
+compressor: "турбонаддув"
+max_power: 185 / 136 при 4000
+max_torque: 400 при 2000
+cylinder_placement: "рядное"
+cylinder_count: '5'
+cylinder_valves: '4'
+injection: "дизель"
+compression: '17.3'
+bore_and_stroke: 81 × 93.15
+transmission: "механика"
+gears: '6'
+drive: "полный"
+length: '4838'
+width: '1870'
+height: '1604'
+wheelbase: '2815'
+ground_clearance: '190'
+front_tire_rut: '1614'
+rear_tire_rut: '1580'
+tires: 225 / 55 / R16
+luggage_capacity: 575 / 1600
+tank_capacity: '70'
+kerbweight: '1750'
+gross_mass: '2390'
+front_suspension: "независимая, пружинная"
+rear_suspension: "независимая, пружинная"
+front_brakes: "дисковые вентилируемые"
+rear_brakes: "дисковые"

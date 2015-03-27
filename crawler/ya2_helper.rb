@@ -60,8 +60,10 @@ module CW
     open(path, "w") { |f| f.write data.map { |row| CSV.generate_line(row) }.join }
   end
 
-  def read_hash(filename, dir = WORKDIR)
-    return YAML.load( File.read("#{dir}/#{filename}.yaml") ).map { |hash| OpenStruct.new(hash) }
+  def read_hash(filename, dir = WORKDIR, openstruct:true)
+    return YAML.load( File.read("#{dir}/#{filename}.yaml") ).map do |hash|
+      openstruct ? OpenStruct.new(hash) : hash
+    end
   end
   
   def read_hash_in_json(filename, dir = WORKDIR)
@@ -151,11 +153,13 @@ module CW
   #   Hash[*stats.sort_by {|k,v| v}.flatten]
   # end
   #
-  # def to_i(str)
-  #   Integer(str) rescue nil
-  # end
-  #
-  # def to_f(str)
-  #   Float(str) rescue nil
-  # end
+  def to_i(str)
+    # Integer(str) rescue nil
+    str.to_i
+  end
+
+  def to_f(str)
+    # Float(str) rescue nil
+    str.to_f
+  end
 end

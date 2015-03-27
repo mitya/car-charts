@@ -114,125 +114,73 @@
 # }
 
 
-Translations_Parameters = {
- "Максимальная скорость, км/ч"                    => :top_speed,
- "Разгон до 100 км/ч, с"                          => :acceleration_100kmh,
- "Расход топлива, л город / трасса / смешанный" => :fuel_consumption,
- "Объем двигателя, см³"                           => :displacement,
- "Тип двигателя"                                  => :fuel,
- "Марка топлива"                                  => :fuel_rating,
- "Количество цилиндров"                           => :cylinder_count,
- "Расположение цилиндров"                         => :cylinder_placement,
- "Число клапанов на цилиндр"                      => :cylinder_valves,
- "Система питания двигателя"                      => :injection,
- "Расположение двигателя"                         => :engine_layout,
- "Степень сжатия"                                 => :compression,
- "Тип наддува"                                    => :compressor,
- "Диаметр цилиндра и ход поршня, мм"              => :bore_and_stroke,
- "Максимальная мощность,л.с./кВт при об/мин"     => :max_power,
- "Максимальный крутящий момент,Н*м при об/мин"   => :max_torque,
- "Коробка передач"                                => :transmission,
- "Количество передач"                             => :gears,
- "Тип привода"                                    => :drive,
 
- "Длина"                   => :length,
- "Ширина"                  => :width,
- "Высота"                  => :height,
- "Клиренс"                 => :ground_clearance,
- "Размер колес"                => :tires,
- "Ширина передней колеи"   => :front_tire_rut,
- "Ширина задней колеи"     => :rear_tire_rut,
- "Колесная база"           => :wheelbase,
- "Объем багажника мин/макс, л" => :luggage_capacity,
- "Объем топливного бака, л"    => :tank_capacity,
- "Полная масса, кг"            => :gross_mass,
- "Снаряженная масса, кг"       => :kerbweight,
 
- "Тип передней подвески"       => :front_suspension,
- "Тип задней подвески"         => :rear_suspension,
- "Передние тормоза"            => :front_brakes,
- "Задние тормоза"              => :rear_brakes,
-
- "Страна марки" => :brand_country,
- "Сборка модели" => :assembly_countries,
- "Экологический класс" => :eco_class,
- "Выбросы CO2, г/км" => :co2_emission,
- "Название рейтинга" => :safety_rating_name,
- "Оценка безопасности" => :safety_rating_value,
- 
- "Тип кузова"                  => :body_type,
- "Количество дверей"           => :doors,
- "Количество мест"             => :seats,
- "Начало производства"         => :produced_since,
- "Окончание производства"      => :produced_till,
- "Класс автомобиля"            => :category,
+Translations_Values_Suspensions = {
+  "зависимая, пневмоэлемент" => 20501, # :dependent_pneumo,
+  "зависимая, пружинная" => 20502, # :dependent_coil,
+  "зависимая, рессорная" => 20503, # :dependent_spring,
+  "полунезависимая, торсионная" => 20504, # :semidependent_torsion,
+  "полунезависимая, пружинная" => 20505, # :semidependent_coil,
+  "независимая, рессорная" => 20506, # :independent_spring,
+  "независимая, гидропневмоэлемент" => 20507, # :independent_hydro_pneumo,
+  "независимая, торсионная" => 20508, # :independent_torsion,
+  "независимая, пневмоэлемент" => 20509, # :independent_pneumo,
+  "независимая, пружинная" => 20510, # :independent_coil
 }
 
-# Translations_Values_Suspensions = {
-#   "зависимая, пневмоэлемент"        => 20501, # :dependent_pneumo,
-#   "зависимая, пружинная"            => 20502, # :dependent_coil,
-#   "зависимая, рессорная"            => 20503, # :dependent_spring,
-#   "полунезависимая, торсионная"     => 20504, # :semidependent_torsion,
-#   "полунезависимая, пружинная"      => 20505, # :semidependent_coil,
-#   "независимая, рессорная"          => 20506, # :independent_spring,
-#   "независимая, гидропневмоэлемент" => 20507, # :independent_hydro_pneumo,
-#   "независимая, торсионная"         => 20508, # :independent_torsion,
-#   "независимая, пневмоэлемент"      => 20509, # :independent_pneumo,
-#   "независимая, пружинная"          => 20510, # :independent_coil
-# }
-#
-# Translations_Values_Brakes = {
-#  "керамические вентилируемые" => 20401, # :ceramic_ventilated,
-#  "дисковые барабанные"        => 20402, # :disc_or_drum,
-#  "барабанные  дисковые"       => 20403, # :disc_or_drum,
-#  "барабанные"                 => 20404, # :drum,
-#  "дисковые вентилируемые"     => 20405, # :disc_ventilated,
-#  "дисковые"                   => 20406, # :disc
-# }
-#
-# Translations_Values_Drives = { "полный" => "4WD", "передний" => "FWD", "задний" => "RWD" }
-#
-# Translations_Values_FuelSigns = { "бензин" => "i", "дизель" => "d" }
-#
-# Translations_Values = {
-#   cylinder_placement: {
-#     "W-образное"                                 => :W,
-#     "роторный двигатель"                         => :R,
-#     "V-образное с малым углом развала цилиндров" => :V,
-#     "оппозитное"                                 => :F,
-#     "V-образное"                                 => :V,
-#     "рядное"                                     => :I
-#   },
-#   engine_layout: {
-#     "центральное"          => 20101, # :mid,
-#     "заднее"               => 20102, # :rear,
-#     "переднее, продольное" => 20103, # :front_longitudinally,
-#     "переднее, поперечное" => 20104, # :front_transversely,
-#   },
-#   injection: {
-#     "центральный впрыск"                                                             => 20201, # :central_injection,
-#     "двигатель с разделенными камерами сгорания (вихрекамерный или предкамерный)"    => 20202, # :separated_combustor,
-#     "карбюратор"                                                                     => 20203, # :carburetor,
-#     "двигатель с неразделенными камерами сгорания (непосредственный впрыск топлива)" => 20204, # :nonseparated_combustor,
-#     "непосредственный впрыск в камеру сгорания"                                      => 20205, # :direct_injection,
-#     "распределенный впрыск"                                                          => 20206, # :distributed_injection,
-#   },
-#   compressor: {
-#     "объемный нагнетатель с механическим приводом"    => 20301, # :supercharger,
-#     "турбонаддув"                                     => 20302, # :turbo,
-#     "турбонаддув с промежуточным охлаждением воздуха" => 20303, # :turbo_intercooler,
-#     "нет"                                             => nil
-#   },
-#   front_suspension: Translations_Values_Suspensions,
-#   rear_suspension:  Translations_Values_Suspensions,
-#   front_brakes:     Translations_Values_Brakes,
-#   rear_brakes:      Translations_Values_Brakes,
-#
-#   drive:            {"передний" => :FWD, "задний" => :RWD, "полный" => :AWD},
-#   fuel:             {"бензин" => :P, "дизель" => :D, "гибрид" => :H},
-#   fuel_rating:      {"АИ-76" => :A76, "АИ-92" => :A92, "АИ-95" => :A95, "АИ-98" => :A98, "ДТ" => :DT},
-#   transmission:     {"механическая" => :MT, "автомат" => :AT, "вариатор" => :CVT, "роботизированная" => :AMT}
-# }
+Translations_Values_Brakes = {
+ "керамические вентилируемые" => 20401, # :ceramic_ventilated,
+ "дисковые барабанные" => 20402, # :disc_or_drum,
+ "барабанные  дисковые" => 20403, # :disc_or_drum,
+ "барабанные" => 20404, # :drum,
+ "дисковые вентилируемые" => 20405, # :disc_ventilated,
+ "дисковые" => 20406, # :disc
+}
+
+Translations_Values_Drives = { "полный" => "4WD", "передний" => "FWD", "задний" => "RWD" }
+
+Translations_Values_FuelSigns = { "бензин" => "i", "дизель" => "d" }
+
+Translations_Values = {
+  cylinder_placement: {
+    "W-образное" => :W,
+    "роторный двигатель" => :R,
+    "V-образное с малым углом развала цилиндров" => :V,
+    "оппозитное" => :F,
+    "V-образное" => :V,
+    "рядное" => :I
+  },
+  engine_layout: {
+    "центральное" => 20101, # :mid,
+    "заднее" => 20102, # :rear,
+    "переднее, продольное" => 20103, # :front_longitudinally,
+    "переднее, поперечное" => 20104, # :front_transversely,
+  },
+  injection: {
+    "центральный впрыск" => 20201, # :central_injection,
+    "двигатель с разделенными камерами сгорания (вихрекамерный или предкамерный)" => 20202, # :separated_combustor,
+    "карбюратор" => 20203, # :carburetor,
+    "двигатель с неразделенными камерами сгорания (непосредственный впрыск топлива)" => 20204, # :nonseparated_combustor,
+    "непосредственный впрыск в камеру сгорания" => 20205, # :direct_injection,
+    "распределенный впрыск" => 20206, # :distributed_injection,
+  },
+  compressor: {
+    "объемный нагнетатель с механическим приводом" => 20301, # :supercharger,
+    "турбонаддув" => 20302, # :turbo,
+    "турбонаддув с промежуточным охлаждением воздуха" => 20303, # :turbo_intercooler,
+    "нет" => nil
+  },
+  front_suspension: Translations_Values_Suspensions,
+  rear_suspension:  Translations_Values_Suspensions,
+  front_brakes:     Translations_Values_Brakes,
+  rear_brakes:      Translations_Values_Brakes,
+
+  drive:            {"передний" => :FWD, "задний" => :RWD, "полный" => :AWD},
+  fuel:             {"бензин" => :P, "дизель" => :D, "гибрид" => :H},
+  fuel_rating:      {"АИ-76" => :A76, "АИ-92" => :A92, "АИ-95" => :A95, "АИ-98" => :A98, "ДТ" => :DT},
+  transmission:     {"механическая" => :MT, "автомат" => :AT, "вариатор" => :CVT, "роботизированная" => :AMT}
+}
 #
 # # Mapping_Body = {
 # #   sedan:        :SE,
@@ -371,34 +319,102 @@ Translations_Parameters = {
 #   "land_rover--range_rover_sport"  => "Range Rover Sport",
 # }
 #
-# Rus_CountryName_Codes = {
-#   "Австрия"        => "AT",
-#   "Бельгия"        => "BE",
-#   "Бразилия"       => "BR",
-#   "Великобритания" => "GB",
-#   "Венгрия"        => "HU",
-#   "Германия"       => "DE",
-#   "Индия"          => "IN",
-#   "Иран"           => "IR",
-#   "Испания"        => "ES",
-#   "Италия"         => "IT",
-#   "Канада"         => "CA",
-#   "Китай"          => "CN",
-#   "Южная Корея"    => "KR",
-#   "Мексика"        => "MX",
-#   "Нидерланды"     => "NL",
-#   "Польша"         => "PL",
-#   "Россия"         => "RU",
-#   "США"            => "US",
-#   "Словакия"       => "SK",
-#   "Таиланд"        => "TH",
-#   "Турция"         => "TR",
-#   "Узбекистан"     => "UZ",
-#   "Украина"        => "UA",
-#   "Франция"        => "FR",
-#   "Чехия"          => "CZ",
-#   "Швеция"         => "SE",
-#   "Япония"         => "JP",
-# }
-#
-# Rus_Months = %w(Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь)
+
+Translations_Parameters = {
+ "Максимальная скорость, км/ч"                    => :top_speed,
+ "Разгон до 100 км/ч, с"                          => :acceleration_100kmh,
+ "Расход топлива, л город / трасса / смешанный" => :fuel_consumption,
+ "Объем двигателя, см³"                           => :displacement,
+ "Тип двигателя"                                  => :fuel,
+ "Марка топлива"                                  => :fuel_rating,
+ "Количество цилиндров"                           => :cylinder_count,
+ "Расположение цилиндров"                         => :cylinder_placement,
+ "Число клапанов на цилиндр"                      => :cylinder_valves,
+ "Система питания двигателя"                      => :injection,
+ "Расположение двигателя"                         => :engine_layout,
+ "Степень сжатия"                                 => :compression,
+ "Тип наддува"                                    => :compressor,
+ "Диаметр цилиндра и ход поршня, мм"              => :bore_and_stroke,
+ "Максимальная мощность,л.с./кВт при об/мин"     => :max_power,
+ "Максимальный крутящий момент,Н*м при об/мин"   => :max_torque,
+ "Коробка передач"                                => :transmission,
+ "Количество передач"                             => :gears,
+ "Тип привода"                                    => :drive,
+
+ "Длина"                   => :length,
+ "Ширина"                  => :width,
+ "Высота"                  => :height,
+ "Клиренс"                 => :ground_clearance,
+ "Размер колес"                => :tires,
+ "Ширина передней колеи"   => :front_tire_rut,
+ "Ширина задней колеи"     => :rear_tire_rut,
+ "Колесная база"           => :wheelbase,
+ "Объем багажника мин/макс, л" => :luggage_capacity,
+ "Объем топливного бака, л"    => :tank_capacity,
+ "Полная масса, кг"            => :gross_mass,
+ "Снаряженная масса, кг"       => :kerbweight,
+
+ "Тип передней подвески"       => :front_suspension,
+ "Тип задней подвески"         => :rear_suspension,
+ "Передние тормоза"            => :front_brakes,
+ "Задние тормоза"              => :rear_brakes,
+
+ "Страна марки" => :brand_country,
+ "Сборка модели" => :assembly_country,
+ "Экологический класс" => :eco_class,
+ "Выбросы CO2, г/км" => :co2_emission,
+ "Название рейтинга" => :safety_rating_name,
+ "Оценка безопасности" => :safety_rating_value,
+ 
+ "Тип кузова"                  => :body_type,
+ "Количество дверей"           => :doors,
+ "Количество мест"             => :seats,
+ "Начало производства"         => :produced_since,
+ "Окончание производства"      => :produced_till,
+ "Класс автомобиля"            => :category,
+}
+
+Rus_CountryName_Codes = {
+  "Австрия"        => "AT",
+  "Бельгия"        => "BE",
+  "Бразилия"       => "BR",
+  "Великобритания" => "GB",
+  "Венгрия"        => "HU",
+  "Германия"       => "DE",
+  "Индия"          => "IN",
+  "Иран"           => "IR",
+  "Испания"        => "ES",
+  "Италия"         => "IT",
+  "Канада"         => "CA",
+  "Китай"          => "CN",
+  "Южная Корея"    => "KR",
+  "Мексика"        => "MX",
+  "Нидерланды"     => "NL",
+  "Польша"         => "PL",
+  "Россия"         => "RU",
+  "США"            => "US",
+  "Словакия"       => "SK",
+  "Таиланд"        => "TH",
+  "Турция"         => "TR",
+  "Узбекистан"     => "UZ",
+  "Украина"        => "UA",
+  "Франция"        => "FR",
+  "Чехия"          => "CZ",
+  "Швеция"         => "SE",
+  "Япония"         => "JP",
+  "Беларусь" => "BY",
+  "Португалия" => "PT",
+  "Аргентина" => "AR",
+  "Индонезия" => "ID",
+  "Финляндия" => "FI",
+  "Румыния" => "RO",
+  "Малайзия" => "MY",
+  "ЮАР" => "ZA",
+  "Марокко" => "MA",
+}
+
+Rus_Months = %w(Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь)
+
+def _Rus_CountryName_Codes(val)
+  Rus_CountryName_Codes[val] || puts("MISSING: #{val}")
+end
