@@ -49,6 +49,12 @@ module CW
     open("#{dir}/#{filename}.json", "w") { |f| f.write JSON.pretty_generate(data) }
   end
   
+  def write_data_to_plist(filename, data, dir: WORKDIR)
+    open(dir + "#{filename}.plist", "w") { |file| file.write data.to_plist }
+    system "plutil -convert binary1 #{dir}/#{filename}.plist"
+  end
+  
+  
   def write_csv(data)
     path = "#{WORKDIR}/output.csv"    
     
@@ -100,24 +106,29 @@ module CW
       write_file(new_path, doc.to_html)
     end    
   end
+  
+  def to_i(str)
+    # Integer(str) rescue nil
+    str.to_i
+  end
 
-  # def save_plist(data, filename, dir = OUTDIR)
-  #   open(dir + "#{filename}.plist", "w") { |file| file.write data.to_plist }
-  #   system "plutil -convert binary1 #{dir}/#{filename}.plist"
-  # end
-  #
+  def to_f(str)
+    # Float(str) rescue nil
+    str.to_f
+  end
+  
   # def convert_to_plist(source, dir = OUTDIR)
   #   items = JSON.load(dir + "#{source}.json")
   #   open(dir + "#{source}.plist", "w") { |file| file.write items.to_plist }
   #   system "plutil -convert binary1 #{OUTDIR}/#{source}.plist"
   # end
-  #
-  # def escape(string)
-  #   string = string.strip
-  #   string = string.gsub('+', 'plus')
-  #   string.gsub(/[^\w]/, '_').downcase
-  # end
-  #
+
+  def escape(string)
+    string = string.strip
+    string = string.gsub('+', 'plus')
+    string.gsub(/[^\w]/, '_').downcase
+  end
+
   # def print_hash(hash, options = {})
   #   key_len = options[:len] || 25
   #   hash.symbolize_keys!
@@ -153,13 +164,4 @@ module CW
   #   Hash[*stats.sort_by {|k,v| v}.flatten]
   # end
   #
-  def to_i(str)
-    # Integer(str) rescue nil
-    str.to_i
-  end
-
-  def to_f(str)
-    # Float(str) rescue nil
-    str.to_f
-  end
 end

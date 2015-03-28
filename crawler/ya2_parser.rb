@@ -2,6 +2,11 @@
 # 
 # Оценка безопасности не распарсена так как она не представлена в текстовом виде
 # 
+# 
+# dir(07-mods-stripped) => step_8_1__html_to_hashes_with_en_keys => file(08.1-mods.yaml)
+# file(08.1-mods.yaml) => step_8_2__parse_mod_values => file(08.2-mods.yaml) & file(08.2-mods.plist)
+# 
+
 class YA2Parser
   SPACE_RE = %r{\s+}
   NON_ZERO_KEYS = [:consumption_city, :consumption_highway, :consumption_mixed, :gears, :ground_clearance, :bore, :luggage_min, :luggage_max].to_set
@@ -12,7 +17,8 @@ class YA2Parser
       result = results[basename] = {}
       doc.css(".b-specifications__details .b-features__item_type_specs").each do |div|
         name = div.at_css(".b-features__name").text
-        name_translation = Translations_Parameters[name.strip]
+        # name_translation = Translations_Parameters[name.strip]
+        name_translation = TranslationHelper.instance.translate_parameter(name)
         value = div.at_css(".b-features__value").text.strip
 
         puts "TRANSLATION MISSING: #{name}" unless name_translation
@@ -29,17 +35,17 @@ class YA2Parser
     end    
   end
 
-  def step_8_2__parse_mod_values
+  def step_8_2__parse_mod_values  
     raw_mods = CW.read_hash('08.1-mods', openstruct: false)
     parsed_mods = {}
 
     raw_mods.first(1_000_000).each do |mod_key, properties|
-      parsed = parsed_mods[mod_key] = {}
+      parsed = {}
       
       properties.each do |key, string|
         case key.to_sym
         when :front_suspension, :rear_suspension, :front_brakes, :rear_brakes, :model_title, :body_title, :body_type, :price, :engine_title, :engine_spec, :category,
-          :safety_rating_value, :safety_rating_name
+              :safety_rating_value, :safety_rating_name
         when :fuel_consumption
           values = string.split(%r{ / }).map { |str| CW.to_f(str) }
           parsed[:consumption_city], parsed[:consumption_highway], parsed[:consumption_mixed] = values
@@ -53,7 +59,7 @@ class YA2Parser
           values = string.split(%r{ / }).map { |str| CW.to_i(str) }
           parsed[:max_torque], parsed[:max_torque_range_start], parsed[:max_torque_range_end] = values
         when :tires
-          parsed[:tires] = string.gsub(SPACE_RE, ' ')
+          parsed[:tires] = string.split(%r{\s}).each_slice(5).map { |items| items.join }.join(' ')
         when :luggage_capacity
           values = string.split(SPACE_RE).map { |str| CW.to_i(str) }
           parsed[:luggage_min], parsed[:luggage_max] = values.first, values.last
@@ -62,10 +68,10 @@ class YA2Parser
           values = string.split(SPACE_RE).map { |str| CW.to_i(str) }
           parsed[:seats_min], parsed[:seats_max] = values.first, values.last
         when :brand_country
-          parsed[:brand_country] = Rus_CountryName_Codes[string]
+          parsed[:brand_country] = TranslationHelper.instance.russian_country_title_to_code(string)
         when :assembly_country
           names = string.split(%r{,\s+})
-          names.map! { |rus_name| _Rus_CountryName_Codes(rus_name) }
+          names.map! { |rus_name| TranslationHelper.instance.russian_country_title_to_code(rus_name) }
           parsed[:assembly_countries] = names.join(' ')
         when :produced_since, :produced_till
           if string.length > 4
@@ -76,25 +82,29 @@ class YA2Parser
             parsed[key] = string.to_i * 100
           end
         when :top_speed, :displacement, :cylinder_count, :cylinder_valves, :gears, :max_power, :max_power_kw, :max_torque,
-             :max_power_revs, :max_torque_revs, :length, :width, :height, :ground_clearance, :front_tire_rut, :rear_tire_rut,
-             :wheelbase, :luggage_capacity, :tank_capacity, :kerbweight, :gross_mass, :doors, :co2_emission
+              :max_power_revs, :max_torque_revs, :length, :width, :height, :ground_clearance, :front_tire_rut, :rear_tire_rut,
+              :wheelbase, :luggage_capacity, :tank_capacity, :kerbweight, :gross_mass, :doors, :co2_emission
           parsed[key] = CW.to_i(string)
         when :acceleration_100kmh, :bore, :stroke, :compression, :displacement_key
           parsed[key] = CW.to_f(string)
-        when  :eco_class
-          parsed[key] = string          
-        when :drive
-          string = Translations_Values[:drive][string].to_s
-          parsed[key] = string == '4WD' ? 'AWD' : string
         when :cylinder_placement, :injection, :engine_layout, :front_suspension, :rear_suspension,
-             :front_brakes, :rear_brakes, :fuel, :fuel_rating, :compressor, :transmission
-          translations = Translations_Values.fetch(key.to_sym)
-          value = translations[string]          
-          parsed[key] = value.is_a?(Symbol) ? value.to_s : value
+              :front_brakes, :rear_brakes, :fuel, :fuel_rating, :compressor, :transmission, :drive
+          parsed[key] = TranslationHelper.instance.translate_value(key, string)
+        when :eco_class
+          parsed[key] = string
         else
           parsed["__#{key}"] = string
         end
         
+        # replace dashes with spaces in the key
+        new_key = ModKey.from_dash_key(mod_key)
+
+        # store key parts as individual elements
+        parsed['body'] = new_key.body
+        parsed['model_key'] = new_key.brand_and_model
+        parsed['version_key'] = new_key.version
+        parsed['displacement_key'] = new_key.displacement
+
         # convert all keys to strings
         parsed.keys.each { |k| parsed[k.to_s] = parsed.delete(k) }
         
@@ -104,33 +114,111 @@ class YA2Parser
         # replace zeros with nils for some keys
         parsed.each { |k, v| parsed.delete(k) if v == 0 && NON_ZERO_KEYS.include?(k) }
         
-        # # replace dashes with spaces in the key
-        # new_key = upgrade_key(old_key)
-        #
-        # # store key parts as individual elements
-        # brand_key, model_version, years, body, model_subkey, version_subkey, engine, power, transmission, drive = parse_new_key(new_key)
-        # parsed[:body] = body
-        # parsed[:model_key] = [brand_key, model_subkey].join('--')
-        # parsed[:version_key] = version_subkey
-        # parsed[:displacement_key] = engine[0..-2]        
+        parsed_mods[new_key.to_s_with_spaces] = parsed
       end
     end
+
+    parsed_mods_arrays = {}
+    parsed_mods.each do |mod_key, mod_hash|
+      parsed_mods_arrays[mod_key] = Keys_Used.each_with_index.map { |k, i| mod_hash[k.to_s] || '' }
+    end
+
+    CW.write_data "08.2-mods", parsed_mods
+    CW.write_data_to_plist "08.2-mods", parsed_mods_arrays
+  end
+
+  
+  class ModKey
+    attr_accessor :brand, :model, :years, :body, :aggregate
+    attr_accessor :version
+    attr_accessor :engine, :power, :transmission, :drive
     
-    CW.write_data "08.2-mods", parsed_mods    
+    def initialize(attrs = {})
+      attrs.each { |k,v| send("#{k}=", v) }
+    end
+    
+    def to_s_with_spaces
+      [brand, model, years, body, aggregate].join(' ')
+    end
+    
+    def displacement
+      engine[0..-2]
+    end
+    
+    def brand_and_model
+      [brand, model].join('--')
+    end
+    
+    def model_and_version
+      [model, version].join('.')
+    end
+        
+    #  in: alfa_romeo-giulietta-2010-hatch_5d--1.4i-170ps-MT-FWD
+    # out: alfa_romeo giulietta 2010 hatch_5d 1.4i-170ps-MT-FWD
+    def self.from_dash_key(old_key)
+      model_years_body, aggregate = old_key.split('--')
+      brand, model, years, body = model_years_body.split('-')
+      engine, power, transmission, drive = aggregate.split('-')
 
-    # mods.first(mods_count).each do |old_key, mod|
-    #
+      # years.gsub!('_', '-')
+      # puts years if years.include?('_')
+      #
+      # branded_body = "#{brand}--#{body}"
+      # branded_model_body = "#{brand}--#{model}--#{body}"
+      #
+      # body = Reductions_Body_Body[branded_body]
+      # puts body if Reductions_Body_Body[branded_body]
+      #
+      # if body_key_and_model_name = Reductions_Body_Model[branded_body]
+      #   puts body_key_and_model_name
+      #   body, model_name = body_key_and_model_name.split(' ', 2)
+      #   model = CW.escape(model_name)
+      # end
+      #
+      # if body_key_and_version_name = Reductions_Body_Version[branded_model_body]
+      #   puts body_key_and_version_name
+      #   body, version = body_key_and_version_name.split(' ', 2)
+      #   model = "#{model}.#{CW.escape(version)}"
+      # end
+    
+      new(brand: brand, model: model, years: years, body: body, aggregate: aggregate, engine:engine, power:power, transmission:transmission, drive:drive)
+    end
+    
+    def self.parse_new_key(key)
+      brand, model_and_version, years, body, agregate = key.split(' ')
+      model, version = model_and_version.split('.')
+      # engine, power, transmission, drive = agregate.split('-')
+      new(brand: brand, model: model, years: years, body: body, version: version, aggregate: aggregate)
+    end   
+  end
+  
+  class TranslationHelper
+    def self.instance
+      @instance ||= new
+    end
+    
+    def initialize
+      @data = YAML.load_file("crawler/data-translations.yml")      
+      @parameters = @data['parameters'].invert
 
-    #
-    #   # create an array with the hash contents
-    #   array = Keys_Used.each_with_index.map { |k, i| parsed[k] || '' }
-    #
-    #   parsed_mod_arrays[new_key] = array
-    #   parsed_mod_hashes[new_key] = parsed
-    # end
-    #
-    # KK.save_plist parsed_mod_arrays, "db-mods", OUTDIR
-    # KK.save_plist parsed_mod_hashes, "db-mods-kv", OUTDIR
-    # KK.save_data  parsed_mod_hashes, "db-mods-kv", OUTDIR
+      @values = @data['values']      
+      @values.each do |k, hash|
+        @values[k] = hash.invert
+      end
+      
+      @countries = YAML.load_file("crawler/data-other.yml")['country_code_to_russian'].invert
+    end
+    
+    def translate_parameter(russian_name)
+      @parameters[russian_name.strip]
+    end
+    
+    def translate_value(category, russian_name)
+      @values[category][russian_name.strip]
+    end
+    
+    def russian_country_title_to_code(russian_name)
+      @countries[russian_name]
+    end
   end
 end

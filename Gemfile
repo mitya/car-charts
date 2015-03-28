@@ -8,3 +8,4 @@ gem 'rmagick'
 
 # crawler
 gem 'nokogiri'
+gem 'plist'
