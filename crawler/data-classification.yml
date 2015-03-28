@@ -1,84 +1,43 @@
 ---
 acura--mdx: Xe
-acura--rdx: 
-acura--rsx: 
-acura--tl: 
-alfa_romeo--147: 
-alfa_romeo--159: 
-alfa_romeo--gt: 
-alfa_romeo--mito: 
-alfa_romeo--spider: 
 audi--a1: A
 audi--a3: A
 audi--a4: D
-audi--a4_allroad_quattro: Wx
-audi--a5: 
+audi--a4_allroad: Wx
 audi--a6: E
-audi--a6_allroad_quattro: Wx
-audi--a7: 
+audi--allroad: Wx
 audi--a8: F
 audi--q3: Xc
 audi--q5: Xd
 audi--q7: Xf
-audi--r8: 
-audi--rs3: 
-audi--rs5: 
-audi--rs6: 
-audi--s3: 
-audi--s4: 
-audi--s5: 
-audi--s6: 
-audi--s8: 
 audi--tt: Sr
-bmw--1: C
-bmw--1_m: 
-bmw--3: D
-bmw--5: E
-bmw--5_gran_turismo: 
-bmw--6: 
-bmw--7: F
-bmw--m3: 
-bmw--m5: 
-bmw--m6: 
+bmw--1er: C
+bmw--3er: D
+bmw--5er: E
+bmw--7er: F
 bmw--x1: Xc
 bmw--x3: Xd
 bmw--x5: Xe
-bmw--x5_m: 
 bmw--x6: Xe
-bmw--x6_m: 
 bmw--z4: Sr
 cadillac--bls: D
 cadillac--cts: E
 cadillac--escalade: Xf
 cadillac--srx: Xe
 cadillac--sts: E
-chery--amulet: 
-chery--bonus: 
-chery--cross_eastar: 
-chery--fora: 
-chery--indis: 
-chery--kimo: 
-chery--m11: 
-chery--qq6: 
-chery--tiggo: 
-chery--very: 
 chevrolet--aveo: B
 chevrolet--camaro: Sc
 chevrolet--captiva: Xd
 chevrolet--corvette: 
 chevrolet--cruze: C
 chevrolet--epica: D
-chevrolet--express: 
 chevrolet--lacetti: C
 chevrolet--lanos: B
-chevrolet--niva: 
 chevrolet--orlando: Me
-chevrolet--rezzo: 
 chevrolet--spark: A
 chevrolet--suburban: 
 chevrolet--tahoe: Xf
-chevrolet--tracker: 
-chevrolet--trail_blazer: Xe
+chevrolet--trailblazer: Xe
 chrysler--300c: E
 chrysler--grand_voyager: 
 chrysler--pt_cruiser: 
@@ -100,15 +59,6 @@ citroen--xsara_picasso:
 daewoo--lanos: B
 daewoo--matiz: A
 daewoo--nexia: C
-dodge--avenger: 
-dodge--caliber: 
-dodge--challenger: 
-dodge--charger: 
-dodge--grand_caravan: 
-dodge--journey: 
-dodge--nitro: 
-dodge--ram: 
-dodge--viper: 
 fiat--500: A
 fiat--albea: 
 fiat--bravo: C
@@ -116,10 +66,7 @@ fiat--croma:
 fiat--doblo: 
 fiat--ducato: 
 fiat--grande_punto: C
-fiat--linea: 
-fiat--panda: 
 fiat--punto: B
-fiat--sedici: 
 ford--c_max: Mc
 ford--escape: Xd
 ford--explorer: Xf
@@ -135,49 +82,26 @@ ford--maverick: Xd
 ford--mondeo: D
 ford--ranger: Pc
 ford--s_max: Me
-ford--torneo_connect: 
-ford--transit: 
-gaz--31105_volga: 
-gaz--volga_siber: 
-great_wall--deer: 
-great_wall--florid: 
-great_wall--hover: 
-great_wall--peri: 
-great_wall--safe: 
-great_wall--sailor: 
 honda--accord: D
 honda--civic: C
 honda--cr_v: Xd
 honda--crosstour: Wx
-honda--fr_v: 
 honda--jazz: B
 honda--legend: E
 honda--pilot: Xe
-honda--stream: 
 hummer--h2: Xf
 hummer--h3: Xe
-hyundai--accent: 
-hyundai--coupe: 
-hyundai--elantra: 
 hyundai--equus: F
-hyundai--genesis: 
 hyundai--getz: B
-hyundai--grandeur: 
-hyundai--h_1: 
 hyundai--i20: B
 hyundai--i30: C
 hyundai--i40: D
 hyundai--ix35: Xc
 hyundai--ix55: Xe
-hyundai--matrix: 
-hyundai--nf_sonata: 
 hyundai--santa_fe: Xd
-hyundai--santa_fe_classic: 
 hyundai--solaris: B
 hyundai--sonata: D
-hyundai--trajet: 
 hyundai--tucson: Xc
-hyundai--verna: 
 infiniti--ex: Xd
 infiniti--fx: Xe
 infiniti--g: D
@@ -186,16 +110,9 @@ infiniti--qx: Xf
 jaguar--x_type: 
 jaguar--xf: 
 jaguar--xj: F
-jaguar--xk: 
-jeep--cherokee: 
-jeep--commander: 
-jeep--compass: 
-jeep--grand_cherokee: 
-jeep--liberty: 
-jeep--wrangler: 
 kia--carens: 
 kia--carnival: 
-kia--cee_d: C
+kia--ceed: C
 kia--cerato: 
 kia--magentis: 
 kia--mohave: Xe
@@ -234,24 +151,24 @@ mazda--cx_7: Xd
 mazda--cx_9: Xe
 mazda--mx_5: 
 mazda--rx_8: 
-mercedes_benz--a: A
-mercedes_benz--b: B
-mercedes_benz--c: D
-mercedes_benz--cl: 
-mercedes_benz--clc: 
-mercedes_benz--clk: 
-mercedes_benz--cls: 
-mercedes_benz--e: E
-mercedes_benz--g: Xx
-mercedes_benz--gl: Xf
-mercedes_benz--glk: Xd
-mercedes_benz--m: Xe
-mercedes_benz--r: Xe
-mercedes_benz--s: F
-mercedes_benz--sl: 
-mercedes_benz--slk: 
-mercedes_benz--slr: 
-mercedes_benz--vito: 
+mercedes--a_klasse: A
+mercedes--b_klasse: B
+mercedes--c_klasse: D
+mercedes--cl_klasse: 
+mercedes--clc_klasse: 
+mercedes--clk_klasse: 
+mercedes--cls_klasse: 
+mercedes--e_klasse: E
+mercedes--g_klasse: Xx
+mercedes--gl_klasse: Xf
+mercedes--glk_klasse: Xd
+mercedes--m_klasse: Xe
+mercedes--r_klasse: Xe
+mercedes--s_klasse: F
+mercedes--sl_klasse: 
+mercedes--slk_klasse: 
+mercedes--slr_klasse: 
+mercedes--vito: 
 mini--clubman: B
 mini--cooper: A
 mini--countryman: Xb
@@ -378,37 +295,12 @@ toyota--hilux:
 toyota--land_cruiser: Xf
 toyota--land_cruiser_prado: Xe
 toyota--prius: 
-toyota--rav4: Xc
+toyota--rav_4: Xc
 toyota--sequoia: Xf
 toyota--sienna: Me
 toyota--tundra: Pd
 toyota--verso: Mc
 toyota--yaris: A
-uaz--2206: 
-uaz--2360: 
-uaz--3153: 
-uaz--3160: 
-uaz--3303: 
-uaz--3741: 
-uaz--3909: 
-uaz--3962: 
-uaz--469: 
-uaz--hunter: 
-uaz--patriot: 
-uaz--pickup: 
-vaz--2104: 
-vaz--2105: 
-vaz--2107: 
-vaz--2111: 
-vaz--2113: 
-vaz--2114: 
-vaz--2115: 
-vaz--2121_niva: 
-vaz--2131_niva: 
-vaz--granta: 
-vaz--kalina: 
-vaz--oka: 
-vaz--priora: 
 volkswagen--amarok: Pc
 volkswagen--caddy: 
 volkswagen--caravelle: 

@@ -41,16 +41,19 @@ class YA2Processor
   end
 
   def step_3__parse_marks
-    results = []
+    brand_keys_to_titles = YAML.load_file("crawler/data-brands.yml")['brands']
+    
+    results = {}
 
-    CW.parse_dir("02-marks") do |doc, basename, path|
-      mark_key = basename.sub(/-\d$/, '') # mercedes-7 => mercedes
-      doc.css("div.b-cars__page a.b-car").each do |a|
+    CW.parse_dir("02-marks") do |doc, basename, path|      
+      doc.css("div.b-cars__page a.b-car").each do |a|        
+        full_title = a.at_css(".b-car__title").text
+        url = a['href']
+        
         result = OpenStruct.new
-        result.mark_key = mark_key
-        result.url = a['href']
-        result.title = a.at_css(".b-car__title").text
-        result.direct_link = true if a['href'] !~ /^\/search/
+        result.direct = true if url !~ /^\/search/
+        result.url = url
+        result.full_title = full_title
 
         if summary = a.at_css(".b-car__summary")
           result.summary = summary.xpath('text()').text.sub(/, $/, '')
@@ -59,19 +62,34 @@ class YA2Processor
 
         if generations = a.at_css(".b-car__count")
           result.generations = generations.text
+        end        
+      
+      
+        if url.start_with?('/search')
+          # /search?mark=acura&model=tsx&no_redirect=true&group_by_model=false
+          result.mark = url.scan(%r{mark=(\w+)}).first.first
+          result.model = url.scan(%r{(?:\?|\&)model=(\w+)}).first.first
+        else
+          # /acura/ilx/20291740
+          result.mark, result.model = url.scan(%r{^/(\w+)/(\w+)}).first
         end
+        
+        result.title = full_title.sub brand_keys_to_titles[result.mark] + ' ', '' # Ford Focus => Focus
+                
+        result.key = "#{result.mark}--#{result.model}"
 
-        results << result.to_h
+        results[result.key] = CW.stringify_keys(result)
       end
     end
 
-    CW.write_data "03-marks-generations", results
+    CW.write_data "03-models", results
   end
 
   def step_4__load_generations
-    sources = CW.read_hash('03-marks-generations').shuffle
-    sources.reject(&:direct_link).each do |source|
-      CW.save_ya_page_and_sleep source.url, "04-generations/#{ source.mark_key }--#{ source.title }.html", overwrite: false
+    sources = CW.read_hash('03-models').shuffle
+    sources.each do |url, data|
+      next if data.direct_link
+      CW.save_ya_page_and_sleep url, "04-generations/#{ data.mark_key }--#{ data.title }.html", overwrite: false
     end
   end
 
@@ -85,20 +103,20 @@ class YA2Processor
     CW.parse_dir("04-generations") do |doc, basename, path|
       mark_key = basename.sub(/-\d$/, '') # mercedes-7 => mercedes
       doc.css("div.b-cars__page a.b-car").each do |a|
-        result = OpenStruct.new
-        result.mark_key = mark_key
-        result.url = a['href']
-        result.title = a.at_css(".b-car__title").text
-        result.summary = a.css('.b-car__summary').xpath('text()').text.sub(/, $/, '')
-        result.years = a.at_css('.b-car__year-range').text
-        results << result.to_h
+        result = {}
+        result['mark_key'] = mark_key
+        result['url'] = a['href']
+        result['title'] = a.at_css(".b-car__title").text
+        result['summary'] = a.css('.b-car__summary').xpath('text()').text.sub(/, $/, '')
+        result['years'] = a.at_css('.b-car__year-range').text
+        results << result
       end
     end
 
-    CW.write_data "04-generations", results
+    CW.write_data "04-generations-1", results
   end
 
-  def step_4_1pre__check_which_marks_have_many_pages
+  def step_4_1_x__check_which_marks_have_many_pages
     CW.parse_dir("marks/popular_manual") do |doc, basename, path|
       unless doc.css(".b-tabs__panel_name_cars .b-show-more__button").any?
         puts "REMOVE #{filename}"
@@ -107,7 +125,7 @@ class YA2Processor
     end
   end
 
-  def step_4_2__process_generations
+  def step_4_2
     marks = CW.read_hash('03-marks-generations').select(&:direct_link)
     generations = CW.read_hash('04-generations')
 
@@ -119,13 +137,13 @@ class YA2Processor
     CW.write_data "04-generations-2", generations
   end
 
-  def step_4_3__process_generations
+  def step_4_3
     generations = CW.read_hash('04-generations-2')
     generations.each { |info| info.years_since, info.years_till = info.delete_field(:years).split(' – ').map(&:to_i) }
     CW.write_data "04-generations-3", generations
   end
 
-  def step_4_4__process_generations
+  def step_4_4
     generations = CW.read_hash('04-generations-3')
 
     generations.reject! { |q| q.years_till && q.years_till < 2013 }
@@ -162,29 +180,7 @@ class YA2Processor
     end
   end
 
-  def step_4_1__parse_models_for_bodies
-    results = []
-
-    CW.parse_dir("models-initial") do |doc, basename, path|
-      doc.css(".b-car-head .b-bodytypes a.link").each do |a|
-        results << { key: basename, url: a['href'], title: a.text }
-      end
-    end
-
-    CW.write_data "models-other", results
-
-    # extract names of other generations
-    # extract links to mods
-    # load mods
-
-    # load other bodies
-    # extract links to mods
-    # load mods
-
-    # parse mods
-  end
-
-  def step_4_1__process_models_2
+  def step_4_1
     records = CW.read_hash('models-other')
     default_bodies = Set.new CWD::Bodies.keys
 
@@ -229,7 +225,7 @@ class YA2Processor
     CW.write_csv(results)
   end
 
-  def step_5__load_models
+  def step_5_0__load_models_1
     generations = CW.read_hash('04-generations-4')
     generations.shuffle.each do |gen|
       filename = [gen.mark_key, gen.model_key, gen.years_since].join(' ')
@@ -237,7 +233,7 @@ class YA2Processor
     end
   end
 
-  def step_5_2__load_models
+  def step_5_0__load_models_2
     models = CW.read_hash('04-models-other-2')
     models.shuffle.each do |model|
       filename = model.body_key
@@ -245,48 +241,53 @@ class YA2Processor
     end
   end
 
-  def step_5_3__compress_models
-    CW.compress_dir("05-models-other", ".b-complectations, .b-car-head, .b-specifications")
+  def step_5_1__compress_models
+    CW.compress_dir("05.0-models.min", nil, ".b-complectations, .b-car-head, .b-specifications")
   end
 
-  def step_6__parse_models_for_mods
-    results = []
+  # optional method, just to be sure that no link missed
+  def step_6_1__parse_models_for_other_bodytype_urls
+    results = {}
 
-    CW.parse_dir("05-models") do |doc, basename, path|
+    CW.parse_dir("05.0-models.min") do |doc, basename, path|
+      doc.css(".b-car-head .b-bodytypes a.link").each do |a|
+        results["#{basename} -- #{a.text}"] = a['href']
+      end
+    end
+
+    CW.write_data "06.1-other-body-urls", results
+  end
+
+  def step_6_1__parse_models_for_mod_urls
+    results = {}
+    mods = [] # unique mods that should be parsed as is
+
+    CW.parse_dir("05.0-models.min", limit: false, silent: true) do |doc, basename, path|
       complectations = doc.css(".b-complectations__item:not(.b-complectations__item_state_current) a.link")
       if complectations.any?
         complectations.each do |a|
           aggregate_key = parse_ya_aggregate_title(a['title'])
           key = [ basename.split.join('-'), aggregate_key ].join('--')
-          results << OpenStruct.new( key: key, url: a['href'] )
+          results[key] = a['href']
         end
-      else
-        # unique models
+      else        
+        mods << basename
       end
     end
 
-    results.uniq! { |r| r.key }
-
-    CW.write_data "06-mods", results
+    CW.write_data "06.1-mod-urls", results
+    CW.write_data "06.1-mod-final", mods
   end
 
-  def step_7pre__test_mods
-    records = CW.read_hash('06-mods')
-
-    urls = records.map &:url
-    p urls.count
-    p urls.uniq.count
-  end
-
-  def step_7__load_mods
-    mods = CW.read_hash('06-mods')
-    mods.shuffle.each do |mod|
-      CW.save_ya_page_and_sleep mod.url, "07-mods/#{mod.key}.html", overwrite: false
+  def step_7_0__load_mods
+    mods = CW.read_hash('06.1-mod-urls')
+    mods.shuffle.each do |key, url|
+      CW.save_ya_page_and_sleep url, "07.0-mods/#{key}.html", overwrite: false
     end
   end
 
   def step_7_1__compress_mods
-    CW.compress_dir("07-mods", "07-mods-stripped", ".b-specifications")
+    CW.compress_dir("07.0-mods", "07-mods.min", ".b-specifications")
   end
 
   private

@@ -1,0 +1,73 @@
+---
+brands:
+  acura: Acura
+  alfa_romeo: Alfa Romeo
+  alpina: Alpina
+  aston_martin: Aston Martin
+  audi: Audi
+  bentley: Bentley
+  bmw: BMW
+  bugatti: Bugatti
+  buick: Buick
+  cadillac: Cadillac
+  chery: Chery
+  chevrolet: Chevrolet
+  chrysler: Chrysler
+  citroen: Citroen
+  dacia: Dacia
+  daewoo: Daewoo
+  daihatsu: Daihatsu
+  dodge: Dodge
+  faw: FAW
+  ferrari: Ferrari
+  fiat: Fiat
+  ford: Ford
+  gaz: ГАЗ
+  geely: Geely
+  gmc: GMC
+  great_wall: Great Wall
+  honda: Honda
+  hummer: Hummer
+  hyundai: Hyundai
+  infiniti: Infiniti
+  isuzu: Isuzu
+  jac: JAC
+  jaguar: Jaguar
+  jeep: Jeep
+  kia: Kia
+  lamborghini: Lamborghini
+  lancia: Lancia
+  land_rover: Land Rover
+  lexus: Lexus
+  lifan: Lifan
+  lotus: Lotus
+  maserati: Maserati
+  maybach: Maybach
+  mazda: Mazda
+  mercedes: Mercedes-Benz
+  mercury: Mercury
+  mini: MINI
+  mitsubishi: Mitsubishi
+  moscvich: Москвич
+  nissan: Nissan
+  opel: Opel
+  peugeot: Peugeot
+  pontiac: Pontiac
+  porsche: Porsche
+  renault: Renault
+  rolls_royce: Rolls-Royce
+  rover: Rover
+  saab: Saab
+  seat: Seat
+  skoda: Skoda
+  smart: Smart
+  ssang_yong: SsangYong
+  subaru: Subaru
+  suzuki: Suzuki
+  tata: Tata
+  toyota: Toyota
+  uaz: УАЗ
+  vaz: Lada (ВАЗ)
+  volkswagen: Volkswagen
+  volvo: Volvo
+  zaz: ZAZ

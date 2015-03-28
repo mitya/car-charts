@@ -1,18 +1,18 @@
 # Parses mods pages
-# 
+#
 # Оценка безопасности не распарсена так как она не представлена в текстовом виде
-# 
-# 
+#
+#
 # dir(07-mods-stripped) => step_8_1__html_to_hashes_with_en_keys => file(08.1-mods.yaml)
 # file(08.1-mods.yaml) => step_8_2__parse_mod_values => file(08.2-mods.yaml) & file(08.2-mods.plist)
-# 
-
+#
 class YA2Parser
   SPACE_RE = %r{\s+}
   NON_ZERO_KEYS = [:consumption_city, :consumption_highway, :consumption_mixed, :gears, :ground_clearance, :bore, :luggage_min, :luggage_max].to_set
 
   def step_8_1__html_to_hashes_with_en_keys
     results = {}
+    
     CW.parse_dir("07-mods-stripped") do |doc, basename, path|
       result = results[basename] = {}
       doc.css(".b-specifications__details .b-features__item_type_specs").each do |div|
@@ -23,8 +23,9 @@ class YA2Parser
 
         puts "TRANSLATION MISSING: #{name}" unless name_translation
         result[name_translation.to_s] = value
-      end      
+      end
     end
+    
     CW.write_data "08.1-mods", results
   end
 
@@ -32,16 +33,16 @@ class YA2Parser
     raw_mods = CW.read_hash('08.1-mods', openstruct: false)
     raw_mods.each do |mod_key, properties|
       puts properties['safety_rating_name']
-    end    
+    end
   end
 
-  def step_8_2__parse_mod_values  
+  def step_8_2__parse_mod_values
     raw_mods = CW.read_hash('08.1-mods', openstruct: false)
     parsed_mods = {}
 
     raw_mods.first(1_000_000).each do |mod_key, properties|
       parsed = {}
-      
+
       properties.each do |key, string|
         case key.to_sym
         when :front_suspension, :rear_suspension, :front_brakes, :rear_brakes, :model_title, :body_title, :body_type, :price, :engine_title, :engine_spec, :category,
@@ -95,7 +96,7 @@ class YA2Parser
         else
           parsed["__#{key}"] = string
         end
-        
+
         # replace dashes with spaces in the key
         new_key = ModKey.from_dash_key(mod_key)
 
@@ -107,13 +108,13 @@ class YA2Parser
 
         # convert all keys to strings
         parsed.keys.each { |k| parsed[k.to_s] = parsed.delete(k) }
-        
+
         # remove nil values because plists can't contain it
         parsed.delete_if { |k, v| v.nil? }
 
         # replace zeros with nils for some keys
         parsed.each { |k, v| parsed.delete(k) if v == 0 && NON_ZERO_KEYS.include?(k) }
-        
+
         parsed_mods[new_key.to_s_with_spaces] = parsed
       end
     end
@@ -125,34 +126,77 @@ class YA2Parser
 
     CW.write_data "08.2-mods", parsed_mods
     CW.write_data_to_plist "08.2-mods", parsed_mods_arrays
+    CW.write_data_to_plist "08.2-mods.kv", parsed_mods
   end
 
+  def step_8_3__build_metadata     
+    models = CW.read_hash('03-models', openstruct: true)
+    model_classification = YAML.load_file("crawler/data-classification.yml")
+    mods = CW.read_hash('08.2-mods', openstruct: false)
+    model_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort
+    model_keys_set = model_keys.to_set
+    
+    model_infos = model_keys.each_with_object({}) do |key, result| # { 'bmw--x6' =>  ['X6', 'BMW X6', 'bmw', 'Xe'], ... }
+      model = models[key]
+      result[key] = [ model.title, model.full_title, model.mark, model_classification[key] || '' ]
+    end
+
+    models_by_brand = model_keys.each_with_object({}) do |key, result|
+      model = models[key]
+      (result[model.mark] ||= []) << key
+    end
+
+    models_by_class = model_classification.each_with_object({}) do |(key, klass), result|
+      puts "unused classification key: #{key}" if klass && !model_keys_set.include?(key)
+      next unless model_keys_set.include?(key)
+      next unless klass
+      (result[klass] ||= []) << key
+    end
+
+    metadata = {}
+    metadata['model_keys'] = model_keys.sort
+    metadata['model_info'] = model_infos
+    metadata['models_by_class'] = models_by_class
+    metadata['models_by_brand'] = models_by_brand
+    metadata['parameters'] = Keys_Used.map(&:to_s)
+
+    CW.write_data_to_plist "08.3-db-metadata", metadata
+  end
   
+  def print_model_keys
+    models = CW.read_hash('03-models', openstruct: true)
+    mods = CW.read_hash('08.2-mods', openstruct: false)
+    model_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort        
+    unused_model_keys = models.keys - model_keys    
+    
+    model_keys.each { |k| puts k }
+  end
+
   class ModKey
     attr_accessor :brand, :model, :years, :body, :aggregate
     attr_accessor :version
     attr_accessor :engine, :power, :transmission, :drive
-    
+
     def initialize(attrs = {})
       attrs.each { |k,v| send("#{k}=", v) }
     end
-    
+
     def to_s_with_spaces
       [brand, model, years, body, aggregate].join(' ')
     end
-    
+
     def displacement
       engine[0..-2]
     end
-    
+
     def brand_and_model
       [brand, model].join('--')
     end
-    
+
     def model_and_version
       [model, version].join('.')
     end
-        
+
     #  in: alfa_romeo-giulietta-2010-hatch_5d--1.4i-170ps-MT-FWD
     # out: alfa_romeo giulietta 2010 hatch_5d 1.4i-170ps-MT-FWD
     def self.from_dash_key(old_key)
@@ -180,43 +224,43 @@ class YA2Parser
       #   body, version = body_key_and_version_name.split(' ', 2)
       #   model = "#{model}.#{CW.escape(version)}"
       # end
-    
+
       new(brand: brand, model: model, years: years, body: body, aggregate: aggregate, engine:engine, power:power, transmission:transmission, drive:drive)
     end
-    
+
     def self.parse_new_key(key)
       brand, model_and_version, years, body, agregate = key.split(' ')
       model, version = model_and_version.split('.')
       # engine, power, transmission, drive = agregate.split('-')
       new(brand: brand, model: model, years: years, body: body, version: version, aggregate: aggregate)
-    end   
+    end
   end
-  
+
   class TranslationHelper
     def self.instance
       @instance ||= new
     end
-    
+
     def initialize
-      @data = YAML.load_file("crawler/data-translations.yml")      
+      @data = YAML.load_file("crawler/data-translations.yml")
       @parameters = @data['parameters'].invert
 
-      @values = @data['values']      
+      @values = @data['values']
       @values.each do |k, hash|
         @values[k] = hash.invert
       end
-      
+
       @countries = YAML.load_file("crawler/data-other.yml")['country_code_to_russian'].invert
     end
-    
+
     def translate_parameter(russian_name)
       @parameters[russian_name.strip]
     end
-    
+
     def translate_value(category, russian_name)
       @values[category][russian_name.strip]
     end
-    
+
     def russian_country_title_to_code(russian_name)
       @countries[russian_name]
     end

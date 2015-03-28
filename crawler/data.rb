@@ -1,37 +1,3 @@
-# loader & source parcer constants
-
-# BASE_BODY_TYPES= {
-#   "седан"       => "sedan",
-#   "универсал"   => "wagon",
-#   "хэтчбек"     => "hatch",
-#   "купе"        => "coupe",
-#   "кабриолет"   => "cabrio",
-#   "кроссовер"   => "crossover",
-#   "вседорожник" => "SUV",
-#   "минивэн"     => "minivan",
-#   "пикап"       => "pickup",
-#   "фургон"      => "van"
-# }
-#
-# BASE_BODY_TYPES_RE = Regexp.new(BASE_BODY_TYPES.keys.join('|'))
-#
-# BODY_TYPES = {
-#   "пикап"            => "pickup",
-#   "фургон"           => "van",
-#   "вседорожник 3 дв" => "suv_3d",
-#   "вседорожник 5 дв" => "suv_5d",
-#   "кабриолет"        => "cabrio",
-#   "кроссовер"        => "crossover",
-#   "купе"             => "coupe",
-#   "хэтчбек 3 дв"     => "hatch_3d",
-#   "минивэн"          => "minivan",
-#   "универсал"        => "wagon",
-#   "вседорожник"      => "suv",
-#   "хэтчбек 5 дв"     => "hatch_5d",
-#   "седан"            => "sedan"
-#
-# }
-#
 # VENDORS_TRANSLIT = {
 #   "LADA (ВАЗ)"    => "VAZ",
 #   "УАЗ"           => "UAZ",
@@ -50,9 +16,8 @@
 #   "Chrysler 300С"              => "300C",
 #   "Chrysler 300М"              => "300M",
 # }
-#
-# # common constants
-#
+
+
 Keys_All = %w(
   model_key version_key body
   transmission drive gears displacement displacement_key fuel fuel_rating compressor top_speed  acceleration_100kmh engine_layout
@@ -63,58 +28,6 @@ Keys_All = %w(
   front_brakes rear_brakes front_suspension rear_suspension price).uniq
 Keys_Rejected = %w(front_suspension rear_suspension front_brakes rear_brakes price)
 Keys_Used = (Keys_All - Keys_Rejected).map(&:to_sym).uniq
-#
-# Translations_Vendors = {
-#   "Acura"         => "acura",
-#   "Alfa Romeo"    => "alfa_romeo",
-#   "Audi"          => "audi",
-#   "BMW"           => "bmw",
-#   "Cadillac"      => "cadillac",
-#   "Chery"         => "chery",
-#   "Chevrolet"     => "chevrolet",
-#   "Chrysler"      => "chrysler",
-#   "Citroen"       => "citroen",
-#   "Daewoo"        => "daewoo",
-#   "Dodge"         => "dodge",
-#   "FIAT"          => "fiat",
-#   "Ford"          => "ford",
-#   "Great Wall"    => "great_wall",
-#   "Honda"         => "honda",
-#   "Hummer"        => "hummer",
-#   "Hyundai"       => "hyundai",
-#   "Infiniti"      => "infiniti",
-#   "Jaguar"        => "jaguar",
-#   "Jeep"          => "jeep",
-#   "Kia"           => "kia",
-#   "Land Rover"    => "land_rover",
-#   "Lexus"         => "lexus",
-#   "MINI"          => "mini",
-#   "Mazda"         => "mazda",
-#   "Mercedes-Benz" => "mercedes_benz",
-#   "Mitsubishi"    => "mitsubishi",
-#   "Nissan"        => "nissan",
-#   "Opel"          => "opel",
-#   "Peugeot"       => "peugeot",
-#   "Porsche"       => "porsche",
-#   "Renault"       => "renault",
-#   "SEAT"          => "seat",
-#   "Saab"          => "saab",
-#   "Skoda"         => "skoda",
-#   "SsangYong"     => "ssangyong",
-#   "Subaru"        => "subaru",
-#   "Suzuki"        => "suzuki",
-#   "Toyota"        => "toyota",
-#   "Volkswagen"    => "volkswagen",
-#   "Volvo"         => "volvo",
-#   "LADA (ВАЗ)"    => "vaz",
-#   "ВАЗ"           => "vaz",
-#   "ВАЗ (LADA)"    => "vaz",
-#   "ГАЗ"           => "gaz",
-#   "УАЗ"           => "uaz"
-# }
-
-
-
 
 # Translations_Values_Suspensions = {
 #   "зависимая, пневмоэлемент" => 20501, # :dependent_pneumo,
@@ -183,46 +96,7 @@ Keys_Used = (Keys_All - Keys_Rejected).map(&:to_sym).uniq
 # }
 
 
-# # Mapping_Body = {
-# #   sedan:        :SE,
-# #   sedan_long:   :SEL,
-# #   hatch_3d:     :HT3,
-# #   hatch_5d:     :HT5,
-# #   wagon:        :WG,
-# #   minivan:      :MV,
-# #   minivan_3d:   :MV3,
-# #   crossover:    :CX,
-# #   crossover_3d: :CX3,
-# #   crossover_5d: :CX5,
-# #   suv:          :SUV,
-# #   suv_2d:       :SUV2,
-# #   suv_3d:       :SUV3,
-# #   suv_4d:       :SUV4,
-# #   suv_5d:       :SUV5,
-# #   coupe:        :COP,
-# #   coupe_2d:     :COP2,
-# #   coupe_5d:     :COP5,
-# #   cabrio:       :CBR,
-# #   pickup:       :PK,
-# #   pickup_2d:    :PK2,
-# #   pickup_4d:    :PK4,
-# #   van:          :VAN,
-# #   minivan_5d_partner_tepee: :MV5
-# # }
-#
-#
-
-
-
-# Attributes_Vendor_Name = Translations_Vendors.invert
-#
 # Attributes_Model_Name = {
-#   "land_rover--range_rover"        => "Range Rover",
-#   "land_rover--range_rover_evoque" => "Range Rover Evoque",
-#   "land_rover--range_rover_sport"  => "Range Rover Sport",
-# }
-#
-# Attributes_Model_BrandedName = {
 #   "land_rover--range_rover"        => "Range Rover",
 #   "land_rover--range_rover_evoque" => "Range Rover Evoque",
 #   "land_rover--range_rover_sport"  => "Range Rover Sport",

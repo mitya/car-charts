@@ -67,8 +67,17 @@ module CW
   end
 
   def read_hash(filename, dir = WORKDIR, openstruct:true)
-    return YAML.load( File.read("#{dir}/#{filename}.yaml") ).map do |hash|
-      openstruct ? OpenStruct.new(hash) : hash
+    data = YAML.load( File.read("#{dir}/#{filename}.yaml") )
+    if openstruct
+      case data
+      when Array 
+        data.map { |hash| OpenStruct.new(hash) }
+      when Hash        
+        data.each { |k, h| data[k] = OpenStruct.new(h) }
+        data
+      end
+    else
+      data
     end
   end
   
@@ -92,11 +101,13 @@ module CW
   end
   
   def compress_dir(dir, outdir, selectors, limit: nil)
+    outdir = dir unless outdir
     FileUtils.mkdir_p File.join(WORKDIR, outdir)
     parse_dir(dir, limit: limit) do |doc, basename, path|
       content = doc.css(selectors)
       content.xpath('//@data-bem').remove
       content.xpath('//@style').remove
+      content.xpath('//img').remove
       
       doc.at_css('body').inner_html = content
       doc.at_css('head').inner_html = ''
@@ -115,6 +126,12 @@ module CW
   def to_f(str)
     # Float(str) rescue nil
     str.to_f
+  end
+  
+  def stringify_keys(hash)
+    hash = hash.to_h if hash.is_a?(OpenStruct)
+    hash.keys.each { |k| hash[k.to_s] = hash.delete(k) if k.is_a?(Symbol) }
+    hash
   end
   
   # def convert_to_plist(source, dir = OUTDIR)
@@ -165,3 +182,10 @@ module CW
   # end
   #
 end
+
+# class HashStruct
+#   def initialize(attrs = {})
+#     attrs.keys.each { |k| attrs[k.to_s] = attrs.delete(k) if k.is_a?(Symbol) }
+#     @attributes = @attributes
+#   end
+# end

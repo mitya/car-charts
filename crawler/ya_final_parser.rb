@@ -137,6 +137,7 @@ class YAFinalParser
       model_infos[key] = [all_model_names, branded_model_names, model_brands, ModelClassification].map { |src| src[key] || '' }
     end
 
+    # restult: { 'mercedes_benz--cl.amg' => 'AMG' }
     model_versions = {}
     Reductions_Body_Version.each do |brand__model__extbody, body__version_title|
       brand, model, _ = brand__model__extbody.split('--')
