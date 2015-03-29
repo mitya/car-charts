@@ -161,91 +161,65 @@ class YA2Processor
   end
 
 
-  # Renames files with unknown body to include the body looked up from the inside of a file
+  # Renames the model files include the bodytype looked up from the inside of a file
+  # Also converts weird bodytypes to standard ones when possible
+  # And drops files with unknown bodytypes
+  #
   # volkswagen passat 2011                   => /opt/work/carchartscrawler/data_1502/04.2-bodies/volkswagen passat 2011 sedan.html
   # volkswagen passat 2014                   => /opt/work/carchartscrawler/data_1502/04.2-bodies/volkswagen passat 2014 wagon.html
+  #
+  # The output dir contains the same files just with longer names
+  # Also it drops files with weird bodytypes
+  #
   def step_4_4__rename_models_without_bodies  
     reductions = YAML.load_file("crawler/data-reductions.yml")
-    new_dir = WORKDIR + "04.4 bodies"
+    new_dir = WORKDIR + "04.4-bodies-renamed"
     FileUtils.mkdir_p(new_dir)
 
     CW.parse_dir("04.2-bodies", silent: true) do |doc, basename, path|
       body_name = doc.css(".b-bodytypes .button__text").text
       body_name = doc.css(".b-bodytypes").text if body_name.empty?
 
-      mark = basename.split.first.to_sym
-      reduction = reductions['body_body_new'][ "#{mark} #{body_name}" ]
-      xprintf "%-20s %30s  %-30s  %20s\n", 'reduce', basename, body_name, reduction if reduction
-      body_name = reduction if reduction
+      mark = basename.split.first
+      body_key = CW.parse_bodytype(mark, body_name)
+      next unless body_key
 
-      body_key = CWD::Bodies[body_name]
-      
-      unless body_key
-        xprintf "%-20s %30s  %s\n", 'no match', basename, body_name
-        next
+      new_path = new_dir + "#{basename} #{body_key}.html"
+      printf "%-20s %30s => %s\n", 'rename', basename, new_path
+      FileUtils.cp(path, new_path)
+    end
+  end
+
+  def step_4_5__extract_other_bodytypes
+    other_bodytype_urls = {}
+
+    CW.parse_dir("04.2-bodies") do |doc, basename, path|
+      doc.css(".b-car-head .b-bodytypes a.link").each do |a|
+        mark_key = basename.split.first
+        url = a['href']
+        bodytype_name = a.text
+        bodytype_key = CW.parse_bodytype(mark_key, bodytype_name)
+        next unless bodytype_key
+
+        other_bodytype_urls["#{basename} #{bodytype_key}"] = url
       end
+    end     
+    
+    CW.write_data "04.5-bodies-other", other_bodytype_urls
+  end
 
-      new_name = new_dir + "#{basename} #{body_key}.html"
-      printf "%-20s %30s => %s\n", 'rename', basename, new_name
-      File.rename(path, new_name)
+  def step_4_6__load_other_bodytypes
+    dir = "04.6-bodies-other"
+    models = CW.read_hash('04.5-bodies-other', openstruct:false)
+    models.to_a.shuffle.each do |key, url|
+      # exist = File.exist?(WORKDIR + "#{dir}/#{key}.html") || File.exist?(WORKDIR + "04.4-bodies-renamed/#{key}.html")
+      # puts "#{dir}/#{key}.html" unless exist
+      CW.save_ya_page_and_sleep url, "#{dir}/#{key}.html", overwrite: false
     end
   end
 
-  def step_4_1
-    records = CW.read_hash('models-other')
-    default_bodies = Set.new CWD::Bodies.keys
-
-    records.each do |r|
-      mark = r.key.split.first.to_sym
-      if reduction = CWD::Reductions_Body_Body[ [mark, r.title] ]
-        r.title = reduction
-      end
-    end
-
-    records.select! { |r| default_bodies.include? r.title }
-
-    records.each { |r| r.body_key = "#{ r.key } #{ CWD::Bodies[r.title] }" }
-
-    CW.write_data "models-other-2", records
-  end
-
-  def step_5pre__check_some_shit
-    results = []
-    records = CW.read_hash('04.1-models-other-1')
-
-    default_bodies = Set.new CWD::Bodies.keys
-    excluded_bodies = %w(микроавтобус фургон)
-
-    records.each do |r|
-      mark = r.key.split.first.to_sym
-      if reduction = CWD::Reductions_Body_Body[ [mark, r.title] ]
-        r.title = reduction
-      end
-    end
-
-    records.reject! { |r| r.title.start_with?(*excluded_bodies) }
-    records.reject! { |r| default_bodies.include? r.title }
-
-    records.sort_by!(&:key)
-
-    records.each do |r|
-      printf "%-45s %s\n", r.url, r.title
-      results << [r.key, YA_HOST + r.url, r.title]
-    end
-
-    CW.write_csv(results)
-  end
-
-  def step_5_0__load_models
-    models = CW.read_hash('04-models-other-2')
-    models.shuffle.each do |model|
-      filename = model.body_key
-      CW.save_ya_page_and_sleep model.url, "05-models-other/#{filename}.html", overwrite: false
-    end
-  end
-
-  def step_5_1__compress_models
-    CW.compress_dir("05.0-models.min", nil, ".b-complectations, .b-car-head, .b-specifications")
+  def step_4_7__compress_other_body_types
+    CW.compress_dir("04.6-bodies-other", nil, ".b-complectations, .b-car-head, .b-specifications")
   end
 
   def step_6
@@ -257,7 +231,11 @@ class YA2Processor
     other_body_urls = {}
     mods = [] # unique mods that should be parsed as is
 
-    CW.parse_dir("05.0-models.min") do |doc, basename, path|
+    # dirs = %w(04.4-bodies-renamed 04.6-bodies-other)
+    # files = ['jeep wrangler 2007 suv_3d', 'volkswagen multivan 2009 minivan_long', 'land_rover defender 2007 suv_3d', 'suzuki grand_vitara 2012 suv_3d']
+    dirs = %w(04.6-bodies-other)
+
+    CW.parse_dir(dirs, only:nil) do |doc, basename, path|
       doc.css(".b-car-head .b-bodytypes a.link").each do |a|
         other_body_urls["#{basename} -- #{a.text}"] = a['href']
       end           
@@ -274,15 +252,20 @@ class YA2Processor
       end
     end
 
-    CW.write_data "06.1-mod-urls", results
-    CW.write_data "06.1-mod-final", mods
-    CW.write_data "06.1-other-body-urls", other_body_urls
+    CW.write_data "06.1-mods", results
+    CW.write_data "06.1-mods-singles", mods
+    CW.write_data "06.1-bodies-other", other_body_urls
+  end
+
+  def step_7
+    step_7_0__load_mods
+    step_7_1__compress_mods
   end
 
   def step_7_0__load_mods
-    mods = CW.read_hash('06.1-mod-urls')
-    mods.shuffle.each do |key, url|
-      CW.save_ya_page_and_sleep url, "07.0-mods/#{key}.html", overwrite: false
+    mods = CW.read_hash('06.1-mods', openstruct: false)
+    mods.to_a.shuffle.each do |key, url|
+      CW.save_ya_page_and_sleep url, "07.0-mods/#{key}.html", overwrite: false, test: false
     end
   end
 

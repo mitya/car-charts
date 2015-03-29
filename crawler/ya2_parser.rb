@@ -24,7 +24,6 @@ class YA2Parser
       
       doc.css(".b-specifications__details .b-features__item_type_specs").each do |div|
         name = div.at_css(".b-features__name").text
-        # name_translation = Translations_Parameters[name.strip]
         name_translation = TranslationHelper.instance.translate_parameter(name)
         value = div.at_css(".b-features__value").text.strip
 
@@ -33,7 +32,7 @@ class YA2Parser
       end
     end
 
-    CW.parse_dir("07.0-mods.min", &parser)
+    CW.parse_dir("07.0-mods", &parser)
 
     unique_mod_keys = CW.read_hash "06.1-mod-final", openstruct: false
     unique_mod_keys.each do |basename|

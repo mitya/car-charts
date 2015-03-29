@@ -1,7 +1,12 @@
 module CW
   module_function
 
-  def save_page(url, path, overwrite: true, dir: WORKDIR)
+  def save_page(url, path, overwrite: true, dir: WORKDIR, test: false)
+    if test
+      puts "WILL WRITE #{path}" unless File.exist?(dir + path)
+      return false
+    end
+    
     if !overwrite && File.exist?(dir + path)
       puts "EXIST #{path}" 
       return false
@@ -10,19 +15,18 @@ module CW
     open(url, "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:35.0) Gecko/20100101 Firefox/35.0") do |page|
       puts "GET #{url} => #{path}"
       write_file(dir + path, page.read)
-      # open(dir + path, "w") { |file| file.write(page.read) }
     end
     
     return true
   end
   
-  def save_page_and_sleep(url, path, overwrite: true, sleep_interval: 1..3)
-    saved = save_page url, path, overwrite: overwrite
+  def save_page_and_sleep(url, path, overwrite: true, sleep_interval: 1..3, test: false)
+    saved = save_page url, path, overwrite: overwrite, test: test
     sleep rand(sleep_interval) if saved
   end
   
-  def save_ya_page_and_sleep(ya_path, path, overwrite: true)
-    save_page_and_sleep YA_HOST + ya_path, path, overwrite: overwrite
+  def save_ya_page_and_sleep(ya_path, path, overwrite: true, test: false)
+    save_page_and_sleep YA_HOST + ya_path, path, overwrite: overwrite, test: test
   end
   
   def write_file(path, content)
@@ -86,15 +90,23 @@ module CW
     return JSON.parse File.read("#{dir}/#{filename}.json")
   end
   
-  def parse_dir(directory, limit: nil, silent: false)
+  def parse_dir(directory, limit: nil, silent: false, only: nil)
     count = 0
     sec = Benchmark.realtime do
-      Dir.glob(WORKDIR + "#{directory}/*.html").each do |path|
-        count += 1
-        return if limit && count == limit
-        basename = File.basename(path, '.html')
-        doc = CW.parse_file(path, silent:silent)
-        yield doc, basename, path
+      pattern = if only
+        '{' + only.join(',') + '}'
+      else
+        '*'
+      end
+      p pattern
+      Array(directory).each do |dir|
+        Dir.glob("#{WORKDIR + dir}/#{pattern}.html").each do |path|
+          count += 1
+          return if limit && count == limit
+          basename = File.basename(path, '.html')
+          doc = CW.parse_file(path, silent:silent)
+          yield doc, basename, path
+        end
       end
     end
 
@@ -199,5 +211,19 @@ module CW
     drive_key = CWD::Translations_Values[:drive][drive]
     fuel_key = CWD::Translations_Values[:fuel_short][fuel]
     "#{volume}#{fuel_key}-#{power}ps-#{transmission_key}-#{drive_key}"
+  end
+  
+  # :opel, хэтчбэк 5 дв => hatch5d
+  # :mercedes, седан AMG Long => sedan_long
+  # :mercedes, черти-что => nil
+  def parse_bodytype(mark_key, bodytype_name)
+    @reductions ||= YAML.load_file("crawler/data-reductions.yml")
+    reduction = @reductions['body_body_new'][ "#{mark_key} #{bodytype_name}" ]
+    printf "%-20s %30s  %-30s  %20s\n", 'reduce', mark_key, bodytype_name, reduction if reduction
+    bodytype_name = reduction if reduction
+
+    body_key = CWD::Bodies[bodytype_name]
+    printf "%-20s %30s  %s\n", 'no match', mark_key, bodytype_name unless body_key    
+    body_key
   end
 end

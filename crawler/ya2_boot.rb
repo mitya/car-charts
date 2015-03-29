@@ -22,7 +22,7 @@ require File.dirname(__FILE__) + "/ya2_parser.rb"
 require File.dirname(__FILE__) + "/data.rb"
 
 WORKDIR = Pathname("/opt/work/carchartscrawler/data_1502")
-YA_HOST = "http://auto.yandex.ru"
+YA_HOST = "https://auto.yandex.ru"
 
 def xprintf(*args)
   
