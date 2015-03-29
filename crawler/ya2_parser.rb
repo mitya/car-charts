@@ -10,11 +10,18 @@ class YA2Parser
   SPACE_RE = %r{\s+}
   NON_ZERO_KEYS = [:consumption_city, :consumption_highway, :consumption_mixed, :gears, :ground_clearance, :bore, :luggage_min, :luggage_max].to_set
 
-  def step_8_1__html_to_hashes_with_en_keys
+  def step_8
+    step_8_1__parse_mods_to_raw
+    step_8_2__parse_mod_values
+    step_8_3__build_metadata
+  end
+
+  def step_8_1__parse_mods_to_raw
     results = {}
-    
-    CW.parse_dir("07-mods-stripped") do |doc, basename, path|
+
+    parser = lambda do |doc, basename, path|
       result = results[basename] = {}
+      
       doc.css(".b-specifications__details .b-features__item_type_specs").each do |div|
         name = div.at_css(".b-features__name").text
         # name_translation = Translations_Parameters[name.strip]
@@ -22,18 +29,20 @@ class YA2Parser
         value = div.at_css(".b-features__value").text.strip
 
         puts "TRANSLATION MISSING: #{name}" unless name_translation
-        result[name_translation.to_s] = value
+        result[name_translation.to_s] = value        
       end
     end
-    
-    CW.write_data "08.1-mods", results
-  end
 
-  def step_8_2pre__check_mods
-    raw_mods = CW.read_hash('08.1-mods', openstruct: false)
-    raw_mods.each do |mod_key, properties|
-      puts properties['safety_rating_name']
+    CW.parse_dir("07.0-mods.min", &parser)
+
+    unique_mod_keys = CW.read_hash "06.1-mod-final", openstruct: false
+    unique_mod_keys.each do |basename|
+      path = WORKDIR + "05.0-models.min" + "#{basename}.html"
+      doc = CW.parse_file(path, silent: true)
+      parser.call(doc, basename.split(' ').join('-'), path)
     end
+
+    CW.write_data "08.1-mods", results
   end
 
   def step_8_2__parse_mod_values
@@ -96,27 +105,26 @@ class YA2Parser
         else
           parsed["__#{key}"] = string
         end
-
-        # replace dashes with spaces in the key
-        new_key = ModKey.from_dash_key(mod_key)
-
-        # store key parts as individual elements
-        parsed['body'] = new_key.body
-        parsed['model_key'] = new_key.brand_and_model
-        parsed['version_key'] = new_key.version
-        parsed['displacement_key'] = new_key.displacement
-
-        # convert all keys to strings
-        parsed.keys.each { |k| parsed[k.to_s] = parsed.delete(k) }
-
-        # remove nil values because plists can't contain it
-        parsed.delete_if { |k, v| v.nil? }
-
-        # replace zeros with nils for some keys
-        parsed.each { |k, v| parsed.delete(k) if v == 0 && NON_ZERO_KEYS.include?(k) }
-
-        parsed_mods[new_key.to_s_with_spaces] = parsed
       end
+      # replace dashes with spaces in the key
+      new_key = ModKey.from_dash_key(mod_key)
+      
+      # store key parts as individual elements
+      parsed['body'] = new_key.body
+      parsed['model_key'] = new_key.brand_and_model
+      parsed['version_key'] = new_key.version
+      parsed['displacement_key'] = new_key.displacement
+
+      # convert all keys to strings
+      parsed.keys.each { |k| parsed[k.to_s] = parsed.delete(k) }
+
+      # remove nil values because plists can't contain it
+      parsed.delete_if { |k, v| v.nil? }
+
+      # replace zeros with nils for some keys
+      parsed.each { |k, v| parsed.delete(k) if v == 0 && NON_ZERO_KEYS.include?(k) }
+
+      parsed_mods[new_key.to_s_with_spaces] = parsed      
     end
 
     parsed_mods_arrays = {}
@@ -129,13 +137,13 @@ class YA2Parser
     CW.write_data_to_plist "08.2-mods.kv", parsed_mods
   end
 
-  def step_8_3__build_metadata     
-    models = CW.read_hash('03-models', openstruct: true)
+  def step_8_3__build_metadata
+    models = CW.read_hash('03.0-models', openstruct: true)
     model_classification = YAML.load_file("crawler/data-classification.yml")
     mods = CW.read_hash('08.2-mods', openstruct: false)
     model_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort
     model_keys_set = model_keys.to_set
-    
+
     model_infos = model_keys.each_with_object({}) do |key, result| # { 'bmw--x6' =>  ['X6', 'BMW X6', 'bmw', 'Xe'], ... }
       model = models[key]
       result[key] = [ model.title, model.full_title, model.mark, model_classification[key] || '' ]
@@ -162,13 +170,13 @@ class YA2Parser
 
     CW.write_data_to_plist "08.3-db-metadata", metadata
   end
-  
+
   def print_model_keys
     models = CW.read_hash('03-models', openstruct: true)
     mods = CW.read_hash('08.2-mods', openstruct: false)
-    model_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort        
-    unused_model_keys = models.keys - model_keys    
-    
+    model_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort
+    unused_model_keys = models.keys - model_keys
+
     model_keys.each { |k| puts k }
   end
 
@@ -182,11 +190,11 @@ class YA2Parser
     end
 
     def to_s_with_spaces
-      [brand, model, years, body, aggregate].join(' ')
+      [brand, model, years, body, aggregate].join(' ').strip
     end
 
     def displacement
-      engine[0..-2]
+      engine[0..-2] if engine
     end
 
     def brand_and_model
@@ -202,7 +210,7 @@ class YA2Parser
     def self.from_dash_key(old_key)
       model_years_body, aggregate = old_key.split('--')
       brand, model, years, body = model_years_body.split('-')
-      engine, power, transmission, drive = aggregate.split('-')
+      engine, power, transmission, drive = aggregate.split('-') if aggregate
 
       # years.gsub!('_', '-')
       # puts years if years.include?('_')

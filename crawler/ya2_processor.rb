@@ -22,7 +22,7 @@ class YA2Processor
     CW.write_data "01-marks", results
   end
 
-  def step_2__load_marks
+  def step_2_0__load_marks
     collection = :combined
     links = CW.read_hash('01-marks')[collection]
     links.each { |key, url, title| CW.save_ya_page_and_sleep url, "02-marks/#{collection}/#{key}.html" }
@@ -97,10 +97,11 @@ class YA2Processor
     CW.compress_dir("04-generations", ".b-tabs__panel_name_cars .b-cars__page")
   end
 
+
   def step_4_1__parse_generations
     results = []
 
-    CW.parse_dir("04-generations") do |doc, basename, path|
+    CW.parse_dir("04.0-generations") do |doc, basename, path|
       mark_key = basename.sub(/-\d$/, '') # mercedes-7 => mercedes
       doc.css("div.b-cars__page a.b-car").each do |a|
         result = {}
@@ -113,16 +114,7 @@ class YA2Processor
       end
     end
 
-    CW.write_data "04-generations-1", results
-  end
-
-  def step_4_1_x__check_which_marks_have_many_pages
-    CW.parse_dir("marks/popular_manual") do |doc, basename, path|
-      unless doc.css(".b-tabs__panel_name_cars .b-show-more__button").any?
-        puts "REMOVE #{filename}"
-        File.delete(filename)
-      end
-    end
+    CW.write_data "04.2-generations", results
   end
 
   def step_4_2
@@ -241,32 +233,29 @@ class YA2Processor
     end
   end
 
+
   def step_5_1__compress_models
     CW.compress_dir("05.0-models.min", nil, ".b-complectations, .b-car-head, .b-specifications")
   end
 
-  # optional method, just to be sure that no link missed
-  def step_6_1__parse_models_for_other_bodytype_urls
+  def step_6
+    step_6_1__parse_models
+  end
+
+  def step_6_1__parse_models
     results = {}
+    other_body_urls = {}
+    mods = [] # unique mods that should be parsed as is
 
     CW.parse_dir("05.0-models.min") do |doc, basename, path|
       doc.css(".b-car-head .b-bodytypes a.link").each do |a|
-        results["#{basename} -- #{a.text}"] = a['href']
-      end
-    end
-
-    CW.write_data "06.1-other-body-urls", results
-  end
-
-  def step_6_1__parse_models_for_mod_urls
-    results = {}
-    mods = [] # unique mods that should be parsed as is
-
-    CW.parse_dir("05.0-models.min", limit: false, silent: true) do |doc, basename, path|
+        other_body_urls["#{basename} -- #{a.text}"] = a['href']
+      end           
+      
       complectations = doc.css(".b-complectations__item:not(.b-complectations__item_state_current) a.link")
       if complectations.any?
         complectations.each do |a|
-          aggregate_key = parse_ya_aggregate_title(a['title'])
+          aggregate_key = CW.parse_ya_aggregate_title(a['title'])
           key = [ basename.split.join('-'), aggregate_key ].join('--')
           results[key] = a['href']
         end
@@ -277,6 +266,7 @@ class YA2Processor
 
     CW.write_data "06.1-mod-urls", results
     CW.write_data "06.1-mod-final", mods
+    CW.write_data "06.1-other-body-urls", other_body_urls
   end
 
   def step_7_0__load_mods
@@ -290,17 +280,13 @@ class YA2Processor
     CW.compress_dir("07.0-mods", "07-mods.min", ".b-specifications")
   end
 
-  private
 
-  # Momentum 1.6 AMT (150 л.с.) передний привод, бензин
-  # sDrive30i 3.0 AT (258 л.с.) задний привод, бензин
-  # 1.4 MT (125 л.с.) передний привод, бензин
-  def parse_ya_aggregate_title(title)
-    re = /(\d\.\d) (\w{2,3}) \((\d+) л\.с\.\) (\p{L}+) привод, ([\p{L}\s\/]+)$/
-    volume, transmission, power, drive, fuel = title.scan(re).flatten
-    transmission_key = transmission
-    drive_key = CWD::Translations_Values[:drive][drive]
-    fuel_key = CWD::Translations_Values[:fuel_short][fuel]
-    "#{volume}#{fuel_key}-#{power}ps-#{transmission_key}-#{drive_key}"
+  def check_which_marks_have_many_pages
+    CW.parse_dir("marks/popular_manual") do |doc, basename, path|
+      unless doc.css(".b-tabs__panel_name_cars .b-show-more__button").any?
+        puts "REMOVE #{filename}"
+        File.delete(filename)
+      end
+    end
   end
 end

@@ -38,9 +38,10 @@ module CW
     path = "#{dir}/#{filename}.yaml"
 
     if data.is_a?(Array)
-      data.map! &:to_h if data.first.is_a?(OpenStruct)
-      puts "Write #{data.size} items to #{path}"
+      data.map! &:to_h if data.first.is_a?(OpenStruct)      
     end
+    
+    puts "Write #{data.size if data.respond_to?(:size)} items to #{path}"
 
     open(path, "w") { |f| f.write YAML.dump(data) }
   end
@@ -181,11 +182,18 @@ module CW
   #   Hash[*stats.sort_by {|k,v| v}.flatten]
   # end
   #
-end
 
-# class HashStruct
-#   def initialize(attrs = {})
-#     attrs.keys.each { |k| attrs[k.to_s] = attrs.delete(k) if k.is_a?(Symbol) }
-#     @attributes = @attributes
-#   end
-# end
+  # Momentum 1.6 AMT (150 л.с.) передний привод, бензин
+  # sDrive30i 3.0 AT (258 л.с.) задний привод, бензин
+  # 1.4 MT (125 л.с.) передний привод, бензин
+  # 4.4 AT (540 л.с.)
+  def parse_ya_aggregate_title(title)
+    title = title.strip
+    re = /(\d\.\d) (\w{2,3}) \((\d+) л\.с\.\) (\p{L}+) привод, ([\p{L}\s\/]+)$/
+    volume, transmission, power, drive, fuel = title.scan(re).flatten
+    transmission_key = transmission
+    drive_key = CWD::Translations_Values[:drive][drive]
+    fuel_key = CWD::Translations_Values[:fuel_short][fuel]
+    "#{volume}#{fuel_key}-#{power}ps-#{transmission_key}-#{drive_key}"
+  end
+end
