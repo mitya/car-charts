@@ -109,12 +109,6 @@ class YA2Processor
   end
 
   def step_4_1__parse_generations
-    # data = CW.read_hash "04.2-generations", openstruct:false
-    # p data.count
-    # p data.map { |d| d['url'] }.uniq.count
-    # p data.map { |d| d['key'] }.uniq.count
-    # return
-        
     results = {}
 
     CW.parse_dir("04.0-generations.min", silent: true) do |doc, basename, path|
@@ -167,9 +161,7 @@ class YA2Processor
   end
   
   def step_4_3__compress_model_years
-    # CW.compress_dir("04.2-bodies", nil, ".b-complectations, .b-car-head, .b-specifications, .catalog-filter")
-    CW.compress_dir("04.6-bodies-other", nil, ".b-complectations, .b-car-head, .b-specifications, .catalog-filter")
-    CW.compress_dir("04.4-bodies-renamed", nil, ".b-complectations, .b-car-head, .b-specifications, .catalog-filter")
+    CW.compress_dir("04.2-bodies", nil, ".b-complectations, .b-car-head, .b-specifications, .catalog-filter")
   end
 
 
@@ -244,9 +236,8 @@ class YA2Processor
     other_body_urls = {}
     mods = [] # unique mods that should be parsed as is
 
-    # dirs = %w(04.4-bodies-renamed 04.6-bodies-other)
+    dirs = %w(04.4-bodies-renamed 04.6-bodies-other)
     # files = ['jeep wrangler 2007 suv_3d', 'volkswagen multivan 2009 minivan_long', 'land_rover defender 2007 suv_3d', 'suzuki grand_vitara 2012 suv_3d']
-    dirs = %w(04.6-bodies-other)
 
     CW.parse_dir(dirs, only:nil) do |doc, basename, path|
       doc.css(".b-car-head .b-bodytypes a.link").each do |a|
