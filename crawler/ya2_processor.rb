@@ -160,21 +160,33 @@ class YA2Processor
     CW.compress_dir("04.2-bodies", nil, ".b-complectations, .b-car-head, .b-specifications")
   end
 
-  def step_4_1__rename_models_without_bodies
-    CW.parse_dir("04.2-bodies.min", silent: true) do |doc, basename, path|
+
+  # Renames files with unknown body to include the body looked up from the inside of a file
+  # volkswagen passat 2011                   => /opt/work/carchartscrawler/data_1502/04.2-bodies/volkswagen passat 2011 sedan.html
+  # volkswagen passat 2014                   => /opt/work/carchartscrawler/data_1502/04.2-bodies/volkswagen passat 2014 wagon.html
+  def step_4_4__rename_models_without_bodies  
+    reductions = YAML.load_file("crawler/data-reductions.yml")
+    new_dir = WORKDIR + "04.4 bodies"
+    FileUtils.mkdir_p(new_dir)
+
+    CW.parse_dir("04.2-bodies", silent: true) do |doc, basename, path|
       body_name = doc.css(".b-bodytypes .button__text").text
       body_name = doc.css(".b-bodytypes").text if body_name.empty?
 
       mark = basename.split.first.to_sym
-      reduction = CWD::Reductions_Body_Body[ [mark, body_name] ]
+      reduction = reductions['body_body_new'][ "#{mark} #{body_name}" ]
+      xprintf "%-20s %30s  %-30s  %20s\n", 'reduce', basename, body_name, reduction if reduction
       body_name = reduction if reduction
 
       body_key = CWD::Bodies[body_name]
+      
+      unless body_key
+        xprintf "%-20s %30s  %s\n", 'no match', basename, body_name
+        next
+      end
 
-      new_name = body_key ? basename + ' ' + body_key.to_s : 'x ' + basename
-      new_name = File.dirname(path) + '/' + new_name + '.html'
-
-      printf "%-40s => %s\n", basename, new_name
+      new_name = new_dir + "#{basename} #{body_key}.html"
+      printf "%-20s %30s => %s\n", 'rename', basename, new_name
       File.rename(path, new_name)
     end
   end

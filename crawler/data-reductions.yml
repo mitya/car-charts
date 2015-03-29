@@ -17,6 +17,26 @@ body_body:
   vaz--hatch_3d_coupe: hatch_3d
   volkswagen--hatch_3d_gti: hatch_3d
   volkswagen--hatch_5d_gti: hatch_5d
+  
+body_body_new:
+  audi хэтчбек 5 дв. Sportback: "хэтчбек 5 дв."
+  hyundai седан Limusine: "седан Long"
+  kia хэтчбек 3 дв. pro_cee'd: "хэтчбек 3 дв."
+  land_rover внедорожник 3 дв. 90: "внедорожник 3 дв."
+  land_rover внедорожник 5 дв. 110: "внедорожник 5 дв."
+  mercedes кабриолет AMG: "кабриолет"
+  mercedes купе AMG: "купе"
+  mercedes седан AMG: "седан"
+  mercedes седан AMG Long: "седан Long"
+  mercedes универсал Shooting Brake: "универсал"
+  opel универсал Sports Tourer: "универсал"
+  opel хэтчбек 3 дв. GTC: "хэтчбек 3 дв."
+  vaz внедорожник 2121: "внедорожник 3 дв."
+  vaz внедорожник 2131: "внедорожник 5 дв."
+  volkswagen пикап 2 дв. Single Cab: "пикап 2 дв."
+  volkswagen пикап 4 дв. Double Cab: "пикап 4 дв."
+  volvo универсал Plug-in-Hybrid: "универсал"
+  
 body_model:
   lexus--sedan_is_f: sedan IS-F
   mitsubishi--hatch_5d_ralliart: hatch_5d Lancer Ralliart
@@ -24,6 +44,7 @@ body_model:
   renault--crossover_stepway: hatch_5d Sandero Stepway
   nissan--crossover_plus_2: crossover Qashqai +2
   opel--hatch_3d_gtc: hatch_3d Astra GTC
+
 body_version:
   audi--r8--cabrio_gt_spyder: cabrio GT Spyder
   audi--r8--coupe_gt: coupe GT
