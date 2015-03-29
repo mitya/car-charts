@@ -34,9 +34,9 @@ class YA2Parser
 
     CW.parse_dir("07.0-mods", &parser)
 
-    unique_mod_keys = CW.read_hash "06.1-mod-final", openstruct: false
+    unique_mod_keys = CW.read_hash "06.1-mods-singles", openstruct: false
     unique_mod_keys.each do |basename|
-      path = WORKDIR + "05.0-models.min" + "#{basename}.html"
+      path = WORKDIR + "04.6-bodies-other" + "#{basename}.html"
       doc = CW.parse_file(path, silent: true)
       parser.call(doc, basename.split(' ').join('-'), path)
     end

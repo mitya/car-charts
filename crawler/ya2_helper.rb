@@ -98,7 +98,6 @@ module CW
       else
         '*'
       end
-      p pattern
       Array(directory).each do |dir|
         Dir.glob("#{WORKDIR + dir}/#{pattern}.html").each do |path|
           count += 1

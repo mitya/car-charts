@@ -98,6 +98,16 @@ class YA2Processor
   end
 
 
+  def step_4
+    step_4_1__parse_generations
+    step_4_2__load_model_years
+    step_4_3__compress_model_years
+    step_4_4__rename_models_without_bodies
+    step_4_5__extract_other_bodytypes
+    step_4_6__load_other_bodytypes
+    step_4_7__compress_other_body_types
+  end
+
   def step_4_1__parse_generations
     # data = CW.read_hash "04.2-generations", openstruct:false
     # p data.count
@@ -157,7 +167,9 @@ class YA2Processor
   end
   
   def step_4_3__compress_model_years
-    CW.compress_dir("04.2-bodies", nil, ".b-complectations, .b-car-head, .b-specifications")
+    # CW.compress_dir("04.2-bodies", nil, ".b-complectations, .b-car-head, .b-specifications, .catalog-filter")
+    CW.compress_dir("04.6-bodies-other", nil, ".b-complectations, .b-car-head, .b-specifications, .catalog-filter")
+    CW.compress_dir("04.4-bodies-renamed", nil, ".b-complectations, .b-car-head, .b-specifications, .catalog-filter")
   end
 
 
@@ -176,12 +188,14 @@ class YA2Processor
     new_dir = WORKDIR + "04.4-bodies-renamed"
     FileUtils.mkdir_p(new_dir)
 
-    CW.parse_dir("04.2-bodies", silent: true) do |doc, basename, path|
-      body_name = doc.css(".b-bodytypes .button__text").text
-      body_name = doc.css(".b-bodytypes").text if body_name.empty?
+    CW.parse_dir("04.2-bodies", silent: true) do |doc, basename, path|    
+      selector = doc.css(".b-bodytypes").any? ? 'b-bodytypes' : 'bodytypes'
+      body_name = doc.css(".#{selector} .button__text").text
+      body_name = doc.css(".#{selector}").text if body_name.empty?
 
       mark = basename.split.first
       body_key = CW.parse_bodytype(mark, body_name)
+      
       next unless body_key
 
       new_path = new_dir + "#{basename} #{body_key}.html"
@@ -194,7 +208,8 @@ class YA2Processor
     other_bodytype_urls = {}
 
     CW.parse_dir("04.2-bodies") do |doc, basename, path|
-      doc.css(".b-car-head .b-bodytypes a.link").each do |a|
+      selector = doc.css(".b-bodytypes").any? ? '.b-car-head .b-bodytypes' : '.bodytypes'
+      doc.css("#{selector} a.link").each do |a|
         mark_key = basename.split.first
         url = a['href']
         bodytype_name = a.text
@@ -212,14 +227,12 @@ class YA2Processor
     dir = "04.6-bodies-other"
     models = CW.read_hash('04.5-bodies-other', openstruct:false)
     models.to_a.shuffle.each do |key, url|
-      # exist = File.exist?(WORKDIR + "#{dir}/#{key}.html") || File.exist?(WORKDIR + "04.4-bodies-renamed/#{key}.html")
-      # puts "#{dir}/#{key}.html" unless exist
-      CW.save_ya_page_and_sleep url, "#{dir}/#{key}.html", overwrite: false
+      CW.save_ya_page_and_sleep url, "#{dir}/#{key}.html", overwrite: false, test: false
     end
   end
 
   def step_4_7__compress_other_body_types
-    CW.compress_dir("04.6-bodies-other", nil, ".b-complectations, .b-car-head, .b-specifications")
+    CW.compress_dir("04.6-bodies-other", nil, ".b-complectations, .b-car-head, .b-specifications, .catalog-filter")
   end
 
   def step_6
@@ -270,7 +283,7 @@ class YA2Processor
   end
 
   def step_7_1__compress_mods
-    CW.compress_dir("07.0-mods", "07-mods.min", ".b-specifications")
+    CW.compress_dir("07.0-mods", nil, ".b-specifications")
   end
 
 
@@ -280,6 +293,18 @@ class YA2Processor
         puts "REMOVE #{filename}"
         File.delete(filename)
       end
+    end
+  end
+  
+  def remove_dups_from_other
+    Dir.glob(WORKDIR + "04.6-bodies-other/*.html") do |path|
+      basename = File.basename(path)
+      path2 = WORKDIR + "04.4-bodies-renamed/#{basename}"
+      size1 = File.size(path)
+      size2 = File.size(path2) if File.exist?(path2)
+      is_dup = File.exist?(path2) && (size1 - size2.to_i).abs < 10
+      puts "kill #{path}"
+      File.delete(path) if is_dup
     end
   end
 end
