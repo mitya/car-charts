@@ -7,6 +7,14 @@
 # It was possible to load all the direct links to models instead of loading links to generations.
 # But it requires dealing with pagination on the mark pages.
 #
+# Everething is automated since step #4
+# 
+# step_4 load other bodies for models in '04.4-bodies-renamed'
+# step_6 get mod urls
+# step_7 load mods
+# step_8 build final dataset
+# 
+# 
 class YA2Processor
   def step_1__parse_homepage
     doc = CW.parse_file("crawler_data/p-marks/index.html")
@@ -99,10 +107,11 @@ class YA2Processor
 
 
   def step_4
-    step_4_1__parse_generations
-    step_4_2__load_model_years
-    step_4_3__compress_model_years
-    step_4_4__rename_models_without_bodies
+    # step_4_1__parse_generations
+    # step_4_2__load_model_years
+    # step_4_3__compress_model_years
+    # step_4_4__rename_models_without_bodies
+    
     step_4_5__extract_other_bodytypes
     step_4_6__load_other_bodytypes
     step_4_7__compress_other_body_types
@@ -258,7 +267,7 @@ class YA2Processor
 
     CW.write_data "06.1-mods", results
     CW.write_data "06.1-mods-singles", mods
-    CW.write_data "06.1-bodies-other", other_body_urls
+    # CW.write_data "06.1-bodies-other", other_body_urls
   end
 
   def step_7

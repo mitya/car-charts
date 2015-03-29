@@ -131,9 +131,9 @@ class YA2Parser
       parsed_mods_arrays[mod_key] = Keys_Used.each_with_index.map { |k, i| mod_hash[k.to_s] || '' }
     end
 
-    CW.write_data "08.2-mods", parsed_mods
+    # CW.write_data "08.2-mods", parsed_mods
+    # CW.write_data_to_plist "08.2-mods.kv", parsed_mods
     CW.write_data_to_plist "08.2-mods", parsed_mods_arrays
-    CW.write_data_to_plist "08.2-mods.kv", parsed_mods
   end
 
   def step_8_3__build_metadata
@@ -167,7 +167,7 @@ class YA2Parser
     metadata['models_by_brand'] = models_by_brand
     metadata['parameters'] = Keys_Used.map(&:to_s)
 
-    CW.write_data_to_plist "08.3-db-metadata", metadata
+    CW.write_data_to_plist "08.3-metadata", metadata
   end
 
   def print_model_keys
