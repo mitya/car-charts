@@ -101,9 +101,13 @@ module CW
     printf "Processed #{count} files in %02d:%02d sec\n", *sec.divmod(60)
   end
   
-  def compress_dir(dir, outdir, selectors, limit: nil)
+  def compress_dir(dir, outdir, selectors, limit: nil, zip: true)
     outdir = dir unless outdir
     FileUtils.mkdir_p File.join(WORKDIR, outdir)
+    if zip
+      puts "compressing #{WORKDIR + dir}"
+      system "tar cjf #{WORKDIR + dir}.tbz -C #{WORKDIR + dir} ."
+    end
     parse_dir(dir, limit: limit) do |doc, basename, path|
       content = doc.css(selectors)
       content.xpath('//@data-bem').remove

@@ -85,7 +85,7 @@ class YA2Processor
     CW.write_data "03-models", results
   end
 
-  def step_4__load_generations
+  def step_4_0__load_generations
     sources = CW.read_hash('03-models').shuffle
     sources.each do |url, data|
       next if data.direct_link
@@ -93,68 +93,75 @@ class YA2Processor
     end
   end
 
-  def step_4__compress_generations
+  def step_4_0__compress_generations
     CW.compress_dir("04-generations", ".b-tabs__panel_name_cars .b-cars__page")
   end
 
 
   def step_4_1__parse_generations
-    results = []
+    # data = CW.read_hash "04.2-generations", openstruct:false
+    # p data.count
+    # p data.map { |d| d['url'] }.uniq.count
+    # p data.map { |d| d['key'] }.uniq.count
+    # return
+        
+    results = {}
 
-    CW.parse_dir("04.0-generations") do |doc, basename, path|
+    CW.parse_dir("04.0-generations.min", silent: true) do |doc, basename, path|
       mark_key = basename.sub(/-\d$/, '') # mercedes-7 => mercedes
       doc.css("div.b-cars__page a.b-car").each do |a|
+        mark, model = a['href'].scan(%r{^/(\w+)/(\w+)}).first
+        key = "#{mark}--#{model}"
+        url = a['href']
         result = {}
-        result['mark_key'] = mark_key
-        result['url'] = a['href']
-        result['title'] = a.at_css(".b-car__title").text
+        result['key'] = key
+        result['url'] = url
         result['summary'] = a.css('.b-car__summary').xpath('text()').text.sub(/, $/, '')
         result['years'] = a.at_css('.b-car__year-range').text
-        results << result
+        result['full_title'] = a.at_css(".b-car__title").text
+        results[url] = result
       end
     end
-
-    CW.write_data "04.2-generations", results
-  end
-
-  def step_4_2
-    marks = CW.read_hash('03-marks-generations').select(&:direct_link)
-    generations = CW.read_hash('04-generations')
-
-    marks.each do |mark|
-      mark.delete_field(:direct_link)
-      generations << mark
+    
+    models = CW.read_hash('03.0-models', openstruct: false).values
+    models.select! { |m| m.delete('direct') }
+    models.each do |model|
+      result = {}
+      result['key'] = model['key']
+      result['url'] = model['url']
+      result['years'] = model['years']
+      result['summary'] = model['summary']
+      results[model['url']] = result
     end
-
-    CW.write_data "04-generations-2", generations
-  end
-
-  def step_4_3
-    generations = CW.read_hash('04-generations-2')
-    generations.each { |info| info.years_since, info.years_till = info.delete_field(:years).split(' – ').map(&:to_i) }
-    CW.write_data "04-generations-3", generations
-  end
-
-  def step_4_4
-    generations = CW.read_hash('04-generations-3')
-
-    generations.reject! { |q| q.years_till && q.years_till < 2013 }
-    generations.sort_by! { |q| q.url }
-    generations.uniq! { |q| [q.title, q.years_since] } # there are a few dups (same model, same years, different bodies)
-    generations.each do |q|
-      q.delete_field(:mark_key)
-      q.delete_field(:summary)
-      q.mark_key, q.model_key = q.url.scan(%r{^/(\w+)/(\w+)}).first
+    
+    results.each_value do |res|
+      res['years_since'], res['years_till'] = res.delete('years').split(' – ').map(&:to_i)
     end
+    
+    filtered_results = results.reject { |key, res| res['years_till'] && res['years_till'] < 2013 }
+    puts "leave #{filtered_results.count} of #{results.count} results"
 
-    CW.write_data "04-generations-4", generations
+    # p filtered_results.values.count
+    # p filtered_results.values.uniq { |q| [q['key'], q['years_since']]  }.count
+    # generations.uniq! { |q| [q.title, q.years_since] } # there are a few dups (same model, same years, different bodies)
+    
+    CW.write_data "04.1-generations", filtered_results
+  end
+  
+  def step_4_2__load_model_years
+    generations = CW.read_hash('04.1-generations')
+    generations.shuffle.each do |gen|
+      filename = [gen.mark_key, gen.model_key, gen.years_since].join(' ')
+      CW.save_ya_page_and_sleep gen.url + "/specs", "04.2-bodies/#{filename}.html", overwrite: false
+    end
+  end
+  
+  def step_4_3__compress_model_years
+    CW.compress_dir("04.2-bodies", nil, ".b-complectations, .b-car-head, .b-specifications")
   end
 
   def step_4_1__rename_models_without_bodies
-    Dir.glob(WORKDIR + "models-initial/*.html").each do |path|
-      basename = File.basename(path, '.html')
-      doc = CW.parse_file(path, silent: true)
-
+    CW.parse_dir("04.2-bodies.min", silent: true) do |doc, basename, path|
       body_name = doc.css(".b-bodytypes .button__text").text
       body_name = doc.css(".b-bodytypes").text if body_name.empty?
 
@@ -217,22 +224,13 @@ class YA2Processor
     CW.write_csv(results)
   end
 
-  def step_5_0__load_models_1
-    generations = CW.read_hash('04-generations-4')
-    generations.shuffle.each do |gen|
-      filename = [gen.mark_key, gen.model_key, gen.years_since].join(' ')
-      CW.save_ya_page_and_sleep gen.url + "/specs", "05-models/#{filename}.html", overwrite: false
-    end
-  end
-
-  def step_5_0__load_models_2
+  def step_5_0__load_models
     models = CW.read_hash('04-models-other-2')
     models.shuffle.each do |model|
       filename = model.body_key
       CW.save_ya_page_and_sleep model.url, "05-models-other/#{filename}.html", overwrite: false
     end
   end
-
 
   def step_5_1__compress_models
     CW.compress_dir("05.0-models.min", nil, ".b-complectations, .b-car-head, .b-specifications")
