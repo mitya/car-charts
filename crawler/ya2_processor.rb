@@ -120,7 +120,7 @@ class YA2Processor
   def step_4_1__parse_generations
     results = {}
 
-    CW.parse_dir("04.0-generations.min", silent: true) do |doc, basename, path|
+    CW.parse_dir("04.0-generations", silent: true) do |doc, basename, path|
       mark_key = basename.sub(/-\d$/, '') # mercedes-7 => mercedes
       doc.css("div.b-cars__page a.b-car").each do |a|
         mark, model = a['href'].scan(%r{^/(\w+)/(\w+)}).first

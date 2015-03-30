@@ -81,6 +81,7 @@ field_keys:
   - transmission
   - wheelbase
   - width
+  - year
 field_keys_unused:
   - front_brakes
   - front_suspension

@@ -134,8 +134,8 @@ module CW
     end    
   end
   
-  def to_i(str)
-    # Integer(str) rescue nil
+  def to_i(str, zero: false)
+    return nil if (str == '' || str == nil) & zero
     str.to_i
   end
 
@@ -232,7 +232,6 @@ module CW
   
   # 2993 => '3.0'
   def make_displacement_key(displacement)
-    puts "#{displacement} => #{"%.1f" % (displacement.to_f / 1000)}"
     "%.1f" % (displacement.to_f / 1000)
   end
 end

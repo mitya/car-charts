@@ -89,6 +89,7 @@ class AppDelegate
         # switch mods database to the one located in the documents directory to fill it with the data from plist
         storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
         storeOptions = {}
+        NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL) if KK.env?('TestModsDatasetRun')
       else
         storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db/mods", ofType:"sqlite"))
         storeOptions = {NSReadOnlyPersistentStoreOption => YES}        

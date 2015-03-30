@@ -76,9 +76,10 @@ module KK::UI
   def tableViewFooterLabel(text = "")
     font = UIFont.systemFontOfSize(15)
     textHeight = text.sizeWithFont(font).height
-    topMargin = 6
-
-    view = UIView.alloc.initWithFrame [[0, 0], [ZERO, textHeight + topMargin]]
+    topMargin = (UIToolbarHeight - textHeight) / 2
+    
+    # view = UIView.alloc.initWithFrame [[0, 0], [ZERO, textHeight + topMargin]]
+    view = UIView.alloc.initWithFrame [[0, 0], [ZERO, UIToolbarHeight]]
     view.autoresizingMask = UIViewAutoresizingFlexibleWidth
     label = UILabel.alloc.initWithFrame([[0, topMargin], [view.frame.width, textHeight]]).tap do |label|
       label.text = text

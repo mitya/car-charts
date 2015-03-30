@@ -11,9 +11,8 @@ class ModViewController < UITableViewController
   end
 
   def viewDidLoad
-    self.tableView.tableHeaderView = KK.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersion))
+    self.tableView.tableHeaderView = KK.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersionYear))
   end
-
 
 
   def numberOfSectionsInTableView(tv)

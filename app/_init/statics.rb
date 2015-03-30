@@ -68,6 +68,7 @@ Statics = {
     kerbweight:             "Kerb Weight",
     gross_mass:             "Gross Weight",
     doors:                  "Doors Count",
+    year:                  "Year",    
     # seats_min:              "Seats (min)",
     # seats_max:              "Seats (max)",
     # produced_since:         "Produced Since",
@@ -109,6 +110,7 @@ Statics = {
     produced_since: :date,
     produced_till: :date,
     price: :usd,
+    year: :value,
   },
   parameterUnitNames: {
     kmh:    "km/h",

@@ -117,6 +117,7 @@ class YA2Parser
       parsed['body'] = new_key.body
       parsed['model_key'] = new_key.brand_and_model
       parsed['version_key'] = new_key.version
+      parsed['year'] = CW.to_i(new_key.years, zero: false)
       parsed['displacement_key'] = new_key.displacement || CW.make_displacement_key(parsed['displacement'])
 
       # convert all keys to strings
@@ -158,13 +159,11 @@ class YA2Parser
       end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end        
     end
     
-    parsed_mods_arrays.each do |k, arr|
-      puts k if arr.include?(nil)
-    end
-    
     CW.write_data_to_plist "08.2-mods", parsed_mods_arrays
-    CW.write_data_to_plist "debug-08.2-mods.kv", parsed_mods
     CW.write_data "08.2-mods", parsed_mods
+    
+    CW.write_data_to_plist "debug-08.2-mods.kv", parsed_mods.first(20).to_h
+    CW.write_data "debug-08.2-mods.sample", parsed_mods.first(20).to_h
   end
 
   def step_8_3 # build metadata

@@ -3,8 +3,10 @@ class Mod < DSCoreModel
   NameVersion = 1 << 1
   NameBody    = 1 << 2
   NameModel   = 1 << 3
+  NameYear    = 1 << 4
   NameBodyVersion = NameBody | NameVersion
   NameBodyEngineVersion = NameBody | NameEngine | NameVersion
+  NameBodyEngineVersionYear = NameBody | NameEngine | NameVersion | NameYear
   NameEngineVersion = NameEngine | NameVersion
 
   # NameEngine: 2.1T 240hp AT
@@ -17,7 +19,9 @@ class Mod < DSCoreModel
     bodyPart = bodyName if options & NameBody > 0
     versionPart = versionName if options & NameVersion > 0
     modelPart = model.name if options & NameModel > 0
-    [modelPart, bodyPart, enginePart, versionPart].compact.join(' ')
+    result = [modelPart, bodyPart, enginePart, versionPart].compact.join(' ')
+    result = [result, year].join(', ') if options & NameYear > 0 && year
+    result
   end
 
   ####
@@ -63,9 +67,9 @@ class Mod < DSCoreModel
     version_key ? "#{model_key}.#{version_key}" : model_key
   end
   
-  def year
-    @year ||= produced_since / 100 if produced_since
-  end
+  # def year
+  #   @year ||= produced_since / 100 if produced_since
+  # end
 
   
   def selected?
@@ -173,6 +177,8 @@ class Mod < DSCoreModel
     ['rear_tire_rut',          NSInteger32AttributeType, false],
     ['tank_capacity',          NSInteger32AttributeType, false],
     ['tires',                  NSStringAttributeType,    false],
+
+    ['year',                  NSInteger32AttributeType,    false],
   ]
 
   

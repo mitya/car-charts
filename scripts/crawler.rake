@@ -38,7 +38,7 @@ namespace 'crawler' do
   #   $ya_final_analyzer.work
   # end
   
-  task :cp do
+  task :copy do
     system "cp /opt/work/carchartscrawler/data_1502/08.2-mods.plist resources/db/mods.plist"
     system "cp /opt/work/carchartscrawler/data_1502/08.3-metadata.plist resources/db/metadata.plist"
   end
