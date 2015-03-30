@@ -3,7 +3,7 @@ class Metadata
     attr_reader :store
     
     def load
-      @store = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("data/db-metadata", ofType:"plist"))
+      @store = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db/metadata", ofType:"plist"))
     end
 
     def method_missing(selector, *args, &block)
@@ -18,16 +18,20 @@ class Metadata
       Statics[key] || @store[key]
     end
     
-    def brandNamesList
-      @brandNamesList ||= brandNames.values
-    end
-    
-    def brandKeys
-      @brandKeys ||= brandNames.keys
-    end
-    
-    def categoryKeys
-      @categoryKeys ||= Metadata.categoryNames.keys
-    end
+    # def brandNamesList
+    #   @brandNamesList ||= brandNames.values
+    # end
+    #
+    # def brandKeys
+    #   @brandKeys ||= brandNames.keys
+    # end
+    #
+    # def categoryKeys
+    #   @categoryKeys ||= Metadata.categoryNames.keys
+    # end
+    #
+    # def parameters
+    #   @store[:parameters]
+    # end
   end
 end

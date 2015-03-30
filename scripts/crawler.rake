@@ -1,5 +1,5 @@
 desc "Run a crawler processor action, eg: rake app:crawler[action_name]"
-task 'app:crawler', [:action] do |t, args|
+task 'crawler', [:action] do |t, args|
   action = args[:action]
   raise "No action specified" unless action
 
@@ -9,14 +9,14 @@ task 'app:crawler', [:action] do |t, args|
 end
 
 desc "Run a crawler parser action, eg: rake app:crawler:parser[action_name]"
-task 'app:crawler:parser', [:action] do |t, args|
+task 'crawler:parser', [:action] do |t, args|
   raise "No action specified" unless args[:action]
   require "#{Dir.pwd}/crawler/ya2_boot.rb"
   YA2Parser.new.send( args[:action] )
 end
 
 
-namespace 'app:crawler' do
+namespace 'crawler' do
   # desc "Rebuild metadata from raw files"
   # task :meta do
   #   require File.dirname(__FILE__) + "/crawler/ya_init.rb"
@@ -37,4 +37,9 @@ namespace 'app:crawler' do
   #   require File.dirname(__FILE__) + "/crawler/ya_init.rb"
   #   $ya_final_analyzer.work
   # end
+  
+  task :cp do
+    system "cp /opt/work/carchartscrawler/data_1502/08.2-mods.plist resources/db/mods.plist"
+    system "cp /opt/work/carchartscrawler/data_1502/08.3-metadata.plist resources/db/metadata.plist"
+  end
 end

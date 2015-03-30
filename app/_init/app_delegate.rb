@@ -34,6 +34,11 @@ class AppDelegate
     setTintColors
         
     # openControllerForModel("ford--focus")
+    
+    if KK.env?('TestModsDataset') && KK.env?('TestModsDatasetRun')
+      Mod.import 
+      resetAllSettings
+    end
 
     true
   end
@@ -80,21 +85,19 @@ class AppDelegate
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
 
-      storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("data/db-static", ofType:"sqlite"))
-      storeOptions = {NSReadOnlyPersistentStoreOption => YES}
-
-      # # Switches static database to the one located in the documents directory
-      # if UIDevice.currentDevice.model =~ /Simulator/
-      #   storeURL = KK.documentsURL.URLByAppendingPathComponent('data/db-static.sqlite')
-      #   storeOptions = {}
-      #   $devdata = true
-      #   NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL)
-      # end
+      if KK.env?('TestModsDataset')
+        # switch mods database to the one located in the documents directory to fill it with the data from plist
+        storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
+        storeOptions = {}
+      else
+        storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db/mods", ofType:"sqlite"))
+        storeOptions = {NSReadOnlyPersistentStoreOption => YES}        
+      end
 
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = KK.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
-      raise "Can't open static database: #{err.value.description}" if err.value
+      NSLog "Can't open static database: #{err.value.description}" if err.value
 
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = storeCoordinator
@@ -109,12 +112,12 @@ class AppDelegate
       model.entities = modelClasses.map(&:entity)
       modelClasses.each(&:initRelationships)
 
-      storeURL = KK.documentsURL.URLByAppendingPathComponent('db-user.sqlite')
+      storeURL = KK.documentsURL.URLByAppendingPathComponent('user.sqlite')
       storeOptions = {NSMigratePersistentStoresAutomaticallyOption => YES, NSInferMappingModelAutomaticallyOption => YES}
       storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
       err = KK.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
-      raise "Can't open user database: #{err.value.description}" if err.value
+      NSLog "Can't open user database: #{err.value.description}" if err.value
 
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = storeCoordinator
@@ -123,17 +126,26 @@ class AppDelegate
   end
 
   def saveObjectContext(context = userContext)
-    context.save(NULL)
+    err = KK.ptr
+    result = context.save(err)
+    if result.is_a?(NSException)
+      NSLog "#{result.description}"
+    end
+    result
   end
 
 
   def recoverAfterCrash
     NSLog "Recovering after crash ..."
-    Disk.recentMods = Disk.currentMods + Disk.recentMods
-    Disk.currentMods = []
-    Disk.currentParameters = []
+    resetAllSettings
     NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
     $lastLaunchDidFail = true
+  end
+  
+  def resetAllSettings
+    Disk.recentMods = []
+    Disk.currentMods = []
+    Disk.currentParameters = []    
   end
 
   def setTintColors

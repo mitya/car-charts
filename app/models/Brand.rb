@@ -6,7 +6,7 @@ class Brand
   end
   
   def name
-    @name ||= Metadata.brandNames[key]
+    @name ||= Metadata.brand_names[key]
   end
   
   def premium?
@@ -29,7 +29,7 @@ class Brand
     end
 
     def keys
-      @keys ||= Metadata.brandNames.keys
+      @keys ||= Metadata.brand_names.keys.sort
     end
     
     def premiumKeys

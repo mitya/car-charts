@@ -114,4 +114,10 @@ Almost everything – icon8 — they require to mention them on the AppStore pag
 
   * alfa_romeo-giulietta-2010-hatch_5d--1.4g-120ps-MT-FWD is loaded from a newer site
 
+  ~/Library/Developer/CoreSimulator/Devices/7A8F9071-A067-4F1E-8306-DFBE2C80A532/data/Containers/Data/Application/
+
+
+## Missing Models
+
+  * Hummer
 

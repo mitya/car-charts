@@ -93,3 +93,8 @@ class NSIndexPath
     "{#{section}, #{row}}"
   end
 end
+
+class NSURL
+  alias inspect description 
+  alias to_s description
+end

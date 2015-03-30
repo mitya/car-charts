@@ -14,7 +14,7 @@ class Disk
   
     # sort order is not specified
     def currentMods
-      @currentMods ||= Mod.modsForKeys NSUserDefaults.standardUserDefaults["mods"].to_a
+      @currentMods ||= Mod.modsForKeys(NSUserDefaults.standardUserDefaults["mods"].to_a).compact
     end
 
     def currentMods=(array)
@@ -27,7 +27,7 @@ class Disk
   
     # sort order is not specified
     def recentMods
-      @recentMods ||= Mod.modsForKeys NSUserDefaults.standardUserDefaults["recentMods"].to_a 
+      @recentMods ||= Mod.modsForKeys(NSUserDefaults.standardUserDefaults["recentMods"].to_a).compact
     end
 
     def recentMods=(array)
@@ -44,7 +44,7 @@ class Disk
     end
 
     def currentParameters
-      @currentParameters ||= NSUserDefaults.standardUserDefaults["parameters"].to_a.map { |key| Parameter.parameterForKey(key.to_sym) }
+      @currentParameters ||= NSUserDefaults.standardUserDefaults["parameters"].to_a.map { |key| Parameter.parameterForKey(key.to_sym) }.compact
     end
   
     def currentParameters=(array)

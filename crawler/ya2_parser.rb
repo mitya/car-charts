@@ -21,14 +21,14 @@ class YA2Parser
 
     parser = lambda do |doc, basename, path|
       result = results[basename] = {}
-      
+
       doc.css(".b-specifications__details .b-features__item_type_specs").each do |div|
         name = div.at_css(".b-features__name").text
         name_translation = TranslationHelper.instance.translate_parameter(name)
         value = div.at_css(".b-features__value").text.strip
 
         puts "TRANSLATION MISSING: #{name}" unless name_translation
-        result[name_translation.to_s] = value        
+        result[name_translation.to_s] = value
       end
     end
 
@@ -56,14 +56,14 @@ class YA2Parser
       properties.each do |key, string|
         case key.to_sym
         when :front_suspension, :rear_suspension, :front_brakes, :rear_brakes, :model_title, :body_title, :body_type, :price, :engine_title, :engine_spec, :category,
-              :safety_rating_value, :safety_rating_name, :injection, :compressor
+              :safety_rating_value, :safety_rating_name, :injection
         when :fuel_consumption
           values = string.split(%r{ / }).map { |str| CW.to_f(str) }
           parsed[:consumption_city], parsed[:consumption_highway], parsed[:consumption_mixed] = values
         when :bore_and_stroke
           values = string.split(' × ').map { |str| CW.to_f(str) }
           parsed[:bore], parsed[:stroke] = values
-        when :max_power # 201 / 148 при 6800  ||  201 / 148 при 6800 – 7000 
+        when :max_power # 201 / 148 при 6800  ||  201 / 148 при 6800 – 7000
           values = string.scan(%r{(\d+) / (\d+)(?: при (\d+)(?: – (\d+))?)?}).first
           values.map! { |s| CW.to_i(s) }
           parsed[:max_power], parsed[:max_power_kw], parsed[:max_power_range_start], parsed[:max_power_range_end] = values
@@ -101,7 +101,7 @@ class YA2Parser
         when :acceleration_100kmh, :bore, :stroke, :compression, :displacement_key
           parsed[key] = CW.to_f(string)
         when :cylinder_placement, :engine_layout, :front_suspension, :rear_suspension,
-              :front_brakes, :rear_brakes, :fuel, :fuel_rating, :transmission, :drive
+              :front_brakes, :rear_brakes, :fuel, :fuel_rating, :transmission, :drive, :compressor
           parsed[key] = TranslationHelper.instance.translate_value(key, string)
         when :eco_class
           parsed[key] = string
@@ -109,7 +109,7 @@ class YA2Parser
           parsed["__#{key}"] = string
         end
       end
-      
+
       # replace dashes with spaces in the key
       new_key = ModKey.from_dash_key(mod_key)
 
@@ -117,7 +117,7 @@ class YA2Parser
       parsed['body'] = new_key.body
       parsed['model_key'] = new_key.brand_and_model
       parsed['version_key'] = new_key.version
-      parsed['displacement_key'] = new_key.displacement
+      parsed['displacement_key'] = new_key.displacement || CW.make_displacement_key(parsed['displacement'])
 
       # convert all keys to strings
       parsed.keys.each { |k| parsed[k.to_s] = parsed.delete(k) }
@@ -128,26 +128,26 @@ class YA2Parser
       # replace zeros with nils for some keys
       parsed.each { |k, v| parsed.delete(k) if v == 0 && NON_ZERO_KEYS.include?(k) }
 
-      parsed_mods[new_key.to_s_with_spaces] = parsed      
+      parsed_mods[new_key.to_s_with_spaces] = parsed
     end
 
     parsed_mods_arrays = {}
     parsed_mods.each do |mod_key, mod_hash|
       parsed_mods_arrays[mod_key] = CWD.used_fields.each_with_index.map { |k, i| mod_hash[k] || '' }
     end
-    
+
     xvalidate do
       parsed_mods.each_with_object({}) do |(mod_key, hash), result|
-        hash.each do |attr_key, val|          
+        hash.each do |attr_key, val|
           if CW.blank?(val)
             result[attr_key] ||= 0
             result[attr_key] += 1
           end
         end
-      end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end 
-        
+      end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end
+
       puts
-      
+
       parsed_mods_arrays.each_with_object({}) do |(mod_key, array), result|
         array.each_with_index do |val, index|
           if CW.blank?(val)
@@ -155,9 +155,13 @@ class YA2Parser
             result[CWD.used_fields[index]] += 1
           end
         end
-      end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end 
+      end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end        
     end
-
+    
+    parsed_mods_arrays.each do |k, arr|
+      puts k if arr.include?(nil)
+    end
+    
     CW.write_data_to_plist "08.2-mods", parsed_mods_arrays
     CW.write_data_to_plist "debug-08.2-mods.kv", parsed_mods
     CW.write_data "08.2-mods", parsed_mods
@@ -167,6 +171,7 @@ class YA2Parser
     models = CW.read_hash('03.0-models', openstruct: true)
     mods = CW.read_hash('08.2-mods', openstruct: false)
     model_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort
+    brand_keys = mods.map { |key, mod| key.split.first }.uniq.sort
     model_keys_set = model_keys.to_set
 
     model_infos = model_keys.each_with_object({}) do |key, result| # { 'bmw--x6' =>  ['X6', 'BMW X6', 'bmw', 'Xe'], ... }
@@ -186,12 +191,16 @@ class YA2Parser
       (result[klass] ||= []) << key
     end
 
+    brand_names = YAML.load_file("crawler/data-brands.yml")['brands']
+    brand_names.delete_if { |key, name| !brand_keys.include?(key) }
+
     metadata = {}
     metadata['model_keys'] = model_keys.sort
     metadata['model_info'] = model_infos
     metadata['models_by_class'] = models_by_class
     metadata['models_by_brand'] = models_by_brand
     metadata['parameters'] = CWD.used_fields
+    metadata['brand_names'] = brand_names
 
     CW.write_data_to_plist "08.3-metadata", metadata
   end
@@ -229,7 +238,7 @@ class YA2Parser
     def model_and_version
       [model, version].join('.')
     end
-    
+
     def inspect
       to_s_with_spaces
     end

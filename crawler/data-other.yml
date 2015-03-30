@@ -42,6 +42,7 @@ field_keys:
   - body
   - bore
   - compression
+  - compressor  
   - consumption_city
   - consumption_highway
   - consumption_mixed
@@ -92,4 +93,3 @@ field_keys_unused:
   - seats_min # not available
   - version_key # not used  
   - injection # not needed  
-  - compressor # not needed  

@@ -229,4 +229,10 @@ module CW
     printf "%-20s %30s  %s\n", 'no match', mark_key, bodytype_name unless body_key    
     body_key
   end
+  
+  # 2993 => '3.0'
+  def make_displacement_key(displacement)
+    puts "#{displacement} => #{"%.1f" % (displacement.to_f / 1000)}"
+    "%.1f" % (displacement.to_f / 1000)
+  end
 end

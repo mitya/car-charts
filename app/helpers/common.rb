@@ -20,9 +20,21 @@ module KK::Common
     Pointer.new(type)
   end
 
-  def documentsURL
-    NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).first
+  def documentsURL    
+    NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).first   
   end    
+  
+  def documentsPath
+    NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).first
+  end
+  
+  def bundlePath
+    NSBundle.mainBundle.resourcePath
+  end
+  
+  def env?(variable)
+    NSBundle.mainBundle.objectForInfoDictionaryKey(variable) == true
+  end
   
   def navigationForController(controller, withDelegate:delegate)
     UINavigationController.alloc.initWithRootViewController(controller).tap do |navigation|

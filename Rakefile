@@ -8,21 +8,29 @@ begin
 rescue LoadError
 end
 
+ENV['device_name'] = 'iPhone 5'
 # ENV['device_name'] = 'Resizable iPad'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
-  app.version = "1.0"
   app.icons = %w(Icon-60 Icon-76 Icon-Small-40 Icon-Small)
-  app.sdk_version = "8.1"
+  app.sdk_version = "8.2"
   app.deployment_target = "7.0"
   app.libs += ['/usr/lib/libsqlite3.dylib']
   app.detect_dependencies = false
   app.frameworks += ['CoreData']
   app.device_family = [:iphone, :ipad]
-  app.provisioning_profile = '/Volumes/Vault/Sources/active/_profiles/iOS_Team_Provisioning_Profile_.mobileprovision'
   app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
+
+  app.development do
+    app.version = "1.0"
+    app.codesign_certificate = "iPhone Developer: Dmitry Sokurenko (9HS3696XGX)"
+    app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/iOS_Team.mobileprovision"    
+    app.info_plist['DebugModeEnabled'] = true
+    app.info_plist['TestModsDataset'] = true
+    # app.info_plist['TestModsDatasetRun'] = true
+  end
 end
 
 load 'scripts/crawler.rake'

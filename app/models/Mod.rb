@@ -144,7 +144,7 @@ class Mod < DSCoreModel
     ['stroke',                 NSFloatAttributeType,     false],
     ['compression',            NSFloatAttributeType,     false],
     ['compressor',             NSInteger16AttributeType, false],
-    ['injection',              NSInteger16AttributeType, false],
+    # ['injection',              NSInteger16AttributeType, false],
     ['consumption_city',       NSFloatAttributeType,     false],
     ['consumption_highway',    NSFloatAttributeType,     false],
     ['consumption_mixed',      NSFloatAttributeType,     false],
@@ -152,13 +152,13 @@ class Mod < DSCoreModel
     ['cylinder_placement',     NSStringAttributeType,    false],
     ['cylinder_valves',        NSInteger32AttributeType, false],
 
-    ['countries',              NSStringAttributeType,    false],
-    ['produced_since',         NSInteger32AttributeType, false],
-    ['produced_till',          NSInteger32AttributeType, false],
+    ['assembly_countries',              NSStringAttributeType,    false],
+    # ['produced_since',         NSInteger32AttributeType, false],
+    # ['produced_till',          NSInteger32AttributeType, false],
                               
     ['doors',                  NSInteger32AttributeType, false],
-    ['seats_min',              NSInteger32AttributeType, false],
-    ['seats_max',              NSInteger32AttributeType, false],
+    # ['seats_min',              NSInteger32AttributeType, false],
+    # ['seats_max',              NSInteger32AttributeType, false],
     ['luggage_max',            NSInteger32AttributeType, false],
     ['luggage_min',            NSInteger32AttributeType, false],
                               
@@ -211,24 +211,37 @@ class Mod < DSCoreModel
       options
     end
   
+  
+    # To import a plist:
+    # 1. uncomment some stuff in AppDelegate.staticContext
+    # 2. find where the app document directory is & remove the old mods.sqlite (KK.documentsURL)
+    # 3. run Mod.import in console
+    # 4. move the sqlite database from documents dir to the app bundle
+    # 5. comment out the shit again
     def import
+      NSLog "Importing mods"
+      NSLog "Look for data in #{KK.documentsURL}"      
       deleteAll
-      puts "Param delta: #{Metadata[:parameters] - @fields.map(&:first)} / #{@fields.map(&:first) - Metadata[:parameters]}"
+      fields = @fields.map(&:first)
+      NSLog "Param delta: #{Metadata.parameters - fields} / #{fields - Metadata.parameters}"
       
-      fields = @fields.map(&:first).reject { |field| field == 'key' }
-      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("data/mods", ofType:"plist"))
-
+      fields.delete 'key'
+      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db/mods", ofType:"plist"))
+      
+      NSLog "Importing #{plist.count} records"
+      
       plist.each do |key, data|
         mod = Mod.build(key: key)
-        fields.each { |field| mod.set(field, data[indexForKey(field)].presence) }
+        Metadata.parameters.each { |field| mod.set(field, data[fieldIndexInPlist(field)].presence) }
       end
+      
       Mod.save
     end
   
-    def indexForKey(key)
+    def fieldIndexInPlist(key)
       @keyIndex || begin
         @keyIndex = {}
-        Metadata[:parameters].each_with_index { |key, index| @keyIndex[key] ||= index }
+        Metadata.parameters.each_with_index { |key, index| @keyIndex[key] ||= index }
       end
       @keyIndex[key] || raise("No index for key '#{key}'")
     end    
