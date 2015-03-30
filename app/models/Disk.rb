@@ -63,14 +63,18 @@ class Disk
       self.currentParameters ||= []
       self.currentMods ||= []      
 
+      if KK.env?('TestModsDataset') && KK.env?('TestModsDatasetRun')
+        Mod.import
+      end
+
       if firstLaunch?
-        ModSet.create name:"Business (Sample)", modKeys:Metadata.sampleModSets[:business]
-        ModSet.create name:"SUVs (Sample)", modKeys:Metadata.sampleModSets[:midSuvs]
-        ModSet.create name:"Compact (Sample)", modKeys:Metadata.sampleModSets[:compact]
+        ModSet.create name:"Business (Sample)", modKeys:Metadata.sample_sets[:business]
+        ModSet.create name:"Compact (Sample)", modKeys:Metadata.sample_sets[:compact]
+        ModSet.create name:"SUVs (Sample)", modKeys:Metadata.sample_sets[:lux_suvs]
 
         ModSet.first.replaceCurrentMods
 
-        self.currentParameters = %w(acceleration_100kmh max_power length).map { |key| Parameter.parameterForKey(key.to_sym) }
+        self.currentParameters = %w(acceleration_100kmh max_power).map { |key| Parameter.parameterForKey(key.to_sym) }
 
         NSUserDefaults.standardUserDefaults["firstLaunchTime"] = Time.now
         NSUserDefaults.standardUserDefaults.synchronize

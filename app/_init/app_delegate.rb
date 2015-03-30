@@ -35,11 +35,6 @@ class AppDelegate
         
     # openControllerForModel("ford--focus")
     
-    if KK.env?('TestModsDataset') && KK.env?('TestModsDatasetRun')
-      Mod.import 
-      resetAllSettings
-    end
-
     true
   end
 

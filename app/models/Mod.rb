@@ -5,6 +5,7 @@ class Mod < DSCoreModel
   NameModel   = 1 << 3
   NameYear    = 1 << 4
   NameBodyVersion = NameBody | NameVersion
+  NameBodyVersionYear  = NameBody | NameVersion | NameYear
   NameBodyEngineVersion = NameBody | NameEngine | NameVersion
   NameBodyEngineVersionYear = NameBody | NameEngine | NameVersion | NameYear
   NameEngineVersion = NameEngine | NameVersion
@@ -20,7 +21,7 @@ class Mod < DSCoreModel
     versionPart = versionName if options & NameVersion > 0
     modelPart = model.name if options & NameModel > 0
     result = [modelPart, bodyPart, enginePart, versionPart].compact.join(' ')
-    result = [result, year].join(', ') if options & NameYear > 0 && year
+    result = [year, result].join(', ') if options & NameYear > 0 && year
     result
   end
 

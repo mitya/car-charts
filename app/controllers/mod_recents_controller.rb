@@ -100,7 +100,7 @@ class ModRecentsController < UITableViewController
         # cell.textLabel.minimumScaleFactor = 0.5
       end
       cell.textLabel.text = mod.model.name
-      cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
+      cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersionYear)
       cell.toggleLeftCheckmarkAccessory(mod.selected?)
       return cell
     end

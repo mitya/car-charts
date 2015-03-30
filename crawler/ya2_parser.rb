@@ -164,6 +164,7 @@ class YA2Parser
     
     CW.write_data_to_plist "debug-08.2-mods.kv", parsed_mods.first(20).to_h
     CW.write_data "debug-08.2-mods.sample", parsed_mods.first(20).to_h
+    CW.write_data "debug-08.2-mods.keys", parsed_mods.keys.sort
   end
 
   def step_8_3 # build metadata
@@ -192,6 +193,8 @@ class YA2Parser
 
     brand_names = YAML.load_file("crawler/data-brands.yml")['brands']
     brand_names.delete_if { |key, name| !brand_keys.include?(key) }
+    
+    sample_sets = YAML.load_file("crawler/data-sample-sets.yml")
 
     metadata = {}
     metadata['model_keys'] = model_keys.sort
@@ -200,6 +203,7 @@ class YA2Parser
     metadata['models_by_brand'] = models_by_brand
     metadata['parameters'] = CWD.used_fields
     metadata['brand_names'] = brand_names
+    metadata['sample_sets'] = sample_sets
 
     CW.write_data_to_plist "08.3-metadata", metadata
   end

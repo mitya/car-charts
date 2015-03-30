@@ -56,7 +56,7 @@ class ChartBarView < UIView
     context = UIGraphicsGetCurrentContext()
     headerHeight = 0
 
-    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersion : Mod::NameBodyEngineVersion
+    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersionYear : Mod::NameBodyEngineVersionYear
     modTitle = mod.modName(modTitleOptions)
     case self.class.renderingMode when :wide
       labelWidth = WideBarLabelW
@@ -110,19 +110,20 @@ class ChartBarView < UIView
     maxBarWidth = bounds.width - BarLM - BarRM
 
     labelRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
-    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersion : Mod::NameBodyEngineVersion
+    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersionYear : Mod::NameBodyEngineVersionYear
     modTitle = mod.modName(modTitleOptions)
     
     if KK.iphone? && KK.portrait? 
       modelTitleWidth = mod.model.name.sizeWithFont(KK.boldFont(ModelTitleFS)).width
       modTitleWidth = modTitle.sizeWithFont(KK.mainFont(ModelTitleFS)).width
-      fullWidth = modelTitleWidth + modelTitleWidth + ModelTitleRM * 2
+      fullWidth = modelTitleWidth + ModelTitleRM + modTitleWidth
       extraWidth = fullWidth - labelRect.width
-      modTitleFSFix = extraWidth > 0 ? [extraWidth / 25.0, 2.0].min.round_to(0.25) : 0
+      modTitleFSFix = extraWidth > 0 ? [extraWidth / 25.0, 2.0].min.round_to(0.1) : 0
     else
       modTitleFSFix = 0
     end
 
+    # p labelRect
     KK.drawInRect labelRect, stringsSpecs:[
       [mod.model.name, UIColor.blackColor, KK.boldFont(ModelTitleFS - modTitleFSFix), ModelTitleRM],
       [modTitle, UIColor.grayColor, KK.mainFont(ModTitleFS - modTitleFSFix), 0]
