@@ -162,6 +162,10 @@ module CW
     string.gsub(/[^\w]/, '_').downcase
   end
 
+  def blank?(val)
+    val == nil || val == '' || val == 0
+  end
+
   # def print_hash(hash, options = {})
   #   key_len = options[:len] || 25
   #   hash.symbolize_keys!

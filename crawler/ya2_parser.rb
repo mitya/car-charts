@@ -11,12 +11,12 @@ class YA2Parser
   NON_ZERO_KEYS = [:consumption_city, :consumption_highway, :consumption_mixed, :gears, :ground_clearance, :bore, :luggage_min, :luggage_max].to_set
 
   def step_8
-    step_8_1__parse_mods_to_raw
-    step_8_2__parse_mod_values
-    step_8_3__build_metadata
+    step_8_1
+    step_8_2
+    step_8_3
   end
 
-  def step_8_1__parse_mods_to_raw
+  def step_8_1 # parse mods to raw
     results = {}
 
     parser = lambda do |doc, basename, path|
@@ -36,7 +36,9 @@ class YA2Parser
 
     unique_mod_keys = CW.read_hash "06.1-mods-singles", openstruct: false
     unique_mod_keys.each do |basename|
-      path = WORKDIR + "04.6-bodies-other" + "#{basename}.html"
+      path1 = WORKDIR + "04.4-bodies-renamed" + "#{basename}.html"
+      path2 = WORKDIR + "04.6-bodies-other" + "#{basename}.html"
+      path = File.exist?(path1) ? path1 : path2
       doc = CW.parse_file(path, silent: true)
       parser.call(doc, basename.split(' ').join('-'), path)
     end
@@ -44,7 +46,7 @@ class YA2Parser
     CW.write_data "08.1-mods", results
   end
 
-  def step_8_2__parse_mod_values
+  def step_8_2 # parse mod values
     raw_mods = CW.read_hash('08.1-mods', openstruct: false)
     parsed_mods = {}
 
@@ -54,18 +56,20 @@ class YA2Parser
       properties.each do |key, string|
         case key.to_sym
         when :front_suspension, :rear_suspension, :front_brakes, :rear_brakes, :model_title, :body_title, :body_type, :price, :engine_title, :engine_spec, :category,
-              :safety_rating_value, :safety_rating_name
+              :safety_rating_value, :safety_rating_name, :injection, :compressor
         when :fuel_consumption
           values = string.split(%r{ / }).map { |str| CW.to_f(str) }
           parsed[:consumption_city], parsed[:consumption_highway], parsed[:consumption_mixed] = values
         when :bore_and_stroke
-          values = string.split(/x|х/).map { |str| CW.to_f(str) }
+          values = string.split(' × ').map { |str| CW.to_f(str) }
           parsed[:bore], parsed[:stroke] = values
-        when :max_power
-          values = string.split(%r{ / }).map { |str| CW.to_i(str) }
+        when :max_power # 201 / 148 при 6800  ||  201 / 148 при 6800 – 7000 
+          values = string.scan(%r{(\d+) / (\d+)(?: при (\d+)(?: – (\d+))?)?}).first
+          values.map! { |s| CW.to_i(s) }
           parsed[:max_power], parsed[:max_power_kw], parsed[:max_power_range_start], parsed[:max_power_range_end] = values
-        when :max_torque
-          values = string.split(%r{ / }).map { |str| CW.to_i(str) }
+        when :max_torque # 600 при 3000 – 4000  ||  600 при 3000
+          values = string.scan(%r{(\d+)(?: при (\d+)(?: – (\d+))?)?}).first
+          values.map! { |s| CW.to_i(s) }
           parsed[:max_torque], parsed[:max_torque_range_start], parsed[:max_torque_range_end] = values
         when :tires
           parsed[:tires] = string.split(%r{\s}).each_slice(5).map { |items| items.join }.join(' ')
@@ -96,8 +100,8 @@ class YA2Parser
           parsed[key] = CW.to_i(string)
         when :acceleration_100kmh, :bore, :stroke, :compression, :displacement_key
           parsed[key] = CW.to_f(string)
-        when :cylinder_placement, :injection, :engine_layout, :front_suspension, :rear_suspension,
-              :front_brakes, :rear_brakes, :fuel, :fuel_rating, :compressor, :transmission, :drive
+        when :cylinder_placement, :engine_layout, :front_suspension, :rear_suspension,
+              :front_brakes, :rear_brakes, :fuel, :fuel_rating, :transmission, :drive
           parsed[key] = TranslationHelper.instance.translate_value(key, string)
         when :eco_class
           parsed[key] = string
@@ -105,9 +109,10 @@ class YA2Parser
           parsed["__#{key}"] = string
         end
       end
+      
       # replace dashes with spaces in the key
       new_key = ModKey.from_dash_key(mod_key)
-      
+
       # store key parts as individual elements
       parsed['body'] = new_key.body
       parsed['model_key'] = new_key.brand_and_model
@@ -128,24 +133,45 @@ class YA2Parser
 
     parsed_mods_arrays = {}
     parsed_mods.each do |mod_key, mod_hash|
-      parsed_mods_arrays[mod_key] = Keys_Used.each_with_index.map { |k, i| mod_hash[k.to_s] || '' }
+      parsed_mods_arrays[mod_key] = CWD.used_fields.each_with_index.map { |k, i| mod_hash[k] || '' }
+    end
+    
+    xvalidate do
+      parsed_mods.each_with_object({}) do |(mod_key, hash), result|
+        hash.each do |attr_key, val|          
+          if CW.blank?(val)
+            result[attr_key] ||= 0
+            result[attr_key] += 1
+          end
+        end
+      end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end 
+        
+      puts
+      
+      parsed_mods_arrays.each_with_object({}) do |(mod_key, array), result|
+        array.each_with_index do |val, index|
+          if CW.blank?(val)
+            result[CWD.used_fields[index]] ||= 0
+            result[CWD.used_fields[index]] += 1
+          end
+        end
+      end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end 
     end
 
-    # CW.write_data "08.2-mods", parsed_mods
-    # CW.write_data_to_plist "08.2-mods.kv", parsed_mods
     CW.write_data_to_plist "08.2-mods", parsed_mods_arrays
+    CW.write_data_to_plist "debug-08.2-mods.kv", parsed_mods
+    CW.write_data "08.2-mods", parsed_mods
   end
 
-  def step_8_3__build_metadata
+  def step_8_3 # build metadata
     models = CW.read_hash('03.0-models', openstruct: true)
-    model_classification = YAML.load_file("crawler/data-classification.yml")
     mods = CW.read_hash('08.2-mods', openstruct: false)
     model_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort
     model_keys_set = model_keys.to_set
 
     model_infos = model_keys.each_with_object({}) do |key, result| # { 'bmw--x6' =>  ['X6', 'BMW X6', 'bmw', 'Xe'], ... }
       model = models[key]
-      result[key] = [ model.title, model.full_title, model.mark, model_classification[key] || '' ]
+      result[key] = [ model.title, model.full_title, model.mark, CWD.model_classification[key] || '' ]
     end
 
     models_by_brand = model_keys.each_with_object({}) do |key, result|
@@ -153,8 +179,8 @@ class YA2Parser
       (result[model.mark] ||= []) << key
     end
 
-    models_by_class = model_classification.each_with_object({}) do |(key, klass), result|
-      puts "unused classification key: #{key}" if klass && !model_keys_set.include?(key)
+    models_by_class = CWD.model_classification.each_with_object({}) do |(key, klass), result|
+      xputs "unused classification key: #{key}" if klass && !model_keys_set.include?(key)
       next unless model_keys_set.include?(key)
       next unless klass
       (result[klass] ||= []) << key
@@ -165,7 +191,7 @@ class YA2Parser
     metadata['model_info'] = model_infos
     metadata['models_by_class'] = models_by_class
     metadata['models_by_brand'] = models_by_brand
-    metadata['parameters'] = Keys_Used.map(&:to_s)
+    metadata['parameters'] = CWD.used_fields
 
     CW.write_data_to_plist "08.3-metadata", metadata
   end
@@ -202,6 +228,10 @@ class YA2Parser
 
     def model_and_version
       [model, version].join('.')
+    end
+    
+    def inspect
+      to_s_with_spaces
     end
 
     #  in: alfa_romeo-giulietta-2010-hatch_5d--1.4i-170ps-MT-FWD

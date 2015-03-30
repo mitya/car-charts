@@ -85,7 +85,9 @@ class Disk
       ModSet.count == 0
     end
     
-    private def changeValueForKey(key)
+    private 
+    
+    def changeValueForKey(key)
       willChangeValueForKey(key)
       yield
       NSUserDefaults.standardUserDefaults.synchronize

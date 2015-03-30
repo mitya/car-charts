@@ -36,3 +36,60 @@ country_code_to_russian:
   MY: "Малайзия"
   ZA: "ЮАР"
   MA: "Марокко"
+field_keys:
+  - acceleration_100kmh
+  - assembly_countries
+  - body
+  - bore
+  - compression
+  - consumption_city
+  - consumption_highway
+  - consumption_mixed
+  - cylinder_count
+  - cylinder_placement
+  - cylinder_valves
+  - displacement
+  - displacement_key
+  - doors
+  - drive
+  - engine_layout
+  - front_tire_rut
+  - fuel
+  - fuel_rating
+  - gears
+  - gross_mass
+  - ground_clearance
+  - height
+  - kerbweight
+  - length
+  - luggage_max
+  - luggage_min
+  - max_power
+  - max_power_kw
+  - max_power_range_end
+  - max_power_range_start
+  - max_torque
+  - max_torque_range_end
+  - max_torque_range_start
+  - model_key
+  - rear_tire_rut
+  - stroke
+  - tank_capacity
+  - tires
+  - top_speed
+  - transmission
+  - wheelbase
+  - width
+field_keys_unused:
+  - front_brakes
+  - front_suspension
+  - price
+  - produced_since # not available
+  - produced_till # not available
+  - rear_brakes
+  - rear_suspension
+  - seats_max # not available
+  - seats_min # not available
+  - version_key # not used  
+  - injection # not needed  
+  - compressor # not needed  

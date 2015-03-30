@@ -17,18 +17,6 @@
 #   "Chrysler 300М"              => "300M",
 # }
 
-
-Keys_All = %w(
-  model_key version_key body
-  transmission drive gears displacement displacement_key fuel fuel_rating compressor top_speed  acceleration_100kmh engine_layout
-  max_power max_power_kw max_torque max_power_range_start max_power_range_end max_torque_range_start max_torque_range_end
-  bore stroke compression cylinder_placement injection cylinder_valves cylinder_count consumption_city consumption_highway consumption_mixed
-  length width height ground_clearance wheelbase front_tire_rut rear_tire_rut kerbweight gross_mass luggage_min luggage_max seats_min seats_max doors
-  tank_capacity tires produced_since produced_till countries
-  front_brakes rear_brakes front_suspension rear_suspension price).uniq
-Keys_Rejected = %w(front_suspension rear_suspension front_brakes rear_brakes price)
-Keys_Used = (Keys_All - Keys_Rejected).map(&:to_sym).uniq
-
 # Translations_Values_Suspensions = {
 #   "зависимая, пневмоэлемент" => 20501, # :dependent_pneumo,
 #   "зависимая, пружинная" => 20502, # :dependent_coil,

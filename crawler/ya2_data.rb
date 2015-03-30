@@ -43,4 +43,13 @@ module CWD
     fuel_rating: {"АИ-76" => :A76, "АИ-92" => :A92, "АИ-95" => :A95, "АИ-98" => :A98, "ДТ" => :DT},
     transmission: {"механическая" => :MT, "автомат" => :AT, "вариатор" => :CVT, "роботизированная" => :AMT}
   }
+  
+  def self.used_fields
+    @data_other ||= YAML.load_file("crawler/data-other.yml")
+    @data_other['field_keys']
+  end
+  
+  def self.model_classification
+    @model_classification = YAML.load_file("crawler/data-classification.yml")
+  end
 end

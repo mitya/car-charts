@@ -24,6 +24,11 @@ require File.dirname(__FILE__) + "/data.rb"
 WORKDIR = Pathname("/opt/work/carchartscrawler/data_1502")
 YA_HOST = "https://auto.yandex.ru"
 
-def xprintf(*args)
-  
+def xprintf(*args) end
+def xputs(*args) end
+def xvalidate(&block) end
+def validate(&block) yield end
+
+def __p(*args)
+  puts args.map(&:inspect).join('  ')
 end
