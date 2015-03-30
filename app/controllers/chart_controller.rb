@@ -122,7 +122,7 @@ class ChartController < UIViewController
     @emptyView ||= begin
       text = if $lastLaunchDidFail
         $lastLaunchDidFail = nil
-        "Something weird happened.\nModels & parameters were reset.\n\nSorry :("
+        "Something weird happened\nModels & parameters were reset\n\nSorry :("
       else
         "No Models/Parameters Selected"        
       end

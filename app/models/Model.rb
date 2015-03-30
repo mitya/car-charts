@@ -14,11 +14,11 @@ class Model
   end
 
   def brandKey
-    metadataRow[2].to_sym
+    metadataRow[2]
   end
 
   def categoryKey
-    metadataRow[3].to_sym
+    metadataRow[3]
   end
 
   def brand
@@ -38,7 +38,7 @@ class Model
   end
   
   def inspect
-    "#<Model:#{key} mods=#{mods.count}>"
+    "{Model:#{key} mods=#{mods.count}}"
   end
   
   private
