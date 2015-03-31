@@ -29,7 +29,7 @@ Motion::Project::App.setup do |app|
     app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/iOS_Team.mobileprovision"    
     app.info_plist['DebugModeEnabled'] = true
     app.info_plist['TestModsDataset'] = true
-    # app.info_plist['TestModsDatasetRun'] = true
+    app.info_plist['TestModsDatasetRun'] = true
   end
 end
 

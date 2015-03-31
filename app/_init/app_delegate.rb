@@ -159,7 +159,7 @@ class AppDelegate
   end
 
   def openControllerForModel(modelKey)
-    controller = ModListController.new(Model.modelForKey(modelKey))
+    controller = ModListController.new(ModelGeneration.generationForKey(modelKey))
     tabBarController.selectedIndex = 2
     tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
   end

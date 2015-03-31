@@ -58,6 +58,7 @@ field_keys:
   - fuel
   - fuel_rating
   - gears
+  - generation_key  
   - gross_mass
   - ground_clearance
   - height

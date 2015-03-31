@@ -29,7 +29,10 @@ class ModSetViewController < UITableViewController
   def tableView(tv, cellForRowAtIndexPath:indexPath)
     mod = @set.mods[indexPath.row]
 
-    cell = tv.dequeueReusableCell klass:CheckmarkCell, style:UITableViewCellStyleSubtitle, accessoryType:UITableViewCellAccessoryDetailButton
+    cell = tv.dequeueReusableCell klass:CheckmarkCell, style:UITableViewCellStyleSubtitle, accessoryType:UITableViewCellAccessoryDetailButton do |cell|
+      cell.textLabel.adjustsFontSizeToFitWidth = YES
+    end
+    
     cell.textLabel.text = mod.model.name
     cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersion)
     cell.toggleLeftCheckmarkAccessory(mod.selected?)

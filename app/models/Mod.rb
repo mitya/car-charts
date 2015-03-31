@@ -29,7 +29,7 @@ class Mod < DSCoreModel
 
   # Opel Astra 2012
   def modelNameWithYear
-    "#{model.name} #{year}"
+    model.name
   end
 
   def bodyName
@@ -54,15 +54,25 @@ class Mod < DSCoreModel
   alias inspect to_s
 
   def model
-    @model ||= Model.modelForKey(model_key)
+    @model ||= ModelGeneration.generationForKey(generation_key)
+  end
+  
+  def family
+    generation.family
+  end
+  
+  alias generation model
+  
+  def family_key
+    model_key
   end
 
   def category
-    Metadata[:model_info][model_key][3]
+    family.category
   end
 
   def modelKeyWithVersion
-    version_key ? "#{model_key}.#{version_key}" : model_key
+    version_key ? "#{family_key}.#{version_key}" : family_key
   end
   
   # def year
@@ -126,6 +136,7 @@ class Mod < DSCoreModel
     ['key',                    NSStringAttributeType,    true ],
     ['body',                   NSStringAttributeType,    false],
     ['model_key',              NSStringAttributeType,    false],
+    ['generation_key',        NSStringAttributeType,    false],
     ['version_key',            NSStringAttributeType,    false],
                                
     ['top_speed',              NSInteger32AttributeType, false],
@@ -198,8 +209,12 @@ class Mod < DSCoreModel
       context.fetchEntity(entity, predicate:["key in %@", keys]).sort_by(&:key)    
     end
     
-    def modsForModelKey(modelKey)
-      context.fetchEntity(entity, predicate:["model_key = %@", modelKey], order:"key")
+    def modsForGenerationKey(generationKey)
+      context.fetchEntity(entity, predicate:["generation_key = %@", generationKey], order:"key")
+    end
+
+    def modsForFamilyKey(familyKey)
+      context.fetchEntity(entity, predicate:["model_key = %@", familyKey], order:"key")
     end
 
     def filterOptionsForMods(mods)
@@ -231,7 +246,7 @@ class Mod < DSCoreModel
       NSLog "Look for data in #{KK.documentsURL}"      
       deleteAll
       fields = @fields.map(&:first)
-      NSLog "Param delta: #{Metadata.parameters - fields} / #{fields - Metadata.parameters}"
+      NSLog "Param delta: #{Metadata.parameter_keys - fields} / #{fields - Metadata.parameter_keys}"
       
       fields.delete 'key'
       plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db/mods", ofType:"plist"))
@@ -240,7 +255,7 @@ class Mod < DSCoreModel
       
       plist.each do |key, data|
         mod = Mod.build(key: key)
-        Metadata.parameters.each { |field| mod.set(field, data[fieldIndexInPlist(field)].presence) }
+        Metadata.parameter_keys.each { |field| mod.set(field, data[fieldIndexInPlist(field)].presence) }
       end
       
       Mod.save
@@ -249,7 +264,7 @@ class Mod < DSCoreModel
     def fieldIndexInPlist(key)
       @keyIndex || begin
         @keyIndex = {}
-        Metadata.parameters.each_with_index { |key, index| @keyIndex[key] ||= index }
+        Metadata.parameter_keys.each_with_index { |key, index| @keyIndex[key] ||= index }
       end
       @keyIndex[key] || raise("No index for key '#{key}'")
     end    

@@ -6,7 +6,7 @@ class ModViewController < UITableViewController
 
   def initialize(mod)
     self.mod = mod
-    self.title = mod.model.name
+    self.title = mod.model.family.name
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')    
   end
 

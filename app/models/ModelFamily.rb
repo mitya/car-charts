@@ -1,4 +1,4 @@
-class Model
+class ModelFamily
   attr_reader :key
   
   def initialize(key)
@@ -30,46 +30,50 @@ class Model
   end
 
   def selectedModsCount
-    Disk.currentMods.select { |mod| mod.model == self }.count
+    Disk.currentMods.select { |mod| mod.family == self }.count
+  end
+
+  def generations
+    metadataRow[4].map { |generation_key| ModelGeneration[generation_key] }
   end
   
   def mods
-    Mod.modsForModelKey(key)
+    Mod.modsForFamilyKey(key)
   end
   
   def inspect
-    "{Model:#{key} mods=#{mods.count}}"
+    "{family:#{key} mods=#{mods.count}}"
   end
   
-  private
-  
   def metadataRow
-    @metadataRow ||= Metadata[:model_info][key]
+    @metadataRow ||= Metadata.family_rows[key]
   end
   
   class << self 
     attr_reader :all
        
-    def modelForKey(key)
+    def familyForKey(key)
       @index[key]
     end
+    
+    alias [] familyForKey
 
-    def modelsForCategoryKey(categoryKey)
-      Metadata[:models_by_class][categoryKey].map { |k| modelForKey(k) }
+    def familiesForCategoryKey(categoryKey)
+      Metadata.category_models[categoryKey].map { |k| familyForKey(k) }
     end
     
-    def modelsForBrandKey(brandKey)
-      Metadata[:models_by_brand][brandKey].map { |k| modelForKey(k) }
+    def familiesForBrandKey(brandKey)
+      Metadata.brand_models[brandKey].map { |k| familyForKey(k) }
     end
     
     # Search by: land, land cruiser, toyota, toyota land, toyota land cruiser
-    def modelsForText(text, inCollection:collection)
+    def familiesForText(text, inCollection:collection)
       pattern = /\b#{text.downcase}/i
       collection.select { |m| m.name =~ pattern }
     end
 
     def keys
-      @keys ||= Metadata[:model_keys]
+      @keys ||= Metadata.family_keys
     end
     
     def load      
@@ -80,7 +84,7 @@ class Model
   
   class IndexByBrand
     def [](brandKey)
-      Model.modelsForBrandKey(brandKey)
+      ModelFamily.familiesForBrandKey(brandKey)
     end
     
     def keys

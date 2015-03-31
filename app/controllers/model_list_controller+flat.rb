@@ -56,7 +56,7 @@ class ModelListController < UIViewController
 
     def loadDataForSearchString(newSearchString)
       collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
-      @filteredModels = newSearchString.empty? ? @initialModels : Model.modelsForText(newSearchString, inCollection:collectionToSearch)
+      @filteredModels = newSearchString.empty? ? @initialModels : ModelGeneration.modelsForText(newSearchString, inCollection:collectionToSearch)
       @currentSearchString = newSearchString
     end    
   end

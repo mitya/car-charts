@@ -31,7 +31,7 @@ class ModelPhotosController < UIViewController
     super
     webView.delegate = self
     webViewIsLoaded || begin
-      query = "#{model.name} #{year}".stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+      query = model.name.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
       path = "http://www.google.com/search?num=10&tbm=isch&q=#{query}"
       url = NSURL.URLWithString(path)
       error = Pointer.new(:object)

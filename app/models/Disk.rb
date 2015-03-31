@@ -57,7 +57,7 @@ class Disk
 
     def load
       KK.benchmark "Load All" do
-        [Metadata, Brand, Category, Model, Parameter].each { |klass| KK.benchmark("Load #{klass.name}") { klass.load } }
+        [Metadata, Brand, Category, ModelFamily, ModelGeneration, Parameter].each { |klass| KK.benchmark("Load #{klass.name}") { klass.load } }
       end
       
       self.currentParameters ||= []

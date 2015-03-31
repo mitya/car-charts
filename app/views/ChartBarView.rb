@@ -64,7 +64,7 @@ class ChartBarView < UIView
       if comparisionItem.firstForModel?
         headerHeight = ModelTitleH + ModelTitleBM
         modelTitleRect = CGRectMake(0, 0, labelWidth, ModelTitleH)
-        KK.drawString mod.model.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:KK.boldFont(ModelTitleFS), alignment:UITextAlignmentRight 
+        KK.drawString mod.model.family.name, inRect:modelTitleRect, withColor:UIColor.blackColor, font:KK.boldFont(ModelTitleFS), alignment:UITextAlignmentRight 
       end
       labelRect = CGRectMake(0, headerHeight, labelWidth, labelHeight)
       KK.drawString modTitle, inRect:labelRect, withColor:UIColor.darkGrayColor, font:KK.mainFont(ModTitleFS), alignment:UITextAlignmentRight
@@ -73,7 +73,7 @@ class ChartBarView < UIView
       labelHeight = ModelTitleH
       labelRect = CGRectMake(0, headerHeight, labelWidth, labelHeight)
       KK.drawInRect labelRect, stringsSpecs:[
-        [mod.model.name, UIColor.blackColor, KK.boldFont(ModelTitleFS), ModelTitleRM],
+        [mod.model.family.name, UIColor.blackColor, KK.boldFont(ModelTitleFS), ModelTitleRM],
         [modTitle, UIColor.grayColor, KK.mainFont(ModTitleFS), ModelTitleRM]
       ], alignment:UITextAlignmentRight
     end
@@ -112,20 +112,24 @@ class ChartBarView < UIView
     labelRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
     modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersionYear : Mod::NameBodyEngineVersionYear
     modTitle = mod.modName(modTitleOptions)
+    modelTitleFSFix = 0
+    modTitleFSFix = 0
     
     if KK.iphone? && KK.portrait? 
-      modelTitleWidth = mod.model.name.sizeWithFont(KK.boldFont(ModelTitleFS)).width
+      modelTitleWidth = mod.model.family.name.sizeWithFont(KK.boldFont(ModelTitleFS)).width
       modTitleWidth = modTitle.sizeWithFont(KK.mainFont(ModelTitleFS)).width
       fullWidth = modelTitleWidth + ModelTitleRM + modTitleWidth
       extraWidth = fullWidth - labelRect.width
-      modTitleFSFix = extraWidth > 0 ? [extraWidth / 25.0, 2.0].min.round_to(0.1) : 0
-    else
-      modTitleFSFix = 0
+      if extraWidth > 0
+        extraWidthProportion = labelRect.width / fullWidth
+        # modTitleFSFix = extraWidth > 0 ? [extraWidth / 25.0, 2.0].min.round_to(0.1) : 0
+        modelTitleFSFix = ModelTitleFS - ModelTitleFS * extraWidthProportion
+        modTitleFSFix = ModTitleFS - ModTitleFS * extraWidthProportion
+      end
     end
 
-    # p labelRect
     KK.drawInRect labelRect, stringsSpecs:[
-      [mod.model.name, UIColor.blackColor, KK.boldFont(ModelTitleFS - modTitleFSFix), ModelTitleRM],
+      [mod.model.family.name, UIColor.blackColor, KK.boldFont(ModelTitleFS - modelTitleFSFix), ModelTitleRM],
       [modTitle, UIColor.grayColor, KK.mainFont(ModTitleFS - modTitleFSFix), 0]
     ]
 

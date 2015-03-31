@@ -18,11 +18,11 @@ class Category
   end
   
   def models
-    @models ||= Model.modelsForCategoryKey(key)
+    @models ||= ModelGeneration.generationsForCategoryKey(key)
   end
   
   def selectedModsCount
-    Disk.currentMods.select { |mod| mod.category.to_sym == key }.count
+    Disk.currentMods.select { |mod| mod.category == key }.count
   end
   
   class << self 

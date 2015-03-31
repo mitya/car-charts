@@ -2,11 +2,11 @@ class ModelListController < UIViewController
   class SectionedModelsDataSource
     attr_accessor :controller, :models, :category
   
-    def initialize(controller, models = Model.all)
+    def initialize(controller, models = ModelGeneration.all)
       @controller = controller
       @initialModels = models
-      @isAllModelsView = models == Model.all
-      @initialModelsIndex = @isAllModelsView ? Model::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }
+      @isAllModelsView = models == ModelGeneration.all
+      @initialModelsIndex = @isAllModelsView ? ModelGeneration::IndexByBrand.new : @initialModels.indexBy { |m| m.brand.key }
       @initialBrands = @isAllModelsView ? Brand.all : @initialModelsIndex.keys.sort.map { |k| Brand[k] }
       @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
     end
@@ -78,7 +78,7 @@ class ModelListController < UIViewController
         @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
       else
         collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
-        @models = Model.modelsForText(newSearchString, inCollection:collectionToSearch)
+        @models = ModelGeneration.modelsForText(newSearchString, inCollection:collectionToSearch)
         @modelsIndex = @models.indexBy { |ml| ml.brand.key }
         @brands = @modelsIndex.keys.sort.map { |k| Brand[k] }
       end

@@ -59,6 +59,9 @@ module CW
     system "plutil -convert binary1 #{dir}/#{filename}.plist"
   end
   
+  def write_data_to_binary(filename, data, dir: WORKDIR)
+    open("#{dir}/#{filename}.bin", "w") { |f| f.write Marshal.dump(data) }
+  end
   
   def write_csv(data)
     path = "#{WORKDIR}/output.csv"    
@@ -88,6 +91,10 @@ module CW
   
   def read_hash_in_json(filename, dir = WORKDIR)
     return JSON.parse File.read("#{dir}/#{filename}.json")
+  end
+  
+  def read_data_in_binary(filename, dir: WORKDIR)
+    open("#{dir}/#{filename}.bin") { |f| Marshal.load(f) }
   end
   
   def parse_dir(directory, limit: nil, silent: false, only: nil)
@@ -247,5 +254,21 @@ module CW
   def aggregate_key(displacement, fuel, power, transmission, drive)
     displacement_and_fuel = [displacement, fuel].compact.join
     aggregate = [displacement_and_fuel, "#{power}ps", transmission, drive].join('-')
+  end
+  
+  def bm(label = "Action", &block)
+    s = Time.now
+    result = yield
+    puts "#{label} took: #{Time.now - s}s"
+    result
+  end
+  
+  def profile_start
+    @time = Time.now
+  end
+  
+  def profile
+    puts "time: #{Time.now - @time}s"
+    @time = Time.now
   end
 end
