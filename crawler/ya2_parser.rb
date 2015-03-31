@@ -49,8 +49,13 @@ class YA2Parser
   def step_8_2 # parse mod values
     raw_mods = CW.read_hash('08.1-mods', openstruct: false)
     parsed_mods = {}
+    excluded_mod_prefixes = %w(zaz gaz)
 
-    raw_mods.first(1_000_000).each do |mod_key, properties|
+    raw_mods.first(1_000_000).each do |mod_key, properties|      
+      if mod_key.start_with?(*excluded_mod_prefixes)
+        next
+      end      
+      
       parsed = {}
 
       properties.each do |key, string|
@@ -117,8 +122,13 @@ class YA2Parser
       parsed['body'] = new_key.body
       parsed['model_key'] = new_key.brand_and_model
       parsed['version_key'] = new_key.version
+      parsed['generation_key'] = new_key.brand_and_model_and_year
       parsed['year'] = CW.to_i(new_key.years, zero: false)
       parsed['displacement_key'] = new_key.displacement || CW.make_displacement_key(parsed['displacement'])
+
+      if !new_key.aggregate
+        new_key.aggregate = CW.aggregate_key(parsed['displacement_key'], parsed['fuel'], parsed[:max_power], parsed['transmission'], parsed['drive'])
+      end      
 
       # convert all keys to strings
       parsed.keys.each { |k| parsed[k.to_s] = parsed.delete(k) }
@@ -166,7 +176,7 @@ class YA2Parser
     CW.write_data "debug-08.2-mods.sample", parsed_mods.first(20).to_h
     CW.write_data "debug-08.2-mods.keys", parsed_mods.keys.sort
   end
-
+  
   def step_8_3 # build metadata
     models = CW.read_hash('03.0-models', openstruct: true)
     mods = CW.read_hash('08.2-mods', openstruct: false)
@@ -174,15 +184,18 @@ class YA2Parser
     brand_keys = mods.map { |key, mod| key.split.first }.uniq.sort
     model_keys_set = model_keys.to_set
 
+
     model_infos = model_keys.each_with_object({}) do |key, result| # { 'bmw--x6' =>  ['X6', 'BMW X6', 'bmw', 'Xe'], ... }
       model = models[key]
       result[key] = [ model.title, model.full_title, model.mark, CWD.model_classification[key] || '' ]
     end
 
+
     models_by_brand = model_keys.each_with_object({}) do |key, result|
       model = models[key]
       (result[model.mark] ||= []) << key
     end
+
 
     models_by_class = CWD.model_classification.each_with_object({}) do |(key, klass), result|
       xputs "unused classification key: #{key}" if klass && !model_keys_set.include?(key)
@@ -191,13 +204,25 @@ class YA2Parser
       (result[klass] ||= []) << key
     end
 
+
     brand_names = YAML.load_file("crawler/data-brands.yml")['brands']
     brand_names.delete_if { |key, name| !brand_keys.include?(key) }
     
+    
     sample_sets = YAML.load_file("crawler/data-sample-sets.yml")
+    
+        
+    generation_keys = mods.values.map { |mod| mod['generation_key'] }.sort
+    
+    generations_to_models = generation_keys.each_with_object({}) do |generation_key, result|
+      model_key = generation_key.split('--').first(2).join('--')
+      result[generation_key] = model_key
+    end
+  
 
     metadata = {}
     metadata['model_keys'] = model_keys.sort
+    metadata['model_generations'] = generations_to_models
     metadata['model_info'] = model_infos
     metadata['models_by_class'] = models_by_class
     metadata['models_by_brand'] = models_by_brand
@@ -206,15 +231,39 @@ class YA2Parser
     metadata['sample_sets'] = sample_sets
 
     CW.write_data_to_plist "08.3-metadata", metadata
+    CW.write_data "debug-08.3-metadata", metadata
   end
 
   def print_model_keys
     models = CW.read_hash('03-models', openstruct: true)
     mods = CW.read_hash('08.2-mods', openstruct: false)
+
     model_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort
     unused_model_keys = models.keys - model_keys
-
     model_keys.each { |k| puts k }
+  end
+
+  def step_8_check_mods
+    mods = CW.read_hash('08.2-mods', openstruct: false)
+    # models = CW.read_hash('03.0-models', openstruct: true)
+    # metadata = CW.read_hash('debug-08.3-metadata', openstruct: false)
+
+    # mods.each do |keys, mod|
+    #   printf "%40s %-s\n", mod['generation_key'], mod['model_key']
+    # end
+    
+    # models.delete_if { |key, model| !metadata['model_keys'].include? key }
+    # models.sort.each do |key, model|
+    #   printf "%40s %-s\n", model.key, model.full_title
+    # end
+
+    # prints mods which key doesn't match the content of the file
+    mods.each do |key, mod|
+      alt_key = CW.build_key_from_mod(mod)
+      if key != alt_key && !alt_key.start_with?(key)
+        puts "mismatch key: #{key}, data: #{alt_key}"
+      end
+    end
   end
 
   class ModKey
@@ -240,6 +289,10 @@ class YA2Parser
 
     def model_and_version
       [model, version].join('.')
+    end
+    
+    def brand_and_model_and_year
+      [brand, model, years].join('--').strip
     end
 
     def inspect

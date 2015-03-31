@@ -260,7 +260,7 @@ class YA2Processor
           key = [ basename.split.join('-'), aggregate_key ].join('--')
           results[key] = a['href']
         end
-      else        
+      else 
         mods << basename
       end
     end

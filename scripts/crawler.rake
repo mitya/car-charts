@@ -17,6 +17,17 @@ end
 
 
 namespace 'crawler' do
+  rule "" do |action|
+    if action.name.start_with?('crawler:step')
+      require "#{Dir.pwd}/crawler/ya2_boot.rb"      
+      method = action.name.split(':').last
+      worker = method.start_with?("step_8") ? YA2Parser : YA2Processor
+      worker.new.send(method)
+    else
+      puts "unknown task: #{action.name}"
+    end
+  end
+  
   # desc "Rebuild metadata from raw files"
   # task :meta do
   #   require File.dirname(__FILE__) + "/crawler/ya_init.rb"

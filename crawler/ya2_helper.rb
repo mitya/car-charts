@@ -211,8 +211,8 @@ module CW
     re = /(\d\.\d) (\w{2,3}) \((\d+) л\.с\.\) (\p{L}+) привод, ([\p{L}\s\/]+)$/
     volume, transmission, power, drive, fuel = title.scan(re).flatten
     transmission_key = transmission
-    drive_key = CWD::Translations_Values[:drive][drive]
-    fuel_key = CWD::Translations_Values[:fuel_short][fuel]
+    drive_key = CWD.translations(:drive, drive)
+    fuel_key = CWD.translations(:fuel, fuel)
     "#{volume}#{fuel_key}-#{power}ps-#{transmission_key}-#{drive_key}"
   end
   
@@ -233,5 +233,19 @@ module CW
   # 2993 => '3.0'
   def make_displacement_key(displacement)
     "%.1f" % (displacement.to_f / 1000)
+  end
+  
+  # alfa_romeo giulietta 2010 hatch_5d 2.0d-150ps-MT-FWD
+  def build_key_from_mod(m)
+    m = OpenStruct.new(m)
+    mark, model = m['generation_key'].split('--')
+    aggregate = aggregate_key(m.displacement_key, m.fuel, m.max_power, m.transmission, m.drive)
+    
+    [mark, model, m.year, m.body, aggregate].join(' ')
+  end
+
+  def aggregate_key(displacement, fuel, power, transmission, drive)
+    displacement_and_fuel = [displacement, fuel].compact.join
+    aggregate = [displacement_and_fuel, "#{power}ps", transmission, drive].join('-')
   end
 end

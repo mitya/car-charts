@@ -41,20 +41,17 @@ class Mod < DSCoreModel
   end
 
   def suffix
-    if fuel == 'D' then 'd'
-    elsif compressor != 0 && fuel != 'D' then 'T'
+    if diesel? then 'd'
+    elsif compressor? && !diesel? then 'T'
     else ''
     end
-  end
-  
-  def inspect
-    to_s
   end
   
   def to_s
     "{#{key}}"
   end
 
+  alias inspect to_s
 
   def model
     @model ||= Model.modelForKey(model_key)
@@ -83,11 +80,15 @@ class Mod < DSCoreModel
 
   
   def gas?
-    fuel == 'P'
+    fuel == 'i'
   end
   
   def diesel?
-    fuel == 'D'
+    fuel == 'd'
+  end
+  
+  def compressor?
+    compressor != 0
   end
   
   def automatic?

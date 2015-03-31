@@ -38,11 +38,12 @@ module CWD
   
   Translations_Values = {
     drive: {"передний" => :FWD, "задний" => :RWD, "полный" => :AWD},
-    fuel: {"бензин" => :P, "дизель" => :D, "гибрид" => :H, "газ / бензин" => :G},
-    fuel_short: {"бензин" => :i, "дизель" => :d, "гибрид" => :h, "газ / бензин" => :g},
+    fuel: {"бензин" => :i, "дизель" => :d, "гибрид" => :h, "газ / бензин" => :g},
     fuel_rating: {"АИ-76" => :A76, "АИ-92" => :A92, "АИ-95" => :A95, "АИ-98" => :A98, "ДТ" => :DT},
     transmission: {"механическая" => :MT, "автомат" => :AT, "вариатор" => :CVT, "роботизированная" => :AMT}
   }
+  
+  
   
   def self.used_fields
     @data_other ||= YAML.load_file("crawler/data-other.yml")
@@ -51,5 +52,20 @@ module CWD
   
   def self.model_classification
     @model_classification = YAML.load_file("crawler/data-classification.yml")
+  end
+  
+  def self.translations(field, title)
+    data_translations[field.to_s][title]
+  end
+  
+  def self.data_translations
+    @data_translations_original ||= YAML.load_file("crawler/data-translations.yml")
+    @data_translations_inverted ||= begin
+      @data_translations_inverted = {}
+      @data_translations_original['values'].each do |k, hash|
+        @data_translations_inverted[k] = hash.invert
+      end
+      @data_translations_inverted
+    end
   end
 end
