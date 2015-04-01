@@ -2,12 +2,12 @@ class ModViewController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   SystemSectionIndex = 0
 
-  attr_accessor :mod
+  attr_accessor :mod, :presented_modally
 
   def initialize(mod)
     self.mod = mod
     self.title = mod.model.family.name
-    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')    
+    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if presented_modally
   end
 
   def viewDidLoad
@@ -71,6 +71,11 @@ class ModViewController < UITableViewController
   end
   
   def self.showFor(presentingController, withMod:mod)
-    presentingController.presentNavigationController new(mod), presentationStyle:UIModalPresentationFormSheet, transitionStyle:UIModalTransitionStyleCoverVertical
+    controller = new(mod)
+    if KK.iphone?
+      presentingController.navigationController.pushViewController controller, animated:true
+    else
+      presentingController.presentNavigationController controller, presentationStyle:UIModalPresentationFormSheet, transitionStyle:UIModalTransitionStyleCoverVertical
+    end   
   end
 end

@@ -90,6 +90,7 @@ class UIViewController
   end
   
   def presentNavigationController(controller, options = {})
+    controller.presented_modally = true if controller.respond_to?('presented_modally=')
     navigation = KK.navigationForController(controller, withDelegate:NIL)
     navigation.modalPresentationStyle = options[:presentationStyle] || UIModalPresentationFullScreen
     navigation.modalTransitionStyle = options[:transitionStyle] || UIModalTransitionStyleCoverVertical
