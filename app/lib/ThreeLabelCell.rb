@@ -1,6 +1,6 @@
 # http://blog.willrax.com/custom-uitableviewcells-in-rubymotion/
 class ThreeLabelCell < UITableViewCell
-  attr_accessor :commentLabel
+  attr_accessor :commentLabel, :hideDetailsWhenEditing
   
   DEFAULT_LABEL_TOP_MARGIN = 12
   
@@ -25,6 +25,11 @@ class ThreeLabelCell < UITableViewCell
     )
   end
   
+  def setEditing(editing, animated:animated)
+    detailTextLabel.setHidden editing, animated:animated if hideDetailsWhenEditing
+    super
+  end
+    
   # esimated height is 2 + 14 + 2, so row height should be 44 + 18 = 62
   def self.rowHeight
     64

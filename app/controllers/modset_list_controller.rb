@@ -8,7 +8,7 @@ class ModSetListController < UITableViewController
     navigationItem.leftBarButtonItem = editButtonItem
     navigationItem.backBarButtonItem = KK.textBBI("Sets")
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemAdd, target:self, action:'showNewSetDialog')
-    
+
     tableView.rowHeight = ThreeLabelCell.rowHeight
   end
 
@@ -19,7 +19,7 @@ class ModSetListController < UITableViewController
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-  end  
+  end
 
 
   def tableView(tv, numberOfRowsInSection:section)
@@ -34,11 +34,12 @@ class ModSetListController < UITableViewController
       cell.editingAccessoryView = begin
         editingImage = KK.templateImage('ca-edit')
         editingButton = UIButton.buttonWithType(UIButtonTypeCustom)
-        editingButton.frame = [[0, 0], editingImage.size]
-        editingButton.setBackgroundImage editingImage, forState:UIControlStateNormal
+        editingButton.frame = [[0, 0], [40, ThreeLabelCell.rowHeight]]
+        editingButton.setImage editingImage, forState:UIControlStateNormal
         editingButton.addTarget self, action:'editModName:', forControlEvents:UIControlEventTouchUpInside
         editingButton
       end
+      cell.hideDetailsWhenEditing = true
     end
     cell.textLabel.text = set.name
     cell.detailTextLabel.text = set.modCount.to_s_or_nil
@@ -53,13 +54,13 @@ class ModSetListController < UITableViewController
       refreshData
       tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
       self.editing = false if @sets.empty?
-    end 
+    end
   end
 
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     set = @sets[indexPath.row]
     tableView.deselectRowAtIndexPath indexPath, animated:true
-    navigationController.pushViewController ModSetViewController.new(set), animated:YES      
+    navigationController.pushViewController ModSetViewController.new(set), animated:YES
   end
 
 
@@ -68,39 +69,39 @@ class ModSetListController < UITableViewController
       ModSet.create(name: alert.textFieldAtIndex(0).text)
       refreshView
     elsif alert.buttonTitleAtIndex(buttonIndex) == "Save"
-      set = @sets[ alert.tag ] 
+      set = @sets[ alert.tag ]
       newName = alert.textFieldAtIndex(0).text
       set.renameTo(newName)
-      
+
       oldIndexPath = KK.indexPath(0, alert.tag)
       newIndexPath = KK.indexPath(0, set.position)
       tableView.reloadData
       # tableView.moveRowAtIndexPath oldIndexPath, toIndexPath:newIndexPath # can't move and refresh at the same time
     end
-  end    
+  end
 
   def editModName(button)
     cell = KK.closestSuperviewOfType(UITableViewCell, forView:button)
     indexPath = tableView.indexPathForCell(cell)
     set = @sets[indexPath.row]
-    
+
     alert = UIAlertView.alloc.initWithTitle("Edit Model Set Title", message:nil, delegate:self, cancelButtonTitle:"Cancel", otherButtonTitles:nil)
     alert.tag = indexPath.row
     alert.alertViewStyle = UIAlertViewStylePlainTextInput
     alert.addButtonWithTitle "Save"
     alert.textFieldAtIndex(0).autocapitalizationType = UITextAutocapitalizationTypeWords
     alert.textFieldAtIndex(0).text = set.name
-    alert.show    
+    alert.show
   end
 
   def showNewSetDialog
     ModSetListController.showNewSetDialogFor(self)
   end
-  
+
   def refreshData
     @sets = ModSet.all
   end
-  
+
   def refreshView
     tableView.reloadData
     editButtonItem.enabled = @sets.any?
@@ -116,6 +117,6 @@ class ModSetListController < UITableViewController
       alertView.addButtonWithTitle "OK"
       alertView.textFieldAtIndex(0).autocapitalizationType = UITextAutocapitalizationTypeWords
       alertView.show
-    end        
+    end
   end
 end

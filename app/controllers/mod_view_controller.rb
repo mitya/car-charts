@@ -2,12 +2,12 @@ class ModViewController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   SystemSectionIndex = 0
 
-  attr_accessor :mod, :presented_modally
+  attr_accessor :mod
 
   def initialize(mod)
     self.mod = mod
     self.title = mod.model.family.name
-    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if presented_modally
+    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if KK.ipad?
   end
 
   def viewDidLoad

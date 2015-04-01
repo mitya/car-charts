@@ -56,7 +56,7 @@ class Mod < DSCoreModel
   end
   
   def shortYear
-    "ʼ" + year.to_s[-2..-1] if year
+    "ʼ#{year.to_s[-2..-1]}" if year
   end
 
   alias inspect to_s

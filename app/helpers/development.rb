@@ -13,7 +13,7 @@ module KK::Development
     view.layer.masksToBounds = true
   end  
 
-  def setDevBorder(view, color = UIColor.redColor)
+  def set_border(view, color = UIColor.redColor)
     view.layer.borderColor = colorize(color).CGColor
     view.layer.borderWidth = 1
     # view.layer.cornerRadius = 8

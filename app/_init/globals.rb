@@ -13,10 +13,15 @@ def __assert(condition)
   raise unless condition
 end
 
-def __p(label, *args)
-  inspection = ": #{args.inspect[1...-1]}" if args.any?
-  puts "--- #{label}#{inspection}"
+def __p(*args)
+  inspection = args.inspect[1...-1]
+  puts "--- #{inspection}"
 end
+
+# def __p(label, *args)
+#   inspection = ": #{args.inspect[1...-1]}" if args.any?
+#   puts "--- #{label}#{inspection}"
+# end
 
 alias __P __p
 

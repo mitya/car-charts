@@ -34,7 +34,7 @@ class ModelListController < UIViewController
       text = NSMutableAttributedString.alloc.init
       model_name = NSAttributedString.alloc.initWithString model.family.unbrandedName + ' ', attributes: { }
       year = NSAttributedString.alloc.initWithString model.year_apostrophe, attributes: { 
-        NSFontAttributeName => UIFont.systemFontOfSize(UIFont.smallSystemFontSize), 
+        NSFontAttributeName => UIFont.systemFontOfSize(14), 
         NSForegroundColorAttributeName => UIColor.lightGrayColor }
       text.appendAttributedString(model_name)
       text.appendAttributedString(year)
