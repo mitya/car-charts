@@ -85,6 +85,10 @@ class Comparision
       @comparision.mods[@index]
     end
 
+    def first?
+      index == 0
+    end
+
     def firstForModel?
       index == 0 || mods[index - 1].model != mod.model
     end

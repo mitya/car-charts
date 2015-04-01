@@ -70,7 +70,7 @@ class ChartController < UIViewController
   def tableView(tv, cellForRowAtIndexPath:ip)
     cell = tv.dequeueReusableCell klass:ChartBarView::TableCell, selectionStyle:UITableViewCellSelectionStyleNone
     cell.comparisionItem = @comparision.items[ip.row]
-    return cell
+    cell
   end
   
   def tableView(tv, heightForRowAtIndexPath:ip)
@@ -86,6 +86,10 @@ class ChartController < UIViewController
   def reload
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     tableView.reloadData
+    
+    if KK.ipad?
+      tableView.tableHeaderView ||= UIView.alloc.initWithFrame(CGRectMake 0, 0, 100, 10)
+    end
     
     if @comparision.complete?
       emptyView.removeFromSuperview if @emptyView && @emptyView.superview

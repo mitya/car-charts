@@ -14,7 +14,7 @@ class ChartBarView < UIView
     
   BarFS = 13.0
   BarH = KK.lineHeightFromFontSize(BarFS)
-  BarFH = BarH + 0
+  BarFH = BarH
   BarLM = TitleLM
   BarRM = TitleLM
   BarValueRM = BarFS / 2
@@ -27,7 +27,8 @@ class ChartBarView < UIView
   WideBarRM = 10
   UltraWideBarLabelW = 350
   
-  ItemBM = 4
+  FirstItemTM = 5
+  ItemBM = 5
   LastItemBM = ItemBM * 2
 
   def initWithFrame(frame)
@@ -109,7 +110,9 @@ class ChartBarView < UIView
     context = UIGraphicsGetCurrentContext()
     maxBarWidth = bounds.width - BarLM - BarRM
 
-    labelRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
+    topOffset = comparisionItem.first? ? FirstItemTM : 0
+    
+    labelRect = CGRectMake(TitleLM, topOffset, maxBarWidth, ModelTitleH)
     modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersionShortYear : Mod::NameBodyEngineVersionShortYear
     modTitle = mod.modName(modTitleOptions)
     modelTitleFSFix = 0
@@ -134,7 +137,7 @@ class ChartBarView < UIView
     ]
 
     pixelRange = maxBarWidth - BarMinW
-    barsOffset = ModelTitleH + ModelTitleBM
+    barsOffset = topOffset + ModelTitleH + ModelTitleBM
     textFont = KK.mainFont(BarFS)
 
     comparision.params.each do |param|
@@ -182,8 +185,10 @@ class ChartBarView < UIView
     end
 
     def heightForComparisionItem(item)
+      mode = renderingMode
       height = 0
-      height += ChartBarView::ModelTitleH + ChartBarView::ModelTitleBM if renderingMode == :narrow || renderingMode == :wide && item.firstForModel?
+      height += FirstItemTM if item.first? && mode == :narrow
+      height += ChartBarView::ModelTitleH + ChartBarView::ModelTitleBM if mode == :narrow || mode == :wide && item.firstForModel?
       height += item.comparision.params.count * ChartBarView::BarFH
       height += item.lastForModel?? LastItemBM : ItemBM
     end
