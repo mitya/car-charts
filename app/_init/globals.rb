@@ -2,6 +2,8 @@ YES = true
 NO = false
 NULL = nil
 ZERO = 0
+THIN_SPACE = ' '
+HAIR_SPACE = ' '
 
 def pp(*args)
   puts "*** " + args.map(&:inspect).join(', ')

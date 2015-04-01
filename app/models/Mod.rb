@@ -75,10 +75,25 @@ class Mod < DSCoreModel
     version_key ? "#{family_key}.#{version_key}" : family_key
   end
   
-  # def year
-  #   @year ||= produced_since / 100 if produced_since
-  # end
-
+  def max_power_range
+    max_power_range_end && max_power_range_end > 0 ? "#{max_power_range_start}#{THIN_SPACE}–#{THIN_SPACE}#{max_power_range_end}" : max_power_range_start
+  end
+  
+  def max_torque_range
+    max_torque_range_end && max_torque_range_end > 0 ?  "#{max_torque_range_start}#{THIN_SPACE}–#{THIN_SPACE}#{max_torque_range_end}" : max_torque_range_start
+  end
+  
+  def bore_and_stroke
+    [bore, stroke].reject { |val| val == nil || val == 0 }.map(&:to_i).join(' × ')
+  end
+  
+  def max_power_string
+    "#{max_power}#{THIN_SPACE}hp / #{max_power_kw}#{THIN_SPACE}kW @ #{max_power_range}"
+  end
+  
+  def max_torque_string
+    "#{max_torque}#{THIN_SPACE}Hm @ #{max_torque_range}"
+  end
   
   def selected?
     Disk.currentMods.include?(self)

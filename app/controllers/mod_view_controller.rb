@@ -43,7 +43,9 @@ class ModViewController < UITableViewController
       end
     else
       parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]
-      cell = tv.dequeueReusableCell style:UITableViewCellStyleValue1, selectionStyle:UITableViewCellSelectionStyleNone
+      cell = tv.dequeueReusableCell style:UITableViewCellStyleValue1, selectionStyle:UITableViewCellSelectionStyleNone do |cell|
+        cell.detailTextLabel.adjustsFontSizeToFitWidth = YES
+      end
       cell.textLabel.text = parameter.name
       cell.detailTextLabel.text = parameter.formattedValueForMod(@mod)
       return cell

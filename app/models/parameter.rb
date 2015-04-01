@@ -11,7 +11,7 @@ class Parameter
   
   def unitName
     Metadata.parameterUnitNames[unitKey]
-  end  
+  end
   
   def long?
     LongParameters.containsObject(key)
@@ -44,7 +44,7 @@ class Parameter
   end
   
   def formattedValueForMod(mod)
-    formattedValue( mod.get(key) )
+    formattedValue mod.get(key)
   end
   
   def inspect
@@ -72,12 +72,13 @@ class Parameter
     end
     
     def parametersForGroup(groupKey)
-      Metadata[:parameterGroupsData][groupKey][1].map { |k| parameterForKey(k) }
+      @parametersGroup ||= {}
+      @parametersGroup[groupKey] ||= Metadata.parameterGroupsData[groupKey][1].map { |k| parameterForKey(k) }
     end
     
-
     def chartableParametersForGroup(groupKey)
-      Metadata[:parameterGroupsDataForCharting][groupKey][1].map { |k| parameterForKey(k) }
+      @chartableParametersGroup ||= {}
+      @chartableParametersGroup[groupKey] ||= Metadata.parameterGroupsDataForCharting[groupKey][1].map { |k| parameterForKey(k) }
     end
   end
   
