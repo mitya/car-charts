@@ -1,13 +1,16 @@
 class Mod < DSCoreModel
-  NameEngine  = 1 << 0
+  NameEngine = 1 << 0
   NameVersion = 1 << 1
-  NameBody    = 1 << 2
-  NameModel   = 1 << 3
-  NameYear    = 1 << 4
+  NameBody = 1 << 2
+  NameModel = 1 << 3
+  NameYear = 1 << 4
+  NameShortYear = 1 << 5
   NameBodyVersion = NameBody | NameVersion
   NameBodyVersionYear  = NameBody | NameVersion | NameYear
+  NameBodyVersionShortYear  = NameBody | NameVersion | NameShortYear
   NameBodyEngineVersion = NameBody | NameEngine | NameVersion
   NameBodyEngineVersionYear = NameBody | NameEngine | NameVersion | NameYear
+  NameBodyEngineVersionShortYear = NameBody | NameEngine | NameVersion | NameShortYear
   NameEngineVersion = NameEngine | NameVersion
 
   # NameEngine: 2.1T 240hp AT
@@ -22,6 +25,7 @@ class Mod < DSCoreModel
     modelPart = model.name if options & NameModel > 0
     result = [modelPart, bodyPart, enginePart, versionPart].compact.join(' ')
     result = [year, result].join(', ') if options & NameYear > 0 && year
+    result = [shortYear, result].join(', ') if options & NameShortYear > 0 && year    
     result
   end
 
@@ -49,6 +53,10 @@ class Mod < DSCoreModel
   
   def to_s
     "{#{key}}"
+  end
+  
+  def shortYear
+    "ʼ" + year.to_s[-2..-1] if year
   end
 
   alias inspect to_s

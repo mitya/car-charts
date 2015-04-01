@@ -238,52 +238,42 @@ categoryNames:
   - Full-Size Pickups
 parameterTranslations:
   cylinder_placement:
-    W: W-type
-    R: rotary
-    V: V-type
     F: flat
     I: inline
+    R: rotary
+    V: V-type
+    W: W-type
   engine_layout:
     20101: middle
     20102: rear
     20103: front longitudinal
     20104: front transverse
-  injection:
-    20201: central injection
-    20202: "двигатель с разделенными камерами сгорания (вихрекамерный или предкамерный)"
-    20203: "карбюратор"
-    20204: "двигатель с неразделенными камерами сгорания (непосредственный впрыск топлива)"
-    20205: "непосредственный впрыск в камеру сгорания"
-    20206: "распределенный впрыск"
+  # injection:
+  #   20201: central injection
+  #   20202: "двигатель с разделенными камерами сгорания (вихрекамерный или предкамерный)"
+  #   20203: "карбюратор"
+  #   20204: "двигатель с неразделенными камерами сгорания (непосредственный впрыск топлива)"
+  #   20205: "непосредственный впрыск в камеру сгорания"
+  #   20206: "распределенный впрыск"
   compressor:
     20301: supercharger
     20302: turbocharger
     20303: turbo + intercooler
   drive:
+    AWD: all wheels
     FWD: front wheels
     RWD: rear wheels
-    AWD: all wheels
   fuel:
-    i: gasoline
     d: diesel
-    h: hybrid
     g: gas
+    h: hybrid
+    i: gasoline
   transmission:
-    MT: manual
+    AMT: double-clutch
     AT: automatic
     CVT: CVT
-    AMT: double-clutch
+    MT: manual
   body:
-    sedan: sedan
-    sedan_long: sedan long
-    wagon: wagon
-    hatch_3d: hatch 3d
-    hatch_5d: hatch 5d
-    suv: SUV
-    suv_2d: SUV 2-dr
-    suv_3d: SUV 3-dr
-    suv_4d: SUV 4-dr
-    suv_5d: SUV 5-dr
     cabrio: cabriolet
     coupe: coupe
     coupe_2d: coupe 2-dr
@@ -291,10 +281,20 @@ parameterTranslations:
     crossover: crossover
     crossover_3d: crossover 3-dr
     crossover_5d: crossover 5-dr
+    hatch_3d: hatch 3d
+    hatch_5d: hatch 5d
     minivan: minivan
     minivan_3d: minivan 3-dr
     minivan_5d: minivan 5-dr
-    van: van
     pickup: pickup
     pickup_2d: pickup 2-dr
     pickup_4d: pickup 4-dr
+    sedan: sedan
+    sedan_long: sedan long
+    suv: SUV
+    suv_2d: SUV 2-dr
+    suv_3d: SUV 3-dr
+    suv_4d: SUV 4-dr
+    suv_5d: SUV 5-dr
+    van: van
+    wagon: wagon

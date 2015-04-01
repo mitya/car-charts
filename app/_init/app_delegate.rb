@@ -33,7 +33,8 @@ class AppDelegate
 
     setTintColors
         
-    openControllerForModel("ford--focus--2014")
+    tabBarController.selectedIndex = 2
+    # openControllerForModel("ford--focus--2014")
     
     true
   end

@@ -12,9 +12,17 @@ class ModelGeneration
   def year
     metadataRow[1]
   end
+  
+  def year_apostrophe
+    "ʼ" + year.to_s[-2..-1]
+  end
 
   def unbrandedName
     metadataRow[2]
+  end
+  
+  def nameWithApostrophe
+    "#{family.name} #{year_apostrophe}"
   end
 
   def family

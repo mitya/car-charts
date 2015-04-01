@@ -4,7 +4,7 @@ class ModListController < UIViewController
   def initialize(model = nil)
     self.model = model
     self.mods = model.mods
-    self.title = model.name
+    self.title = model.nameWithApostrophe
     navigationItem.backBarButtonItem = KK.textBBI("Versions")                    
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
     Disk.addObserver(self, forKeyPath:"filterOptions", options:false, context:nil)

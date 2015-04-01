@@ -56,7 +56,7 @@ class ChartBarView < UIView
     context = UIGraphicsGetCurrentContext()
     headerHeight = 0
 
-    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersionYear : Mod::NameBodyEngineVersionYear
+    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersionShortYear : Mod::NameBodyEngineVersionShortYear
     modTitle = mod.modName(modTitleOptions)
     case self.class.renderingMode when :wide
       labelWidth = WideBarLabelW
@@ -110,7 +110,7 @@ class ChartBarView < UIView
     maxBarWidth = bounds.width - BarLM - BarRM
 
     labelRect = CGRectMake(TitleLM, 0, maxBarWidth, ModelTitleH)
-    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersionYear : Mod::NameBodyEngineVersionYear
+    modTitleOptions = comparision.containsOnlyBodyParams?? Mod::NameBodyVersionShortYear : Mod::NameBodyEngineVersionShortYear
     modTitle = mod.modName(modTitleOptions)
     modelTitleFSFix = 0
     modTitleFSFix = 0
