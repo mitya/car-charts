@@ -7,7 +7,7 @@ class ParameterListController < UITableViewController
   end
 
   def numberOfSectionsInTableView(tv)
-    Parameter.groupKeys.count
+    Parameter.groupsKeysForCharting.count
   end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
@@ -15,15 +15,15 @@ class ParameterListController < UITableViewController
   end  
     
   def tableView(tv, numberOfRowsInSection: section)
-    Parameter.chartableParametersForGroup( Parameter.groupKeys[section] ).count
+    Parameter.chartableParametersForGroup( Parameter.groupsKeysForCharting[section] ).count
   end
   
   def tableView(tv, titleForHeaderInSection: section)
-    Parameter.nameForGroup( Parameter.groupKeys[section] )
+    Parameter.nameForGroup( Parameter.groupsKeysForCharting[section] )
   end
   
   def tableView(table, cellForRowAtIndexPath: indexPath)
-    groupKey = Parameter.groupKeys[indexPath.section]
+    groupKey = Parameter.groupsKeysForCharting[indexPath.section]
     parameter = Parameter.chartableParametersForGroup(groupKey)[indexPath.row]
 
     cell = table.dequeueReusableCell
@@ -37,7 +37,7 @@ class ParameterListController < UITableViewController
     cell = tableView.cellForRowAtIndexPath(indexPath)
     cell.toggleCheckmarkAccessory
 
-    groupKey = Parameter.groupKeys[indexPath.section]
+    groupKey = Parameter.groupsKeysForCharting[indexPath.section]
     parameter = Parameter.chartableParametersForGroup(groupKey)[indexPath.row]
     parameter.select!
   end

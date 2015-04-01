@@ -33,7 +33,7 @@ class AppDelegate
 
     setTintColors
         
-    # openControllerForModel("ford--focus")
+    openControllerForModel("ford--focus--2014")
     
     true
   end
@@ -157,6 +157,7 @@ class AppDelegate
     UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent
     UINavigationBar.appearance.setTitleTextAttributes NSForegroundColorAttributeName => Configuration.barTextColor
   end
+
 
   def openControllerForModel(modelKey)
     controller = ModListController.new(ModelGeneration.generationForKey(modelKey))

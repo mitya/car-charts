@@ -18,7 +18,7 @@ module CWD
   end
 
   property :used_fields do
-    YAML.load_file("crawler/data-other.yml")['field_keys']
+    YAML.load_file("crawler/data-parameters.yml")['field_keys']
   end
 
   property :data_translations do

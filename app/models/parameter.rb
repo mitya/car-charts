@@ -2,7 +2,7 @@ class Parameter
   attr_accessor :key, :name
 
   def initialize(key, name)
-    @key, @name = key.to_sym, name
+    @key, @name = key, name
   end
 
   def unitKey
@@ -31,21 +31,24 @@ class Parameter
 
   def formattedValue(value)
     return "" if value == nil
-    text = case 
-    when key == :produced_since || key == :produced_till
-      year, month = value.to_i.divmod(100)
-      month == 0 ? year : "#{year}.#{month.to_s.rjust(2, '0')}"
-    when Float === value
-      "%.1f" % value
-    else 
-      value
-    end
-    return "#{text} #{unitName}".strip
+    value = "%.1f" % value if Float === value
+    "#{value} #{unitName}".strip
   end
   
   def formattedValueForMod(mod)
-    formattedValue mod.get(key)
-  end
+    value = mod.get(key)
+    case key
+    when 'brand_country'
+      NSLocale.currentLocale.displayNameForKey(NSLocaleCountryCode, value: value)
+    when 'body', 'drive', 'transmission', 'fuel', 'compressor', 'engine_layout', 'cylinder_placement'
+      Metadata.parameterTranslations[key][value.to_s]
+    when 'produced_since', 'produced_till'
+      year, month = value.to_i.divmod(100)
+      month == 0 ? year : "#{year}.#{month.to_s.rjust(2, '0')}"      
+    else
+      formattedValue(value)
+    end
+  end 
   
   def inspect
     "{#{key}}"
@@ -55,7 +58,7 @@ class Parameter
     attr_reader :all
 
     def parameterForKey(key)
-      @index[key]
+      @index[key] || raise("Missing parameter for key #{key}")
     end
     
     def load
@@ -64,8 +67,14 @@ class Parameter
     end
     
     def groupKeys
-      Metadata[:parameterGroups]
+      Metadata.parameterGroups
     end
+
+    def groupsKeysForCharting
+      Metadata.parameterGroupsForCharting
+    end
+    
+        
     
     def nameForGroup(groupKey)
       Metadata[:parameterGroupsData][groupKey][0]

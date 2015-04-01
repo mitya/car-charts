@@ -33,7 +33,7 @@ class Mod < DSCoreModel
   end
 
   def bodyName
-    Metadata.bodyNames[body] || raise("No name for body '#{body}'")
+    Metadata.parameterTranslations['body'][body] || raise("No name for body '#{body}'")
   end
 
   def versionName
@@ -95,6 +95,9 @@ class Mod < DSCoreModel
     "#{max_torque}#{THIN_SPACE}Hm @ #{max_torque_range}"
   end
   
+  # body, assembly countries, brand country, drive, transmission, fuel
+  # engine_layout cylinder_placement compressor
+  
   def selected?
     Disk.currentMods.include?(self)
   end
@@ -149,64 +152,59 @@ class Mod < DSCoreModel
   @defaultSortField = 'key'
   @fields = [
     ['key',                    NSStringAttributeType,    true ],
-    ['body',                   NSStringAttributeType,    false],
-    ['model_key',              NSStringAttributeType,    false],
-    ['generation_key',        NSStringAttributeType,    false],
-    ['version_key',            NSStringAttributeType,    false],
-                               
-    ['top_speed',              NSInteger32AttributeType, false],
     ['acceleration_100kmh',    NSFloatAttributeType,     false],
-    ['transmission',           NSStringAttributeType,    false],    
-    ['drive',                  NSStringAttributeType,    false],
-    ['fuel',                   NSStringAttributeType,    false],
-    ['fuel_rating',            NSStringAttributeType,    false],
-    ['gears',                  NSInteger32AttributeType, false],
-
-    ['displacement_key',       NSStringAttributeType,    false],
-    ['displacement',           NSInteger32AttributeType, false],
-    ['max_power',              NSInteger32AttributeType, false],
-    ['max_power_kw',           NSInteger32AttributeType, false],
-    ['max_power_range_start',  NSInteger32AttributeType, false],
-    ['max_power_range_end',    NSInteger32AttributeType, false],
-    ['max_torque',             NSInteger32AttributeType, false],
-    ['max_torque_range_start', NSInteger32AttributeType, false],
-    ['max_torque_range_end',   NSInteger32AttributeType, false],
-    ['engine_layout',          NSInteger16AttributeType, false],
+    ['assembly_countries',              NSStringAttributeType,    false],
+    ['body',                   NSStringAttributeType,    false],
     ['bore',                   NSFloatAttributeType,     false],
-    ['stroke',                 NSFloatAttributeType,     false],
+    ['brand_country',              NSStringAttributeType,    false],
     ['compression',            NSFloatAttributeType,     false],
     ['compressor',             NSInteger16AttributeType, false],
-    # ['injection',              NSInteger16AttributeType, false],
     ['consumption_city',       NSFloatAttributeType,     false],
     ['consumption_highway',    NSFloatAttributeType,     false],
     ['consumption_mixed',      NSFloatAttributeType,     false],
     ['cylinder_count',         NSInteger32AttributeType, false],
     ['cylinder_placement',     NSStringAttributeType,    false],
     ['cylinder_valves',        NSInteger32AttributeType, false],
-
-    ['assembly_countries',              NSStringAttributeType,    false],
-    # ['produced_since',         NSInteger32AttributeType, false],
-    # ['produced_till',          NSInteger32AttributeType, false],
-                              
+    ['displacement',           NSInteger32AttributeType, false],
+    ['displacement_key',       NSStringAttributeType,    false],
     ['doors',                  NSInteger32AttributeType, false],
-    # ['seats_min',              NSInteger32AttributeType, false],
-    # ['seats_max',              NSInteger32AttributeType, false],
+    ['drive',                  NSStringAttributeType,    false],
+    ['engine_layout',          NSInteger16AttributeType, false],
+    ['front_tire_rut',         NSInteger32AttributeType, false],
+    ['fuel',                   NSStringAttributeType,    false],
+    ['fuel_rating',            NSStringAttributeType,    false],
+    ['gears',                  NSInteger32AttributeType, false],
+    ['generation_key',        NSStringAttributeType,    false],
+    ['gross_mass',             NSInteger32AttributeType, false],
+    ['ground_clearance',       NSInteger32AttributeType, false],
+    ['height',                 NSInteger32AttributeType, false],
+    ['injection',              NSInteger16AttributeType, false],
+    ['kerbweight',             NSInteger32AttributeType, false],
+    ['length',                 NSInteger32AttributeType, false],
     ['luggage_max',            NSInteger32AttributeType, false],
     ['luggage_min',            NSInteger32AttributeType, false],
-                              
-    ['gross_mass',             NSInteger32AttributeType, false],
-    ['kerbweight',             NSInteger32AttributeType, false],
-    ['height',                 NSInteger32AttributeType, false],
-    ['length',                 NSInteger32AttributeType, false],
-    ['width',                  NSInteger32AttributeType, false],
-    ['wheelbase',              NSInteger32AttributeType, false],
-    ['ground_clearance',       NSInteger32AttributeType, false],
-    ['front_tire_rut',         NSInteger32AttributeType, false],
+    ['max_power',              NSInteger32AttributeType, false],
+    ['max_power_kw',           NSInteger32AttributeType, false],
+    ['max_power_range_end',    NSInteger32AttributeType, false],
+    ['max_power_range_start',  NSInteger32AttributeType, false],
+    ['max_torque',             NSInteger32AttributeType, false],
+    ['max_torque_range_end',   NSInteger32AttributeType, false],
+    ['max_torque_range_start', NSInteger32AttributeType, false],
+    ['model_key',              NSStringAttributeType,    false],
     ['rear_tire_rut',          NSInteger32AttributeType, false],
+    ['stroke',                 NSFloatAttributeType,     false],
     ['tank_capacity',          NSInteger32AttributeType, false],
     ['tires',                  NSStringAttributeType,    false],
-
+    ['top_speed',              NSInteger32AttributeType, false],
+    ['transmission',           NSStringAttributeType,    false],    
+    ['version_key',            NSStringAttributeType,    false],
+    ['wheelbase',              NSInteger32AttributeType, false],
+    ['width',                  NSInteger32AttributeType, false],
     ['year',                  NSInteger32AttributeType,    false],
+    # ['produced_since',         NSInteger32AttributeType, false],
+    # ['produced_till',          NSInteger32AttributeType, false],
+    # ['seats_max',              NSInteger32AttributeType, false],
+    # ['seats_min',              NSInteger32AttributeType, false],
   ]
 
   

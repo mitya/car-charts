@@ -140,4 +140,8 @@ module CW
       write_file(new_path, doc.to_html)
     end    
   end  
+  
+  def load_dataset(name)
+    YAML.load_file("crawler/data-#{name}.yml")
+  end
 end

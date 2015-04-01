@@ -1,0 +1,300 @@
+---
+premiumBrandKeys:
+- mercedes_benz
+- audi
+- bmw
+- lexus
+- infinity
+- acura
+- volvo
+- cadillac
+- range_rover
+parameterGroups:
+- engine
+- dimensions
+- other
+parameterGroupsData:
+  engine:
+  - Engine
+  - - acceleration_100kmh
+    - top_speed
+    - max_power_string
+    - max_torque_string
+    - displacement
+    - cylinder_count
+    - cylinder_valves
+    - compression
+    - bore_and_stroke
+    - gears
+    - consumption_city
+    - consumption_highway
+    - consumption_mixed
+    - drive
+    - transmission
+    - fuel
+    - engine_layout
+    - cylinder_placement
+    - compressor
+  dimensions:
+  - Dimensions
+  - - length
+    - width
+    - height
+    - ground_clearance
+    - wheelbase
+    - kerbweight
+    - gross_mass
+    - tires
+    - front_tire_rut
+    - rear_tire_rut
+    - luggage_min
+    - luggage_max
+    - tank_capacity
+    - doors
+  other:
+  - Other
+  - - body
+    - brand_country
+    - assembly_countries    
+parameterGroupsForCharting:
+- engine
+- dimensions  
+parameterGroupsDataForCharting:
+  engine:
+  - Engine
+  - - acceleration_100kmh
+    - top_speed
+    - max_power
+    - max_power_kw
+    - max_torque
+    - displacement
+    - cylinder_count
+    - cylinder_valves
+    - compression
+    - bore
+    - stroke
+    - gears
+    - consumption_city
+    - consumption_highway
+    - consumption_mixed
+  dimensions:
+  - Dimensions
+  - - length
+    - width
+    - height
+    - ground_clearance
+    - wheelbase
+    - kerbweight
+    - gross_mass
+    - front_tire_rut
+    - rear_tire_rut
+    - luggage_min
+    - luggage_max
+    - tank_capacity
+    - doors
+parameterNames:
+  acceleration_100kmh: Acelleration (0–100 km/h)
+  assembly_countries: Assembly Countries
+  body: Body Style
+  bore: Bore
+  bore_and_stroke: Bore & Stroke
+  brand_country: Brand Country
+  compression: Compression
+  compressor: Compressor Type
+  consumption_city: Consumption (city)
+  consumption_highway: Consumption (hwy)
+  consumption_mixed: Consumption (mixed)
+  cylinder_count: Cylider Count
+  cylinder_placement: Cylinder Layout
+  cylinder_valves: Valves per Cylider
+  displacement: Displacement
+  doors: Doors Count
+  drive: Drivetrain
+  engine_layout: Engine Layout
+  front_tire_rut: Front Tire Rut
+  fuel: Fuel
+  gears: Gears Number
+  gross_mass: Gross Weight
+  ground_clearance: Ground Clearance
+  height: Height
+  injection: Injection Type
+  kerbweight: Kerb Weight
+  length: Length
+  luggage_max: Luggage (max)
+  luggage_min: Luggage (min)
+  max_power: Power (hp)
+  max_power_kw: Power (kW)
+  max_power_string: Power
+  max_torque: Torque
+  max_torque_string: Torque
+  rear_tire_rut: Rear Tire Rut
+  stroke: Stroke
+  tank_capacity: Tank Capacity
+  tires: Tires
+  top_speed: Top Speed
+  transmission: Gearbox
+  wheelbase: Wheelbase
+  width: Width
+  year: Year
+parameterUnits:
+  top_speed: kmh
+  acceleration_100kmh: s
+  consumption_city: l100km
+  consumption_highway: l100km
+  consumption_mixed: l100km
+  displacement: cc
+  cylinder_count: count
+  cylinder_valves: count
+  compression: value
+  bore: mm
+  max_power: hp
+  max_power_kw: kw
+  max_power_range_start: value
+  max_torque: nm
+  max_torque_range_start: value
+  gears: count
+  length: mm
+  width: mm
+  height: mm
+  ground_clearance: mm
+  tires: tires
+  front_tire_rut: mm
+  rear_tire_rut: mm
+  wheelbase: mm
+  luggage_min: l
+  luggage_max: l
+  tank_capacity: l
+  gross_mass: kg
+  kerbweight: kg
+  doors: count
+  seats_min: count
+  seats_max: count
+  produced_since: date
+  produced_till: date
+  price: usd
+  year: value
+parameterUnitNames:
+  kmh: km/h
+  s: s
+  l100km: L / 100 km
+  cc: cc
+  count: ''
+  value: ''
+  mm: mm
+  hp: hp
+  kw: kW
+  nm: Nm
+  tires: ''
+  l: L
+  kg: kg
+  date: ''
+  # rouble: ''
+categoryNames:
+  A:
+  - City (A class)
+  - City
+  B:
+  - Supermini (B class)
+  - Supermini
+  C:
+  - Compact (C/Golf class)
+  - Compacts
+  D:
+  - Family (D class)
+  - Family
+  E:
+  - Business (E class)
+  - Business
+  F:
+  - Premium Sedans
+  - Premium
+  Xb:
+  - Very Compact SUVs
+  Xc:
+  - Compact SUVs
+  Xd:
+  - Compact+ SUVs
+  Xe:
+  - Mid-Size SUVs
+  Xf:
+  - Full-Size SUVs
+  Xx:
+  - Offroad SUVs
+  Wx:
+  - AWD Wagons
+  Sr:
+  - Roadsters
+  Sc:
+  - Sportcars
+  Mb:
+  - Mini MPVs
+  Mc:
+  - Compact MPVs
+  Me:
+  - Mid-Size MPVs
+  Pc:
+  - Compact Pickups
+  Pd:
+  - Full-Size Pickups
+parameterTranslations:
+  cylinder_placement:
+    W: W-type
+    R: rotary
+    V: V-type
+    F: flat
+    I: inline
+  engine_layout:
+    20101: middle
+    20102: rear
+    20103: front longitudinal
+    20104: front transverse
+  injection:
+    20201: central injection
+    20202: "двигатель с разделенными камерами сгорания (вихрекамерный или предкамерный)"
+    20203: "карбюратор"
+    20204: "двигатель с неразделенными камерами сгорания (непосредственный впрыск топлива)"
+    20205: "непосредственный впрыск в камеру сгорания"
+    20206: "распределенный впрыск"
+  compressor:
+    20301: supercharger
+    20302: turbocharger
+    20303: turbo + intercooler
+  drive:
+    FWD: front wheels
+    RWD: rear wheels
+    AWD: all wheels
+  fuel:
+    i: gasoline
+    d: diesel
+    h: hybrid
+    g: gas
+  transmission:
+    MT: manual
+    AT: automatic
+    CVT: CVT
+    AMT: double-clutch
+  body:
+    sedan: sedan
+    sedan_long: sedan long
+    wagon: wagon
+    hatch_3d: hatch 3d
+    hatch_5d: hatch 5d
+    suv: SUV
+    suv_2d: SUV 2-dr
+    suv_3d: SUV 3-dr
+    suv_4d: SUV 4-dr
+    suv_5d: SUV 5-dr
+    cabrio: cabriolet
+    coupe: coupe
+    coupe_2d: coupe 2-dr
+    coupe_5d: coupe 5-dr
+    crossover: crossover
+    crossover_3d: crossover 3-dr
+    crossover_5d: crossover 5-dr
+    minivan: minivan
+    minivan_3d: minivan 3-dr
+    minivan_5d: minivan 5-dr
+    van: van
+    pickup: pickup
+    pickup_2d: pickup 2-dr
+    pickup_4d: pickup 4-dr

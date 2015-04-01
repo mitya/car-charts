@@ -13,8 +13,8 @@ class YA2Parser
 
       properties.each do |key, string|
         case key.to_sym
-        when :front_suspension, :rear_suspension, :front_brakes, :rear_brakes, :model_title, :body_title, :body_type, :price, :engine_title, :engine_spec, :category,
-              :safety_rating_value, :safety_rating_name, :injection
+        when :front_suspension, :rear_suspension, :front_brakes, :rear_brakes, :model_title, :body_title, :body_type, :price, :engine_title, :engine_spec, :category
+        when :safety_rating_value, :safety_rating_name
         when :fuel_consumption
           values = string.split(%r{ / }).map { |str| CW.to_f(str) }
           parsed[:consumption_city], parsed[:consumption_highway], parsed[:consumption_mixed] = values
@@ -58,8 +58,8 @@ class YA2Parser
           parsed[key] = CW.to_i(string)
         when :acceleration_100kmh, :bore, :stroke, :compression, :displacement_key
           parsed[key] = CW.to_f(string)
-        when :cylinder_placement, :engine_layout, :front_suspension, :rear_suspension,
-              :front_brakes, :rear_brakes, :fuel, :fuel_rating, :transmission, :drive, :compressor
+        when :cylinder_placement, :engine_layout, :fuel, :fuel_rating, :transmission, :drive, :compressor, :injection,
+              :front_suspension, :rear_suspension, :front_brakes, :rear_brakes
           parsed[key] = TranslationHelper.instance.translate_value(key, string)
         when :eco_class
           parsed[key] = string

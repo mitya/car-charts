@@ -67,7 +67,7 @@ class YA2Parser
         @values[k] = hash.invert
       end
 
-      @countries = YAML.load_file("crawler/data-other.yml")['country_code_to_russian'].invert
+      @countries = YAML.load_file("crawler/data-countries.yml")['country_code_to_russian'].invert
     end
 
     def translate_parameter(russian_name)

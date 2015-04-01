@@ -40,7 +40,7 @@ class ModListController < UIViewController
   end
 
   def tableView(tv, titleForHeaderInSection:section)
-    Metadata.bodyNames[ modsByBody.keys[section] ]
+    Metadata.parameterTranslations['body'][ modsByBody.keys[section] ]
   end
 
   def tableView(tv, titleForFooterInSection:section)

@@ -44,7 +44,7 @@ class Disk
     end
 
     def currentParameters
-      @currentParameters ||= NSUserDefaults.standardUserDefaults["parameters"].to_a.map { |key| Parameter.parameterForKey(key.to_sym) }.compact
+      @currentParameters ||= NSUserDefaults.standardUserDefaults["parameters"].to_a.map { |key| Parameter.parameterForKey(key) }.compact
     end
   
     def currentParameters=(array)
@@ -74,7 +74,7 @@ class Disk
 
         ModSet.first.replaceCurrentMods
 
-        self.currentParameters = %w(acceleration_100kmh max_power).map { |key| Parameter.parameterForKey(key.to_sym) }
+        self.currentParameters = %w(acceleration_100kmh max_power).map { |key| Parameter.parameterForKey(key) }
 
         NSUserDefaults.standardUserDefaults["firstLaunchTime"] = Time.now
         NSUserDefaults.standardUserDefaults.synchronize
