@@ -242,23 +242,24 @@ class Mod < DSCoreModel
     # 4. move the sqlite database from documents dir to the app bundle
     # 5. comment out the shit again
     def import
-      NSLog "Importing mods"
-      NSLog "Look for data in #{KK.documentsURL}"      
-      deleteAll
-      fields = @fields.map(&:first)
-      NSLog "Param delta: #{Metadata.parameter_keys - fields} / #{fields - Metadata.parameter_keys}"
+      KK.benchmark "Import Mods" do
+        NSLog "Data path: #{KK.documentsURL}"
+        deleteAll
+        fields = @fields.map(&:first)
+        NSLog "Params delta: #{(Metadata.parameter_keys - fields).join(',')} | #{(fields - Metadata.parameter_keys).join(',')}"
       
-      fields.delete 'key'
-      plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db/mods", ofType:"plist"))
+        fields.delete 'key'
+        plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db/mods", ofType:"plist"))
       
-      NSLog "Importing #{plist.count} records"
+        NSLog "Importing #{plist.count} records"
       
-      plist.each do |key, data|
-        mod = Mod.build(key: key)
-        Metadata.parameter_keys.each { |field| mod.set(field, data[fieldIndexInPlist(field)].presence) }
+        plist.each do |key, data|
+          mod = Mod.build(key: key)
+          Metadata.parameter_keys.each { |field| mod.set(field, data[fieldIndexInPlist(field)].presence) }
+        end      
+        
+        Mod.save
       end
-      
-      Mod.save
     end
   
     def fieldIndexInPlist(key)

@@ -45,6 +45,10 @@ body_model:
   nissan--crossover_plus_2: crossover Qashqai +2
   opel--hatch_3d_gtc: hatch_3d Astra GTC
 
+body_model_2:
+  volkswagen passat 2011 -- универсал Alltrack: volkswagen passat_alltrack 2011 wagon
+  # renault sandero stepway
+
 body_version:
   audi--r8--cabrio_gt_spyder: cabrio GT Spyder
   audi--r8--coupe_gt: coupe GT

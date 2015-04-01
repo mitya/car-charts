@@ -1,9 +1,8 @@
 module KK::Development
   def benchmark(actionName = "Action", &block)
-    return block.call unless $es_benchmarking
-
+    return yield unless CC_BENCHMARKING
     startTime = Time.now
-    result = block.call
+    result = yield
     elapsed = (Time.now - startTime) * 1_000
     NSLog "TIMING #{actionName}: #{"%.3f" % elapsed}ms"
     result

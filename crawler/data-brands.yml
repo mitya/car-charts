@@ -1,4 +1,5 @@
 ---
+# yandex titles
 brands:
   acura: Acura
   alfa_romeo: Alfa Romeo
@@ -71,3 +72,7 @@ brands:
   volkswagen: Volkswagen
   volvo: Volvo
   zaz: ZAZ
+brands_overrides:
+  moscvich: Moskvitch
+  uaz: UAZ
+  vaz: VAZ (Lada)

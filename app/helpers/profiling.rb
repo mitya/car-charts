@@ -1,4 +1,4 @@
-$es_benchmarking = false
+CC_BENCHMARKING = KK.env?('CCBenchmarking')
 $es_profiling_time = nil
 $es_profiling_results = []
 

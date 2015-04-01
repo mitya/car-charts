@@ -48,51 +48,6 @@ class YA2Processor
     end
   end
 
-  def step_3__parse_marks
-    brand_keys_to_titles = YAML.load_file("crawler/data-brands.yml")['brands']
-    
-    results = {}
-
-    CW.parse_dir("02-marks") do |doc, basename, path|      
-      doc.css("div.b-cars__page a.b-car").each do |a|        
-        full_title = a.at_css(".b-car__title").text
-        url = a['href']
-        
-        result = OpenStruct.new
-        result.direct = true if url !~ /^\/search/
-        result.url = url
-        result.full_title = full_title
-
-        if summary = a.at_css(".b-car__summary")
-          result.summary = summary.xpath('text()').text.sub(/, $/, '')
-          result.years = a.at_css('.b-car__year-range').text
-        end
-
-        if generations = a.at_css(".b-car__count")
-          result.generations = generations.text
-        end        
-      
-      
-        if url.start_with?('/search')
-          # /search?mark=acura&model=tsx&no_redirect=true&group_by_model=false
-          result.mark = url.scan(%r{mark=(\w+)}).first.first
-          result.model = url.scan(%r{(?:\?|\&)model=(\w+)}).first.first
-        else
-          # /acura/ilx/20291740
-          result.mark, result.model = url.scan(%r{^/(\w+)/(\w+)}).first
-        end
-        
-        result.title = full_title.sub brand_keys_to_titles[result.mark] + ' ', '' # Ford Focus => Focus
-                
-        result.key = "#{result.mark}--#{result.model}"
-
-        results[result.key] = CW.stringify_keys(result)
-      end
-    end
-
-    CW.write_data "03-models", results
-  end
-
   def step_4_0__load_generations
     sources = CW.read_hash('03-models').shuffle
     sources.each do |url, data|
@@ -104,7 +59,6 @@ class YA2Processor
   def step_4_0__compress_generations
     CW.compress_dir("04-generations", ".b-tabs__panel_name_cars .b-cars__page")
   end
-
 
   def step_4
     # step_4_1__parse_generations
@@ -136,7 +90,7 @@ class YA2Processor
       end
     end
     
-    models = CW.read_hash('03.0-models', openstruct: false).values
+    models = CW.read_hash('03-models', openstruct: false).values
     models.select! { |m| m.delete('direct') }
     models.each do |model|
       result = {}

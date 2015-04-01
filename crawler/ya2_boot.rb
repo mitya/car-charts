@@ -8,17 +8,12 @@ require "pp"
 require "benchmark"
 require "set"
 require "csv"
-
 # require "nokogiri"
 # require "plist"
-
 # require "fileutils"
 # require "russian"
 
-require File.dirname(__FILE__) + "/ya2_helper.rb"
-require File.dirname(__FILE__) + "/ya2_data.rb"
-require File.dirname(__FILE__) + "/ya2_processor.rb"
-require File.dirname(__FILE__) + "/ya2_parser.rb"
+Dir.glob("#{File.dirname(__FILE__)}/ya2_*.rb") { |file| require file }
 require File.dirname(__FILE__) + "/data.rb"
 
 WORKDIR = Pathname("/opt/work/carchartscrawler/data_1502")
