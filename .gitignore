@@ -22,3 +22,5 @@ resources/db/mods.sqlite
 resources/db/mods.sqlite-shm
 
 resources/db/mods.sqlite-wal
+
+resources/Icon.png
