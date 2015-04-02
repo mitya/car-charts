@@ -5,6 +5,7 @@ class ChartController < UIViewController
   def initialize
     self.title = "CarCharts"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:KK.image("ti-chart"), tag:1)
+    
     self.navigationItem.backBarButtonItem = KK.textBBI("Chart")
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld, context:nil)

@@ -147,11 +147,13 @@ class AppDelegate
   def setTintColors
     window.tintColor = Configuration.tintColor
 
-    [UINavigationBar, UIToolbar, UISearchBar, UITabBar].each do |bar|
+    [UINavigationBar, UIToolbar, UISearchBar].each do |bar|
       bar.appearance.barTintColor = Configuration.barTintColor
-      bar.appearance.tintColor    = Configuration.barIconColor
-      bar.appearance.barStyle     = UIBarStyleBlack
+      bar.appearance.tintColor = Configuration.barIconColor
+      bar.appearance.barStyle = UIBarStyleBlack
     end
+    
+    UITabBar.appearance.barStyle = UIBarStyleBlack
 
     UISwitch.appearance.onTintColor = Configuration.barIconColor
     UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent
