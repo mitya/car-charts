@@ -25,6 +25,9 @@ class ChartController < UIViewController
       tableView.separatorStyle = UITableViewCellSeparatorStyleNone
     end
     
+    logoImage = KK.image('logo')
+    logoImageView = UIImageView.alloc.initWithImage(logoImage)
+    navigationItem.titleView = logoImageView
     navigationItem.rightBarButtonItem = toggleFullScreenModeBarItem
     
     @reloadPending = true
