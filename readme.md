@@ -110,14 +110,17 @@ MB GLK                     - 47
 
 ## Icon Sources
 
-Almost everything – icon8 — they require to mention them on the AppStore page.
+icon8 — require to mention them on the AppStore page.
+pixeden — no atribution
 
 tab-chart my
 tab-star open
 tab-checkbox pixeden
 tab-car pixeden
 tab-filter pixeden  
+tab-funnel icon8
 bar-expand
+bar-filter icon8
 cell-google open
 
 
