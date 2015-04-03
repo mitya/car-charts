@@ -8,7 +8,7 @@ begin
 rescue LoadError
 end
 
-ENV['device_name'] = 'iPhone 5'
+ENV['device_name'] = 'iPhone 6'
 # ENV['device_name'] = 'Resizable iPad'
 
 Motion::Project::App.setup do |app|
@@ -22,6 +22,7 @@ Motion::Project::App.setup do |app|
   app.frameworks += ['CoreData']
   app.device_family = [:iphone, :ipad]
   app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
+  app.info_plist['UIStatusBarHidden'] = true # hides the status bar on launch screen
 
   app.development do
     app.version = "1.0"

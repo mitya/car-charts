@@ -231,20 +231,21 @@ namespace 'g' do
     img.write "#{dst}/#{img_name}"
   end
   
-  task :chop_statusbar do
-    statusbar_height = 40
-    [
-      '',
-      '-568h',
-      '-667h'
-    ].each do |suffix|
-      ss = Magick::Image.read("resources/Default#{suffix}@2x.png").first
-      ss.background_color = "#5c4129"
+  desc "removes the statusbar from a full-screen screenshot"
+  task :chop_statusbar do    
+    %w(Default-568h@2x Default-667h@2x Default-736h@3x).each do |file|
+      scale = file.scan(/@(\d)x/).first.first.to_i rescue 1
+      statusbar_height = 20 * scale
+      ss = Magick::Image.read("resources/#{file}.png").first
       ss.crop! 0, statusbar_height, ss.columns, ss.rows, true
-      ss = ss.extent ss.columns, ss.rows + statusbar_height, 0, -statusbar_height
+      unless ENV['nofill']
+        ss.background_color = "#474747"
+        ss = ss.extent ss.columns, ss.rows + statusbar_height, 0, -statusbar_height
+      end
       ss.write ss.filename
     end
   end
+  
   
   task :pad_icon do
     pad = 5

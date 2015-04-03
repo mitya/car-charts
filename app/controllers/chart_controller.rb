@@ -102,6 +102,8 @@ class ChartController < UIViewController
       view.addSubview(emptyView)
       tableView.tableFooterView = nil
     end
+    
+    # clearScreenToMakeLaunchImage
   end
 
   def toggleFullScreenMode
@@ -155,4 +157,13 @@ class ChartController < UIViewController
       view.addSubview(button)
     end    
   end    
+  
+  def clearScreenToMakeLaunchImage
+    @comparision = Comparision.new([], [])
+    emptyView.removeFromSuperview if @emptyView && @emptyView.superview
+    tableView.tableFooterView = nil
+    tableView.reloadData
+    
+    # make screenshots, place them into resources dir, and run rake g:chop_statusbar
+  end
 end
