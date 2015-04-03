@@ -112,16 +112,19 @@ MB GLK                     - 47
 
 icon8 — require to mention them on the AppStore page.
 pixeden — no atribution
+cupertinoline — no atribution
 
-tab-chart my
-tab-star open
-tab-checkbox pixeden
-tab-car pixeden
-tab-filter pixeden  
-tab-funnel icon8
-bar-expand
-bar-filter icon8
-cell-google open
+my tab-chart 
+open tab-star
+open cell-google
+pixeden tab-checkbox 
+pixeden tab-car
+pixeden tab-filter 
+icon8 tab-funnel 
+icon8 bar-filter
+misc bar-expand
+cupertinoline bar-gear
+
 
 
 ## Other

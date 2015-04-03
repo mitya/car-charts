@@ -5,6 +5,10 @@ class ParameterListController < UITableViewController
     self.title = "Parameters"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-funnel"), selectedImage:KK.image("tab-funnel-full"))    
   end
+  
+  def viewDidLoad
+    self.navigationItem.rightBarButtonItem = KK.imageBBI("bar-gear", target:self, action:'showSettings')
+  end
 
   def numberOfSectionsInTableView(tv)
     Parameter.groupsKeysForCharting.count
@@ -40,5 +44,10 @@ class ParameterListController < UITableViewController
     groupKey = Parameter.groupsKeysForCharting[indexPath.section]
     parameter = Parameter.chartableParametersForGroup(groupKey)[indexPath.row]
     parameter.select!
+  end
+  
+  def showSettings
+    @settingsController ||= ParameterListSettingsController.new
+    navigationController.pushViewController @settingsController, animated:true
   end
 end

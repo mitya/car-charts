@@ -53,6 +53,16 @@ class Disk
         @currentParameters = array
       end
     end
+    
+    def parameterUnits
+      NSUserDefaults.standardUserDefaults["parameterUnits"] || 'metric'
+    end
+    
+    def parameterUnits=(value)
+      changeValueForKey('parameterUnits') do
+        NSUserDefaults.standardUserDefaults["parameterUnits"] = value
+      end
+    end
   
 
     def load
