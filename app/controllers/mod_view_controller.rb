@@ -48,19 +48,13 @@ class ModViewController < UITableViewController
       end
       cell.textLabel.text = parameter.name
       cell.detailTextLabel.text = parameter.formattedValueForMod(@mod)
-      return cell
+      cell
     end
   end
   
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
-    if indexPath.section == SystemSectionIndex && indexPath.item == 0
-      if KK.iphone?
-        navigationController.pushViewController photosController, animated:true
-      else
-        presentNavigationController photosController, presentationStyle:UIModalPresentationFullScreen
-      end
-    end
+    showPhotos if indexPath.section == SystemSectionIndex && indexPath.item == 0
   end  
   
   
@@ -70,6 +64,14 @@ class ModViewController < UITableViewController
 
   def photosController
     @photosController ||= ModelPhotosController.new(mod.model, mod.year)
+  end
+  
+  def showPhotos
+    if KK.iphone?
+      navigationController.pushViewController photosController, animated:true
+    else
+      presentNavigationController photosController, presentationStyle:UIModalPresentationFullScreen
+    end    
   end
   
   def self.showFor(presentingController, withMod:mod)

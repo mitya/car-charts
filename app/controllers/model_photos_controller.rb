@@ -5,7 +5,7 @@ class ModelPhotosController < UIViewController
   def initialize(model = nil, year = nil)
     self.model = model
     self.year = year
-    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
+    navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if KK.ipad?
   end
 
   
