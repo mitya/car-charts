@@ -232,8 +232,8 @@ namespace 'g' do
   end
   
   desc "removes the statusbar from a full-screen screenshot"
-  task :chop_statusbar do    
-    %w(Default-568h@2x Default-667h@2x Default-736h@3x).each do |file|
+  task :chopstatus do    
+    %w(Default@2x Default-568h@2x Default-667h@2x Default-736h@3x).each do |file|
       scale = file.scan(/@(\d)x/).first.first.to_i rescue 1
       statusbar_height = 20 * scale
       ss = Magick::Image.read("resources/#{file}.png").first

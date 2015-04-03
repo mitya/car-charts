@@ -17,6 +17,7 @@ class AppDelegate
       tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
       tbc.selectedIndex = 0
+      tbc.tabBar.translucent = NO
     end
 
     window.rootViewController = if KK.iphone?
@@ -147,14 +148,12 @@ class AppDelegate
   def setTintColors
     window.tintColor = Configuration.tintColor
 
-    [UINavigationBar, UIToolbar, UISearchBar].each do |bar|
+    [UINavigationBar, UIToolbar, UISearchBar, UITabBar].each do |bar|
       bar.appearance.barTintColor = Configuration.barTintColor
       bar.appearance.tintColor = Configuration.barIconColor
       bar.appearance.barStyle = UIBarStyleBlack
     end
     
-    UITabBar.appearance.barStyle = UIBarStyleBlack
-
     UISwitch.appearance.onTintColor = Configuration.barIconColor
     UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent
     UINavigationBar.appearance.setTitleTextAttributes NSForegroundColorAttributeName => Configuration.barTextColor

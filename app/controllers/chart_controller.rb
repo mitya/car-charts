@@ -3,9 +3,8 @@ class ChartController < UIViewController
   attr_accessor :tableView, :exitFullScreenModeButton, :emptyView
   
   def initialize
-    self.title = "CarCharts"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle("Chart", image:KK.image("ti-chart"), tag:1)
-    
+    self.title = "Chart"
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-chart"), selectedImage:KK.image("tab-chart-full"))
     self.navigationItem.backBarButtonItem = KK.textBBI("Chart")
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld, context:nil)
@@ -164,6 +163,6 @@ class ChartController < UIViewController
     tableView.tableFooterView = nil
     tableView.reloadData
     
-    # make screenshots, place them into resources dir, and run rake g:chop_statusbar
+    # make screenshots, place them into resources dir, and run rake g:chop
   end
 end

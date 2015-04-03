@@ -3,7 +3,7 @@ class ParameterListController < UITableViewController
   
   def initialize
     self.title = "Parameters"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("ti-speedometer"), tag:2)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-filter"), selectedImage:KK.image("tab-filter-full"))    
   end
 
   def numberOfSectionsInTableView(tv)

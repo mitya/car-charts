@@ -70,6 +70,7 @@ Mods are stored in the CoreData database. Everything else is in plist files whic
 
 
 ## Model
+
 * Mod         - RO, 2500 objects, many fields
 * Model       - RO,  250 objects, few fields
 * Brand       - RO,   50 objects, few fields
@@ -100,6 +101,7 @@ Conclusion
 ```
 
 ## Long Model Names
+
 Dodge RAM                  - 51
 Mitsubishi Lancer Ralliart – 50
 Audi A6 allroad quattro    - 48
@@ -107,7 +109,16 @@ MB GLK                     - 47
 
 
 ## Icon Sources
+
 Almost everything – icon8 — they require to mention them on the AppStore page.
+
+tab-chart my
+tab-star open
+tab-checkbox pixeden
+tab-car pixeden
+tab-filter pixeden  
+bar-expand
+cell-google open
 
 
 ## Other
