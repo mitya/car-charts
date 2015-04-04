@@ -33,7 +33,7 @@ class ParameterListSettingsController < UITableViewController
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
     cell = tableView.cellForRowAtIndexPath(indexPath)
     Disk.parameterUnits = 'metric' if indexPath.row == 0
-    Disk.parameterUnits = 'imperial' if indexPath.row == 1    
+    Disk.parameterUnits = 'imperial' if indexPath.row == 1
     tableView.visibleCells.each   { |cell| cell.toggleCheckmarkAccessory }
   end
   

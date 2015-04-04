@@ -47,7 +47,8 @@ class ModViewController < UITableViewController
         cell.detailTextLabel.adjustsFontSizeToFitWidth = YES
       end
       cell.textLabel.text = parameter.name
-      cell.detailTextLabel.text = parameter.formattedValueForMod(@mod)
+      # cell.detailTextLabel.text = parameter.formattedValueForMod(@mod)
+      cell.detailTextLabel.text = @mod.parameterValue(parameter.key).format(Disk.parameterUnits)
       cell
     end
   end

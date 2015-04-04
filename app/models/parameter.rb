@@ -13,6 +13,19 @@ class Parameter
     Metadata.parameterUnitNames[unitKey]
   end
   
+  # def currentUnitName
+  #   if Disk.parameterUnits == 'si'
+  #     unitName
+  #   else
+  #     settings = Metadata.parameterUnitsOverrides[Disk.parameterUnits]
+  #     if altUnitKey = settings['fields'][key]
+  #       Metadata.parameterUnitNames[altUnitKey]
+  #     else
+  #       settings['units']
+  #     end
+  #   end
+  # end
+  
   def long?
     LongParameters.containsObject(key)
   end
@@ -37,14 +50,15 @@ class Parameter
   
   def formattedValueForMod(mod)
     value = mod.get(key)
+    # value = convertToDisplayUnit(value) if Disk.parameterUnits != 'si'
     case key
     when 'brand_country'
       NSLocale.currentLocale.displayNameForKey(NSLocaleCountryCode, value: value)
     when 'body', 'drive', 'transmission', 'fuel', 'compressor', 'engine_layout', 'cylinder_placement'
       Metadata.parameterTranslations[key][value.to_s]
-    when 'produced_since', 'produced_till'
-      year, month = value.to_i.divmod(100)
-      month == 0 ? year : "#{year}.#{month.to_s.rjust(2, '0')}"      
+    # when 'produced_since', 'produced_till'
+    #   year, month = value.to_i.divmod(100)
+    #   month == 0 ? year : "#{year}.#{month.to_s.rjust(2, '0')}"
     else
       formattedValue(value)
     end
@@ -53,6 +67,23 @@ class Parameter
   def inspect
     "{#{key}}"
   end
+  
+  # def convertToDisplayUnit(value)
+  #   unit = currentNonMetricFields[key]
+  #   convertUnit(value, unitName, unit)
+  #
+  #   # if Disk.currentDualValueFields[key]
+  #   #
+  #   # else unit = currentNonMetricFields[key]
+  #   #   convertUnit(value, unitName, unit)
+  #   # else
+  #   #   value
+  #   # end
+  # end
+  #
+  # def convertUnit(value, unit1, unit2)
+  #   value * ratios[unit2]
+  # end
   
   class << self
     attr_reader :all
@@ -93,4 +124,22 @@ class Parameter
   
   BodyParameters = NSSet.setWithArray([:length, :width, :height])
   LongParameters = NSSet.setWithArray([:consumption_city, :consumption_highway, :consumption_mixed])
+  
+  CONVERTIONS = {
+    nm__lb_ft: 0.7376,
+    mm__in: 1 / 25.4,
+    kg__lbs: 0.454,
+    kmh__mph: 0.621,
+    l100km__uk_mpg: 282.48, # 282 / x
+    l100km__us_mpg: 235.21,
+    cc__in3: 1 / 16.387,
+    l__us_gal: 1 / 3.785,
+    l__uk_gal: 1 / 4.546,
+    l__in3: 61.02,
+    l__ft3: 1 / 28.32,
+    PS__bhp: 0.986,
+    PS__kW: 0.735,
+    bhp__kW: 0.745,
+  }
 end
+

@@ -55,7 +55,6 @@ parameterGroupsData:
   - Other
   - - body
     - brand_country
-    - assembly_countries    
 parameterGroupsForCharting:
 - engine
 - dimensions  
@@ -143,21 +142,14 @@ parameterUnits:
   consumption_highway: l100km
   consumption_mixed: l100km
   displacement: cc
-  cylinder_count: count
-  cylinder_valves: count
-  compression: value
   bore: mm
   max_power: hp
   max_power_kw: kw
-  max_power_range_start: value
   max_torque: nm
-  max_torque_range_start: value
-  gears: count
   length: mm
   width: mm
   height: mm
   ground_clearance: mm
-  tires: tires
   front_tire_rut: mm
   rear_tire_rut: mm
   wheelbase: mm
@@ -166,6 +158,14 @@ parameterUnits:
   tank_capacity: l
   gross_mass: kg
   kerbweight: kg
+
+  cylinder_count: count
+  cylinder_valves: count
+  compression: value
+  max_power_range_start: value
+  max_torque_range_start: value
+  gears: count
+  tires: tires
   doors: count
   seats_min: count
   seats_max: count
@@ -173,22 +173,61 @@ parameterUnits:
   produced_till: date
   price: usd
   year: value
+parameterUnitsOverrides:
+  UK:
+    units:
+      kmh: mph
+      l100km: uk_mpg
+    dual_fields:
+      max_torque: [nm, lb_ft]
+      tank_capacity: [l, uk_gal]
+
+    # rename acceleration  
+  US:
+    units:
+      kmh: mph
+      l100km: us_mpg
+      mm: in
+      kg: lbs
+    fields:
+      luggage_min: ft3
+      luggage_max: ft3
+      tank_capacity: us_gal
+    dual_fields:
+      top_speed: [mph, kmh]
+      max_torque: [lb_ft, nm]
+      displacement: [cc, in3]
+
+    # rename acceleration
+
 parameterUnitNames:
-  kmh: km/h
+  kmh: km / h
   s: s
   l100km: L / 100 km
   cc: cc
-  count: ''
-  value: ''
   mm: mm
   hp: hp
   kw: kW
-  nm: Nm
-  tires: ''
+  nm: N∙m
   l: L
   kg: kg
+  g_km: g/km
+  
+  mph: mph
+  us_mpg: mpg (US)
+  uk_mpg: mpg (UK)
+  uk_gal: gal (UK)
+  us_gal: gal (US)
+  in: in
+  lbs: lbs
+  lb_ft: lb∙ft
+  in3: in³
+  ft3: ft³
+  
+  count: ''
   date: ''
-  # rouble: ''
+  value: ''
+  tires: ''
 categoryNames:
   A:
   - City (A class)

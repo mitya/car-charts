@@ -92,7 +92,8 @@ class Mod < DSCoreModel
   end
   
   def bore_and_stroke
-    [bore, stroke].reject { |val| val == nil || val == 0 }.map(&:to_i).join(' × ')
+    return nil unless bore && stroke
+    "#{bore.to_i} × #{stroke.to_i} mm"
   end
   
   def max_power_string
@@ -151,6 +152,10 @@ class Mod < DSCoreModel
   def [](key)
     key = key.key if Parameter === key
     get(key)
+  end
+
+  def parameterValue(field)
+    ParameterValue.new(get(field), Metadata.parameterUnits[field], field)
   end
 
   

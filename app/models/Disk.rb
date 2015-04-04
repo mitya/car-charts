@@ -54,8 +54,10 @@ class Disk
       end
     end
     
+    # si us uk
     def parameterUnits
-      NSUserDefaults.standardUserDefaults["parameterUnits"] || 'metric'
+      NSUserDefaults.standardUserDefaults["parameterUnits"] || 'SI'
+      'US'
     end
     
     def parameterUnits=(value)

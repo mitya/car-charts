@@ -138,3 +138,52 @@ cupertinoline bar-gear
 
   * Hummer
 
+
+## Internationalization
+US
+ MPG gal lbs ft3 in
+ Displacement: L & cu. in.
+ Trunk volume
+ Track Width / Tread / Front Track / Rear Track
+ jaguar.uk Front Track Rear Track
+ 4WD 2WD
+ Fuel System: some kind of injection
+
+  torque Ft. Lbs
+  Lb-Ft lb.ft
+  cargo colume cargo cu.ft
+  fuel gal
+
+  3.6-Liter V6 24-Valve VVT Engine
+
+UK mpg mph | kg litre mm kW HP Nm | lb-ft bhp 
+  Everybody uses MPG and MPH
+  PS is used a lot
+  toyota and other don't use in, lb, gal at all
+
+ CO2 — g/km
+ 38.7 mpg (combined)
+ litre, kg
+ 0-62 mph/s
+ max speed mph
+ fuel type: pertol diesel
+ KW PS Nm @ rpm
+ size: mm
+ torque lb-ft @ rpm 
+ 
+ fuel: litre / UK gallons
+ suzuki repeats all in inches and pounds
+ landrover.co.uk: litre HP Nm cc mph 117  0-60mph, CO2 162 g/km,  40.4 mpg (urban combined), 4,555mm, 2,200kg
+
+
+cc to cu. in. 16.387
+mm to inch 25.4
+Nm to lb-ft 0.74
+
+
+Number of Cylinders / No. of Cylinders
+Number of Valves
+Max Power
+Max Torques
+Overall length
+Max Speed

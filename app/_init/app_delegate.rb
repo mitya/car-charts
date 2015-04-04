@@ -34,7 +34,7 @@ class AppDelegate
 
     setTintColors
         
-    # openControllerForModel("ford--focus--2014")
+    openControllerForModel("ford--focus--2014")
     
     true
   end
