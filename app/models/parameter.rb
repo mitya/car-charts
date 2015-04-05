@@ -21,18 +21,10 @@ class Parameter
     Metadata.parameterUnitNames[unitKey]
   end
   
-  # def currentUnitName
-  #   if Disk.parameterUnits == 'si'
-  #     unitName
-  #   else
-  #     settings = Metadata.parameterUnitsOverrides[Disk.parameterUnits]
-  #     if altUnitKey = settings['fields'][key]
-  #       Metadata.parameterUnitNames[altUnitKey]
-  #     else
-  #       settings['units']
-  #     end
-  #   end
-  # end
+  def localizedUnitName
+    localKey = Metadata.parameterUnitsOverrides[Disk.parameterUnits]['units'][unitKey]
+    Metadata.parameterUnitNames[localKey]
+  end
   
   def long?
     LongParameters.containsObject(key)
@@ -76,29 +68,14 @@ class Parameter
     "{#{key}}"
   end
   
-  # def convertToDisplayUnit(value)
-  #   unit = currentNonMetricFields[key]
-  #   convertUnit(value, unitName, unit)
-  #
-  #   # if Disk.currentDualValueFields[key]
-  #   #
-  #   # else unit = currentNonMetricFields[key]
-  #   #   convertUnit(value, unitName, unit)
-  #   # else
-  #   #   value
-  #   # end
-  # end
-  #
-  # def convertUnit(value, unit1, unit2)
-  #   value * ratios[unit2]
-  # end
-  
   class << self
     attr_reader :all
 
     def parameterForKey(key)
       @index[key] || raise("Missing parameter for key #{key}")
     end
+    
+    alias [] parameterForKey
     
     def load
       @all = Metadata.parameterNames.map { |key, name| new(key, name) }

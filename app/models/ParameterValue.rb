@@ -7,7 +7,7 @@ class ParameterValue
     @field = field
   end
   
-  def string(system = 'SI')
+  def string(system = 'SI', units = true)
     if value == nil || value == 0
       ''
     elsif STRING_FIELDS.containsObject(field)
@@ -16,16 +16,17 @@ class ParameterValue
       NSLocale.currentLocale.displayNameForKey(NSLocaleCountryCode, value: value)
     elsif ParameterValue.DUAL_FIELDS.containsObject(field)
       units = Metadata.parameterUnitsOverrides[Disk.parameterUnits]['dual_fields'][field]
-      "#{stringWithUnit(units.first)} (#{stringWithUnit(units.last)})"
+      "#{formattedValueInUnit(units.first)} (#{formattedValueInUnit(units.last)})"
     else      
       targetUnit = unitInSystem(system, field)
-      stringWithUnit(targetUnit)
+      formattedValueInUnit(targetUnit, units)
     end
   end
   
-  def stringWithUnit(targetUnit)
+  def formattedValueInUnit(targetUnit, outputUnits=true)
     result = valueInUnit(targetUnit)    
-    targetUnitName = Metadata.parameterUnitNames[targetUnit]
+    targetUnitName = Metadata.parameterUnitNames[targetUnit] if outputUnits
+    
     if result.is_a?(Float)
       if INTEGER_FIELDS.containsObject(field)
         result = result.round.to_s
@@ -33,7 +34,12 @@ class ParameterValue
         result = "%.1f" % result 
       end
     end
-    "#{result} #{targetUnitName}".strip
+    
+    if outputUnits
+      "#{result} #{targetUnitName}".strip
+    else
+      result
+    end
   end
 
   def valueInUnit(targetUnit)

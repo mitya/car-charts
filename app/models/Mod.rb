@@ -117,6 +117,16 @@ class Mod < DSCoreModel
     [gears_speed, transmission_name].reject(&:nil?).join(', ')
   end
   
+  def consumption_string
+    values = %w(consumption_city consumption_highway consumption_mixed).map do |field|
+      parameterValue(field).string(Disk.parameterUnits, false)
+    end.reject(&:blank?).join(' / ')
+
+    units = Parameter['consumption_city'].localizedUnitName
+      
+    "#{units}\n#{values}"    
+  end
+  
   # body, assembly countries, brand country, drive, transmission, fuel
   # engine_layout cylinder_placement compressor
   

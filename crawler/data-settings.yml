@@ -101,6 +101,7 @@ parameterNames:
   consumption_city: Consumption (city)
   consumption_highway: Consumption (hwy)
   consumption_mixed: Consumption (mixed)
+  consumption_string: Consumption
   cylinder_count: Number of Cylinders
   cylinder_placement: Cylinder Layout
   cylinder_valves: Valves per Cylider

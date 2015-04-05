@@ -52,11 +52,10 @@ class ModViewController < UITableViewController
       cell.textLabel.text = parameter.localizedName
       cell.detailTextLabel.text = @mod.parameterValue(parameter.key).string(Disk.parameterUnits)
 
-      if parameter.key == 'consumption_highway'
+      if parameter.key == 'consumption_string'
         cell.textLabel.numberOfLines = 0
-        cell.textLabel.text = "Consumption\ncity / highway / combined"
         cell.detailTextLabel.numberOfLines = 0
-        cell.detailTextLabel.text = "mpg (US)\n29 / 50 / 40"
+        cell.textLabel.text = "Consumption\ncity / highway / combined"
       end
 
       cell
@@ -71,7 +70,7 @@ class ModViewController < UITableViewController
   def tableView(tv, heightForRowAtIndexPath:ip)
     return super if ip.section == SystemSectionIndex
     parameter = Parameter.parametersForGroup( Parameter.groupKeys[ip.section - 1] )[ip.row]
-    parameter.key == 'consumption_highway' ? TWO_LINE_ROW_HEIGHT : super
+    parameter.key == 'consumption_string' ? TWO_LINE_ROW_HEIGHT : super
   end
   
   def close
