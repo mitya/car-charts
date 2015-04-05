@@ -45,10 +45,20 @@ class ModViewController < UITableViewController
       parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]
       cell = tv.dequeueReusableCell style:UITableViewCellStyleValue1, selectionStyle:UITableViewCellSelectionStyleNone do |cell|
         cell.detailTextLabel.adjustsFontSizeToFitWidth = YES
+        cell.detailTextLabel.numberOfLines = 1
+        cell.textLabel.numberOfLines = 1
       end
+    
       cell.textLabel.text = parameter.name
-      # cell.detailTextLabel.text = parameter.formattedValueForMod(@mod)
-      cell.detailTextLabel.text = @mod.parameterValue(parameter.key).format(Disk.parameterUnits)
+      cell.detailTextLabel.text = @mod.parameterValue(parameter.key).string(Disk.parameterUnits)
+
+      if parameter.key == 'consumption_highway'
+        cell.textLabel.numberOfLines = 0
+        cell.textLabel.text = "Consumption\ncity / highway / combined"
+        cell.detailTextLabel.numberOfLines = 0
+        cell.detailTextLabel.text = "mpg (US)\n29 / 50 / 40"
+      end
+
       cell
     end
   end
@@ -58,6 +68,11 @@ class ModViewController < UITableViewController
     showPhotos if indexPath.section == SystemSectionIndex && indexPath.item == 0
   end  
   
+  def tableView(tv, heightForRowAtIndexPath:ip)
+    return super if ip.section == SystemSectionIndex
+    parameter = Parameter.parametersForGroup( Parameter.groupKeys[ip.section - 1] )[ip.row]
+    parameter.key == 'consumption_highway' ? TWO_LINE_ROW_HEIGHT : super
+  end
   
   def close
     dismissSelfAnimated

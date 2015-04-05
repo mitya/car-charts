@@ -15,6 +15,8 @@ task 'crawler:parser', [:action] do |t, args|
   YA2Parser.new.send( args[:action] )
 end
 
+task meta: %w(crawler:step_83 crawler:copy)
+
 
 namespace 'crawler' do
   rule "" do |action|

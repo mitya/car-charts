@@ -7,27 +7,27 @@ class ParameterValue
     @field = field
   end
   
-  def format(system = 'SI')
+  def string(system = 'SI')
     if value == nil || value == 0
       ''
-    elsif self.class.stringFields.containsObject(field)
+    elsif STRING_FIELDS.containsObject(field)
       Metadata.parameterTranslations[field][value.to_s]  
     elsif field == 'brand_country'
       NSLocale.currentLocale.displayNameForKey(NSLocaleCountryCode, value: value)
-    elsif self.class.dualFields.containsObject(field)
+    elsif ParameterValue.DUAL_FIELDS.containsObject(field)
       units = Metadata.parameterUnitsOverrides[Disk.parameterUnits]['dual_fields'][field]
-      "#{formatWithUnit(units.first)} (#{formatWithUnit(units.last)})"
+      "#{stringWithUnit(units.first)} (#{stringWithUnit(units.last)})"
     else      
       targetUnit = unitInSystem(system, field)
-      formatWithUnit(targetUnit)
+      stringWithUnit(targetUnit)
     end
   end
   
-  def formatWithUnit(targetUnit)
+  def stringWithUnit(targetUnit)
     result = valueInUnit(targetUnit)    
     targetUnitName = Metadata.parameterUnitNames[targetUnit]
     if result.is_a?(Float)
-      if self.class.integerFields.containsObject(field)
+      if INTEGER_FIELDS.containsObject(field)
         result = result.round.to_s
       else
         result = "%.1f" % result 
@@ -51,15 +51,10 @@ class ParameterValue
     Metadata.parameterUnitsOverrides[system]['fields'][field] || Metadata.parameterUnitsOverrides[system]['units'][unit] || unit
   end
 
-  def self.stringFields
-    @@string_fields ||= NSSet.setWithArray %w(body drive transmission fuel compressor engine_layout cylinder_placement)
-  end  
+  STRING_FIELDS = NSSet.setWithArray %w(body drive transmission fuel compressor engine_layout cylinder_placement)
+  INTEGER_FIELDS = NSSet.setWithArray %w(top_speed max_torque consumption_city consumption_highway consumption_mixed gross_mass kerbweight)
   
-  def self.integerFields
-    @@integer_fields ||= NSSet.setWithArray %w(top_speed consumption_city consumption_highway consumption_mixed gross_mass kerbweight)    
-  end
-  
-  def self.dualFields
-    @@integer_fields ||= NSSet.setWithArray Metadata.parameterUnitsOverrides[Disk.parameterUnits]['dual_fields'].keys
+  def self.DUAL_FIELDS
+    @dual_fields ||= NSSet.setWithArray Metadata.parameterUnitsOverrides[Disk.parameterUnits]['dual_fields'].keys
   end
 end

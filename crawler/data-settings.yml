@@ -18,8 +18,8 @@ parameterGroupsData:
   - Engine
   - - acceleration_100kmh
     - top_speed
-    - max_power_string
-    - max_torque_string
+    - max_power
+    - max_torque
     - displacement
     - cylinder_count
     - cylinder_valves
@@ -92,7 +92,9 @@ parameterGroupsDataForCharting:
     - tank_capacity
     - doors
 parameterNames:
+  acceleration: Acelleration
   acceleration_100kmh: Acelleration (0–100 km/h)
+  acceleration_62mph: Acelleration (0–62 mph)
   assembly_countries: Assembly Countries
   body: Body Style
   bore: Bore
@@ -103,7 +105,7 @@ parameterNames:
   consumption_city: Consumption (city)
   consumption_highway: Consumption (hwy)
   consumption_mixed: Consumption (mixed)
-  cylinder_count: Cylider Count
+  cylinder_count: Number of Cylinders
   cylinder_placement: Cylinder Layout
   cylinder_valves: Valves per Cylider
   displacement: Displacement
@@ -119,8 +121,8 @@ parameterNames:
   injection: Injection Type
   kerbweight: Kerb Weight
   length: Length
-  luggage_max: Luggage (max)
-  luggage_min: Luggage (min)
+  luggage_max: Trunk Volume (max)
+  luggage_min: Trunk Volume (min)
   max_power: Power (hp)
   max_power_kw: Power (kW)
   max_power_string: Power
@@ -308,7 +310,7 @@ parameterTranslations:
     h: hybrid
     i: gasoline
   transmission:
-    AMT: double-clutch
+    AMT: dual-clutch automatic
     AT: automatic
     CVT: CVT
     MT: manual
