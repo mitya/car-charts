@@ -5,6 +5,14 @@ class Parameter
     @key, @name = key, name
   end
 
+  def localizedName
+    if Disk.parameterUnits != 'SI' && key == 'acceleration_100kmh'
+      'Acelleration (0–62 mph)'
+    else
+      name
+    end
+  end
+
   def unitKey
     Metadata.parameterUnits[key]
   end

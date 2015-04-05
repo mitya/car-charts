@@ -49,7 +49,7 @@ class ModViewController < UITableViewController
         cell.textLabel.numberOfLines = 1
       end
     
-      cell.textLabel.text = parameter.name
+      cell.textLabel.text = parameter.localizedName
       cell.detailTextLabel.text = @mod.parameterValue(parameter.key).string(Disk.parameterUnits)
 
       if parameter.key == 'consumption_highway'
