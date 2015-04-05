@@ -18,8 +18,8 @@ parameterGroupsData:
   - Engine
   - - acceleration_100kmh
     - top_speed
-    - max_power
-    - max_torque
+    - max_power_string
+    - max_torque_string
     - displacement
     - cylinder_count
     - cylinder_valves

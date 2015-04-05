@@ -31,7 +31,7 @@ class ParameterListController < UITableViewController
     parameter = Parameter.chartableParametersForGroup(groupKey)[indexPath.row]
 
     cell = table.dequeueReusableCell
-    cell.textLabel.text = parameter.name
+    cell.textLabel.text = parameter.localizedName
     cell.toggleCheckmarkAccessory(parameter.selected?)
     return cell
   end  

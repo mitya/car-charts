@@ -97,11 +97,13 @@ class Mod < DSCoreModel
   end
   
   def max_power_string
-    "#{max_power}#{THIN_SPACE}hp (#{max_power_kw}#{THIN_SPACE}kW) @ #{max_power_range}"
+    value = parameterValue('max_power').string(Disk.parameterUnits)
+    "#{value} @ #{max_power_range}"
   end
   
   def max_torque_string
-    "#{max_torque}#{THIN_SPACE}H∙m @ #{max_torque_range}"
+    value = parameterValue('max_torque').string(Disk.parameterUnits)
+    "#{value} @ #{max_torque_range}"
   end
   
   # body, assembly countries, brand country, drive, transmission, fuel
