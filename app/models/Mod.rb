@@ -97,12 +97,12 @@ class Mod < DSCoreModel
   end
   
   def max_power_string
-    value = parameterValue('max_power').string(Disk.parameterUnits)
+    value = parameterValue('max_power').string(Disk.unitSystem)
     "#{value} @ #{max_power_range}"
   end
   
   def max_torque_string
-    value = parameterValue('max_torque').string(Disk.parameterUnits)
+    value = parameterValue('max_torque').string(Disk.unitSystem)
     "#{value} @ #{max_torque_range}"
   end
   
@@ -119,8 +119,8 @@ class Mod < DSCoreModel
   
   def consumption_string
     values = %w(consumption_city consumption_highway consumption_mixed).map do |field|
-      parameterValue(field).string(Disk.parameterUnits, false)
-    end.reject(&:blank?).join(' / ')
+      parameterValue(field).string(Disk.unitSystem, false)
+    end.reject(&:blank?).join(' / ')
 
     units = Parameter['consumption_city'].localizedUnitName
       

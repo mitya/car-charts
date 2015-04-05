@@ -176,10 +176,15 @@ parameterUnits:
   price: usd
   year: value
 parameterUnitsOverrides:
+  SI:
+    units: {}
+    fields: {}
+    dual_fields: {}
   UK:
     units:
       kmh: mph
       l100km: uk_mpg
+    fields: {}
     dual_fields:
       max_torque: [nm, lb_ft]
       tank_capacity: [l, uk_gal]

@@ -15,7 +15,7 @@ class ParameterListSettingsController < UITableViewController
   end  
     
   def tableView(tv, numberOfRowsInSection: section)
-    2
+    ROWS.count
   end
   
   # def tableView(tv, titleForHeaderInSection: section)
@@ -24,22 +24,23 @@ class ParameterListSettingsController < UITableViewController
   
   def tableView(table, cellForRowAtIndexPath: indexPath)
     cell = table.dequeueReusableCell
-    cell.textLabel.text = OPTIONS[indexPath.row]
-    cell.toggleCheckmarkAccessory(currentParameterUnitIndex == indexPath.row)
+    cell.textLabel.text = ROWS[indexPath.row][:name]
+    __p Disk.unitSystem, ROWS[indexPath.row][:key], Disk.unitSystem == ROWS[indexPath.row][:key]
+    cell.toggleCheckmarkAccessory Disk.unitSystem == ROWS[indexPath.row][:key]
     cell
   end  
   
   def tableView(table, didSelectRowAtIndexPath:indexPath)
     tableView.deselectRowAtIndexPath(indexPath, animated:YES)
     cell = tableView.cellForRowAtIndexPath(indexPath)
-    Disk.parameterUnits = 'metric' if indexPath.row == 0
-    Disk.parameterUnits = 'imperial' if indexPath.row == 1
-    tableView.visibleCells.each   { |cell| cell.toggleCheckmarkAccessory }
+    Disk.unitSystem = ROWS[indexPath.row][:key]
+    tableView.visibleCells.each { |c| c.accessoryType = UITableViewCellAccessoryNone }
+    cell.accessoryType = UITableViewCellAccessoryCheckmark
   end
   
-  def currentParameterUnitIndex
-    Disk.parameterUnits == 'metric' ? 0 : 1
-  end
-  
-  OPTIONS = ['Metric', 'Imperial']
+  ROWS = [
+    {key: 'SI', name: 'Metric'},
+    {key: 'UK', name: 'United Kingdom'},    
+    {key: 'US', name: 'United States'}
+  ]
 end

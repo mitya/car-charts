@@ -50,7 +50,7 @@ class ModViewController < UITableViewController
       end
     
       cell.textLabel.text = parameter.localizedName
-      cell.detailTextLabel.text = @mod.parameterValue(parameter.key).string(Disk.parameterUnits)
+      cell.detailTextLabel.text = @mod.parameterValue(parameter.key).string(Disk.unitSystem)
 
       if parameter.key == 'consumption_string'
         cell.textLabel.numberOfLines = 0

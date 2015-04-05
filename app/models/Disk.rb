@@ -54,15 +54,14 @@ class Disk
       end
     end
     
-    # si us uk
-    def parameterUnits
-      NSUserDefaults.standardUserDefaults["parameterUnits"] || 'SI'
-      'US'
+    # SI UK UK
+    def unitSystem
+      NSUserDefaults.standardUserDefaults["unitSystem"] || 'SI'
     end
     
-    def parameterUnits=(value)
-      changeValueForKey('parameterUnits') do
-        NSUserDefaults.standardUserDefaults["parameterUnits"] = value
+    def unitSystem=(value)
+      changeValueForKey('unitSystem') do
+        NSUserDefaults.standardUserDefaults["unitSystem"] = value
       end
     end
   
@@ -111,4 +110,3 @@ class Disk
     end
   end
 end
-

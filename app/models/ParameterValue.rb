@@ -15,7 +15,7 @@ class ParameterValue
     elsif field == 'brand_country'
       NSLocale.currentLocale.displayNameForKey(NSLocaleCountryCode, value: value)
     elsif ParameterValue.DUAL_FIELDS.containsObject(field)
-      units = Metadata.parameterUnitsOverrides[Disk.parameterUnits]['dual_fields'][field]
+      units = Metadata.parameterUnitsOverrides[Disk.unitSystem]['dual_fields'][field]
       "#{formattedValueInUnit(units.first)} (#{formattedValueInUnit(units.last)})"
     else      
       targetUnit = unitInSystem(system, field)
@@ -28,7 +28,7 @@ class ParameterValue
     targetUnitName = Metadata.parameterUnitNames[targetUnit] if outputUnits
     
     if result.is_a?(Float)
-      if INTEGER_FIELDS.containsObject(field)
+      if integer_field?(field)
         result = result.round.to_s
       else
         result = "%.1f" % result 
@@ -58,9 +58,22 @@ class ParameterValue
   end
 
   STRING_FIELDS = NSSet.setWithArray %w(body drive transmission fuel compressor engine_layout cylinder_placement)
-  INTEGER_FIELDS = NSSet.setWithArray %w(top_speed max_torque consumption_city consumption_highway consumption_mixed gross_mass kerbweight)
+  CONSUMPTION_FIELDS = NSSet.setWithArray %w(consumption_city consumption_highway consumption_mixed)
+  INTEGER_FIELDS = NSSet.setWithArray %w(top_speed max_torque gross_mass kerbweight)
+
+  def integer_field?(field)
+    if CONSUMPTION_FIELDS.containsObject(field) && Disk.unitSystem != 'SI'
+      true
+    else
+      INTEGER_FIELDS.containsObject(field)
+    end
+  end
   
   def self.DUAL_FIELDS
-    @dual_fields ||= NSSet.setWithArray Metadata.parameterUnitsOverrides[Disk.parameterUnits]['dual_fields'].keys
+    @dual_fields ||= {}
+    @dual_fields[Disk.unitSystem] ||= begin
+      # overrides = Metadata.parameterUnitsOverrides[Disk.unitSystem]
+      NSSet.setWithArray Metadata.parameterUnitsOverrides[Disk.unitSystem]['dual_fields'].keys
+    end
   end
 end

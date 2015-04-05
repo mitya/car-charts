@@ -6,7 +6,7 @@ class Parameter
   end
 
   def localizedName
-    if Disk.parameterUnits != 'SI' && key == 'acceleration_100kmh'
+    if Disk.unitSystem != 'SI' && key == 'acceleration_100kmh'
       'Acelleration (0–62 mph)'
     else
       name
@@ -22,8 +22,8 @@ class Parameter
   end
   
   def localizedUnitName
-    localKey = Metadata.parameterUnitsOverrides[Disk.parameterUnits]['units'][unitKey]
-    Metadata.parameterUnitNames[localKey]
+    localKey = Metadata.parameterUnitsOverrides[Disk.unitSystem]['units'][unitKey]
+    Metadata.parameterUnitNames[localKey || unitKey]
   end
   
   def long?
@@ -50,7 +50,7 @@ class Parameter
   
   def formattedValueForMod(mod)
     value = mod.get(key)
-    # value = convertToDisplayUnit(value) if Disk.parameterUnits != 'si'
+    # value = convertToDisplayUnit(value) if Disk.unitSystem != 'si'
     case key
     when 'brand_country'
       NSLocale.currentLocale.displayNameForKey(NSLocaleCountryCode, value: value)
