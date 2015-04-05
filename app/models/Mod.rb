@@ -106,6 +106,17 @@ class Mod < DSCoreModel
     "#{value} @ #{max_torque_range}"
   end
   
+  def cylinder_string
+    cylinder_placement_string = Metadata.parameterTranslations['transmission'][transmission]
+    [cylinder_count, cylinder_placement_string].reject(&:nil?).join(' ')
+  end
+
+  def transmission_string
+    gears_speed = "#{gears}-speed" if gears
+    transmission_name = Metadata.parameterTranslations['transmission'][transmission]
+    [gears_speed, transmission_name].reject(&:nil?).join(', ')
+  end
+  
   # body, assembly countries, brand country, drive, transmission, fuel
   # engine_layout cylinder_placement compressor
   

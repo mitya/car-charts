@@ -21,19 +21,15 @@ parameterGroupsData:
     - max_power_string
     - max_torque_string
     - displacement
-    - cylinder_count
+    - cylinder_string
     - cylinder_valves
     - compression
     - bore_and_stroke
-    - gears
-    - consumption_city
-    - consumption_highway
-    - consumption_mixed
-    - drive
-    - transmission
+    - transmission_string
+    - consumption_string
     - fuel
+    - drive
     - engine_layout
-    - cylinder_placement
     - compressor
   dimensions:
   - Dimensions
@@ -108,12 +104,14 @@ parameterNames:
   cylinder_count: Number of Cylinders
   cylinder_placement: Cylinder Layout
   cylinder_valves: Valves per Cylider
+  cylinder_string: Cylinders
   displacement: Displacement
   doors: Doors Count
   drive: Drivetrain
   engine_layout: Engine Layout
   front_tire_rut: Front Tire Rut
   fuel: Fuel
+  gears: Gears Number
   gears: Gears Number
   gross_mass: Gross Weight
   ground_clearance: Ground Clearance
@@ -134,6 +132,7 @@ parameterNames:
   tires: Tires
   top_speed: Top Speed
   transmission: Gearbox
+  transmission_string: Gearbox
   wheelbase: Wheelbase
   width: Width
   year: Year
@@ -310,7 +309,7 @@ parameterTranslations:
     h: hybrid
     i: gasoline
   transmission:
-    AMT: dual-clutch automatic
+    AMT: dual-clutch
     AT: automatic
     CVT: CVT
     MT: manual
