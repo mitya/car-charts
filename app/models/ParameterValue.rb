@@ -48,7 +48,7 @@ class ParameterValue
 
   def valueInUnit(targetUnit)
     return nil if value == nil
-    return 0 if value == 0
+    return nil if value == 0
     return value if unit == targetUnit
 
     ratio = Parameter::CONVERTIONS["#{unit}__#{targetUnit}".to_sym]
@@ -71,6 +71,7 @@ class ParameterValue
     NUMBER_FORMATTER.stringFromNumber NSNumber.numberWithInteger(integer)
   end  
   
+  # ParameterValue::NUMBER_FORMATTER.stringFromNumber NSNumber.numberWithDouble(10000.456789)
   def formatFloat(float)
     NUMBER_FORMATTER.stringFromNumber NSNumber.numberWithDouble(float)
   end

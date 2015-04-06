@@ -19,7 +19,7 @@ class ChartBarView < UIView
   BarRM = TitleLM
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
-  BarMinW = 80
+  BarMinW = 90
   BarEmptyW = 38
   
   WideBarLabelW = 250
