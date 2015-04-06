@@ -22,13 +22,12 @@ parameterGroupsData:
     - max_torque_string
     - displacement
     - cylinder_string
-    - cylinder_valves
     - compression
     - bore_and_stroke
     - transmission_string
-    - consumption_string
-    - fuel
     - drive
+    - fuel
+    - consumption_string
     - engine_layout
     - compressor
   dimensions:
@@ -43,8 +42,7 @@ parameterGroupsData:
     - tires
     - front_tire_rut
     - rear_tire_rut
-    - luggage_min
-    - luggage_max
+    - luggage_string
     - tank_capacity
     - doors
   other:
@@ -122,6 +120,7 @@ parameterNames:
   length: Length
   luggage_max: Trunk Volume (max)
   luggage_min: Trunk Volume (min)
+  luggage_string: Trunk Volume
   max_power: Power (hp)
   max_power_kw: Power (kW)
   max_power_string: Power
@@ -186,10 +185,9 @@ parameterUnitsOverrides:
       l100km: uk_mpg
     fields: {}
     dual_fields:
+      top_speed: [mph, kmh]
       max_torque: [nm, lb_ft]
       tank_capacity: [l, uk_gal]
-
-    # rename acceleration  
   US:
     units:
       kmh: mph
@@ -201,11 +199,8 @@ parameterUnitsOverrides:
       luggage_max: ft3
       tank_capacity: us_gal
     dual_fields:
-      top_speed: [mph, kmh]
       max_torque: [lb_ft, nm]
       displacement: [cc, in3]
-
-    # rename acceleration
 
 parameterUnitNames:
   kmh: km / h
@@ -285,7 +280,7 @@ categoryNames:
 parameterTranslations:
   cylinder_placement:
     F: flat
-    I: inline
+    I: in-line
     R: rotary
     V: V-type
     W: W-type

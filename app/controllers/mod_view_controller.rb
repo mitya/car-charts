@@ -8,12 +8,23 @@ class ModViewController < UITableViewController
     self.mod = mod
     self.title = mod.model.family.name
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if KK.ipad?
+    Disk.addObserver(self, forKeyPath:"unitSystem", options:NO, context:nil)
+  end
+
+  def dealloc
+    Disk.removeObserver(self, forKeyPath:"unitSystem")
+    super
   end
 
   def viewDidLoad
     self.tableView.tableHeaderView = KK.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersionYear))
   end
 
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    case keyPath when 'unitSystem'
+      tableView.reloadData
+    end
+  end
 
   def numberOfSectionsInTableView(tv)
     Parameter.groupKeys.count + 1

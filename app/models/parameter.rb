@@ -22,8 +22,9 @@ class Parameter
   end
   
   def localizedUnitName
-    localKey = Metadata.parameterUnitsOverrides[Disk.unitSystem]['units'][unitKey]
-    Metadata.parameterUnitNames[localKey || unitKey]
+    localKey = Metadata.parameterUnitsOverrides[Disk.unitSystem]['units'][unitKey]    
+    fieldSpecificKey = Metadata.parameterUnitsOverrides[Disk.unitSystem]['fields'][key]    
+    Metadata.parameterUnitNames[fieldSpecificKey || localKey || unitKey]
   end
   
   def long?

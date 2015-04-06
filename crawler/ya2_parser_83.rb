@@ -55,7 +55,7 @@ class YA2Parser
     metadata['brand_names'] = brand_names
     metadata['parameter_keys'] = CWD.used_fields
     metadata['sample_sets'] = sample_sets
-    metadata.update CW.load_dataset("settings")
+    metadata.update CW.load_dataset("metadata")
 
     CW.write_data_to_plist "08.3-metadata", metadata
     CW.write_data "debug-08.3-metadata", metadata

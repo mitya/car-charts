@@ -15,7 +15,8 @@ task 'crawler:parser', [:action] do |t, args|
   YA2Parser.new.send( args[:action] )
 end
 
-task meta: %w(crawler:step_83 crawler:copy)
+task meta: %w(crawler:step_83 crawler:copy) do
+end
 
 
 namespace 'crawler' do
@@ -24,6 +25,7 @@ namespace 'crawler' do
       require "#{Dir.pwd}/crawler/ya2_boot.rb"      
       method = action.name.split(':').last
       worker = method.start_with?("step_8") ? YA2Parser : YA2Processor
+      puts "-- #{method}"
       worker.new.send(method)
     else
       puts "unknown task: #{action.name}"

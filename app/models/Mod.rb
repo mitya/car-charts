@@ -107,8 +107,11 @@ class Mod < DSCoreModel
   end
   
   def cylinder_string
-    cylinder_placement_string = Metadata.parameterTranslations['transmission'][transmission]
-    [cylinder_count, cylinder_placement_string].reject(&:nil?).join(' ')
+    cylinder_placement_string = Metadata.parameterTranslations['cylinder_placement'][cylinder_placement]
+    valves_count = cylinder_count * cylinder_valves if cylinder_count && cylinder_valves
+    string = [cylinder_count, cylinder_placement_string].reject(&:nil?).join(' ')
+    string += ", #{valves_count}v" if valves_count
+    string
   end
 
   def transmission_string
@@ -122,9 +125,17 @@ class Mod < DSCoreModel
       parameterValue(field).string(Disk.unitSystem, false)
     end.reject(&:blank?).join(' / ')
 
-    units = Parameter['consumption_city'].localizedUnitName
+    unit = Parameter['consumption_city'].localizedUnitName
       
-    "#{units}\n#{values}"    
+    "#{unit}\n#{values}"    
+  end
+  
+  def luggage_string
+    values = %w(luggage_min luggage_max).map do |field|
+      parameterValue(field).string(Disk.unitSystem, false)
+    end.reject(&:blank?).join(' – ')
+    unit = Parameter['luggage_min'].localizedUnitName
+    "#{values} #{unit}"
   end
   
   # body, assembly countries, brand country, drive, transmission, fuel

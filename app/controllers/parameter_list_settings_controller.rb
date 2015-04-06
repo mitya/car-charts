@@ -25,7 +25,6 @@ class ParameterListSettingsController < UITableViewController
   def tableView(table, cellForRowAtIndexPath: indexPath)
     cell = table.dequeueReusableCell
     cell.textLabel.text = ROWS[indexPath.row][:name]
-    __p Disk.unitSystem, ROWS[indexPath.row][:key], Disk.unitSystem == ROWS[indexPath.row][:key]
     cell.toggleCheckmarkAccessory Disk.unitSystem == ROWS[indexPath.row][:key]
     cell
   end  
