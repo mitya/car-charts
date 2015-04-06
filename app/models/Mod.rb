@@ -20,6 +20,7 @@ class Mod < DSCoreModel
   # NameEngine | NameModel | NameVersion | NameBody | Opel Astra sedan 2.1T 240hp AT, OPC
   def modName(options = NameEngineVersion)
     enginePart = "#{displacement_key}#{suffix} #{max_power}hp #{transmission}" if options & NameEngine > 0
+    enginePart += " 4x4" if options & NameEngine > 0 && drive == 'AWD'
     bodyPart = bodyName if options & NameBody > 0
     versionPart = versionName if options & NameVersion > 0
     modelPart = model.name if options & NameModel > 0

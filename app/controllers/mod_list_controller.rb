@@ -73,7 +73,7 @@ class ModListController < UIViewController
     mod.select!
   end
   
-  def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
+  def tableView(tv, accessoryButtonTappedForRowWithIndexPath:indexPath)
     ModViewController.showFor self, withMod: modsByBody.objectForIndexPath(indexPath)
   end
   
