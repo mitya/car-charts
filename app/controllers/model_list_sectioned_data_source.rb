@@ -29,7 +29,9 @@ class ModelListController < UIViewController
       model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
       modelSelectedModsCount = model.selectedModsCount
 
-      cell = table.dequeueReusableCell(style: UITableViewCellStyleValue1) { |cell| cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator }
+      cell = table.dequeueReusableCell(style: UITableViewCellStyleValue1) do |c|
+        c.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+      end
 
       text = NSMutableAttributedString.alloc.init
       model_name = NSAttributedString.alloc.initWithString model.family.unbrandedName + ' ', attributes: { }

@@ -10,7 +10,7 @@ class ModelCategoriesController < UITableViewController
     self.title = "Categories"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("ti-car"), tag:3)
     self.navigationItem.leftBarButtonItem = KK.textBBI('All', target:self, action:'showAll')
-    self.navigationItem.rightBarButtonItem = KK.imageBBI('bar-xb', target:self, action:'close')
+    self.navigationItem.rightBarButtonItem = KK.imageBBI('bar-x', target:self, action:'close')
     self.mode = :brands
   end
 
