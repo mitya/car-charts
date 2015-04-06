@@ -84,9 +84,8 @@ class ChartController < UIViewController
 
   def tableView(tv, didSelectRowAtIndexPath:ip)
     tableView.deselectRowAtIndexPath(ip, animated:true)
-    cell = tableView.cellForRowAtIndexPath(ip)
 
-    mod = cell.comparisionItem.mod
+    mod = comparision.mods[ip.row]
     modListController = ModListController.new(mod.generation)
     modListController.selectedMod = mod
         
@@ -96,6 +95,15 @@ class ChartController < UIViewController
     modelsNavController.pushViewController modListController, animated:YES
   end
 
+  def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:ip)
+    case editingStyle when UITableViewCellEditingStyleDelete
+      mod = comparision.mods[ip.row]
+      Disk.currentMods = Disk.currentMods - [mod]
+      # remove all mods if only length parameters are used
+
+      # tableView.deleteRowsAtIndexPaths([ip], withRowAnimation:UITableViewRowAnimationFade)
+    end
+  end
 
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
@@ -103,10 +111,10 @@ class ChartController < UIViewController
   end
 
 
-  def reload
+  def reload(reloadView = true)
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     
-    tableView.reloadData
+    tableView.reloadData if reloadView
 
     if KK.ipad?
       tableView.tableHeaderView ||= UIView.alloc.initWithFrame(CGRectMake 0, 0, 100, 10)
