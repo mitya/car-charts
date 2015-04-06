@@ -248,6 +248,8 @@ class Mod < DSCoreModel
     def modForKey(key)
       context.fetchEntity(entity, predicate:["key = %@", key]).first
     end
+    
+    alias [] modForKey
 
     def modsForKeys(keys) 
       mods = context.fetchEntity(entity, predicate:["key in %@", keys])
@@ -282,8 +284,8 @@ class Mod < DSCoreModel
       options[:fuel] = [options[:gas], options[:diesel]].compact
       options
     end
-  
-  
+
+
     # To import a plist:
     # 1. uncomment some stuff in AppDelegate.staticContext
     # 2. find where the app document directory is & remove the old mods.sqlite (KK.documentsURL)
@@ -296,7 +298,7 @@ class Mod < DSCoreModel
         deleteAll
         fields = @fields.map(&:first)
         NSLog "Params delta: #{(Metadata.parameter_keys - fields).join(',')} | #{(fields - Metadata.parameter_keys).join(',')}"
-      
+
         fields.delete 'key'
         plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db/mods", ofType:"plist"))
       

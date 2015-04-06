@@ -3,7 +3,7 @@ describe "Core Extensions" do
     @ary = [1,2,3,4]
   end
 
-  it "array works" do
-    puuts @ary.inspect
-  end
+  # it "array works" do
+  #   puts @ary.inspect
+  # end
 end

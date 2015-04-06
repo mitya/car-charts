@@ -8,4 +8,7 @@ gem 'rmagick'
 
 # crawler
 gem 'nokogiri'
-gem 'plist'
+gem 'plist'  
+
+gem 'motion-redgreen'  
+
