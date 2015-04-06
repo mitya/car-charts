@@ -1,5 +1,6 @@
 class ModListController < UIViewController
   attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
+  attr_accessor :selectedMod
 
   def initialize(model = nil)
     self.model = model
@@ -26,7 +27,9 @@ class ModListController < UIViewController
   
   def viewWillAppear(animated)
     super
+    
     applyFilter
+    scrollToMod(selectedMod, animated:NO) if selectedMod
   end
   
 
@@ -78,11 +81,11 @@ class ModListController < UIViewController
   end
   
   
-  def addToModSet(button)
-    indexPath = tableView.indexPathForCell(button.superview)
-    mod = modsByBody.objectForIndexPath(indexPath)
-    # nothing for now
-  end
+  # def addToModSet(button)
+  #   indexPath = tableView.indexPathForCell(button.superview)
+  #   mod = modsByBody.objectForIndexPath(indexPath)
+  #   # nothing for now
+  # end
   
 
   def applyFilter(options = {})
@@ -107,6 +110,18 @@ class ModListController < UIViewController
       presentNavigationController @filterController, presentationStyle:UIModalPresentationCurrentContext
     else
       @filterController.popover = presentPopoverController @filterController, fromBarItem:navigationItem.rightBarButtonItem
+    end
+  end
+  
+  def scrollToMod(mod, animated:animated)
+    modsWithSuchBody = modsByBody[mod.body]    
+    if modsWithSuchBody
+      modIndex = modsWithSuchBody.index(mod)
+      if modIndex
+        bodyIndex = modsByBody.keys.index(mod.body)
+        indexPath = NSIndexPath.indexPathForRow(modIndex, inSection: bodyIndex)
+        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition:UITableViewScrollPositionTop, animated:animated)
+      end      
     end
   end
 end

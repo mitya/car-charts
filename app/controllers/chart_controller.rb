@@ -73,7 +73,7 @@ class ChartController < UIViewController
   end
 
   def tableView(tv, cellForRowAtIndexPath:ip)
-    cell = tv.dequeueReusableCell klass:ChartBarView::TableCell, selectionStyle:UITableViewCellSelectionStyleNone
+    cell = tv.dequeueReusableCell klass:ChartBarView::TableCell
     cell.comparisionItem = @comparision.items[ip.row]
     cell
   end
@@ -81,6 +81,21 @@ class ChartController < UIViewController
   def tableView(tv, heightForRowAtIndexPath:ip)
     ChartBarView.heightForComparisionItem(@comparision.items[ip.row])
   end
+
+  def tableView(tv, didSelectRowAtIndexPath:ip)
+    tableView.deselectRowAtIndexPath(ip, animated:true)
+    cell = tableView.cellForRowAtIndexPath(ip)
+
+    mod = cell.comparisionItem.mod
+    modListController = ModListController.new(mod.generation)
+    modListController.selectedMod = mod
+        
+    tabBarController.selectedIndex = 2
+    modelsNavController = KK.app.delegate.modelListController.navigationController
+    modelsNavController.popToRootViewControllerAnimated(NO)
+    modelsNavController.pushViewController modListController, animated:YES
+  end
+
 
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)

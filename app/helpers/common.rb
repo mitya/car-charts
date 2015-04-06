@@ -2,7 +2,7 @@ module KK::Common
   def app
     UIApplication.sharedApplication
   end
-
+  
   def defaults
     NSUserDefaults.standardUserDefaults
   end

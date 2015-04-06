@@ -1,5 +1,6 @@
 class AppDelegate
   attr_accessor :window, :tabBarController, :chartController, :hidesMasterView
+  attr_accessor :modelListController
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
@@ -11,8 +12,9 @@ class AppDelegate
 
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
     self.chartController = ChartController.new
+    self.modelListController = ModelListController.new
     self.tabBarController = UITabBarController.new.tap do |tbc|
-      tabControllers = [chartController, ParameterListController.new, ModelListController.new, ModRecentsController.new, ModSetListController.new]
+      tabControllers = [chartController, ParameterListController.new, modelListController, ModRecentsController.new, ModSetListController.new]
       tabControllers.shift if KK.ipad?
       tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
