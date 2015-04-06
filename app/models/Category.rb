@@ -39,6 +39,10 @@ class Category
     def load
       @all = keys.map { |key| new(key) }
       @index = @all.uniqueIndexBy(&:key)
-    end    
+    end
+    
+    def allSortedByName
+      @allByName ||= @all.sort_by(&:shortName)
+    end
   end  
 end

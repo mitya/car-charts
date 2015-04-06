@@ -8,6 +8,8 @@ class Brand
   def name
     @name ||= Metadata.brand_names[key]
   end
+
+  alias shortName name
   
   def premium?
     self.class.premiumKeys.containsObject(key)
@@ -21,6 +23,10 @@ class Brand
     @models ||= ModelGeneration.generationsForBrandKey(key)
   end
   
+  def selectedModsCount
+    Disk.currentMods.select { |mod| mod.brand == self }.count
+  end
+    
   class << self 
     attr_reader :index, :all
        
@@ -40,5 +46,9 @@ class Brand
       @all = keys.map { |key| new(key) }
       @index = @all.uniqueIndexBy(&:key)
     end    
+    
+    def allSortedByName
+      @allByName ||= @all.sort_by(&:shortName)
+    end
   end  
 end

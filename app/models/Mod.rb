@@ -80,6 +80,10 @@ class Mod < DSCoreModel
     family.category
   end
 
+  def brand
+    family.brand
+  end
+
   def modelKeyWithVersion
     version_key ? "#{family_key}.#{version_key}" : family_key
   end

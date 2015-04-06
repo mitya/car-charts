@@ -90,6 +90,7 @@ class ModelListController < UIViewController
   def categoriesController
     @categoriesController ||= ModelCategoriesController.new
   end
+
   
   def showCategories
     presentNavigationController categoriesController, presentationStyle:UIModalPresentationCurrentContext
