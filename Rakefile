@@ -9,6 +9,7 @@ rescue LoadError
 end
 
 ENV['device_name'] = 'iPhone 5'  # iPhone 5s 7.1, Resizable iPad
+ENV['device_name'] = 'iPad Air'
 # ENV['device_name'] = 'iPhone 5s 7.1'  # iPhone 5s 7.1, Resizable iPad
 
 Motion::Project::App.setup do |app|
@@ -32,6 +33,7 @@ Motion::Project::App.setup do |app|
     app.redgreen_style = :full # default: :focused, also can use :progress
 
     # app.info_plist['CCBenchmarking'] = true
+    app.info_plist['CCNoResetAfterCrash'] = true
     app.info_plist['DebugModeEnabled'] = true
     app.info_plist['TestModsDataset'] = true
     # app.info_plist['TestModsDatasetRun'] = true

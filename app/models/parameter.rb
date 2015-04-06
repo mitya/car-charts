@@ -17,14 +17,25 @@ class Parameter
     Metadata.parameterUnits[key]
   end
   
+  def defaultUnitKeyInCurrentSystem
+    unitSystem = Disk.unitSystem
+    
+    return unitKey if unitSystem == 'SI'
+    
+    if dualUnits = Metadata.parameterUnitsOverrides[unitSystem]['dual_fields'][key]
+      return dualUnits.first
+    end
+    
+    Metadata.parameterUnitsOverrides[unitSystem]['fields'][key] || 
+    Metadata.parameterUnitsOverrides[unitSystem]['units'][unitKey] || unitKey
+  end
+  
   def unitName
     Metadata.parameterUnitNames[unitKey]
   end
   
   def localizedUnitName
-    localKey = Metadata.parameterUnitsOverrides[Disk.unitSystem]['units'][unitKey]    
-    fieldSpecificKey = Metadata.parameterUnitsOverrides[Disk.unitSystem]['fields'][key]    
-    Metadata.parameterUnitNames[fieldSpecificKey || localKey || unitKey]
+    Metadata.parameterUnitNames[defaultUnitKeyInCurrentSystem]
   end
   
   def long?
@@ -43,27 +54,27 @@ class Parameter
     Disk.currentParameters = Disk.currentParameters.dupWithToggledObject(self)
   end
 
-  def formattedValue(value)
-    return "" if value == nil
-    value = "%.1f" % value if Float === value
-    "#{value} #{unitName}".strip
-  end
-  
-  def formattedValueForMod(mod)
-    value = mod.get(key)
-    # value = convertToDisplayUnit(value) if Disk.unitSystem != 'si'
-    case key
-    when 'brand_country'
-      NSLocale.currentLocale.displayNameForKey(NSLocaleCountryCode, value: value)
-    when 'body', 'drive', 'transmission', 'fuel', 'compressor', 'engine_layout', 'cylinder_placement'
-      Metadata.parameterTranslations[key][value.to_s]
-    # when 'produced_since', 'produced_till'
-    #   year, month = value.to_i.divmod(100)
-    #   month == 0 ? year : "#{year}.#{month.to_s.rjust(2, '0')}"
-    else
-      formattedValue(value)
-    end
-  end 
+  # def formattedValue(value)
+  #   return "" if value == nil
+  #   value = "%.1f" % value if Float === value
+  #   "#{value} #{unitName}".strip
+  # end
+  #
+  # def formattedValueForMod(mod)
+  #   value = mod.get(key)
+  #   # value = convertToDisplayUnit(value) if Disk.unitSystem != 'si'
+  #   case key
+  #   when 'brand_country'
+  #     NSLocale.currentLocale.displayNameForKey(NSLocaleCountryCode, value: value)
+  #   when 'body', 'drive', 'transmission', 'fuel', 'compressor', 'engine_layout', 'cylinder_placement'
+  #     Metadata.parameterTranslations[key][value.to_s]
+  #   # when 'produced_since', 'produced_till'
+  #   #   year, month = value.to_i.divmod(100)
+  #   #   month == 0 ? year : "#{year}.#{month.to_s.rjust(2, '0')}"
+  #   else
+  #     formattedValue(value)
+  #   end
+  # end
   
   def inspect
     "{#{key}}"

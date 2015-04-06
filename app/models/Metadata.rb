@@ -17,21 +17,5 @@ class Metadata
     def [](key)
       Statics[key] || @store[key]
     end
-    
-    # def brandNamesList
-    #   @brandNamesList ||= brandNames.values
-    # end
-    #
-    # def brandKeys
-    #   @brandKeys ||= brandNames.keys
-    # end
-    #
-    # def categoryKeys
-    #   @categoryKeys ||= Metadata.categoryNames.keys
-    # end
-    #
-    # def parameters
-    #   @store[:parameters]
-    # end
   end
 end

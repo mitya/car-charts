@@ -22,9 +22,15 @@ class ParameterValue
       formattedValueInUnit(targetUnit, units)
     end
   end
+
+  def stringInDefaultUnit
+    system = Disk.unitSystem
+    formattedValueInUnit(Parameter[field].defaultUnitKeyInCurrentSystem)
+  end
   
   def formattedValueInUnit(targetUnit, outputUnits=true)
-    result = valueInUnit(targetUnit)    
+    result = valueInUnit(targetUnit)
+    return "" if result == nil || result == 0
     targetUnitName = Metadata.parameterUnitNames[targetUnit] if outputUnits
     
     if result.is_a?(Float)
@@ -43,13 +49,19 @@ class ParameterValue
   end
 
   def valueInUnit(targetUnit)
+    return nil if value == nil
+    return 0 if value == 0
     return value if unit == targetUnit
+
     ratio = Parameter::CONVERTIONS["#{unit}__#{targetUnit}".to_sym]
-    if unit == 'l100km'
+    result = if unit == 'l100km'
       ratio / value
     else
       value * ratio
     end
+    
+    result = result.round if integer_field?(field)
+    result
   end
   
   def unitInSystem(system = 'SI', field = 'none')
@@ -62,18 +74,11 @@ class ParameterValue
   INTEGER_FIELDS = NSSet.setWithArray %w(top_speed max_torque gross_mass kerbweight)
 
   def integer_field?(field)
-    if CONSUMPTION_FIELDS.containsObject(field) && Disk.unitSystem != 'SI'
-      true
-    else
-      INTEGER_FIELDS.containsObject(field)
-    end
+    (CONSUMPTION_FIELDS.containsObject(field) && Disk.unitSystem != 'SI') || INTEGER_FIELDS.containsObject(field)
   end
   
   def self.DUAL_FIELDS
     @dual_fields ||= {}
-    @dual_fields[Disk.unitSystem] ||= begin
-      # overrides = Metadata.parameterUnitsOverrides[Disk.unitSystem]
-      NSSet.setWithArray Metadata.parameterUnitsOverrides[Disk.unitSystem]['dual_fields'].keys
-    end
+    @dual_fields[Disk.unitSystem] ||= NSSet.setWithArray Metadata.parameterUnitsOverrides[Disk.unitSystem]['dual_fields'].keys
   end
 end

@@ -1,57 +1,17 @@
 ---
-premiumBrandKeys:
-- mercedes_benz
-- audi
-- bmw
-- lexus
-- infinity
-- acura
-- volvo
-- cadillac
-- range_rover
-parameterGroups:
-- engine
-- dimensions
-- other
+premiumBrandKeys: [mercedes_benz, audi, bmw, lexus, infinity, acura, volvo, cadillac, range_rover]
+parameterGroups: [engine, dimensions, other]
 parameterGroupsData:
   engine:
   - Engine
-  - - acceleration_100kmh
-    - top_speed
-    - max_power_string
-    - max_torque_string
-    - displacement
-    - cylinder_string
-    - compression
-    - bore_and_stroke
-    - transmission_string
-    - drive
-    - fuel
-    - consumption_string
-    - engine_layout
-    - compressor
+  - [acceleration_100kmh, top_speed, max_power_string, max_torque_string, displacement, cylinder_string, compression, bore_and_stroke, transmission_string, drive, fuel, consumption_string, engine_layout, compressor]
   dimensions:
   - Dimensions
-  - - length
-    - width
-    - height
-    - ground_clearance
-    - wheelbase
-    - kerbweight
-    - gross_mass
-    - tires
-    - front_tire_rut
-    - rear_tire_rut
-    - luggage_string
-    - tank_capacity
-    - doors
+  - [length, width, height, ground_clearance, wheelbase, kerbweight, gross_mass, tires, front_tire_rut, rear_tire_rut, luggage_string, tank_capacity, doors]
   other:
   - Other
-  - - body
-    - brand_country
-parameterGroupsForCharting:
-- engine
-- dimensions  
+  - [body, brand_country]
+parameterGroupsForCharting: [engine, dimensions]
 parameterGroupsDataForCharting:
   engine:
   - Engine
@@ -231,52 +191,26 @@ parameterUnitNames:
   value: ''
   tires: ''
 categoryNames:
-  A:
-  - City (A class)
-  - City
-  B:
-  - Supermini (B class)
-  - Supermini
-  C:
-  - Compact (C/Golf class)
-  - Compacts
-  D:
-  - Family (D class)
-  - Family
-  E:
-  - Business (E class)
-  - Business
-  F:
-  - Premium Sedans
-  - Premium
-  Xb:
-  - Very Compact SUVs
-  Xc:
-  - Compact SUVs
-  Xd:
-  - Compact+ SUVs
-  Xe:
-  - Mid-Size SUVs
-  Xf:
-  - Full-Size SUVs
-  Xx:
-  - Offroad SUVs
-  Wx:
-  - AWD Wagons
-  Sr:
-  - Roadsters
-  Sc:
-  - Sportcars
-  Mb:
-  - Mini MPVs
-  Mc:
-  - Compact MPVs
-  Me:
-  - Mid-Size MPVs
-  Pc:
-  - Compact Pickups
-  Pd:
-  - Full-Size Pickups
+  A: [City (A class), City]
+  B: [Supermini (B class), Supermini]
+  C: [Compact (C/Golf class), Compacts]
+  D: [Family (D class), Family]
+  E: [Business (E class), Business]
+  F: [Premium Sedans, Premium]
+  Xb: [Very Compact SUVs]
+  Xc: [Compact SUVs]
+  Xd: [Compact+ SUVs]
+  Xe: [Mid-Size SUVs]
+  Xf: [Full-Size SUVs]
+  Xx: [Offroad SUVs]
+  Wx: [AWD Wagons]
+  Sr: [Roadsters]
+  Sc: [Sportcars]
+  Mb: [Mini MPVs]
+  Mc: [Compact MPVs]
+  Me: [Mid-Size MPVs]
+  Pc: [Compact Pickups]
+  Pd: [Full-Size Pickups]
 parameterTranslations:
   cylinder_placement:
     F: flat

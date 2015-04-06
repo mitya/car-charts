@@ -90,6 +90,7 @@ class ChartController < UIViewController
 
   def reload
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
+    
     tableView.reloadData
 
     if KK.ipad?

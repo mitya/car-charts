@@ -11,11 +11,22 @@ class Comparision
     @max_values ||= {}
     @ranges ||= {}
     @containsOnlyBodyParams = nil
+    @all_values = {}
   end
 
+
+  def allValuesFor(param)
+    @all_values[param] ||= mods.map do |mod|
+      mod.parameterValue(param.key).valueInUnit(param.defaultUnitKeyInCurrentSystem)
+    end
+  end
   
   def valuesFor(param)
-    @values[param] ||= mods.map { |mod| mod[param] }.compact.uniq
+    @values[param] ||= mods.map do |mod|
+      mod.parameterValue(param.key).valueInUnit(param.defaultUnitKeyInCurrentSystem)
+    end.compact.uniq do |value|
+      value.to_f # a weird hack, uniq by itself doesn't work sometimes
+    end
   end
   
   def maxValueFor(param)

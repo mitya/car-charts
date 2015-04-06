@@ -192,6 +192,15 @@ class Mod < DSCoreModel
     ParameterValue.new(get(field), Metadata.parameterUnits[field], field)
   end
 
+  # 73 lb*ft | 100 N*m
+  def localizedValueString(field)
+    parameterValue(field).stringInDefaultUnit
+  end
+  
+  # 73.0 | 100.0
+  def localizedValue(parameter)
+    parameterValue(parameter.key).valueInUnit(parameter.defaultUnitKeyInCurrentSystem)
+  end
   
   AutomaticTransmissions = %w(AT AMT CVT)  
 

@@ -34,7 +34,7 @@ class AppDelegate
 
     setTintColors
         
-    openControllerForModel("ford--focus--2014")
+    # openControllerForModel("ford--focus--2014")
     
     true
   end
@@ -134,7 +134,7 @@ class AppDelegate
 
   def recoverAfterCrash
     NSLog "Recovering after crash ..."
-    resetAllSettings
+    resetAllSettings unless KK.env?('CCNoResetAfterCrash')
     NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
     $lastLaunchDidFail = true
   end

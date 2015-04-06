@@ -68,7 +68,7 @@ class ChartLegendView < UIView
       textSize = param.name.sizeWithFont(textFont)
       textFrame = CGRectMake(colorFrame.x + colorFrame.width + ColorRM, (ItemH - textSize.height) / 2.0, textSize.width, textSize.height)
       KK.drawRect colorFrame, inContext:context, withGradientColors:colorGradient, cornerRadius:3
-      KK.drawString param.name, inRect:textFrame, withColor:UIColor.darkGrayColor, font:textFont, alignment:UITextAlignmentLeft
+      KK.drawString param.localizedName, inRect:textFrame, withColor:UIColor.darkGrayColor, font:textFont, alignment:UITextAlignmentLeft
     end
 
     def sizeThatFits(oldSize)

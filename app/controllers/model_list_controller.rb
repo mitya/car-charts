@@ -29,11 +29,8 @@ class ModelListController < UIViewController
 
   def viewWillAppear(animated)
     super
-    
-    activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
-    activeTableView.reloadVisibleRows
 
-    self.category = categoriesController.category if @categoriesController
+    self.category = @categoriesController.category if @categoriesController
         
     viewSelectorBarItem.title = currentTitle
     navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
@@ -50,6 +47,9 @@ class ModelListController < UIViewController
       tableView.tableHeaderView = searchBar      
       # tableView.contentOffset = CGPointMake(0, 0) # currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, UIToolbarHeight) # iOS6
     end
+    
+    activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
+    activeTableView.reloadVisibleRows    
   end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)

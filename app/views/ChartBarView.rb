@@ -20,7 +20,7 @@ class ChartBarView < UIView
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
   BarMinW = 80
-  BarEmptyW = 20
+  BarEmptyW = 5
   
   WideBarLabelW = 250
   WideBarLM = 5
@@ -87,8 +87,8 @@ class ChartBarView < UIView
     comparision.params.each do |param|
       index = comparision.params.index(param)
 
-      if value = mod[param]
-        barWidth = (value - comparision.minValueFor(param)) * pixelRange / comparision.rangeFor(param) + BarMinW
+      if value = mod.localizedValue(param)
+        barWidth = comparision.relativeValueFor(param, value) * pixelRange + BarMinW
         rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, barWidth, BarH)
         isWiderThanBounds = rect.width >= bounds.width - labelWidth
         maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
@@ -102,7 +102,7 @@ class ChartBarView < UIView
       end
 
       KK.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      KK.drawString param.formattedValueForMod(mod), inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
+      KK.drawString mod.localizedValueString(param.key), inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
     end    
   end
 
@@ -143,7 +143,7 @@ class ChartBarView < UIView
     comparision.params.each do |param|
       index = comparision.params.index(param)
 
-      if value = mod[param]
+      if value = mod.localizedValue(param)
         barWidth = comparision.relativeValueFor(param, value) * pixelRange + BarMinW
         rect = CGRectMake(BarLM, barsOffset + index * BarFH, barWidth, BarH)
         isWiderThanBounds = rect.width >= maxBarWidth
@@ -158,7 +158,7 @@ class ChartBarView < UIView
       end
       
       KK.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      KK.drawString param.formattedValueForMod(mod), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight
+      KK.drawString mod.localizedValueString(param.key), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight
     end  
     
   end
