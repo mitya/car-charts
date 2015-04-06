@@ -110,7 +110,13 @@ class Mod < DSCoreModel
   def cylinder_string
     cylinder_placement_string = Metadata.parameterTranslations['cylinder_placement'][cylinder_placement]
     valves_count = cylinder_count * cylinder_valves if cylinder_count && cylinder_valves
-    string = [cylinder_count, cylinder_placement_string].reject(&:nil?).join(' ')
+    
+    string = case cylinder_placement when 'V', 'W'
+      "#{cylinder_placement}#{cylinder_count}"
+    else
+      [cylinder_count, cylinder_placement_string].reject(&:nil?).join(' ')
+    end
+    
     string += ", #{valves_count}v" if valves_count
     string
   end

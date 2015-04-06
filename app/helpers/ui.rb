@@ -66,9 +66,9 @@ module KK::UI
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
     label.text = text
     label.textAlignment = UITextAlignmentCenter
-    label.textColor = UIColor.grayColor
+    label.textColor = UIColor.lightGrayColor
     label.backgroundColor = UIColor.clearColor
-    label.font = UIFont.boldSystemFontOfSize(17)
+    label.font = UIFont.systemFontOfSize(20)
     label.numberOfLines = 0
     label
   end

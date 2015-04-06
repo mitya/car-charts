@@ -134,9 +134,9 @@ class ChartController < UIViewController
     @emptyView ||= begin
       text = if $lastLaunchDidFail
         $lastLaunchDidFail = nil
-        "Something weird happened\nModels & parameters were reset\n\nSorry :("
+        "Something weird has happened\nModels & parameters were reset\n\nSorry :("
       else
-        "No Models/Parameters Selected"
+        "No Models / Parameters Selected"
       end
       KK.emptyViewLabel(text, view.bounds.rectWithHorizMargins(15))
     end
