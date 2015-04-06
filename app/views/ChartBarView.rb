@@ -20,7 +20,7 @@ class ChartBarView < UIView
   BarValueRM = BarFS / 2
   BarMaxValueRM = BarValueRM + 2
   BarMinW = 80
-  BarEmptyW = 5
+  BarEmptyW = 38
   
   WideBarLabelW = 250
   WideBarLM = 5
@@ -80,9 +80,9 @@ class ChartBarView < UIView
     end
     
     pixelRange = bounds.width - labelWidth - BarMinW - WideBarRM
-    textColor = UIColor.whiteColor
     textFont = KK.mainFont(BarFS)
     barsOffset = (labelHeight - BarH) / 2 + headerHeight
+    textColor = UIColor.whiteColor
 
     comparision.params.each do |param|
       index = comparision.params.index(param)
@@ -95,14 +95,17 @@ class ChartBarView < UIView
         bgColorsIndex = self.class.sessionColorIndexes[index.remainder(self.class.sessionColorIndexes.count)]
         bgColors = self.class.colors[bgColorsIndex]
         textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
-      else
+        text = mod.localizedValueString(param.key)
+      else      
         rect = CGRectMake(labelWidth + WideBarLM, barsOffset + index * BarFH, BarEmptyW, BarH)        
-        textRect = CGRectMake(rect.x, rect.y, BarEmptyW, rect.height)
+        maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
+        textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
         bgColors = self.class.emptyBarColors
+        text = 'N/A'  
       end
 
       KK.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      KK.drawString mod.localizedValueString(param.key), inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
+      KK.drawString text, inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
     end    
   end
 
@@ -139,6 +142,7 @@ class ChartBarView < UIView
     pixelRange = maxBarWidth - BarMinW
     barsOffset = topOffset + ModelTitleH + ModelTitleBM
     textFont = KK.mainFont(BarFS)
+    textColor = UIColor.whiteColor
 
     comparision.params.each do |param|
       index = comparision.params.index(param)
@@ -151,14 +155,17 @@ class ChartBarView < UIView
         textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
         bgColorsIndex = self.class.sessionColorIndexes[index.remainder(self.class.sessionColorIndexes.count)]
         bgColors = self.class.colors[bgColorsIndex]
+        text = mod.localizedValueString(param.key)
       else
         rect = CGRectMake(BarLM, barsOffset + index * BarFH, BarEmptyW, BarH)
-        textRect = CGRectMake(rect.x, rect.y, BarEmptyW, rect.height)
+        maxTextWidth = rect.width - (isWiderThanBounds ? BarMaxValueRM : BarValueRM)
+        textRect = CGRectMake(rect.x, rect.y, maxTextWidth, rect.height)
         bgColors = self.class.emptyBarColors
+        text = 'N/A'
       end
       
       KK.drawRect rect, inContext:context, withGradientColors:bgColors, cornerRadius:3
-      KK.drawString mod.localizedValueString(param.key), inRect:textRect, withColor:'white', font:textFont, alignment:UITextAlignmentRight
+      KK.drawString text, inRect:textRect, withColor:textColor, font:textFont, alignment:UITextAlignmentRight
     end  
     
   end
@@ -181,7 +188,8 @@ class ChartBarView < UIView
     end
   
     def emptyBarColors
-      @emptyBarColors ||= [KK.hsb(0, 0, 95), KK.hsb(0, 0, 90)]
+      # @emptyBarColors ||= [KK.hsb(0, 0, 95), KK.hsb(0, 0, 90)]
+      @emptyBarColors ||= [KK.hsb(0, 0, 80), KK.hsb(0, 0, 70)]
     end
 
     def heightForComparisionItem(item)

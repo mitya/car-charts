@@ -9,7 +9,7 @@ rescue LoadError
 end
 
 ENV['device_name'] = 'iPhone 5'  # iPhone 5s 7.1, Resizable iPad
-ENV['device_name'] = 'iPad Air'
+# ENV['device_name'] = 'iPad Air'
 # ENV['device_name'] = 'iPhone 5s 7.1'  # iPhone 5s 7.1, Resizable iPad
 
 Motion::Project::App.setup do |app|
