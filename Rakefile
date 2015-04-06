@@ -28,7 +28,7 @@ Motion::Project::App.setup do |app|
   app.development do
     app.version = "1.0"
     app.codesign_certificate = "iPhone Developer: Dmitry Sokurenko (9HS3696XGX)"
-    app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/iOS_Team.mobileprovision"    
+    app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_Development_Profile.mobileprovision"    
 
     app.redgreen_style = :full # default: :focused, also can use :progress
 

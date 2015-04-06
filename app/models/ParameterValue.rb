@@ -33,12 +33,10 @@ class ParameterValue
     return "" if result == nil || result == 0
     targetUnitName = Metadata.parameterUnitNames[targetUnit] if outputUnits
     
-    if result.is_a?(Float)
-      if integer_field?(field)
-        result = result.round.to_s
-      else
-        result = "%.1f" % result 
-      end
+    if result.is_a?(Integer) || integer_field?(field)
+      result = formatInteger(result)
+    elsif result.is_a?(Float) 
+      result = formatFloat(result)
     end
     
     if outputUnits
@@ -68,6 +66,14 @@ class ParameterValue
     return unit if system == 'SI'
     Metadata.parameterUnitsOverrides[system]['fields'][field] || Metadata.parameterUnitsOverrides[system]['units'][unit] || unit
   end
+  
+  def formatInteger(integer)    
+    NUMBER_FORMATTER.stringFromNumber NSNumber.numberWithInteger(integer)
+  end  
+  
+  def formatFloat(float)
+    NUMBER_FORMATTER.stringFromNumber NSNumber.numberWithDouble(float)
+  end
 
   STRING_FIELDS = NSSet.setWithArray %w(body drive transmission fuel compressor engine_layout cylinder_placement)
   CONSUMPTION_FIELDS = NSSet.setWithArray %w(consumption_city consumption_highway consumption_mixed)
@@ -75,6 +81,13 @@ class ParameterValue
 
   def integer_field?(field)
     (CONSUMPTION_FIELDS.containsObject(field) && Disk.unitSystem != 'SI') || INTEGER_FIELDS.containsObject(field)
+  end
+  
+  NUMBER_FORMATTER = begin
+    formatter = NSNumberFormatter.alloc.init
+    formatter.usesGroupingSeparator = YES
+    formatter.maximumFractionDigits = 1
+    formatter
   end
   
   def self.DUAL_FIELDS
