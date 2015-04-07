@@ -24,6 +24,10 @@ class Disk
         @currentMods = array
       end
     end
+    
+    def removeModsFromCurrent(mod)
+      self.currentMods = currentMods - Array(mod)
+    end
   
     # sort order is not specified
     def recentMods

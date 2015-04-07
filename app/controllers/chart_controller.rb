@@ -98,9 +98,12 @@ class ChartController < UIViewController
   def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:ip)
     case editingStyle when UITableViewCellEditingStyleDelete
       mod = comparision.mods[ip.row]
-      Disk.currentMods = Disk.currentMods - [mod]
-      # remove all mods if only length parameters are used
-
+      if comparision.containsOnlyBodyParams?
+        sameModelMods = comparision.allMods.select { |m| m.generation == mod.generation }
+        Disk.removeModsFromCurrent(sameModelMods)
+      else        
+        Disk.removeModsFromCurrent(mod)
+      end
       # tableView.deleteRowsAtIndexPaths([ip], withRowAnimation:UITableViewRowAnimationFade)
     end
   end

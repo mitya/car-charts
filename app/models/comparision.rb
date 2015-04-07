@@ -56,6 +56,10 @@ class Comparision
   def mods
     @activeMods ||= containsOnlyBodyParams? ? uniqMods : @mods
   end
+  
+  def allMods
+    @mods
+  end
 
   def uniqMods
     @uniqMods ||= @mods.uniqBy { |m| "#{m.model.key}-#{m.body}" }
