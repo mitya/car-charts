@@ -18,13 +18,14 @@ class AppDelegate
       tabControllers.shift if KK.ipad?
       tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
       tbc.delegate = self
-      tbc.selectedIndex = 0
       tbc.tabBar.translucent = NO
     end
 
     window.rootViewController = if KK.iphone?
+      tabBarController.selectedIndex = 0
       tabBarController
     else
+      tabBarController.selectedIndex = 1
       mainController = KK.navigationForController(chartController, withDelegate:self)
       CustomSplitViewController.alloc.init.tap do |splitViewController|
         splitViewController.viewControllers = [tabBarController, mainController]
@@ -90,11 +91,11 @@ class AppDelegate
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
 
-      if KK.env?('TestModsDataset')
+      if KK.env?('CCTestModsDataset')
         # switch mods database to the one located in the documents directory to fill it with the data from plist
         storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
         storeOptions = {}
-        NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL) if KK.env?('TestModsDatasetRun')
+        NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL) if KK.env?('CCTestModsDatasetRun')
       else
         storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db/mods", ofType:"sqlite"))
         storeOptions = {NSReadOnlyPersistentStoreOption => YES}        

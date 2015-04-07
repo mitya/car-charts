@@ -1,5 +1,6 @@
 class YA2Parser
-  def step_82 # parse mod values
+  # parse mod values
+  def step_82
     raw_mods = CW.read_hash('08.1-mods', openstruct: false)
     parsed_mods = {}
     excluded_mod_prefixes = %w(zaz gaz)
@@ -9,7 +10,7 @@ class YA2Parser
         next
       end      
       
-      parsed = {}
+      parsed = Mash.new
 
       properties.each do |key, string|
         case key.to_sym
@@ -72,19 +73,19 @@ class YA2Parser
       new_key = ModKey.from_dash_key(mod_key)
 
       # store key parts as individual elements
-      parsed['body'] = new_key.body
-      parsed['model_key'] = new_key.brand_and_model
-      parsed['version_key'] = new_key.version
-      parsed['generation_key'] = new_key.brand_and_model_and_year
-      parsed['year'] = CW.to_i(new_key.years, zero: false)
-      parsed['displacement_key'] = new_key.displacement || CW.make_displacement_key(parsed['displacement'])
+      parsed.body = new_key.body
+      parsed.model_key = new_key.brand_and_model
+      parsed.version_key = new_key.version
+      parsed.generation_key = new_key.brand_and_model_and_year
+      parsed.year = CW.to_i(new_key.years, zero: false)
+      parsed.displacement_key = new_key.displacement || CW.make_displacement_key(parsed.displacement)
 
       if !new_key.aggregate
-        new_key.aggregate = CW.aggregate_key(parsed['displacement_key'], parsed['fuel'], parsed[:max_power], parsed['transmission'], parsed['drive'])
+        new_key.aggregate = CW.aggregate_key(parsed.displacement_key, parsed.fuel, parsed.max_power, parsed.transmission, parsed.drive)
       end      
 
       # convert all keys to strings
-      parsed.keys.each { |k| parsed[k.to_s] = parsed.delete(k) }
+      # parsed.keys.reject { |k| k.is_a?(String) }.each { |k| parsed[k.to_s] = parsed.delete(k) }
 
       # remove nil values because plists can't contain it
       parsed.delete_if { |k, v| v.nil? }
@@ -92,7 +93,7 @@ class YA2Parser
       # replace zeros with nils for some keys
       parsed.each { |k, v| parsed.delete(k) if v == 0 && NON_ZERO_KEYS.include?(k) }
 
-      parsed_mods[new_key.to_s_with_spaces] = parsed
+      parsed_mods[new_key.to_s_with_spaces] = parsed.hash
     end
 
     parsed_mods_arrays = {}
@@ -130,4 +131,31 @@ class YA2Parser
     CW.write_data "debug-08.2-mods.sample", parsed_mods.first(20).map {|k, h| [k, h.sort_by {|a, v| a }.to_h] }.to_h
     CW.write_data "debug-08.2-mods.keys", parsed_mods.keys.sort
   end  
+
+  def step_82_check
+    mods = CW.read_data_in_binary('08.2-mods')
+    count = 0
+
+    generation_models = {}
+    mods.each do |key, mod|
+      mod = TalkyHash.new(mod)
+      generation_models[mod.generation_key] ||= 0
+      generation_models[mod.generation_key] += 1
+    end
+
+    generation_models = generation_models.sort_by { |k,c| c }
+    generation_models.each do |k,c|
+      printf "%-40s %4s\n", k, c
+    end    
+
+
+    # mods.each do |key, mod|
+    #   mod = TalkyHash.new(mod)
+    #   if !mod.top_speed
+    #     printf "%60s %10s\n", key, mod.top_speed
+    #     count += 1
+    #   end
+    # end
+    # puts count
+  end
 end

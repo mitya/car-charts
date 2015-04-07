@@ -107,3 +107,36 @@ module CW
     @time = Time.now
   end
 end
+
+class Mash
+  attr_accessor :hash
+  
+  def initialize(hash = {})
+    @hash = hash
+  end
+  
+  def [](key)
+    @hash[key.to_s]
+  end
+  
+  def []=(key, value)
+    @hash[key.to_s] = value
+  end
+  
+  def method_missing(method, *args, &block)
+    return @hash.send(method, *args, &block) if HASH_METHODS.include?(method)
+    
+    method = method.to_s
+    case method when /(\w+)=/
+      @hash[$1] = args.first
+    else
+      @hash[method]
+    end
+  end
+  
+  def inspect
+    "Mash#{hash.inspect}"
+  end
+  
+  HASH_METHODS = Set.new(Hash.instance_methods)
+end

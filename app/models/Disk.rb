@@ -79,7 +79,7 @@ class Disk
       self.currentParameters ||= []
       self.currentMods ||= []      
 
-      if KK.env?('TestModsDataset') && KK.env?('TestModsDatasetRun')
+      if KK.env?('CCTestModsDataset') && KK.env?('CCTestModsDatasetRun')
         Mod.import
       end
 

@@ -148,9 +148,13 @@ class Mod < DSCoreModel
     unit = Parameter['luggage_min'].localizedUnitName
     "#{values} #{unit}"
   end
+
+  def co2_emission_string
+    if co2_emission
+      ["#{localizedValueString('co2_emission')}", eco_class].join(', ')
+    end
+  end
   
-  # body, assembly countries, brand country, drive, transmission, fuel
-  # engine_layout cylinder_placement compressor
   
   def selected?
     Disk.currentMods.include?(self)
@@ -220,10 +224,11 @@ class Mod < DSCoreModel
   @fields = [
     ['key',                    NSStringAttributeType,    true ],
     ['acceleration_100kmh',    NSFloatAttributeType,     false],
-    ['assembly_countries',              NSStringAttributeType,    false],
+    ['assembly_countries',     NSStringAttributeType,    false],
     ['body',                   NSStringAttributeType,    false],
     ['bore',                   NSFloatAttributeType,     false],
-    ['brand_country',              NSStringAttributeType,    false],
+    ['brand_country',          NSStringAttributeType,    false],
+    ['co2_emission',           NSInteger16AttributeType, false],
     ['compression',            NSFloatAttributeType,     false],
     ['compressor',             NSInteger16AttributeType, false],
     ['consumption_city',       NSFloatAttributeType,     false],
@@ -236,12 +241,13 @@ class Mod < DSCoreModel
     ['displacement_key',       NSStringAttributeType,    false],
     ['doors',                  NSInteger32AttributeType, false],
     ['drive',                  NSStringAttributeType,    false],
+    ['eco_class',              NSStringAttributeType,    false],
     ['engine_layout',          NSInteger16AttributeType, false],
     ['front_tire_rut',         NSInteger32AttributeType, false],
     ['fuel',                   NSStringAttributeType,    false],
     ['fuel_rating',            NSStringAttributeType,    false],
     ['gears',                  NSInteger32AttributeType, false],
-    ['generation_key',        NSStringAttributeType,    false],
+    ['generation_key',         NSStringAttributeType,    false],
     ['gross_mass',             NSInteger32AttributeType, false],
     ['ground_clearance',       NSInteger32AttributeType, false],
     ['height',                 NSInteger32AttributeType, false],
@@ -267,7 +273,7 @@ class Mod < DSCoreModel
     ['version_key',            NSStringAttributeType,    false],
     ['wheelbase',              NSInteger32AttributeType, false],
     ['width',                  NSInteger32AttributeType, false],
-    ['year',                  NSInteger32AttributeType,    false],
+    ['year',                   NSInteger32AttributeType,    false],
     # ['produced_since',         NSInteger32AttributeType, false],
     # ['produced_till',          NSInteger32AttributeType, false],
     # ['seats_max',              NSInteger32AttributeType, false],

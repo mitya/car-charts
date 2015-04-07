@@ -4,7 +4,7 @@ parameterGroups: [engine, dimensions, other]
 parameterGroupsData:
   engine:
   - Engine
-  - [acceleration_100kmh, top_speed, max_power_string, max_torque_string, displacement, cylinder_string, compression, bore_and_stroke, transmission_string, drive, fuel, consumption_string, engine_layout, compressor]
+  - [acceleration_100kmh, top_speed, max_power_string, max_torque_string, displacement, cylinder_string, compression, bore_and_stroke, transmission_string, drive, fuel, consumption_string, co2_emission_string, engine_layout, compressor]
   dimensions:
   - Dimensions
   - [length, width, height, ground_clearance, wheelbase, kerbweight, gross_mass, tires, front_tire_rut, rear_tire_rut, luggage_string, tank_capacity, doors]
@@ -15,36 +15,10 @@ parameterGroupsForCharting: [engine, dimensions]
 parameterGroupsDataForCharting:
   engine:
   - Engine
-  - - acceleration_100kmh
-    - top_speed
-    - max_power
-    - max_power_kw
-    - max_torque
-    - displacement
-    - cylinder_count
-    - cylinder_valves
-    - compression
-    - bore
-    - stroke
-    - gears
-    - consumption_city
-    - consumption_highway
-    - consumption_mixed
+  - [acceleration_100kmh, top_speed, max_power, max_power_kw, max_torque, displacement, cylinder_count, cylinder_valves, compression, bore, stroke, gears, co2_emission, consumption_city, consumption_highway, consumption_mixed]
   dimensions:
   - Dimensions
-  - - length
-    - width
-    - height
-    - ground_clearance
-    - wheelbase
-    - kerbweight
-    - gross_mass
-    - front_tire_rut
-    - rear_tire_rut
-    - luggage_min
-    - luggage_max
-    - tank_capacity
-    - doors
+  - [length, width, height, ground_clearance, wheelbase, kerbweight, gross_mass, front_tire_rut, rear_tire_rut, luggage_min, luggage_max, tank_capacity, doors]
 parameterNames:
   acceleration: Acelleration
   acceleration_100kmh: Acelleration (0–100 km/h)
@@ -56,8 +30,10 @@ parameterNames:
   brand_country: Brand Country
   compression: Compression
   compressor: Compressor Type
+  co2_emission: CO₂ Emission
+  co2_emission_string: CO₂ Emission
   consumption_city: Consumption (city)
-  consumption_highway: Consumption (hwy)
+  consumption_highway: Consumption (highway)
   consumption_mixed: Consumption (mixed)
   consumption_string: Consumption
   cylinder_count: Number of Cylinders
@@ -68,6 +44,7 @@ parameterNames:
   doors: Doors Count
   drive: Drivetrain
   engine_layout: Engine Layout
+  eco_class: Eco Class
   front_tire_rut: Front Tire Rut
   fuel: Fuel
   gears: Gears Number
@@ -97,28 +74,29 @@ parameterNames:
   width: Width
   year: Year
 parameterUnits:
-  top_speed: kmh
   acceleration_100kmh: s
+  bore: mm
+  co2_emission: g_km
   consumption_city: l100km
   consumption_highway: l100km
   consumption_mixed: l100km
   displacement: cc
-  bore: mm
+  front_tire_rut: mm
+  gross_mass: kg
+  ground_clearance: mm
+  height: mm
+  kerbweight: kg  
+  length: mm
+  luggage_max: l
+  luggage_min: l
   max_power: hp
   max_power_kw: kw
   max_torque: nm
-  length: mm
-  width: mm
-  height: mm
-  ground_clearance: mm
-  front_tire_rut: mm
   rear_tire_rut: mm
-  wheelbase: mm
-  luggage_min: l
-  luggage_max: l
   tank_capacity: l
-  gross_mass: kg
-  kerbweight: kg
+  top_speed: kmh
+  wheelbase: mm
+  width: mm
 
   cylinder_count: count
   cylinder_valves: count

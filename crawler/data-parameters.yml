@@ -5,8 +5,9 @@ field_keys:
   - body
   - bore
   - brand_country
+  - co2_emission
   - compression
-  - compressor  
+  - compressor
   - consumption_city
   - consumption_highway
   - consumption_mixed
@@ -17,6 +18,7 @@ field_keys:
   - displacement_key
   - doors
   - drive
+  - eco_class
   - engine_layout
   - front_tire_rut
   - fuel
