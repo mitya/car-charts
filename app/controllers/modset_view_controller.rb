@@ -3,7 +3,19 @@ class ModSetViewController < UITableViewController
 
   def initialize(set)
     @set = set
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
+
+  def dealloc
+    Disk.removeObserver(self, forKeyPath:"currentMods")
+  end
+  
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    case keyPath when 'currentMods'
+      tableView.reloadData
+    end
+  end
+
 
   def viewDidLoad
     self.title = set.name

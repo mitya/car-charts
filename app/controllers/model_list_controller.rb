@@ -23,7 +23,7 @@ class ModelListController < UIViewController
     searchBar.autocorrectionType = UITextAutocorrectionTypeNo
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth
     searchBar.placeholder = "Search"
-    
+
     self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(searchBar, contentsController:self)
   end
 
@@ -31,7 +31,6 @@ class ModelListController < UIViewController
     super
 
     self.category = @categoriesController.category if @categoriesController
-        
     viewSelectorBarItem.title = currentTitle
     navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
 
@@ -44,18 +43,17 @@ class ModelListController < UIViewController
       searchDisplayController.searchResultsDelegate = currentDataSource
       tableView.reloadData
       tableView.tableHeaderView = nil
-      tableView.tableHeaderView = searchBar      
-      # tableView.contentOffset = CGPointMake(0, 0) # currentDataSource == mainDataSource ? CGPointMake(0, 0) : CGPointMake(0, UIToolbarHeight) # iOS6
+      tableView.tableHeaderView = searchBar  
+      @oldDataSources = nil if @oldDataSources
     end
-    
+
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
-    activeTableView.reloadVisibleRows    
+    activeTableView.reloadVisibleRows
   end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
   end  
-
 
 
   def currentTitle
@@ -66,22 +64,31 @@ class ModelListController < UIViewController
     category ? category.shortName : "All"
   end
   
-  def currentDataSource
-    if category == nil
-      mainDataSource
+  def category=(newCategory)
+    @oldDataSources ||= []
+    @oldDataSources << currentDataSource if currentDataSource
+
+    oldCategory = @category
+    @category = newCategory
+
+    if newCategory
+      @categoryDataSource = FlatModelsDataSource.new(self, category.models, category) if newCategory != oldCategory
     else
-      if @categoryDataSource && @categoryDataSource.category == category
-        @categoryDataSource
-      else
-        @categoryDataSource = FlatModelsDataSource.new(self, category.models, category)
-      end      
-    end
+      @categoryDataSource = nil      
+    end    
+  end
+  
+  def categoryDataSource
+    @categoryDataSource
+  end
+  
+  def currentDataSource
+    categoryDataSource || mainDataSource
   end
 
   def mainDataSource
     @mainDataSource ||= SectionedModelsDataSource.new(self)
   end
-
 
   def viewSelectorBarItem
     @viewSelectorBarItem ||= KK.textBBI(currentTitle, target:self, action:'showCategories')
@@ -90,7 +97,7 @@ class ModelListController < UIViewController
   def categoriesController
     @categoriesController ||= ModelCategoriesController.new
   end
-
+  
   
   def showCategories
     presentNavigationController categoriesController, presentationStyle:UIModalPresentationCurrentContext

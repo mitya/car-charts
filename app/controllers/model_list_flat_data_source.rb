@@ -48,7 +48,6 @@ class ModelListController < UIViewController
     end
 
 
-
     def searchDisplayController(ctl, willHideSearchResultsTableView:tbl)
       loadDataForSearchString("")
       controller.tableView.reloadData

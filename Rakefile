@@ -8,9 +8,12 @@ begin
 rescue LoadError
 end
 
-ENV['device_name'] = 'iPhone 5'  # iPhone 5s 7.1, Resizable iPad
+# /Applications/Developer/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/simctl list
+
+# ENV['device_name'] = 'iPhone 5'  # iPhone 5s 7.1, Resizable iPad
 # ENV['device_name'] = 'iPad Air'
 # ENV['device_name'] = 'iPhone 5s 7.1'  # iPhone 5s 7.1, Resizable iPad
+ENV['device_name'] = 'iPad Retina 7.1'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -34,7 +37,7 @@ Motion::Project::App.setup do |app|
 
     # app.info_plist['CCBenchmarking'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
-    app.info_plist['DebugModeEnabled'] = true
+    app.info_plist['CCDebugMode'] = true
     app.info_plist['TestModsDataset'] = true
     # app.info_plist['TestModsDatasetRun'] = true
   end

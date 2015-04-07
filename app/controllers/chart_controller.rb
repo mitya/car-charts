@@ -13,7 +13,7 @@ class ChartController < UIViewController
   end
 
   def dealloc
-    puts 'ChartController.dealloc'
+    KK.debug 'ChartController.dealloc'
     Disk.removeObserver(self, forKeyPath:"currentParameters")
     Disk.removeObserver(self, forKeyPath:"currentMods")
     Disk.removeObserver(self, forKeyPath:"unitSystem")
@@ -40,11 +40,6 @@ class ChartController < UIViewController
     @reloadPending = false
   end
 
-  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration) unless fullScreen?
-  end
-
-
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
     case keyPath when 'currentParameters'
       if removedParam = (change[:old] - change[:new]).first
@@ -63,10 +58,13 @@ class ChartController < UIViewController
     end
   end
 
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration) unless fullScreen?
+  end
+
   def didRotateFromInterfaceOrientation(fromInterfaceOrientation)
     tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end
-
 
   def tableView(tv, numberOfRowsInSection:section)
     @comparision.complete?? @comparision.mods.count : 0
@@ -109,7 +107,6 @@ class ChartController < UIViewController
       # tableView.deleteRowsAtIndexPaths([ip], withRowAnimation:UITableViewRowAnimationFade)
     end
   end
-
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navController.setToolbarHidden viewController.toolbarItems.nil?, animated:animated

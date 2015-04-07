@@ -46,6 +46,10 @@ module KK::Common
     view = view.superview until view.is_a?(type) || view.nil?
     return view
   end
+  
+  def debug(message, *args)
+    NSLog(message, *args) if DEBUG
+  end
 end
 
 KK.extend(KK::Common)

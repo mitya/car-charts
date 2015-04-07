@@ -4,11 +4,11 @@ class ParameterListController < UITableViewController
   def initialize
     self.title = "Parameters"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-funnel"), selectedImage:KK.image("tab-funnel-full"))    
-    Disk.addObserver(self, forKeyPath:"unitSystem", options:NO, context:nil)    
+    Disk.addObserver(self, forKeyPath:"unitSystem", options:NO, context:nil)
   end
   
   def dealloc
-    puts 'ParameterListController.dealloc'
+    KK.debug 'ParameterListController.dealloc'
     Disk.removeObserver(self, forKeyPath:"unitSystem")
     super
   end

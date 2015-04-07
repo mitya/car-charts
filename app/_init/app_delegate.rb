@@ -65,19 +65,18 @@ class AppDelegate
   end
 
   def splitViewController(svc, shouldHideViewController:vc, inOrientation:orientation)
-    hidesMasterView # NO # KK.portrait?(orientation)
+    hidesMasterView
   end
 
   def splitViewController(svc, willHideViewController:vc, withBarButtonItem:bbi, forPopoverController:pc)
     bbi.title = "Options"
     chartController.navigationItem.setLeftBarButtonItems(chartController.navigationItem.leftBarButtonItems.to_a + [bbi], animated:YES)
   end
-
+  
   def splitViewController(svc, willShowViewController:vc, invalidatingBarButtonItem:bbi)
     chartController.navigationItem.setLeftBarButtonItem(chartController.navigationItem.leftBarButtonItems.to_a - [bbi], animated:YES)
   end
-
-
+  
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     if :hideTabBarOnRotation == true
       return unless KK.iphone?

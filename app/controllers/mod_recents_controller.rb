@@ -3,8 +3,20 @@ class ModRecentsController < UITableViewController
     self.title = "Selected"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-check"), selectedImage:KK.image("tab-check-full"))
     self.navigationItem.titleView = modeSegmentedControl
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
-  
+
+  def dealloc
+    Disk.removeObserver(self, forKeyPath:"currentMods")
+  end
+
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    case keyPath when 'currentMods'
+      # currentDataSource.reload
+      tableView.reloadData
+    end
+  end
+
   def viewDidLoad
     @dataSources = [DataSource.new(self) { Disk.currentMods }, DataSource.new(self) { Disk.recentMods }]
   end
@@ -16,8 +28,8 @@ class ModRecentsController < UITableViewController
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-  end  
-  
+  end
+
   def modeSegmentedControl
     @modeSegmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Selected Recents)).tap do |segm|
       segm.segmentedControlStyle = UISegmentedControlStyleBar
@@ -25,19 +37,22 @@ class ModRecentsController < UITableViewController
       segm.selectedSegmentIndex = 0
     end
   end
-  
-  def switchView
-    # switches table view data source between Selected & Recent mod lists
-    
+
+  def currentDataSource
     dataSourceIndex = modeSegmentedControl.selectedSegmentIndex
-    dataSource = @dataSources[dataSourceIndex]
-    dataSource.reload
-    
-    tableView.dataSource = tableView.delegate = dataSource
+    @dataSources[dataSourceIndex]
+  end
+
+  # switches table view data source between Selected & Recent mod lists
+  def switchView
+    dataSourceIndex = modeSegmentedControl.selectedSegmentIndex
+    currentDataSource.reload
+
+    tableView.dataSource = tableView.delegate = currentDataSource
     tableView.reloadData
-    
+
     navigationItem.setRightBarButtonItem dataSourceIndex == 0 ? actionsButtonItem : nil, animated:true
-    
+
     reenableButtons
   end
 
@@ -49,7 +64,7 @@ class ModRecentsController < UITableViewController
   def actionsButtonItem
     @actionsButtonItem ||= KK.systemBBI(UIBarButtonSystemItemAction, target:self, action:'showActionSheet:')
   end
-  
+
   def showActionSheet(bbi)
     @sheet = UIActionSheet.alloc.initWithTitle nil, delegate:self, cancelButtonTitle:nil, destructiveButtonTitle:NIL, otherButtonTitles:NIL
     @sheet.addButtonWithTitle "Add Models to Set"
@@ -58,7 +73,7 @@ class ModRecentsController < UITableViewController
     @sheet.cancelButtonIndex = 2
     @sheet.showFromBarButtonItem bbi, animated:YES
   end
-  
+
   def actionSheet(sheet, didDismissWithButtonIndex:buttonIndex)
     actionKey = case buttonIndex
       when 0 then :add
@@ -66,7 +81,7 @@ class ModRecentsController < UITableViewController
     end
     saveSelectedAsSet(actionKey) if actionKey
   end
-    
+
   def saveSelectedAsSet(mode = :add)
     @selectionController = ModSetSelectionController.new(mode)
     if KK.iphone?
@@ -75,20 +90,20 @@ class ModRecentsController < UITableViewController
       @selectionController.popover = presentPopoverController @selectionController, fromBarItem:navigationItem.rightBarButtonItem
     end
   end
-    
+
 
   class DataSource
     attr_reader :controller
-    
+
     def initialize(controller, &dataLoadingBlock)
       @dataLoadingBlock = dataLoadingBlock
       @controller = controller
     end
-    
+
     def reload
       @mods = @dataLoadingBlock.call
     end
-        
+
     def tableView(tableView, numberOfRowsInSection:section)
       @mods.count
     end
@@ -113,12 +128,12 @@ class ModRecentsController < UITableViewController
 
       mod = @mods[indexPath.row]
       mod.select!
-      
+
       controller.reenableButtons
     end
-  
+
     def tableView(tableView, accessoryButtonTappedForRowWithIndexPath:indexPath)
       ModViewController.showFor controller, withMod: @mods[indexPath.row]
-    end    
+    end
   end
 end

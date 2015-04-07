@@ -9,15 +9,20 @@ class ModListController < UIViewController
     navigationItem.backBarButtonItem = KK.textBBI("Versions")                    
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
     Disk.addObserver(self, forKeyPath:"filterOptions", options:false, context:nil)
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
   
   def dealloc
-    Disk.removeObserver(self, forKeyPath:"filterOptions")    
+    Disk.removeObserver(self, forKeyPath:"filterOptions")
+    Disk.removeObserver(self, forKeyPath:"currentMods")
   end
   
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
-    __assert keyPath == 'filterOptions'
-    applyFilter if isViewVisible
+    case keyPath when 'filterOptions'
+      applyFilter if isViewVisible
+    when 'currentMods'
+      tableView.reloadData
+    end
   end
   
 

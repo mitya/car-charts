@@ -6,6 +6,5 @@ module Scripts
   end
 
   def run
-    modNames.each { |s| puts s }
   end
 end

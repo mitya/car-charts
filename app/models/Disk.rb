@@ -26,6 +26,7 @@ class Disk
     end
     
     def removeModsFromCurrent(mod)
+      self.recentMods = recentMods + Array(mod).select { |m| !recentMods.include?(mod) }
       self.currentMods = currentMods - Array(mod)
     end
   
