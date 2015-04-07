@@ -16,7 +16,11 @@ class AppDelegate
     self.tabBarController = UITabBarController.new.tap do |tbc|
       tabControllers = [chartController, ParameterListController.new, modelListController, ModRecentsController.new, ModSetListController.new]
       tabControllers.shift if KK.ipad?
-      tbc.viewControllers = tabControllers.map { |ctr| KK.navigationForController(ctr, withDelegate:self) }
+      tbc.viewControllers = tabControllers.map do |ctr|
+        nav = KK.navigationForController(ctr, withDelegate:self)
+        # nav.navigationBar.translucent = NO
+        nav
+      end
       tbc.delegate = self
       tbc.tabBar.translucent = NO
     end

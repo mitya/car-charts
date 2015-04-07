@@ -8,6 +8,7 @@ class ModListFilterController < UITableViewController
     self.filter = Disk.filterOptions.dup
     self.navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close')
     self.preferredContentSize = [320, 510]
+    tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
   end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
@@ -60,7 +61,7 @@ class ModListFilterController < UITableViewController
     @tableOptions ||= {
       [0, 0] => { key: :mt,     title: "Manual" },
       [0, 1] => { key: :at,     title: "Automatic" },
-      [1, 0] => { key: :gas,    title: "Gas" },
+      [1, 0] => { key: :gas,    title: "Petrol" },
       [1, 1] => { key: :diesel, title: "Diesel" },
       [2, 0] => { key: :sedan,  title: "Sedan" },
       [2, 1] => { key: :hatch,  title: "Hatchback" },

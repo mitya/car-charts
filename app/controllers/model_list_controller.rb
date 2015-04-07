@@ -29,7 +29,7 @@ class ModelListController < UIViewController
 
   def viewWillAppear(animated)
     super
-
+    
     self.category = @categoriesController.category if @categoriesController
     viewSelectorBarItem.title = currentTitle
     navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
