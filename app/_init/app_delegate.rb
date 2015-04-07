@@ -57,6 +57,13 @@ class AppDelegate
     navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
   end
 
+  def tabBarController(tabBarController, didSelectViewController: viewController)
+    if :useTranslucentTabOnlyForChart == true
+      return if KK.ipad?
+      tabBarController.tabBar.translucent = tabBarController.selectedIndex == 0 && KK.iphone?
+    end
+  end
+
   def splitViewController(svc, shouldHideViewController:vc, inOrientation:orientation)
     hidesMasterView # NO # KK.portrait?(orientation)
   end
@@ -72,9 +79,10 @@ class AppDelegate
 
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-    return unless KK.iphone?
-    __assert duration > 0
-    tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true
+    if :hideTabBarOnRotation == true
+      return unless KK.iphone?
+      tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true
+    end
   end
 
 

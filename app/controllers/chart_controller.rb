@@ -84,6 +84,8 @@ class ChartController < UIViewController
 
   def tableView(tv, didSelectRowAtIndexPath:ip)
     tableView.deselectRowAtIndexPath(ip, animated:true)
+    
+    return if fullScreen?
 
     mod = comparision.mods[ip.row]
     modListController = ModListController.new(mod.generation)
@@ -139,7 +141,7 @@ class ChartController < UIViewController
     if KK.iphone?
       UIApplication.sharedApplication.setStatusBarHidden(@fullScreen, withAnimation:UIStatusBarAnimationSlide)
       navigationController.setNavigationBarHidden(@fullScreen, animated:YES)
-      tabBarController.setTabBarHidden(@fullScreen || KK.landscape?, animated:YES)
+      tabBarController.setTabBarHidden(@fullScreen, animated:YES)
       exitFullScreenModeButton.hidden = !@fullScreen
     else
       KK.app.delegate.hidesMasterView = @fullScreen
@@ -174,7 +176,7 @@ class ChartController < UIViewController
 
   def exitFullScreenModeButton
     # button frame with respect to orientation = view.bounds.width - 52, KK.landscape?? 6 : 26, 30, 30
-    @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 52, 22, 30, 30)).tap do |button|
+    @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 44, 27, 30, 30)).tap do |button|
       button.backgroundColor = UIColor.blackColor
       button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
       button.setImage KK.templateImage("bi-fullScreenExit"), forState:UIControlStateNormal
