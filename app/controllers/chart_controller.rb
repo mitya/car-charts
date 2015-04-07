@@ -113,6 +113,46 @@ class ChartController < UIViewController
   end
 
 
+  def prefersStatusBarHidden
+    fullScreen? || super
+  end
+
+  def fullScreen?
+    @fullScreen
+  end
+
+  def emptyView
+    @emptyView ||= begin
+      text = if $lastLaunchDidFail
+        $lastLaunchDidFail = nil
+        "Something weird has happened\nModels & parameters were reset\n\nSorry :("
+      else
+        "No Models / Parameters Selected"
+      end
+      KK.emptyViewLabel(text, view.bounds.rectWithHorizMargins(15))
+    end
+  end
+
+  def toggleFullScreenModeBarItem
+    @toggleFullScreenModeBarItem ||= KK.imageBBI("bi-fullScreenEnter", target:self, action:'toggleFullScreenMode')
+  end
+
+  def exitFullScreenModeButton
+    @exitFullScreenModeButton ||= begin
+      button = UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 50, 20, 40, 40))
+      button.backgroundColor = UIColor.blackColor
+      button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
+      button.setImage KK.templateImage("bi-fullScreenExit"), forState:UIControlStateNormal
+      button.tintColor = :white.uicolor
+      button.alpha = 0.5
+      button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)
+      button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
+      view.addSubview(button)
+      button
+    end
+  end
+
+
   def reload(reloadView = true)
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     
@@ -144,44 +184,6 @@ class ChartController < UIViewController
       KK.app.delegate.hidesMasterView = @fullScreen
       splitViewController.view.setNeedsLayout
       splitViewController.willRotateToInterfaceOrientation(interfaceOrientation, duration:0)
-    end
-  end
-
-  def prefersStatusBarHidden
-    fullScreen? || super
-  end
-
-  def fullScreen?
-    @fullScreen
-  end
-
-  def emptyView
-    @emptyView ||= begin
-      text = if $lastLaunchDidFail
-        $lastLaunchDidFail = nil
-        "Something weird has happened\nModels & parameters were reset\n\nSorry :("
-      else
-        "No Models / Parameters Selected"
-      end
-      KK.emptyViewLabel(text, view.bounds.rectWithHorizMargins(15))
-    end
-  end
-
-  def toggleFullScreenModeBarItem
-    @toggleFullScreenModeBarItem ||= KK.imageBBI("bi-fullScreenEnter", target:self, action:'toggleFullScreenMode')
-  end
-
-  def exitFullScreenModeButton
-    # button frame with respect to orientation = view.bounds.width - 52, KK.landscape?? 6 : 26, 30, 30
-    @exitFullScreenModeButton ||= UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 44, 27, 30, 30)).tap do |button|
-      button.backgroundColor = UIColor.blackColor
-      button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
-      button.setImage KK.templateImage("bi-fullScreenExit"), forState:UIControlStateNormal
-      button.tintColor = :white.uicolor
-      button.alpha = 0.5
-      button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)
-      button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
-      view.addSubview(button)
     end
   end
 
