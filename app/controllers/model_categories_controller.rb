@@ -70,20 +70,22 @@ class ModelCategoriesController < UITableViewController
     end
 
     def tableView(tableView, cellForRowAtIndexPath:indexPath)
-      cell = tableView.dequeueReusableCell(style: UITableViewCellStyleValue1)
+      cell = tableView.dequeueReusableCell(style: UITableViewCellStyleValue1) do |c|
+        c.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+      end
       rowCategory = source[indexPath.row]
       cell.textLabel.text = rowCategory.name
       cell.detailTextLabel.text = rowCategory.selectedModsCount.to_s_or_nil
-      cell.accessoryType = rowCategory == category ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
+      # cell.accessoryType = rowCategory == category ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone
       cell
     end
 
     def tableView(tableView, didSelectRowAtIndexPath:indexPath)
       tableView.deselectRowAtIndexPath(indexPath, animated:true)
       controller.category = self.category = source[indexPath.row]
-      tableView.visibleCells.each { |c| c.accessoryType = UITableViewCellAccessoryNone }
-      cell = tableView.cellForRowAtIndexPath(indexPath)
-      cell.accessoryType = UITableViewCellAccessoryCheckmark
+      # tableView.visibleCells.each { |c| c.accessoryType = UITableViewCellAccessoryNone }
+      # cell = tableView.cellForRowAtIndexPath(indexPath)
+      # cell.accessoryType = UITableViewCellAccessoryCheckmark
       controller.close
     end
   end
