@@ -90,11 +90,11 @@ class ChartController < UIViewController
     mod = comparision.mods[ip.row]
     modListController = ModListController.new(mod.generation)
     modListController.selectedMod = mod
-        
-    tabBarController.selectedIndex = 2
-    modelsNavController = KK.app.delegate.modelListController.navigationController
+    
+    modelsNavController = KK.app.delegate.modelListController.navigationController    
+    KK.app.delegate.tabBarController.selectedViewController = modelsNavController
     modelsNavController.popToRootViewControllerAnimated(NO)
-    modelsNavController.pushViewController modListController, animated:YES
+    modelsNavController.pushViewController modListController, animated:NO
   end
 
   def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:ip)
