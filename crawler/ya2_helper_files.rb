@@ -1,16 +1,18 @@
 module CW
   module_function
 
-  def save_page(url, path, overwrite: true, dir: WORKDIR, test: false)
+  def save_page(url, path, overwrite: true, dir: WORKDIR, test: false, verbose: true)
     if test
       puts "WILL WRITE #{path}" unless File.exist?(dir + path)
       return false
     end
     
     if !overwrite && File.exist?(dir + path)
-      puts "EXIST #{path}" 
+      puts "EXIST #{path}" if verbose
       return false
     end
+
+    FileUtils.mkdir_p File.dirname(dir + path)
     
     open(url, "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:35.0) Gecko/20100101 Firefox/35.0") do |page|
       puts "GET #{url} => #{path}"
@@ -31,6 +33,11 @@ module CW
   
   def write_file(path, content)
     open(path, "w") { |file| file.write(content) }
+  end
+
+  def write_lines(filename, array, dir: WORKDIR)
+    path = "#{dir}/#{filename}.txt"
+    write_file(path, array.join("\n"))
   end
 
   def write_data(filename, data, dir: WORKDIR)
@@ -67,6 +74,15 @@ module CW
     end
 
     open(path, "w") { |f| f.write data.map { |row| CSV.generate_line(row) }.join }
+  end
+
+  def read_data(filename, dir = WORKDIR)
+    YAML.load( File.read("#{dir}/#{filename}.yaml") )
+  end
+
+  def read_lines(filename, dir = WORKDIR)
+    path = "#{dir}/#{filename}.txt"
+    array = File.read(path).split("\n")
   end
 
   def read_hash(filename, dir = WORKDIR, openstruct:true)
@@ -119,7 +135,7 @@ module CW
     printf "Processed #{count} files in %02d:%02d sec\n", *sec.divmod(60)
   end
   
-  def compress_dir(dir, outdir, selectors, limit: nil, zip: true)
+  def compress_dir(dir, outdir, selectors, limit: nil, zip: true, hard: true)
     outdir = dir unless outdir
     FileUtils.mkdir_p File.join(WORKDIR, outdir)
     if zip
@@ -127,16 +143,30 @@ module CW
       system "tar cjf #{WORKDIR + dir}.tbz -C #{WORKDIR + dir} ."
     end
     parse_dir(dir, limit: limit) do |doc, basename, path|
-      content = doc.css(selectors)
-      content.xpath('//@data-bem').remove
-      content.xpath('//@style').remove
-      content.xpath('//img').remove
+      if hard
+        content = doc.css(selectors)
+        content.xpath('//@data-bem').remove
+        content.xpath('//@style').remove
+        content.xpath('//img').remove
+        content.xpath('//script').remove
+        content.xpath('//noscript').remove
+        content.xpath('//comment()').remove
       
-      doc.at_css('body').inner_html = content
-      doc.at_css('head').inner_html = ''
+        doc.at_css('body').inner_html = content
+        doc.at_css('head').inner_html = doc.at_css('head link[rel=stylesheet]')
+      else
+        doc.xpath('//@data-bem').remove
+        # doc.xpath('//@style').remove
+        # doc.xpath('//img').remove
+        # doc.xpath('//script').remove
+        doc.xpath('//meta').remove
+        doc.xpath('//noscript').remove
+        doc.xpath('//comment()').remove
+        doc.at_css('.b-guadeloupe').remove rescue nil
+        doc.at_css('.layout > .footer').remove rescue nil
+      end
     
-      new_path = File.join(WORKDIR, outdir, "#{basename}.html")
-    
+      new_path = File.join(WORKDIR, outdir, "#{basename}.html")  
       write_file(new_path, doc.to_html)
     end    
   end  
