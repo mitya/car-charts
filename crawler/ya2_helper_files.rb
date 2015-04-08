@@ -39,6 +39,11 @@ module CW
     path = "#{dir}/#{filename}.txt"
     write_file(path, array.join("\n"))
   end
+  
+  def write_objects(filename, array)
+    array = array.map(&:hash) if array.first.is_a?(Mash)
+    write_data filename, array
+  end
 
   def write_data(filename, data, dir: WORKDIR)
     path = "#{dir}/#{filename}.yaml"
@@ -78,6 +83,10 @@ module CW
 
   def read_data(filename, dir = WORKDIR)
     YAML.load( File.read("#{dir}/#{filename}.yaml") )
+  end
+
+  def read_objects(filename)
+    read_data(filename).map(&:mash)
   end
 
   def read_lines(filename, dir = WORKDIR)
@@ -150,10 +159,12 @@ module CW
         content.xpath('//img').remove
         content.xpath('//script').remove
         content.xpath('//noscript').remove
-        content.xpath('//comment()').remove
-      
+        content.xpath('//comment()').remove      
         doc.at_css('body').inner_html = content
-        doc.at_css('head').inner_html = doc.at_css('head link[rel=stylesheet]')
+        
+        style = doc.at_css('head link[rel=stylesheet]').to_html rescue ''
+        title = doc.at_css('head title').to_html rescue ''
+        doc.at_css('head').inner_html = style + title
       else
         doc.xpath('//@data-bem').remove
         # doc.xpath('//@style').remove
@@ -173,5 +184,26 @@ module CW
   
   def load_dataset(name)
     YAML.load_file("crawler/data-#{name}.yml")
+  end  
+end
+
+
+module NokorigiHelpers
+  def css_count(selector)
+    nodeset = css(selector)
+    nodeset ? nodeset.count : nil
   end
+  
+  def css_text(selector)
+    nodeset = at_css(selector)
+    nodeset ? nodeset.text : nil
+  end    
+end
+
+class Nokogiri::HTML::Document
+  include NokorigiHelpers
+end
+
+class Nokogiri::XML::Element
+  include NokorigiHelpers
 end

@@ -147,15 +147,5 @@ class YA2Parser
     generation_models.each do |k,c|
       printf "%-40s %4s\n", k, c
     end    
-
-
-    # mods.each do |key, mod|
-    #   mod = TalkyHash.new(mod)
-    #   if !mod.top_speed
-    #     printf "%60s %10s\n", key, mod.top_speed
-    #     count += 1
-    #   end
-    # end
-    # puts count
   end
 end

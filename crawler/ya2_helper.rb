@@ -61,15 +61,32 @@ module CW
   # :opel, хэтчбэк 5 дв => hatch5d
   # :mercedes, седан AMG Long => sedan_long
   # :mercedes, черти-что => nil
-  def parse_bodytype(mark_key, bodytype_name)
+  def parse_bodytype(mark_key, bodytype_name, silent:true)
     @reductions ||= YAML.load_file("crawler/data-reductions.yml")
     reduction = @reductions['body_body_new'][ "#{mark_key} #{bodytype_name}" ]
-    printf "%-20s %30s  %-30s  %20s\n", 'reduce', mark_key, bodytype_name, reduction if reduction
+    printf "%-20s %30s  %-30s  %20s\n", 'reduce', mark_key, bodytype_name, reduction if reduction unless silent
     bodytype_name = reduction if reduction
 
     body_key = CWD.bodytypes_by_title[bodytype_name]
-    printf "%-20s %30s  %s\n", 'no match', mark_key, bodytype_name unless body_key    
+    printf "%-20s %30s  %s\n", 'no match', mark_key, bodytype_name if !body_key unless silent
     body_key
+  end
+  
+  # "2014 – 2015" => 2014
+  # "2014" => 2014
+  # "" => nil
+  def parse_first_year(string)
+    result = string.to_s.split(' – ').first    
+    result = result.to_i if result
+    result    
+  end
+  
+  # "2014 – 2015" => 2014
+  # "2014" => 2014
+  # "" => nil
+  def parse_years(string)
+    first, last = string.to_s.split(' – ')
+    [first, last].map(&:to_i).reject(&:nil?)
   end
   
   # 2993 => '3.0'
@@ -138,5 +155,17 @@ class Mash
     "Mash#{hash.inspect}"
   end
   
-  HASH_METHODS = Set.new(Hash.instance_methods)
+  HASH_METHODS = Set.new(Hash.instance_methods - [:key])
+end
+
+class Hash
+  def mash
+    Mash.new(self)
+  end
+  
+  def map_values(&block)
+    each do |k, v|
+      self[k] = yield v
+    end
+  end
 end
