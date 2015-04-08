@@ -126,6 +126,10 @@ misc bar-expand
 cupertinoline bar-gear
 
 
+## Logo Font
+  
+  ITC Blair Medium 14pt (small-caps, commersial)
+  Orbitron Medium 17pt (geometric, open-source)
 
 ## Other
 
