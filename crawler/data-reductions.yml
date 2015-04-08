@@ -17,18 +17,29 @@ body_body:
   vaz--hatch_3d_coupe: hatch_3d
   volkswagen--hatch_3d_gti: hatch_3d
   volkswagen--hatch_5d_gti: hatch_5d
-  
+
 body_body_new:
+  aston_martin кабриолет Volante: "кабриолет"
   audi хэтчбек 5 дв. Sportback: "хэтчбек 5 дв."
+  bmw минивен Gran Tourer: "минивен Long"
+  bmw хэтчбек 5 дв. Gran Coupe: "хэтчбек 5 дв."
+  bmw хэтчбек 5 дв. Gran Turismo: "хэтчбек 5 дв."
+  bmw седан Gran Coupe: "седан"
+  cadillac внедорожник ESV: "вседорожник Long"
+  citroen минивен Grand: "минивен Long"
+  ford минивен Grand: "минивен Long"
   hyundai седан Limusine: "седан Long"
   kia хэтчбек 3 дв. pro_cee'd: "хэтчбек 3 дв."
   land_rover внедорожник 3 дв. 90: "внедорожник 3 дв."
   land_rover внедорожник 5 дв. 110: "внедорожник 5 дв."
+  land_rover внедорожник Long: "вседорожник Long"
+  lincoln внедорожник L: "вседорожник Long"
   mercedes кабриолет AMG: "кабриолет"
   mercedes купе AMG: "купе"
-  mercedes седан AMG: "седан"
   mercedes седан AMG Long: "седан Long"
+  mercedes седан AMG: "седан"
   mercedes универсал Shooting Brake: "универсал"
+  mercedes кроссовер Coupe: "кроссовер"
   opel универсал Sports Tourer: "универсал"
   opel хэтчбек 3 дв. GTC: "хэтчбек 3 дв."
   vaz внедорожник 2121: "внедорожник 3 дв."
@@ -36,7 +47,7 @@ body_body_new:
   volkswagen пикап 2 дв. Single Cab: "пикап 2 дв."
   volkswagen пикап 4 дв. Double Cab: "пикап 4 дв."
   volvo универсал Plug-in-Hybrid: "универсал"
-  
+
 body_model:
   lexus--sedan_is_f: sedan IS-F
   mitsubishi--hatch_5d_ralliart: hatch_5d Lancer Ralliart

@@ -30,7 +30,7 @@ module CWD
     YAML.load_file("crawler/data-classification.yml")
   end
 
-  property :translations do |field, title|
+  def translations(field, title)
     data_translations[field.to_s][title]
   end
 
