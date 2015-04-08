@@ -191,3 +191,19 @@ Max Power
 Max Torques
 Overall length
 Max Speed
+
+10 get the initial files manually
+  generations.html: <audi-a4-2011> <ford-focus-2014> <bmw-3-2014>, ...
+11 parse to URLs
+  generation-bodies-first.yaml: audi-a4-2011: /audi/a3/123456/specs, ...
+12 load initial bodytype
+  generations/mark-model-year.html ...
+13 parse initial bodytype for other bodytypes
+  generation-bodies-other.yaml: audi-a4-2011-hatch3d: /audi/a3/123456/456789/specs, ...
+14 load other bodytypes
+  generations/mark-model-year-bodytype.html ...
+20 parse bodytypes (both) for mod URLs
+  mods.yaml: bmw-3-2014-sedan--1.8T-200ps-AT-FWD => /bmw/1/123456/456789/654987 (or name file like bmw-3-6123456-6789654)
+30 load mods
+  mods/*.html
+40 parse mods

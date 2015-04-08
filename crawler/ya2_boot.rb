@@ -16,7 +16,7 @@ require "csv"
 Dir.glob("#{File.dirname(__FILE__)}/ya2_*.rb") { |file| require file }
 require File.dirname(__FILE__) + "/data.rb"
 
-WORKDIR = Pathname("/opt/work/carchartscrawler/data_1502")
+WORKDIR = Pathname("/opt/work/carchartscrawler/data_1504")
 YA_HOST = "https://auto.yandex.ru"
 
 def xprintf(*args) end
