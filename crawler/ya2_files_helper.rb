@@ -20,9 +20,16 @@ module CW
     end
     
     return true
+  rescue Errno::ETIMEDOUT => e
+    puts "ERROR #{e}"
+    sleep 30
+    @attempt ||= 0
+    @attempt += 1
+    retry if @attempt == 1
+    raise
   end
   
-  def save_page_and_sleep(url, path, overwrite: true, sleep_interval: 1..3, test: false)
+  def save_page_and_sleep(url, path, overwrite: true, sleep_interval: 1..5, test: false)
     saved = save_page url, path, overwrite: overwrite, test: test
     sleep rand(sleep_interval) if saved
   end
@@ -79,6 +86,29 @@ module CW
     end
 
     open(path, "w") { |f| f.write data.map { |row| CSV.generate_line(row) }.join }
+  end
+  
+  def write_html(array, dir: WORKDIR)
+    totals = []
+    array.each do |items|
+      Array(items).each_with_index do |item, i|
+        totals[i] ||= 0
+        totals[i] += 1 if item != nil && item != 0 && item != ''
+      end
+    end
+    
+    rows = (array + totals).map do |items|
+      cells = Array(items).map { |item| "<td>#{item}</td>" }
+      "<tr>#{cells.join}</tr>"
+    end
+    
+    table = "<table>#{rows.join}</table>"
+    html = File.read("scripts/template.html")
+    html.sub!('{STUB}', table)
+
+    path = "#{dir}/out.html"
+    write_file path, html
+    system "open #{path}"
   end
 
   def read_data(filename, dir = WORKDIR)

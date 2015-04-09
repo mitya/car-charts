@@ -64,7 +64,7 @@ module CW
   def parse_bodytype(mark_key, bodytype_name, silent:true)
     @reductions ||= YAML.load_file("crawler/data-reductions.yml")
     reduction = @reductions['body_body_new'][ "#{mark_key} #{bodytype_name}" ]
-    printf "%-20s %30s  %-30s  %20s\n", 'reduce', mark_key, bodytype_name, reduction if reduction unless silent
+    # printf "%-20s %30s  %-30s  %20s\n", 'reduce', mark_key, bodytype_name, reduction if reduction unless silent
     bodytype_name = reduction if reduction
 
     body_key = CWD.bodytypes_by_title[bodytype_name]
@@ -123,6 +123,13 @@ module CW
     puts "time: #{Time.now - @time}s"
     @time = Time.now
   end
+  
+
+  def convert_space_key_to_dash_key(key)
+    mark, model, year, body, engine = key.split
+    old_model_key = [mark, model, year, body].join('-')
+    old_key = [ old_model_key, engine ].join('--')
+  end
 end
 
 class Mash
@@ -169,3 +176,5 @@ class Hash
     end
   end
 end
+
+W = CW
