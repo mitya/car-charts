@@ -1,11 +1,8 @@
-require "enumerator"
-
 class YA2Processor
   F15 = "15-models"
-  F15P = "15-models-parsed"
-  F15M = "15-mods"
   F16 = "16-models"
   F17 = "17-mods"
+  F17b = "17b-mods"
   D18 = "18-mods"
 
   SHIT = Set.new %w(ac ariel bronto bufori byvin caterham changfeng coggiola dadi e_car ecomotors foton fuqi gonow gordon 
@@ -64,11 +61,6 @@ class YA2Processor
     W.parse_dir(D12, silent: true) do |doc, basename, path|
       mark = basename.split(' ').first
 
-      if SHIT.include?(mark)
-        # puts "SHIT #{basename}"
-        next
-      end
-
       yandex_id = basename.split[2].to_i
       obj = seq16_index[yandex_id]
       
@@ -89,17 +81,46 @@ class YA2Processor
 
     W.write_data(F17, seq17)
   end
+  
+  def step_17b
+    seq17 = W.read_data(F17).to_a
+    seq17b = seq17.select do |key, url|
+      mark, model, year, body, engine = key.split
+      next if SHIT.include?(mark)
+      next if year.to_i <= 2007
+      [key, url]
+    end
+
+    puts "Were #{seq17.size}, now #{seq17b.size}"
+    W.write_data(F17b, seq17b.to_h)
+  end
 
   # load mods
   def step_18
-    W.read_data(F17).to_a.shuffle.each do |key, url|
+    W.read_data(F17b).to_a.shuffle.each do |key, url|
       mark, model, year, body, engine = key.split
       old_model_key = [mark, model, year, body].join('-')
       old_key = [ old_model_key, engine ].join('--')
-      exist = File.exist?(WORKDIR + "../data_1502/07.0-mods/#{old_key}.html")
-      next if exist
+      next if File.exist?(WORKDIR + "../data_1502/07.0-mods/#{old_key}.html")
 
       W.save_ya_page_and_sleep url, "#{ D18 }/#{ key }.html", overwrite: false
+    end
+  end
+  
+  def step_18bad
+    seq16 = W.read_objects(F16)
+    seq16_index = seq16.group_by(&:yandex_id)
+
+    CW.parse_dir(D18, silent: true) do |doc, basename, path|
+      link = doc.at_css('.heading a.link')
+      parts = link['href'].split('/')
+      content_id = parts[3]   
+      
+      ref = seq16_index[content_id.to_i].first
+      ref_key = [ref.mark, ref.model, ref.year, ref.body].join(' ')
+      file_key = basename.split.first(4).join(' ')
+      
+      p [ref_key, file_key] unless ref_key != file_key
     end
   end
   
@@ -112,7 +133,13 @@ class YA2Processor
     old_keys = Dir.glob(WORKDIR + "../data_1502/07.0-mods/*.html").map { |path| File.basename(path, '.html') }
     missing_in_new = old_keys - new_keys
     missing_in_old = new_keys - old_keys    
-    
+
+    # missing_in_new.select! do |key|
+    #   parts = key.split('-')
+    #   year = parts[2].to_i
+    #   year < 2013
+    # end
+
     W.write_html missing_in_new
   end
 end

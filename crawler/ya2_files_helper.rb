@@ -23,13 +23,13 @@ module CW
   rescue Errno::ETIMEDOUT => e
     puts "ERROR #{e}"
     sleep 30
-    @attempt ||= 0
-    @attempt += 1
-    retry if @attempt == 1
+    attempt ||= 0
+    attempt += 1
+    retry if attempt == 1
     raise
   end
   
-  def save_page_and_sleep(url, path, overwrite: true, sleep_interval: 1..5, test: false)
+  def save_page_and_sleep(url, path, overwrite: true, sleep_interval: 1..3, test: false)
     saved = save_page url, path, overwrite: overwrite, test: test
     sleep rand(sleep_interval) if saved
   end
@@ -106,7 +106,8 @@ module CW
     html = File.read("scripts/template.html")
     html.sub!('{STUB}', table)
 
-    path = "#{dir}/out.html"
+    timestamp = Time.now.strftime('%H%M%S')
+    path = "#{dir}/out-#{timestamp}.html"
     write_file path, html
     system "open #{path}"
   end
@@ -203,8 +204,9 @@ module CW
         doc.xpath('//meta').remove
         doc.xpath('//noscript').remove
         doc.xpath('//comment()').remove
-        doc.at_css('.b-guadeloupe').remove rescue nil
-        doc.at_css('.layout > .footer').remove rescue nil
+        doc.css('.b-guadeloupe').remove
+        doc.css('.b-rtb').remove
+        doc.css('.layout > .footer').remove
       end
     
       new_path = File.join(WORKDIR, outdir, "#{basename}.html")  
