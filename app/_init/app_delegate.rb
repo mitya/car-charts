@@ -40,7 +40,7 @@ class AppDelegate
     window.makeKeyAndVisible
 
     setTintColors
-        
+    
     # openControllerForModel("ford--focus--2014")
     
     true
@@ -96,6 +96,7 @@ class AppDelegate
       model.entities = [Mod.entity]
 
       if KK.env?('CCTestModsDataset')
+        NSLog "Data path: #{KK.documentsURL}"
         # switch mods database to the one located in the documents directory to fill it with the data from plist
         storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
         storeOptions = {}

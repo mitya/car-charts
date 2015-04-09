@@ -283,7 +283,9 @@ class Mod < DSCoreModel
   
   class << self
     def modForKey(key)
-      context.fetchEntity(entity, predicate:["key = %@", key]).first
+      KK.benchmark "loading mod #{key}" do
+        context.fetchEntity(entity, predicate:["key = %@", key]).first
+      end
     end
     
     alias [] modForKey
@@ -294,7 +296,9 @@ class Mod < DSCoreModel
     end
     
     def unorderedModsForKeys(keys) 
-      context.fetchEntity(entity, predicate:["key in %@", keys]).sort_by(&:key)    
+      KK.benchmark "loading mods for #{keys.count} keys" do      
+        context.fetchEntity(entity, predicate:["key in %@", keys]).sort_by(&:key)    
+      end
     end
     
     def modsForGenerationKey(generationKey)
@@ -321,7 +325,6 @@ class Mod < DSCoreModel
       options[:fuel] = [options[:gas], options[:diesel]].compact
       options
     end
-
 
     # To import a plist:
     # 1. uncomment some stuff in AppDelegate.staticContext

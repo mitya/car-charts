@@ -235,8 +235,10 @@ parameterTranslations:
     crossover_3d: crossover 3-dr
     crossover_5d: crossover 5-dr
     hatch_3d: hatch 3d
+    hatch_4d: hatch 4d
     hatch_5d: hatch 5d
     minivan: minivan
+    minivan_long: minivan long
     minivan_3d: minivan 3-dr
     minivan_5d: minivan 5-dr
     pickup: pickup
@@ -245,9 +247,11 @@ parameterTranslations:
     sedan: sedan
     sedan_long: sedan long
     suv: SUV
+    suv_long: SUV long
     suv_2d: SUV 2-dr
     suv_3d: SUV 3-dr
     suv_4d: SUV 4-dr
     suv_5d: SUV 5-dr
     van: van
     wagon: wagon
+    minibus: minibus

@@ -60,6 +60,8 @@ class ModelGeneration
   def inspect
     "{generation:#{key} mods=#{mods.count}}"
   end
+  
+  alias to_s inspect
 
   def metadataRow
     @metadataRow ||= Metadata.generation_rows[key]

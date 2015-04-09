@@ -4,7 +4,8 @@ class ModListController < UIViewController
 
   def initialize(model = nil)
     self.model = model
-    self.mods = model.mods
+    self.mods = KK.benchmark "loading mods for model #{model}" { model.mods }
+    # self.mods = model.mods
     self.title = model.nameWithApostrophe
     navigationItem.backBarButtonItem = KK.textBBI("Versions")                    
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
@@ -30,9 +31,7 @@ class ModListController < UIViewController
     self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain)
   end
   
-  def viewWillAppear(animated)
-    super
-    
+  def viewWillAppear(animated) super    
     applyFilter
     scrollToMod(selectedMod, animated:NO) if selectedMod
   end

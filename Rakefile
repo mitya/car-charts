@@ -18,7 +18,7 @@ Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
   app.icons = %w(Icon-60 Icon-76 Icon-Small-40 Icon-Small)
-  app.sdk_version = "8.2"
+  app.sdk_version = "8.3"
   app.deployment_target = "7.0"
   app.libs += ['/usr/lib/libsqlite3.dylib']
   app.detect_dependencies = false
@@ -34,11 +34,11 @@ Motion::Project::App.setup do |app|
 
     app.redgreen_style = :full # default: :focused, also can use :progress
 
-    # app.info_plist['CCBenchmarking'] = true
+    app.info_plist['CCBenchmarking'] = true
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
     app.info_plist['CCTestModsDataset'] = true
-    app.info_plist['CCTestModsDatasetRun'] = true
+    # app.info_plist['CCTestModsDatasetRun'] = true
   end
 end
 

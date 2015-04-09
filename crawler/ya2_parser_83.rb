@@ -5,6 +5,13 @@ class YA2Parser
     models_by_model_key = models_list.index_by { |model| "#{model.mark}--#{model.model}"}
     models_by_generation_key = models_list.index_by { |model| "#{model.mark}--#{model.model}--#{model.year}"}
     mods = CW.read_data_in_binary(F82)
+    stored_metadata = CW.load_dataset("metadata")
+
+    #   # check missing bodytype names
+    #   bodytypes = mods.values.map { |h| h['body'] }.uniq
+    #   stored_bodytypes = stored_metadata['parameterTranslations']['body'].keys
+    #   missing_bodytypes = bodytypes - stored_bodytypes
+    #   pp missing_bodytypes unless missing_bodytypes == []
   
     family_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort
     brand_keys = mods.map { |key, mod| key.split.first }.uniq.sort
@@ -59,7 +66,7 @@ class YA2Parser
     metadata['brand_names'] = brand_names
     metadata['parameter_keys'] = CWD.used_fields
     metadata['sample_sets'] = sample_sets
-    metadata.update CW.load_dataset("metadata")
+    metadata.update stored_metadata
 
     CW.write_data_to_plist F83, metadata
     # CW.write_data "debug-#{F83}", metadata

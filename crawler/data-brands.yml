@@ -101,7 +101,10 @@ brands:
   volvo: Volvo
   zaz: ZAZ
 brands_overrides:
+  e_mobil: Yo-mobil
+  gaz: GAZ
   moscvich: Moskvitch
+  tagaz: TagAZ  
   uaz: UAZ
   vaz: VAZ (Lada)
-  e_mobil: Yo-mobil
+  
