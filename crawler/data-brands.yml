@@ -4,13 +4,19 @@ brands:
   acura: Acura
   alfa_romeo: Alfa Romeo
   alpina: Alpina
+  am_general: AM General
   aston_martin: Aston Martin
   audi: Audi
+  beijing: Beijing
   bentley: Bentley
   bmw: BMW
+  brabus: Brabus
+  brilliance: Brilliance
   bugatti: Bugatti
   buick: Buick
+  byd: BYD
   cadillac: Cadillac
+  changan: Changan
   chery: Chery
   chevrolet: Chevrolet
   chrysler: Chrysler
@@ -18,7 +24,10 @@ brands:
   dacia: Dacia
   daewoo: Daewoo
   daihatsu: Daihatsu
+  datsun: Datsun
   dodge: Dodge
+  dongfeng: DongFeng
+  e_mobil: Ё-мобиль
   faw: FAW
   ferrari: Ferrari
   fiat: Fiat
@@ -35,39 +44,58 @@ brands:
   jac: JAC
   jaguar: Jaguar
   jeep: Jeep
+  jmc: JMC
   kia: Kia
+  koenigsegg: Koenigsegg
+  ktm: KTM
   lamborghini: Lamborghini
   lancia: Lancia
   land_rover: Land Rover
   lexus: Lexus
   lifan: Lifan
+  lincoln: Lincoln
   lotus: Lotus
+  luxgen: Luxgen
+  marussia: Marussi
   maserati: Maserati
   maybach: Maybach
   mazda: Mazda
+  mclaren: McLaren
   mercedes: Mercedes-Benz
   mercury: Mercury
+  mg: MG
+  microcar: Microcar
   mini: MINI
   mitsubishi: Mitsubishi
   moscvich: Москвич
   nissan: Nissan
+  oldsmobile: Oldsmobile
   opel: Opel
+  perodua: Perodua
   peugeot: Peugeot
+  piaggio: Piaggio
   pontiac: Pontiac
   porsche: Porsche
+  proton: Proton
   renault: Renault
   rolls_royce: Rolls-Royce
   rover: Rover
   saab: Saab
+  samsung: Renault
+  scion: Scion-S
   seat: Seat
+  shuanghuan: ShuangHuan
   skoda: Skoda
   smart: Smart
   ssang_yong: SsangYong
   subaru: Subaru
   suzuki: Suzuki
+  tagaz: ТагАЗ
   tata: Tata
+  tesla: Tesla
   toyota: Toyota
   uaz: УАЗ
+  vauxhall: Vauxhall
   vaz: Lada (ВАЗ)
   volkswagen: Volkswagen
   volvo: Volvo
@@ -76,3 +104,4 @@ brands_overrides:
   moscvich: Moskvitch
   uaz: UAZ
   vaz: VAZ (Lada)
+  e_mobil: Yo-mobil

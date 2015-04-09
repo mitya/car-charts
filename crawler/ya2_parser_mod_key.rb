@@ -62,6 +62,12 @@ class YA2Parser
 
       new(brand: brand, model: model, years: years, body: body, aggregate: aggregate, engine:engine, power:power, transmission:transmission, drive:drive)
     end
+    
+    def self.from_space_key(space_key)
+      brand, model, years, body, aggregate = space_key.split
+      engine, power, transmission, drive = aggregate.split('-') if aggregate
+      new(brand: brand, model: model, years: years, body: body, aggregate: aggregate, engine:engine, power:power, transmission:transmission, drive:drive)
+    end
 
     def self.parse_new_key(key)
       brand, model_and_version, years, body, agregate = key.split(' ')

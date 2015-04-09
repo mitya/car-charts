@@ -1,10 +1,27 @@
 class YA2Parser
   def step_81 # parse mods to raw
+    mods = W.read_data(F17)
+    models = W.read_objects(F13)
+    singles = models.select { |model| model.count == 1 }
+
+    files = mods.map do |key, url|
+      new_file = WORKDIR + "#{D18}/#{key}.html"
+      next [key, new_file] if File.exist?(new_file)      
+      old_key = W.convert_space_key_to_dash_key(key)
+      old_file = WORKDIR + "../data_1502/07.0-mods/#{old_key}.html"
+      [key, old_file]
+    end
+
+    files += singles.map { |model| [model.key, "#{WORKDIR}#{model.path}"] }
+
+    p files.select { |key, file| file.to_s.include? '/18-mods/' }.count
+    p files.select { |key, file| file.to_s.include? '/07.0-mods/' }.count
+    p files.select { |key, file| file.to_s.include? '/12-mods-pass1n2/' }.count
+    
     results = {}
-
-    parser = lambda do |doc, basename, path|
-      result = results[basename] = {}
-
+    files.each do |key, path|
+      result = results[key] = {}
+      doc = W.parse_file(path)
       doc.css(".b-specifications__details .b-features__item_type_specs").each do |div|
         name = div.at_css(".b-features__name").text
         name_translation = TranslationHelper.instance.translate_parameter(name)
@@ -15,17 +32,6 @@ class YA2Parser
       end
     end
 
-    CW.parse_dir("07.0-mods", &parser)
-
-    unique_mod_keys = CW.read_hash "06.1-mods-singles", openstruct: false
-    unique_mod_keys.each do |basename|
-      path1 = WORKDIR + "04.4-bodies-renamed" + "#{basename}.html"
-      path2 = WORKDIR + "04.6-bodies-other" + "#{basename}.html"
-      path = File.exist?(path1) ? path1 : path2
-      doc = CW.parse_file(path, silent: true)
-      parser.call(doc, basename.split(' ').join('-'), path)
-    end
-
-    CW.write_data "08.1-mods", results
+    W.write_data F81, results
   end
 end

@@ -2,6 +2,8 @@ module CW
   module_function
 
   def save_page(url, path, overwrite: true, dir: WORKDIR, test: false, verbose: true)
+    test = !ENV['REAL']
+    
     if test
       puts "WILL WRITE #{path}" unless File.exist?(dir + path)
       return false
@@ -150,29 +152,32 @@ module CW
 
   def parse_file(file, silent:false)
     puts "Parsing #{file}" unless silent
-    return Nokogiri::HTML(open(file))
+    Nokogiri::HTML(open(file))
+  end
+  
+  def parse_files(files, limit: nil, silent: false)
+    count = 0
+    started_at = Time.now
+    files.each do |path|
+      count += 1
+      return if count == limit
+      basename = File.basename(path, '.html')
+      doc = CW.parse_file(path, silent:silent)
+      yield doc, basename, path
+    end
+    printf "Processed #{count} files in %02d:%02d sec\n", *(Time.now - started_at).divmod(60)
   end
     
-  def parse_dir(directory, limit: nil, silent: false, only: nil)
-    count = 0
-    sec = Benchmark.realtime do
-      pattern = if only
-        '{' + only.join(',') + '}'
-      else
-        '*'
-      end
-      Array(directory).each do |dir|
-        Dir.glob("#{WORKDIR + dir}/#{pattern}.html").each do |path|
-          count += 1
-          return if limit && count == limit
-          basename = File.basename(path, '.html')
-          doc = CW.parse_file(path, silent:silent)
-          yield doc, basename, path
-        end
+  def parse_dir(directory, limit: nil, silent: false, only: nil, &block)
+    pattern = only ? '{' + only.join(',') + '}' : '*'
+    files = []
+    Array(directory).each do |dir|
+      Dir.glob("#{WORKDIR + dir}/#{pattern}.html").each do |path|    
+        files << path
       end
     end
-
-    printf "Processed #{count} files in %02d:%02d sec\n", *sec.divmod(60)
+    
+    parse_files files, limit: limit, silent: silent, &block
   end
   
   def compress_dir(dir, outdir, selectors, limit: nil, zip: true, hard: true)

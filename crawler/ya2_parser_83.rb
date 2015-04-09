@@ -1,7 +1,10 @@
 class YA2Parser
-  def step_83 # build metadata
-    models = CW.read_hash('03-models', openstruct: true)
-    mods = CW.read_data_in_binary('08.2-mods')
+  # build metadata
+  def step_83
+    models_list = CW.read_objects(F13)
+    models_by_model_key = models_list.index_by { |model| "#{model.mark}--#{model.model}"}
+    models_by_generation_key = models_list.index_by { |model| "#{model.mark}--#{model.model}--#{model.year}"}
+    mods = CW.read_data_in_binary(F82)
   
     family_keys = mods.map { |key, mod| mod['model_key'] }.uniq.sort
     brand_keys = mods.map { |key, mod| key.split.first }.uniq.sort
@@ -10,22 +13,23 @@ class YA2Parser
     generation_keys = mods.values.map { |mod| mod['generation_key'] }.uniq.sort
   
     generation_rows = generation_keys.each_with_object({}) do |generation_key, result|
-      mark_key, model_self_key, year = generation_key.split('--')
-      model_key = [mark_key, model_self_key].join('--')
-      model = models[model_key]
-      generation_self_title = "#{model.title} #{year}"
-      result[generation_key] = [model_key, year, generation_self_title]
+      model = models_by_generation_key[generation_key]
+      puts generation_key unless model
+      mark_key, model_key, year = generation_key.split('--')
+      family_key = "#{mark_key}--#{model_key}"
+      generation_title = "#{model.model_title} #{year}"
+      result[generation_key] = [family_key, year, generation_title]
     end
 
     family_rows = family_keys.each_with_object({}) do |key, result| # { 'bmw--x6' =>  ['X6', 'BMW X6', 'bmw', 'Xe'], ... }
-      model = models[key]
+      model = models_by_model_key[key]
       generations = generation_keys.select { |g| g.start_with?(key + '--') }
-      result[key] = [ model.title, model.full_title, model.mark, CWD.model_classification[key] || '', generations ]
+      result[key] = [ model.model_title, model.title, model.mark, CWD.model_classification[key] || '', generations ]
     end
 
 
     models_by_brand = family_keys.each_with_object({}) do |key, result|
-      model = models[key]
+      model = models_by_model_key[key]
       (result[model.mark] ||= []) << key
     end
 
@@ -43,8 +47,8 @@ class YA2Parser
   
   
     sample_sets = CW.load_dataset("sample-sets")
-  
-      
+        
+
     metadata = {}
     metadata['generation_rows'] = generation_rows
     metadata['generation_keys'] = generation_keys.sort
@@ -57,7 +61,7 @@ class YA2Parser
     metadata['sample_sets'] = sample_sets
     metadata.update CW.load_dataset("metadata")
 
-    CW.write_data_to_plist "08.3-metadata", metadata
-    CW.write_data "debug-08.3-metadata", metadata
+    CW.write_data_to_plist F83, metadata
+    # CW.write_data "debug-#{F83}", metadata
   end
 end

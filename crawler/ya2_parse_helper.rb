@@ -27,23 +27,6 @@ module CW
     val == nil || val == '' || val == 0
   end
 
-  # def escape_body_key(en_title)
-  #   escape en_title.sub(/(\d)-dr/, '\1d')
-  # end
-  #
-  # def translate_body_name(rus)
-  #   en = rus.sub(BASE_BODY_TYPES_RE, BASE_BODY_TYPES)
-  #   en = en.sub("полуторная кабина", "extended cab")
-  #   en = en.sub("двойная кабина", "double cab")
-  #   en = en.sub("7 мест", "7 seats")
-  #   en = en.sub("5 мест", "5 seats")
-  #   en = en.sub("cabrio сс", "cabrio cc")
-  #   en = en.sub("sedan 21108 премьер", "sedan 21108")
-  #   en = en.sub("+2", "plus 2")
-  #   en = en.sub(/(\d) дв/, '\1-dr')
-  # end
-  #
-
   # Momentum 1.6 AMT (150 л.с.) передний привод, бензин => 1.6i-150ps-AMT-FWD
   # sDrive30i 3.0 AT (258 л.с.) задний привод, бензин
   # 1.4 MT (125 л.с.) передний привод, бензин
@@ -64,7 +47,7 @@ module CW
   def parse_bodytype(mark_key, bodytype_name, silent:true)
     @reductions ||= YAML.load_file("crawler/data-reductions.yml")
     reduction = @reductions['body_body_new'][ "#{mark_key} #{bodytype_name}" ]
-    printf "%-20s %30s  %-30s  %20s\n", 'reduce', mark_key, bodytype_name, reduction if reduction
+    printf "%-20s %30s  %-30s  %20s\n", 'reduce', mark_key, bodytype_name, reduction if reduction unless silent
     bodytype_name = reduction if reduction
 
     body_key = CWD.bodytypes_by_title[bodytype_name]
@@ -86,7 +69,7 @@ module CW
   # "" => nil
   def parse_years(string)
     first, last = string.to_s.split(' – ')
-    [first, last].map(&:to_i).reject(&:nil?)
+    [first, last].reject(&:nil?).map(&:to_i)
   end
   
   # 2993 => '3.0'
@@ -122,14 +105,27 @@ module CW
   def profile
     puts "time: #{Time.now - @time}s"
     @time = Time.now
-  end
-  
+  end  
 
   def convert_space_key_to_dash_key(key)
     mark, model, year, body, engine = key.split
     old_model_key = [mark, model, year, body].join('-')
     old_key = [ old_model_key, engine ].join('--')
   end
+
+  def convert_dash_key_to_space_key(key)
+    model_key, engine = key.split('--')
+    mark, model, year, body = model_key.split('-')
+    [mark, model, year, body, engine].join(' ')
+  end
+  
+  # Lada (ВАЗ) Kalina => Lada Kalina
+  # BMW X5 => BMW X5
+  # That's about converting Lada, UAZ & Moskvitch brand names to English
+  def build_internal_branded_model_name(brand_key, model_self_name)
+    brand_name = CWD.adjusted_brand_names[brand_key]
+    "#{brand_name} #{model_self_name}"
+  end  
 end
 
 class Mash
@@ -162,7 +158,7 @@ class Mash
     "Mash#{hash.inspect}"
   end
   
-  HASH_METHODS = Set.new(Hash.instance_methods - [:key])
+  HASH_METHODS = Set.new(Hash.instance_methods - [:key, :count])
 end
 
 class Hash
@@ -175,6 +171,18 @@ class Hash
       self[k] = yield v
     end
   end
+end
+
+class Array  
+  def index_by(&block)
+    hash = {}
+    each do |item|
+      key = yield item
+      # p key
+      hash[key] = item
+    end
+    hash
+  end  
 end
 
 W = CW

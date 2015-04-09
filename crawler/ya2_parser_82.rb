@@ -1,15 +1,10 @@
 class YA2Parser
   # parse mod values
   def step_82
-    raw_mods = CW.read_hash('08.1-mods', openstruct: false)
+    raw_mods = CW.read_hash(F81, openstruct: false)
     parsed_mods = {}
-    excluded_mod_prefixes = %w(zaz gaz)
 
-    raw_mods.first(1_000_000).each do |mod_key, properties|      
-      if mod_key.start_with?(*excluded_mod_prefixes)
-        next
-      end      
-      
+    raw_mods.first(1_000_000).each do |mod_key, properties|
       parsed = Mash.new
 
       properties.each do |key, string|
@@ -70,7 +65,7 @@ class YA2Parser
       end
 
       # replace dashes with spaces in the key
-      new_key = ModKey.from_dash_key(mod_key)
+      new_key = ModKey.from_space_key(mod_key)
 
       # store key parts as individual elements
       parsed.body = new_key.body
@@ -101,51 +96,33 @@ class YA2Parser
       parsed_mods_arrays[mod_key] = CWD.used_fields.each_with_index.map { |k, i| mod_hash[k] || '' }
     end
 
-    xvalidate do
-      parsed_mods.each_with_object({}) do |(mod_key, hash), result|
-        hash.each do |attr_key, val|
-          if CW.blank?(val)
-            result[attr_key] ||= 0
-            result[attr_key] += 1
-          end
-        end
-      end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end
-
-      puts
-
-      parsed_mods_arrays.each_with_object({}) do |(mod_key, array), result|
-        array.each_with_index do |val, index|
-          if CW.blank?(val)
-            result[CWD.used_fields[index]] ||= 0
-            result[CWD.used_fields[index]] += 1
-          end
-        end
-      end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end        
-    end
+    # xvalidate do
+    #   parsed_mods.each_with_object({}) do |(mod_key, hash), result|
+    #     hash.each do |attr_key, val|
+    #       if CW.blank?(val)
+    #         result[attr_key] ||= 0
+    #         result[attr_key] += 1
+    #       end
+    #     end
+    #   end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end
+    #
+    #   puts
+    #
+    #   parsed_mods_arrays.each_with_object({}) do |(mod_key, array), result|
+    #     array.each_with_index do |val, index|
+    #       if CW.blank?(val)
+    #         result[CWD.used_fields[index]] ||= 0
+    #         result[CWD.used_fields[index]] += 1
+    #       end
+    #     end
+    #   end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end
+    # end
     
-    CW.write_data_to_plist "08.2-mods", parsed_mods_arrays  
-    CW.write_data_to_binary "08.2-mods", parsed_mods
-    CW.write_data "08.2-mods", parsed_mods
+    CW.write_data_to_plist F82, parsed_mods_arrays  
+    CW.write_data_to_binary F82, parsed_mods
+    CW.write_data F82, parsed_mods
     
-    CW.write_data_to_plist "debug-08.2-mods", parsed_mods.first(20).to_h
-    CW.write_data "debug-08.2-mods.sample", parsed_mods.first(20).map {|k, h| [k, h.sort_by {|a, v| a }.to_h] }.to_h
-    CW.write_data "debug-08.2-mods.keys", parsed_mods.keys.sort
+    # CW.write_data_to_plist "debug-#{F82}", parsed_mods.first(20).to_h
+    # CW.write_data "debug-#{F82}.keys", parsed_mods.keys.sort
   end  
-
-  def step_82_check
-    mods = CW.read_data_in_binary('08.2-mods')
-    count = 0
-
-    generation_models = {}
-    mods.each do |key, mod|
-      mod = TalkyHash.new(mod)
-      generation_models[mod.generation_key] ||= 0
-      generation_models[mod.generation_key] += 1
-    end
-
-    generation_models = generation_models.sort_by { |k,c| c }
-    generation_models.each do |k,c|
-      printf "%-40s %4s\n", k, c
-    end    
-  end
 end

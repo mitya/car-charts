@@ -19,7 +19,7 @@ task meta: %w(ccc:step_83 ccc:copy) do
 end
 
 
-namespace 'cr' do
+namespace 'ccc' do
   rule "" do |action|
     if action.name =~ /ccc:\d.*/
       require "#{Dir.pwd}/crawler/ya2_boot.rb"      
@@ -53,7 +53,7 @@ namespace 'cr' do
   # end
   
   task :copy do
-    system "cp /opt/work/carchartscrawler/data_1502/08.2-mods.plist resources/db/mods.plist"
-    system "cp /opt/work/carchartscrawler/data_1502/08.3-metadata.plist resources/db/metadata.plist"
+    system "cp /opt/work/carchartscrawler/data_1504/82-mods.plist resources/db/mods.plist"
+    system "cp /opt/work/carchartscrawler/data_1504/83-metadata.plist resources/db/metadata.plist"
   end
 end
