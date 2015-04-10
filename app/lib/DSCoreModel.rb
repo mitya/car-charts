@@ -16,11 +16,12 @@ class DSCoreModel < NSManagedObject
       @entity ||= NSEntityDescription.alloc.init.tap do |entity|
         entity.name = entityName
         entity.managedObjectClassName = entityName
-        entity.properties = fields.map do |name, type, required|
+        entity.properties = fields.map do |name, type, required, indexed|
           property = NSAttributeDescription.alloc.init
           property.name = name
           property.attributeType = type
           property.optional = !required
+          property.indexed = indexed == true
           property
         end
       end

@@ -76,6 +76,8 @@ class Disk
         KK.benchmark("Load #{klass.name}") { klass.load }
       end
       
+      # Mod.modForKey('mazda axela 2013 hatch_5d 2.0i-150ps-AT-FWD') first query is slow
+      
       self.currentParameters ||= []
       self.currentMods ||= []      
 

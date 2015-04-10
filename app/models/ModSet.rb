@@ -1,6 +1,6 @@
 class ModSet < DSCoreModel
   @fields = [
-    ['name', NSStringAttributeType, true],
+    ['name', NSStringAttributeType, true, true],
     ['modKeysString', NSStringAttributeType, false]
   ]
   @defaultSortField = 'name'

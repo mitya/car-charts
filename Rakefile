@@ -38,7 +38,7 @@ Motion::Project::App.setup do |app|
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
     app.info_plist['CCTestModsDataset'] = true
-    app.info_plist['CCTestModsDatasetRun'] = true
+    # app.info_plist['CCTestModsDatasetRun'] = true
   end
 end
 

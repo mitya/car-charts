@@ -2,7 +2,7 @@ class YA2Parser
   def step_81 # parse mods to raw
     mods = W.read_data(F17)
     models = W.read_objects(F13)
-    singles = models.select { |model| model.count == 1 }
+    firsts = models #.select { |model| model.count == 1 }
 
     files = mods.map do |key, url|
       new_file = WORKDIR + "#{D18}/#{key}.html"
@@ -12,12 +12,12 @@ class YA2Parser
       [key, old_file]
     end
 
-    files += singles.map { |model| [model.key, "#{WORKDIR}#{model.path}"] }
+    files += firsts.map { |model| [model.key, "#{WORKDIR}#{model.path}"] }
 
     p files.select { |key, file| file.to_s.include? '/18-mods/' }.count
     p files.select { |key, file| file.to_s.include? '/07.0-mods/' }.count
     p files.select { |key, file| file.to_s.include? '/12-mods-pass1n2/' }.count
-    
+
     results = {}
     files.each do |key, path|
       result = results[key] = {}
