@@ -261,4 +261,9 @@ class YA2Processor
       File.delete(path) if is_dup
     end
   end
+
+  def step_1
+    step_13
+    step_17
+  end
 end

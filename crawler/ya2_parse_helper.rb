@@ -18,7 +18,6 @@ module CW
   end
   
   def escape(string)
-    string = string.strip
     string = string.gsub('+', 'plus')
     string.gsub(/[^\w]/, '_').downcase
   end
@@ -44,15 +43,28 @@ module CW
   # :opel, хэтчбэк 5 дв => hatch5d
   # :mercedes, седан AMG Long => sedan_long
   # :mercedes, черти-что => nil
-  def parse_bodytype(mark_key, bodytype_name, silent:true)
-    @reductions ||= YAML.load_file("crawler/data-reductions.yml")
-    reduction = @reductions['body_body_new'][ "#{mark_key} #{bodytype_name}" ]
-    printf "%-20s %30s  %-30s  %20s\n", 'reduce', mark_key, bodytype_name, reduction if reduction unless silent
-    bodytype_name = reduction if reduction
+  def parse_bodytype(mark_key, model_key, bodytype_name, silent:true)
+    silent = false
 
-    body_key = CWD.bodytypes_by_title[bodytype_name]
-    printf "%-20s %30s  %s\n", 'no match', mark_key, bodytype_name if !body_key unless silent
-    body_key
+    if body_key = Info.bodytypes_by_title[bodytype_name]
+      [body_key, body_key, nil]
+    elsif reduction = Info.data_reductions['custom_bodytypes']["#{mark_key} #{model_key} #{bodytype_name}"]      
+      body_base_key, body_version_key, body_version_name = reduction
+      body_key = "#{body_base_key}.#{body_version_key}"
+      puts "reduce #{mark_key} #{model_key} #{body_key}" if reduction unless silent
+      [body_key, body_base_key, body_version_key]
+    else
+      puts "no match for #{mark_key} #{model_key} #{bodytype_name}" if body_key == nil unless silent
+      []
+    end
+  end
+  
+  def build_reductions_table_template
+    # "хэтчбек 5 дв Sportback" => "hatch_5d Sportback"
+    # key__bodytype_name = bodytype_name.sub(Info.bodytype_default_titles_pattern) { |match| Info.bodytypes_by_title[match] }
+    # body_base_key, body_version_name = key__bodytype_name.split(' ', 2)
+    # body_version_key = escape(body_version_name)
+    # puts "#{mark_key} #{model_key} #{bodytype_name}: [#{bodykey}, #{bodyversion}, #{title}]"    
   end
   
   # "2014 – 2015" => 2014

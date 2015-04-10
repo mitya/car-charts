@@ -31,7 +31,7 @@ class YA2Parser
     def inspect
       to_s_with_spaces
     end
-
+    
     #  in: alfa_romeo-giulietta-2010-hatch_5d--1.4i-170ps-MT-FWD
     # out: alfa_romeo giulietta 2010 hatch_5d 1.4i-170ps-MT-FWD
     def self.from_dash_key(old_key)
@@ -65,8 +65,10 @@ class YA2Parser
     
     def self.from_space_key(space_key)
       brand, model, years, body, aggregate = space_key.split
+      body_base, body_version = body.split('.')
       engine, power, transmission, drive = aggregate.split('-') if aggregate
-      new(brand: brand, model: model, years: years, body: body, aggregate: aggregate, engine:engine, power:power, transmission:transmission, drive:drive)
+      new(brand: brand, model: model, years: years, body: body, aggregate: aggregate, engine:engine, power:power,
+         transmission:transmission, drive:drive, body_base:body_base, body_version:body_version)
     end
 
     def self.parse_new_key(key)

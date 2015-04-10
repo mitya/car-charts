@@ -17,6 +17,10 @@ module CWD
     YAML.load_file("crawler/data-bodies.yml").invert
   end
 
+  property :bodytype_default_titles_pattern do
+    Regexp.new(bodytypes_by_title.keys.join('|'))
+  end
+
   property :used_fields do
     YAML.load_file("crawler/data-parameters.yml")['field_keys']
   end
@@ -56,3 +60,5 @@ module CWD
 end
 
 Info = CWD
+
+Rus_Months = %w(Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Октябрь Ноябрь Декабрь)

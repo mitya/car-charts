@@ -1,15 +1,4 @@
 class YA2Processor
-  def step_137
-    step_13
-    step_17
-  end
-
-  def step_1378123
-    step_13
-    step_17
-    step_8123
-  end
-
   # extract mods
   def step_17
     models = read_objects(F13)

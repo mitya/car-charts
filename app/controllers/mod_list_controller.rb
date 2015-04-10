@@ -46,7 +46,13 @@ class ModListController < UIViewController
   end
 
   def tableView(tv, titleForHeaderInSection:section)
-    Metadata.parameterTranslations['body'][ modsByBody.keys[section] ]
+    section_body_key = modsByBody.keys[section]
+    if section_body_key.include?('.')
+      sample_mod = model.mods.detect { |mod| mod.body == section_body_key }
+      sample_mod.bodyName
+    else
+      Metadata.parameterTranslations['body'][ section_body_key ]
+    end
   end
 
   def tableView(tv, titleForFooterInSection:section)
@@ -90,7 +96,6 @@ class ModListController < UIViewController
   #   # nothing for now
   # end
   
-
   def applyFilter(options = {})
     opts = Disk.filterOptions
     self.filteredMods = opts.empty? ? mods : mods.select do |mod|

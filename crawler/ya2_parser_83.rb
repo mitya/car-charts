@@ -1,11 +1,7 @@
 class YA2Parser
   include CW
 
-  def step_8123
-    step_81
-    step_82
-    step_83
-  end
+
 
   # build metadata
   def step_83

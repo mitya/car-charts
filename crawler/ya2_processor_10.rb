@@ -41,13 +41,13 @@ class YA2Processor
     CW.write_data F11b, results.uniq
   end
 
-  # D12_ONLY = ['marussia']
+  D12_ONLY = [] #['audi']
   def step_13
     seq11 = read_objects(F11)
     seq11_index = seq11.index_by(&:ya_generation_id)
     models = []
     
-    parse_dir(D12, silent: true) do |doc, basename, path|
+    parse_dir(D12, silent: true, only: D12_ONLY) do |doc, basename, path|
       parts = basename.split
       mark_model = parts.first(2).join(' ')
       
@@ -68,7 +68,9 @@ class YA2Processor
       model.yandex_generation = doc.css_text(".generations button .button__text")
       model.yandex_bodytype = mark_model_bodytype.sub model.yandex_title + ' ', '' # ".bodytypes button .button__text"
       model.url = url
-      model.bodytype = parse_bodytype(model.mark, model.yandex_bodytype, silent: true)
+
+      bodytypes = parse_bodytype(model.mark, model.model, model.yandex_bodytype, silent: true)
+      model.bodytype, model.bodytype_base, model.bodytype_version = bodytypes
       next if model.bodytype == nil
 
       years = doc.css_text(".generations button .button__text") || seq11_index[model.yandex_id].years

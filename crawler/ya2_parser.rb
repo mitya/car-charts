@@ -9,7 +9,7 @@
 class YA2Parser
   SPACE_RE = %r{\s+}
   NON_ZERO_KEYS = [:consumption_city, :consumption_highway, :consumption_mixed, :gears, :ground_clearance, :bore, :luggage_min, :luggage_max].to_set
-
+  
   def step_8
     run_step 81
     run_step 82

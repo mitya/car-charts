@@ -69,6 +69,8 @@ class YA2Parser
 
       # store key parts as individual elements
       parsed.body = new_key.body
+      parsed.body_base = new_key.body_base
+      parsed.body_version = new_key.body_version
       parsed.model_key = new_key.brand_and_model
       parsed.version_key = new_key.version
       parsed.generation_key = new_key.brand_and_model_and_year

@@ -38,7 +38,8 @@ class Mod < DSCoreModel
   end
 
   def bodyName
-    Metadata.parameterTranslations['body'][body] || raise("No name for body '#{body}'")
+    baseBodyName = Metadata.parameterTranslations['body'][body_base] || raise("No name for body '#{body}'")
+    body_version ?  "#{baseBodyName} #{body_version}" : baseBodyName
   end
 
   def versionName
@@ -186,15 +187,15 @@ class Mod < DSCoreModel
   end
 
   def sedan?
-    body == 'sedan'
+    body_base.start_with?('sedan')
   end
 
   def wagon?
-    body == 'wagon'
+    body_base == 'wagon'
   end
 
   def hatch?
-    body.start_with?('hatch')
+    body_base.start_with?('hatch')
   end
 
 
@@ -225,7 +226,9 @@ class Mod < DSCoreModel
     ['key',                    NSStringAttributeType,    true,  true],
     ['acceleration_100kmh',    NSFloatAttributeType,     false],
     ['assembly_countries',     NSStringAttributeType,    false],
-    ['body',                   NSStringAttributeType,    false],
+    ['body',                   NSStringAttributeType,    true],
+    ['body_base',              NSStringAttributeType,    true],
+    ['body_version',           NSStringAttributeType,    false],
     ['bore',                   NSFloatAttributeType,     false],
     ['brand_country',          NSStringAttributeType,    false],
     ['co2_emission',           NSInteger16AttributeType, false],
@@ -247,7 +250,7 @@ class Mod < DSCoreModel
     ['fuel',                   NSStringAttributeType,    false],
     ['fuel_rating',            NSStringAttributeType,    false],
     ['gears',                  NSInteger32AttributeType, false],
-    ['generation_key',         NSStringAttributeType,    false,  true],
+    ['generation_key',         NSStringAttributeType,    true,  true],
     ['gross_mass',             NSInteger32AttributeType, false],
     ['ground_clearance',       NSInteger32AttributeType, false],
     ['height',                 NSInteger32AttributeType, false],
@@ -263,17 +266,17 @@ class Mod < DSCoreModel
     ['max_torque',             NSInteger32AttributeType, false],
     ['max_torque_range_end',   NSInteger32AttributeType, false],
     ['max_torque_range_start', NSInteger32AttributeType, false],
-    ['model_key',              NSStringAttributeType,    false,  true],
+    ['model_key',              NSStringAttributeType,    true,  true],
     ['rear_tire_rut',          NSInteger32AttributeType, false],
     ['stroke',                 NSFloatAttributeType,     false],
     ['tank_capacity',          NSInteger32AttributeType, false],
     ['tires',                  NSStringAttributeType,    false],
     ['top_speed',              NSInteger32AttributeType, false],
     ['transmission',           NSStringAttributeType,    false],
-    ['version_key',            NSStringAttributeType,    false],
     ['wheelbase',              NSInteger32AttributeType, false],
     ['width',                  NSInteger32AttributeType, false],
-    ['year',                   NSInteger32AttributeType, false],
+    ['year',                   NSInteger32AttributeType, true],
+    # ['version_key',            NSStringAttributeType,    false],
     # ['produced_since',         NSInteger32AttributeType, false],
     # ['produced_till',          NSInteger32AttributeType, false],
     # ['seats_max',              NSInteger32AttributeType, false],
@@ -313,6 +316,12 @@ class Mod < DSCoreModel
       KK.benchmark "loading mods for model_key=#{familyKey}" do
         context.fetchEntity(entity, predicate:["model_key = %@", familyKey], order:"key")
       end
+    end
+
+    def anyModForBodyKey(bodyKey)
+      KK.benchmark "loading a mod for body_key=#{bodyKey}" do
+        context.fetchEntity(entity, predicate:["body = %@", bodyKey], order:"key")
+      end      
     end
 
     def filterOptionsForMods(mods)

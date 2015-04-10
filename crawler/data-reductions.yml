@@ -1,101 +1,33 @@
 ---
-body_body_new:
-  aston_martin кабриолет Volante: "кабриолет"
-  audi хэтчбек 5 дв. Sportback: "хэтчбек 5 дв."
-  bmw минивен Gran Tourer: "минивен Long"
-  bmw хэтчбек 5 дв. Gran Coupe: "хэтчбек 5 дв."
-  bmw хэтчбек 5 дв. Gran Turismo: "хэтчбек 5 дв."
-  bmw седан Gran Coupe: "седан"
-  cadillac внедорожник ESV: "вседорожник Long"
-  citroen минивен Grand: "минивен Long"
-  ford минивен Grand: "минивен Long"
-  hyundai седан Limusine: "седан Long"
-  kia хэтчбек 3 дв. pro_cee'd: "хэтчбек 3 дв."
-  land_rover внедорожник 3 дв. 90: "внедорожник 3 дв."
-  land_rover внедорожник 5 дв. 110: "внедорожник 5 дв."
-  land_rover внедорожник Long: "вседорожник Long"
-  lincoln внедорожник L: "вседорожник Long"
-  mercedes кабриолет AMG: "кабриолет"
-  mercedes купе AMG: "купе"
-  mercedes седан AMG Long: "седан Long"
-  mercedes седан AMG: "седан"
-  mercedes универсал Shooting Brake: "универсал"
-  mercedes кроссовер Coupe: "кроссовер"
-  opel универсал Sports Tourer: "универсал"
-  opel хэтчбек 3 дв. GTC: "хэтчбек 3 дв."
-  vaz внедорожник 2121: "внедорожник 3 дв."
-  vaz внедорожник 2131: "внедорожник 5 дв."
-  volkswagen пикап 2 дв. Single Cab: "пикап 2 дв."
-  volkswagen пикап 4 дв. Double Cab: "пикап 4 дв."
-  volvo универсал Plug-in-Hybrid: "универсал"
-
-# body_model_2:
-#   volkswagen passat 2011   универсал Alltrack: volkswagen passat_alltrack 2011 wagon
-#   # renault sandero stepway
-
-# body_version:
-#   audi--r8--cabrio_gt_spyder: cabrio GT Spyder
-#   audi--r8--coupe_gt: coupe GT
-#   chevrolet--captiva--crossover_5_seats: crossover 5 seats
-#   chevrolet--captiva--crossover_7_seats: crossover 7 seats
-#   dodge--challenger--coupe_srt8: coupe SRT8
-#   dodge--ram--pickup_2d_1500_regular_cab: pickup 2-dr 1500 regular cab
-#   dodge--ram--pickup_2d_1500_regular_cab_long: pickup 2-dr 1500 regular cab long
-#   dodge--ram--pickup_4d_1500: pickup 4-dr 1500
-#   fiat--500--hatch_3d_abarth: hatch_3d Abarth
-#   ford--ranger--pickup_double_cab: pickup Double Cab
-#   ford--ranger--pickup_extended_cab: pickup Extended Cab
-#   ford--torneo_connect--minivan_kombi_lwb: minivan LWB
-#   ford--torneo_connect--minivan_kombi_swb: minivan SWB
-#   ford--transit--minivan_kombi: minivan Kombi
-#   ford--transit--van_swb_h1_van: van SWB H1
-#   ford--transit--van_swb_h2_van: van SWB H2
-#   great_wall--deer--suv_2d_g1: suv_2d G1
-#   great_wall--deer--suv_2d_g2: suv_2d G2
-#   great_wall--deer--suv_4d_g3: suv_4d G3
-#   great_wall--deer--suv_4d_g3_awd: suv_4d G3 AWD
-#   great_wall--deer--suv_4d_g5: suv_4d G5
-#   great_wall--deer--suv_4d_g5_awd: suv_4d G5 AWD
-#   jaguar--xf--sedan_xfr: sedan XFR
-#   jaguar--xk--cabrio_r: cabrio R
-#   jaguar--xk--coupe_r: coupe R
-#   mercedes_benz--cl--coupe_amg: coupe AMG
-#   mercedes_benz--clk--cabrio_amg: cabrio AMG
-#   mercedes_benz--clk--coupe_amg: coupe AMG
-#   mercedes_benz--e--sedan_amg: sedan AMG
-#   mercedes_benz--g--suv_5d_amg: suv_5d AMG
-#   mercedes_benz--m--suv_amg: suv AMG
-#   mercedes_benz--s--sedan_amg: sedan AMG
-#   mercedes_benz--s--sedan_amg_long: sedan_long AMG
-#   mercedes_benz--sl--cabrio_amg: cabrio AMG
-#   mercedes_benz--slk--cabrio_amg: cabrio AMG
-#   mini--clubman--wagon_cooper_s: wagon Cooper S
-#   mini--clubman--wagon_jcw: wagon JCW
-#   mini--cooper--cabrio_sidewalk: cabrio Sidewalk
-#   mini--cooper--hatch_3d_cooper_s: hatch_3d Cooper S
-#   mini--cooper--hatch_3d_jcw: hatch_3d JCW
-#   mini--countryman--crossover_cooper: crossover Cooper
-#   mini--countryman--crossover_cooper_s: crossover Cooper S
-#   renault--modus--minivan_grand: minivan Grand
-#   skoda--fabia--hatch_5d_monte_carlo: hatch_5d Monte Carlo
-#   skoda--fabia--hatch_5d_scout: hatch_5d Scout
-#   skoda--octavia--crossover_scout: wagon Scout
-#   skoda--roomster--minivan_scout: minivan Scout
-#   ssangyong--rexton--suv_7_seats: suv 7 seats
-#   toyota--rav4--crossover_long: crossover Long
-#   uaz--2206--van_long: van Long
-#   uaz--2360--suv_cargo: pickup Cargo
-#   uaz--2360--suv_patriot: pickup Patriot
-#   uaz--3160--suv_5d_simbir: suv_5d Simbir
-#   uaz--3303--suv_330364: van 330364
-#   uaz--3303--suv_330394: van 330394
-#   uaz--patriot--suv_sport: suv Sport
-#   volkswagen--caddy--minivan_kombi: minivan Kombi
-#   volkswagen--caddy--minivan_kombi_maxi: minivan Kombi Maxi
-#   volkswagen--caddy--minivan_maxi: minivan Maxi
-#   volkswagen--caddy--van_kasten: van Kasten
-#   volkswagen--caddy--van_kasten_maxi: van Kasten Maxi
-#   volkswagen--golf--hatch_5d_r_line: hatch_5d R-Line
+# body_body_new:
+#   aston_martin кабриолет Volante: "кабриолет"
+#   audi хэтчбек 5 дв. Sportback: "хэтчбек 5 дв."
+#   bmw минивен Gran Tourer: "минивен Long"
+#   bmw хэтчбек 5 дв. Gran Coupe: "хэтчбек 5 дв."
+#   bmw хэтчбек 5 дв. Gran Turismo: "хэтчбек 5 дв."
+#   bmw седан Gran Coupe: "седан"
+#   cadillac внедорожник ESV: "вседорожник Long"
+#   citroen минивен Grand: "минивен Long"
+#   ford минивен Grand: "минивен Long"
+#   hyundai седан Limusine: "седан Long"
+#   kia хэтчбек 3 дв. pro_cee'd: "хэтчбек 3 дв."
+#   land_rover внедорожник 3 дв. 90: "внедорожник 3 дв."
+#   land_rover внедорожник 5 дв. 110: "внедорожник 5 дв."
+#   land_rover внедорожник Long: "вседорожник Long"
+#   lincoln внедорожник L: "вседорожник Long"
+#   mercedes кабриолет AMG: "кабриолет"
+#   mercedes купе AMG: "купе"
+#   mercedes седан AMG Long: "седан Long"
+#   mercedes седан AMG: "седан"
+#   mercedes универсал Shooting Brake: "универсал"
+#   mercedes кроссовер Coupe: "кроссовер"
+#   opel универсал Sports Tourer: "универсал"
+#   opel хэтчбек 3 дв. GTC: "хэтчбек 3 дв."
+#   vaz внедорожник 2121: "внедорожник 3 дв."
+#   vaz внедорожник 2131: "внедорожник 5 дв."
+#   volkswagen пикап 2 дв. Single Cab: "пикап 2 дв."
+#   volkswagen пикап 4 дв. Double Cab: "пикап 4 дв."
+#   volvo универсал Plug-in-Hybrid: "универсал"
 
 rejected_models:
   - bmw 2activetourer
@@ -118,19 +50,204 @@ rejected_models:
   - volkswagen transporter
 
 renamed_models:
-  # geely ck: CK
-  # geely lc: LC
-  # geely lc_cross: LC Cross
-  # geely vision: FC
-  # great_wall cowry: Cowry
-  # great_wall hover_m1: Hover M1
-  # great_wall voleexc10: Voleex C10
-  # jac j3: J3 (Tongyue)
-  # uaz 2360: '2360'
-  hyundai h_1_starex: H-1
+  hyundai h_1_starex: 'H-1'
   jeep patriot: Patriot
   kia mohaves: Mohave
-  mercedes s_class_maybach: S-Class Maybach
+  mercedes s_class_maybach: 'S-Class Maybach'
   nissan navara: Navara
   nissan otti: Nissan Otti
-  toyota priusplus: Prius +
+  toyota priusplus: 'Prius +'
+
+custom_bodytypes:
+  alpina b7 седан LWB: [sedan, lwb, LWB]
+  aston_martin db9 кабриолет Volante: [cabrio, volante, Volante]
+  aston_martin dbs кабриолет Volante: [cabrio, volante, Volante]
+  aston_martin virage кабриолет Volante: [cabrio, volante, Volante]
+  audi a1 хэтчбек 5 дв. Sportback: [hatch_5d, sportback, Sportback]
+  audi a3 хэтчбек 5 дв. Sportback: [hatch_5d, sportback, Sportback]
+  audi a5 хэтчбек 5 дв. Sportback: [hatch_5d, sportback, Sportback]
+  audi r8 кабриолет GT Spyder: [cabrio, gt_spyder, GT Spyder]
+  audi r8 купе GT: [coupe, gt, GT]
+  audi s3 хэтчбек 5 дв. Sportback: [hatch_5d, sportback, Sportback]
+  bmw 3er хэтчбек 5 дв. Gran Turismo: [hatch_5d, gran_turismo, Gran Turismo]
+  bmw 4 хэтчбек 5 дв. Gran Coupe: [hatch_5d, gran_coupe, Gran Coupe]
+  bmw 5er хэтчбек 5 дв. Gran Turismo: [hatch_5d, gran_turismo, Gran Turismo]
+  bmw 6er седан Gran Coupe: [sedan, gran_coupe, Gran Coupe]
+  bmw m6 седан Gran Coupe: [sedan, gran_coupe, Gran Coupe]
+  bugatti eb_veyron кабриолет Grand Sport: [cabrio, grand_sport, Grand Sport]
+  cadillac escalade внедорожник ESV: [suv, esv, ESV]
+  chevrolet colorado пикап 2 дв. Extended Cab: [pickup_2d, extended_cab, Extended Cab]
+  chevrolet colorado пикап Crew Cab: [pickup, crew_cab, Crew Cab]
+  chevrolet colorado пикап Extended Cab: [pickup, extended_cab, Extended Cab]
+  chevrolet silverado пикап 2 дв. Extended Cab: [pickup_2d, extended_cab, Extended Cab]
+  chevrolet silverado пикап 4 дв. Crew Cab: [pickup_4d, crew_cab, Crew Cab]
+  chevrolet silverado пикап 4 дв. Double Cab: [pickup_4d, double_cab, Double Cab]
+  chevrolet sonic седан RS: [sedan, rs, RS]
+  chevrolet sonic хэтчбек 5 дв. RS: [hatch_5d, rs, RS]
+  chrysler voyager минивен Grand: [minivan, grand, Grand]
+  citroen c4_picasso минивен Grand: [minivan, grand, Grand]
+  citroen c5 универсал CrossTourer: [wagon, crosstourer, CrossTourer]
+  dacia sandero хэтчбек 5 дв. Stepway: [hatch_5d, stepway, Stepway]
+  daewoo damas минивен Coach: [minivan, coach, Coach]
+  daewoo matiz хэтчбек 5 дв. Best: [hatch_5d, best, Best]
+  dodge caravan минивен Grand: [minivan, grand, Grand]
+  dodge challenger купе SRT8: [coupe, srt8, SRT8]
+  dodge charger седан SRT: [sedan, srt, SRT]
+  dodge ram пикап 2 дв. 1500 regular cab: [pickup_2d, 1500_regular_cab, 1500 regular cab]
+  dodge ram пикап 4 дв. 1500: [pickup_4d, 1500, 1500]
+  ferrari 458_italia кабриолет Speciale: [cabrio, speciale, Speciale]
+  ferrari 458_italia купе Speciale: [coupe, speciale, Speciale]
+  ferrari 599_gtb кабриолет SA Aperta: [cabrio, sa_aperta, SA Aperta]
+  ferrari 599_gtb купе GTO: [coupe, gto, GTO]
+  fiat 500 кабриолет 500C Abarth: [cabrio, 500c_abarth, 500C Abarth]
+  fiat 500 кабриолет 500C: [cabrio, 500c, 500C]
+  fiat 500 хэтчбек 3 дв. 500: [hatch_3d, 500, 500]
+  fiat 500 хэтчбек 3 дв. Abarth: [hatch_3d, abarth, Abarth]
+  fiat 500l минивен Living: [minivan, living, Living]
+  fiat doblo минивен Maxi: [minivan, maxi, Maxi]
+  fiat doblo фургон Maxi: [van, maxi, Maxi]
+  fiat panda хэтчбек 5 дв. Cross: [hatch_5d, cross, Cross]
+  ford c_max минивен Grand: [minivan, grand, Grand]
+  ford expedition внедорожник EL: [suv, el, EL]
+  ford f_150 пикап 2 дв. Raptor: [pickup_2d, raptor, Raptor]
+  ford f_150 пикап 2 дв. SuperCab: [pickup_2d, supercab, SuperCab]
+  ford f_150 пикап 4 дв. CrewCab: [pickup_4d, crewcab, CrewCab]
+  ford f_150 пикап 4 дв. Raptor CrewCab: [pickup_4d, raptor_crewcab, Raptor CrewCab]
+  ford f_150 пикап 4 дв. SuperCrew: [pickup_4d, supercrew, SuperCrew]
+  ford ranger пикап 2 дв. Rap Cab: [pickup_2d, rap_cab, Rap Cab]
+  ford ranger пикап 2 дв. Single Cab: [pickup_2d, single_cab, Single Cab]
+  ford ranger пикап 4 дв. Double Cab: [pickup_4d, double_cab, Double Cab]
+  ford tourneo_custom микроавтобус LWB: [minibus, lwb, LWB]
+  ford tourneo_custom микроавтобус SWB: [minibus, swb, SWB]
+  gmc yukon внедорожник XL: [suv, xl, XL]
+  hyundai equus седан Limusine: [sedan, limusine, Limusine]
+  hyundai i20 хэтчбек 3 дв. Coupe: [hatch_3d, coupe, Coupe]
+  jaguar xf универсал Sportbrake: [wagon, sportbrake, Sportbrake]
+  jaguar xfr универсал S: [wagon, s, S]
+  jaguar xkr кабриолет S: [cabrio, s, S]
+  jaguar xkr купе S: [coupe, s, S]
+  jeep grand_cherokee_srt8 внедорожник SRT8: [suv, srt8, SRT8]
+  kia carnival минивен Grand: [minivan, grand, Grand]
+  kia ceed хэтчбек 3 дв. pro_cee'd: [hatch_3d, pro_cee_d, "pro_cee'd"]
+  kia ceed_gt хэтчбек 3 дв. pro_cee'd: [hatch_3d, pro_cee_d, "pro_cee'd"]
+  kia cerato купе Koup: [coupe, koup, Koup]
+  kia sedona минивен LWB: [minivan, lwb, LWB]
+  kia sedona минивен SWB: [minivan, swb, SWB]
+  lamborghini aventador кабриолет Roadster: [cabrio, roadster, Roadster]
+  land_rover defender внедорожник 3 дв. 90: [suv_3d, '90', '90']
+  land_rover defender внедорожник 5 дв. 110: [suv_5d, '110', '110']
+  land_rover range_rover внедорожник Long: [suv, long, Long]
+  lexus lfa купе Nürburgring Package: [coupe, n_rburgring_package, Nürburgring Package]
+  lincoln navigator внедорожник L: [suv, l, L]
+  maserati gran_turismo купе MC Stradale: [coupe, mc_stradale, MC Stradale]
+  mercedes cla_klasse универсал Shooting Brake: [wagon, shooting_brake, Shooting Brake]
+  mercedes cla_klasse_amg универсал Shooting Brake: [wagon, shooting_brake, Shooting Brake]
+  mercedes cls_klasse универсал Shooting Brake: [wagon, shooting_brake, Shooting Brake]
+  mercedes cls_klasse_amg универсал Shooting Brake: [wagon, shooting_brake, Shooting Brake]
+  mercedes cl_classe_amg купе AMG: [coupe, amg, AMG]
+  mercedes gle_klasse_coupe кроссовер Coupe: [crossover, coupe, Coupe]
+  mercedes gle_klasse_coupe_amg кроссовер Coupe: [crossover, coupe, Coupe]
+  mercedes sl_klasse_amg кабриолет AMG: [cabrio, amg, AMG]
+  mercedes s_klasse седан Pullman: [sedan, pullman, Pullman]
+  mercedes s_klasse_amg седан AMG Long: [sedan, amg_long, AMG Long]
+  mercedes s_klasse_amg седан AMG: [sedan, amg, AMG]
+  mini cabrio кабриолет Cooper S: [cabrio, cooper_s, Cooper S]
+  mini cabrio кабриолет JCW: [cabrio, jcw, JCW]
+  mini clubman универсал Cooper S: [wagon, cooper_s, Cooper S]
+  mini clubman универсал JCW: [wagon, jcw, JCW]
+  mini countryman кроссовер Cooper S: [crossover, cooper_s, Cooper S]
+  mini countryman кроссовер JCW: [crossover, jcw, JCW]
+  mini coupe купе Cooper S: [coupe, cooper_s, Cooper S]
+  mini coupe купе John Cooper Works: [coupe, john_cooper_works, John Cooper Works]
+  mini hatch хэтчбек 3 дв. Cooper S: [hatch_3d, cooper_s, Cooper S]
+  mini hatch хэтчбек 3 дв. JCW: [hatch_3d, jcw, JCW]
+  mini hatch хэтчбек 5 дв. Cooper S: [hatch_5d, cooper_s, Cooper S]
+  mini paceman кроссовер Cooper S: [crossover, cooper_s, Cooper S]
+  mini paceman кроссовер JCW: [crossover, jcw, JCW]
+  mini roadster кабриолет Cooper JCW: [cabrio, cooper_jcw, Cooper JCW]
+  mini roadster кабриолет Cooper S: [cabrio, cooper_s, Cooper S]
+  mini roadster кабриолет Cooper: [cabrio, cooper, Cooper]
+  nissan 370z купе Nismo: [coupe, nismo, Nismo]
+  nissan frontier пикап 4 дв. Long Bed: [pickup_4d, long_bed, Long Bed]
+  nissan gt_r купе Nismo: [coupe, nismo, Nismo]
+  nissan juke кроссовер NISMO: [crossover, nismo, NISMO]
+  opel adam хэтчбек 3 дв. Rocks: [hatch_3d, rocks, Rocks]
+  opel astra универсал Sports Tourer: [wagon, sports_tourer, Sports Tourer]
+  opel astra хэтчбек 3 дв. GTC: [hatch_3d, gtc, GTC]
+  opel combo минивен LWB: [minivan, lwb, LWB]
+  opel combo минивен SWB: [minivan, swb, SWB]
+  opel combo фургон LWB: [van, lwb, LWB]
+  opel combo фургон SWB: [van, swb, SWB]
+  opel insignia универсал Country Tourer: [wagon, country_tourer, Country Tourer]
+  opel insignia универсал Sports Tourer: [wagon, sports_tourer, Sports Tourer]
+  opel insignia_opc универсал Sports Tourer: [wagon, sports_tourer, Sports Tourer]
+  opel zafira минивен Family: [minivan, family, Family]
+  peugeot 207 хэтчбек 3 дв. RC: [hatch_3d, rc, RC]
+  peugeot 308 кабриолет СС: [cabrio, cc, CC]
+  peugeot 308 универсал SW: [wagon, sw, SW]
+  peugeot 508 универсал RXH: [wagon, rxh, RXH]
+  porsche 911 кабриолет Targa: [cabrio, targa, Targa]
+  porsche 911 купе Targa: [coupe, targa, Targa]
+  porsche 911_gt2 купе RS: [coupe, rs, RS]
+  porsche 911_gt3 купе RS: [coupe, rs, RS]
+  renault clio универсал Sport Tourer: [wagon, sport_tourer, Sport Tourer]
+  renault espace минивен Grand: [minivan, grand, Grand]
+  renault logan универсал MCV: [wagon, mcv, MCV]
+  renault master фургон (11m³): [van, 11m3, (11m³)]
+  renault master фургон (13m³): [van, 13m3, (13m³)]
+  renault master фургон (15m³): [van, 15m3, (15m³)]
+  renault master фургон 11.7 m³: [van, 11_7m3, (11.7m³)]
+  renault master фургон 12.5 m³: [van, 12_5m3, (12.5m³)]
+  renault master фургон 7.8 m³: [van, 7_8_mm3, (7.8m³)]
+  renault megane универсал Sport Tourer: [wagon, sport_tourer, Sport Tourer]
+  renault modus минивен Grand: [minivan, grand, Grand]
+  renault sandero хэтчбек 5 дв. Stepway: [hatch_5d, stepway, Stepway]
+  renault scenic минивен Grand: [minivan, grand, Grand]
+  seat altea минивен Freetrack: [minivan, freetrack, Freetrack]
+  seat altea минивен XL: [minivan, xl, XL]
+  seat ibiza универсал ST: [wagon, st, ST]
+  seat ibiza хэтчбек 3 дв. SC: [hatch_3d, sc, SC]
+  seat leon универсал ST: [wagon, st, ST]
+  seat leon хэтчбек 3 дв. SC: [hatch_3d, sc, SC]
+  seat leon_cupra хэтчбек 5 дв. R: [hatch_5d, r, R]
+  skoda fabia хэтчбек 5 дв. Scout: [hatch_5d, scout, Scout]
+  skoda octavia универсал Scout: [wagon, scout, Scout]
+  skoda rapid универсал Spaceback: [wagon, spaceback, Spaceback]
+  skoda roomster минивен Scout: [minivan, scout, Scout]
+  ssang_yong chairman седан Лимузин: [sedan, limo, Лимузин]
+  subaru forester кроссовер tS: [crossover, ts, tS]
+  toyota corolla универсал Fielder: [wagon, fielder, Fielder]
+  toyota land_cruiser внедорожник 3 дв. 71: [suv_3d, 71, 71]
+  toyota land_cruiser внедорожник 3 дв. 78: [suv_3d, 78, 78]
+  toyota land_cruiser внедорожник 5 дв. 76: [suv_5d, 76, 76]
+  toyota land_cruiser пикап 2 дв. 79: [pickup_2d, 79, 79]
+  toyota land_cruiser пикап 4 дв. 79: [pickup_4d, 79, 79]
+  toyota rav_4 кроссовер Long: [crossover, long, Long]
+  toyota tacoma пикап 2 дв. Access Cab: [pickup_2d, access_cab, Access Cab]
+  toyota tundra пикап 2 дв. Long Bed: [pickup_2d, long_bed, Long Bed]
+  toyota tundra пикап 2 дв. Regular Cab: [pickup_2d, regular_cab, Regular Cab]
+  uaz 2206 микроавтобус long: [minibus, long, long]
+  uaz 3303 фургон 330364: [van, 330364, 330364]
+  uaz 3303 фургон 330394: [van, 330394, 330394]
+  uaz 3909 микроавтобус 3909: [minibus, 3909, 3909]
+  uaz 3962 микроавтобус 39625: [minibus, 39625, 39625]
+  uaz 3962 микроавтобус 3962: [minibus, 3962, 3962]
+  vaz 2121 внедорожник 2121: [suv, 2121, 2121]
+  vaz 2121 внедорожник Urban: [suv, urban, Urban]
+  vaz 2131_4x4 внедорожник 2131: [suv, 2131, 2131]
+  vaz granta седан Sport: [sedan, sport, Sport]
+  vaz kalina универсал Cross: [wagon, cross, Cross]
+  vaz kalina хэтчбек 5 дв. Sport: [hatch_5d, sport, Sport]
+  vaz largus универсал Cross: [wagon, cross, Cross]
+  volkswagen amarok пикап 2 дв. Single Cab: [pickup_2d, single_cab, Single Cab]
+  volkswagen amarok пикап 4 дв. Double Cab: [pickup_4d, double_cab, Double Cab]
+  volkswagen caravelle микроавтобус LWB: [minibus, lwb, LWB]
+  volkswagen caravelle микроавтобус SWB: [minibus, swb, SWB]
+  volkswagen fox хэтчбек 5 дв. Cross: [hatch_5d, cross, Cross]
+  volkswagen golf универсал Alltrack: [wagon, alltrack, Alltrack]
+  volkswagen golf универсал Variant: [wagon, variant, Variant]
+  volkswagen passat универсал Alltrack: [wagon, alltrack, Alltrack]
+  volkswagen polo хэтчбек 5 дв. Cross: [hatch_5d, cross, Cross]
+  volkswagen touran минивен Cross: [minivan, cross, Cross]
+  volkswagen up хэтчбек 5 дв. Cross: [hatch_5d, cross, Cross]
+  volvo v60 универсал Plug-in-Hybrid: [wagon, plug_in_hybrid, "Plug-in-Hybrid"]

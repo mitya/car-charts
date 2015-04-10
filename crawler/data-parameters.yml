@@ -3,6 +3,8 @@ field_keys:
   - acceleration_100kmh
   - assembly_countries
   - body
+  - body_base
+  - body_version
   - bore
   - brand_country
   - co2_emission
