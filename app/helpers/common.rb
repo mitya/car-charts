@@ -50,6 +50,11 @@ module KK::Common
   def debug(message, *args)
     NSLog(message, *args) if DEBUG
   end
+  
+  def assert_present(value)
+    raise "Non-null value is #{value.inspect}" if value == nil || value == 0 || value.is_a?(String) && value.empty?
+    value
+  end
 end
 
 KK.extend(KK::Common)

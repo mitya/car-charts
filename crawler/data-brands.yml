@@ -56,7 +56,7 @@ brands:
   lincoln: Lincoln
   lotus: Lotus
   luxgen: Luxgen
-  marussia: Marussi
+  marussia: Marussia
   maserati: Maserati
   maybach: Maybach
   mazda: Mazda
@@ -100,6 +100,9 @@ brands:
   volkswagen: Volkswagen
   volvo: Volvo
   zaz: ZAZ
+short_yandex_brands:
+  vaz: ВАЗ
+  
 brands_overrides:
   e_mobil: Yo-mobil
   gaz: GAZ
@@ -107,4 +110,3 @@ brands_overrides:
   tagaz: TagAZ  
   uaz: UAZ
   vaz: VAZ (Lada)
-  

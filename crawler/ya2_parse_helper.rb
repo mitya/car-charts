@@ -123,9 +123,29 @@ module CW
   # BMW X5 => BMW X5
   # That's about converting Lada, UAZ & Moskvitch brand names to English
   def build_internal_branded_model_name(brand_key, model_self_name)
-    brand_name = CWD.adjusted_brand_names[brand_key]
+    brand_name = Info.adjusted_brand_names[brand_key]
     "#{brand_name} #{model_self_name}"
   end  
+  
+  def build_model_name(mark, model, yandex_mark_model_name)
+    result = Info.data_reductions['renamed_models']["#{mark} #{model}"]
+    return result if result
+    
+    result = yandex_mark_model_name.sub Info.yandex_short_brand_names[mark] + ' ', '' # Ford Focus => Focus
+    result.sub!(/\s+\(.*\)$/, '') # remove everything in (...)
+    result.sub!('-klasse', '-Class') if mark == 'mercedes'
+    result
+  end
+  
+  def assert_all(array, except:nil)
+    array.each_with_index { |item, index| assert_exist(item) unless except == index }
+    array
+  end
+  
+  def assert_exist(value)
+    puts "Blank value detected: #{value.inspect}" if value == nil || value == 0 || value.is_a?(String) && value.empty?
+    value
+  end
 end
 
 class Mash

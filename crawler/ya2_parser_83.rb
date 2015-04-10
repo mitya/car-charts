@@ -1,4 +1,12 @@
 class YA2Parser
+  include CW
+
+  def step_8123
+    step_81
+    step_82
+    step_83
+  end
+
   # build metadata
   def step_83
     models_list = CW.read_objects(F13)
@@ -25,13 +33,15 @@ class YA2Parser
       mark_key, model_key, year = generation_key.split('--')
       family_key = "#{mark_key}--#{model_key}"
       generation_title = "#{model.model_title} #{year}"
-      result[generation_key] = [family_key, year, generation_title]
+      result[generation_key] = [family_key, year.to_i, generation_title]
+      assert_all result[generation_key]      
     end
 
     family_rows = family_keys.each_with_object({}) do |key, result| # { 'bmw--x6' =>  ['X6', 'BMW X6', 'bmw', 'Xe'], ... }
       model = models_by_model_key[key]
       generations = generation_keys.select { |g| g.start_with?(key + '--') }
-      result[key] = [ model.model_title, model.title, model.mark, CWD.model_classification[key] || '', generations ]
+      result[key] = [ model.model_title.to_s, model.title.to_s, model.mark, CWD.model_classification[key] || '', generations ]
+      assert_all result[key], except: 3
     end
 
 
@@ -69,6 +79,6 @@ class YA2Parser
     metadata.update stored_metadata
 
     CW.write_data_to_plist F83, metadata
-    # CW.write_data "debug-#{F83}", metadata
+    CW.write_data "debug-#{F83}", metadata
   end
 end

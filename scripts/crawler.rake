@@ -1,5 +1,5 @@
 desc "Run a crawler processor action, eg: rake app:crawler[action_name]"
-task 'ccc', [:action] do |t, args|
+task 'cc', [:action] do |t, args|
   action = args[:action]
   raise "No action specified" unless action
 
@@ -8,20 +8,20 @@ task 'ccc', [:action] do |t, args|
   worker.new.send(action)
 end
 
-desc "Run a crawler parser action, eg: rake app:ccc:parser[action_name]"
-task 'ccc:parser', [:action] do |t, args|
+desc "Run a crawler parser action, eg: rake app:cc:parser[action_name]"
+task 'cc:parser', [:action] do |t, args|
   raise "No action specified" unless args[:action]
   require "#{Dir.pwd}/crawler/ya2_boot.rb"
   YA2Parser.new.send( args[:action] )
 end
 
-task meta: %w(ccc:step_83 ccc:copy) do
+task meta: %w(cc:step_83 cc:copy) do
 end
 
 
-namespace 'ccc' do
+namespace 'cc' do
   rule "" do |action|
-    if action.name =~ /ccc:\d.*/
+    if action.name =~ /cc:\d.*/
       require "#{Dir.pwd}/crawler/ya2_boot.rb"      
       method = action.name.split(':').last
       worker = method.start_with?("8") ? YA2Parser : YA2Processor

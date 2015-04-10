@@ -12,7 +12,7 @@ end
 # ENV['device_name'] = 'iPad Air'
 # ENV['device_name'] = 'iPhone 5s 7.1'
 # ENV['device_name'] = 'iPad Retina 7.1'
-ENV['device_name'] = 'iPhone 5s'
+ENV['device_name'] = 'iPhone 6 Plus'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -25,7 +25,7 @@ Motion::Project::App.setup do |app|
   app.frameworks += ['CoreData']
   app.device_family = [:iphone, :ipad]
   app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
-  app.info_plist['UIStatusBarHidden'] = true # hides the status bar on launch screen
+  app.info_plist['UIStatusBarHidden'] = true # hides the status bar on the launch screen
 
   app.development do
     app.version = "1.0"
@@ -38,7 +38,7 @@ Motion::Project::App.setup do |app|
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
     app.info_plist['CCTestModsDataset'] = true
-    # app.info_plist['CCTestModsDatasetRun'] = true
+    app.info_plist['CCTestModsDatasetRun'] = true
   end
 end
 

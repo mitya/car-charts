@@ -1,11 +1,22 @@
 class YA2Processor
+  def step_137
+    step_13
+    step_17
+  end
+
+  def step_1378123
+    step_13
+    step_17
+    step_8123
+  end
+
   # extract mods
   def step_17
-    models = W.read_objects(F13)
+    models = read_objects(F13)
     models_index = models.index_by(&:yandex_id)
     seq17 = {}
 
-    W.parse_dir(D12, silent: true) do |doc, basename, path|
+    parse_dir(D12, silent: true) do |doc, basename, path|
       mark = basename.split(' ').first
 
       yandex_id = basename.split[2].to_i
@@ -15,13 +26,13 @@ class YA2Processor
 
       doc.css(".b-complectations__item:not(.b-complectations__item_state_current) a.link").each do |a|
         url = a['href']
-        engine = W.parse_ya_aggregate_title(a['title'])
+        engine = parse_ya_aggregate_title(a['title'])
         key = [ref.mark, ref.model, ref.year, ref.bodytype, engine].join(' ')
         seq17[key] = url        
       end      
     end
 
-    W.write_data(F17, seq17)
+    write_data(F17, seq17)
   end
 
   # load mods
@@ -66,6 +77,6 @@ class YA2Processor
     old_keys = Dir.glob(WORKDIR + "../data_1502/07.0-mods/*.html").map { |path| File.basename(path, '.html') }
     missing_in_new = old_keys - new_keys
     missing_in_old = new_keys - old_keys
-    W.write_html missing_in_new
+    write_html missing_in_new
   end
 end

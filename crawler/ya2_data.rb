@@ -41,8 +41,18 @@ module CWD
   property :adjusted_brand_names do
     data_brands['brands'].dup.update data_brands['brands_overrides']
   end
+
+  property :yandex_short_brand_names do
+    data_brands['brands'].dup.update data_brands['short_yandex_brands']
+  end
   
   property :data_brands do
     YAML.load_file("crawler/data-brands.yml")
   end
+  
+  property :data_reductions do
+    YAML.load_file("crawler/data-reductions.yml")
+  end  
 end
+
+Info = CWD

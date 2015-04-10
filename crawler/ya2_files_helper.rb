@@ -169,7 +169,7 @@ module CW
   end
     
   def parse_dir(directory, limit: nil, silent: false, only: nil, &block)
-    pattern = only ? '{' + only.join(',') + '}' : '*'
+    pattern = only ? '{' + only.join(',') + '}*' : '*'
     files = []
     Array(directory).each do |dir|
       Dir.glob("#{WORKDIR + dir}/#{pattern}.html").each do |path|    

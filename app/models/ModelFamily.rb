@@ -10,7 +10,7 @@ class ModelFamily
   end
   
   def unbrandedName
-    metadataRow[0]
+    KK.assert_present metadataRow[0]
   end
 
   def brandKey

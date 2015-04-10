@@ -1,4 +1,6 @@
 class YA2Processor
+  include CW
+  
   # parses a file with links to model-generation-default-bodytypes
   def step_11
     rs = []
@@ -39,18 +41,22 @@ class YA2Processor
     CW.write_data F11b, results.uniq
   end
 
+  # D12_ONLY = ['marussia']
   def step_13
-    seq11 = W.read_objects(F11)
-    seq11_index = seq11.index_by(&:ya_generation_id)  
-    yandex_brand_name = CWD.data_brands['brands']    
+    seq11 = read_objects(F11)
+    seq11_index = seq11.index_by(&:ya_generation_id)
     models = []
     
-    CW.parse_dir(D12, silent: true) do |doc, basename, path|
+    parse_dir(D12, silent: true) do |doc, basename, path|
       parts = basename.split
+      mark_model = parts.first(2).join(' ')
+      
+      next if Info.data_reductions['rejected_models'].include?(mark_model)
+      
       mark_model_bodytype = doc.css_text("title").split(' | ').first
       url = doc.at_css('.heading a.link')['href']
       
-      model = Mash.new      
+      model = Mash.new
       model.path = path.sub(WORKDIR.to_s, '')
       model.mark = parts[0]
       next if SHIT.include?(model.mark)
@@ -62,11 +68,11 @@ class YA2Processor
       model.yandex_generation = doc.css_text(".generations button .button__text")
       model.yandex_bodytype = mark_model_bodytype.sub model.yandex_title + ' ', '' # ".bodytypes button .button__text"
       model.url = url
-      model.bodytype = CW.parse_bodytype(model.mark, model.yandex_bodytype, silent: true)
+      model.bodytype = parse_bodytype(model.mark, model.yandex_bodytype, silent: true)
       next if model.bodytype == nil
 
       years = doc.css_text(".generations button .button__text") || seq11_index[model.yandex_id].years
-      model.year, model.year_end = W.parse_years(years)
+      model.year, model.year_end = parse_years(years)
       next if model.year_end && model.year_end < MIN_YEAR
 
       # this doesn't handle the case when a model has a few complectations but just one engine, thus that a single
@@ -76,14 +82,14 @@ class YA2Processor
       
       model.key = [model.mark, model.model, model.year, model.bodytype].join(' ').strip
       
-      model.model_title = model.yandex_title.sub yandex_brand_name[model.mark] + ' ', '' # Ford Focus => Focus
-      model.title = W.build_internal_branded_model_name model.mark, model.model_title # Lada 2101 => VAZ 2101
+      model.model_title = build_model_name(model.mark, model.model, model.yandex_title)
+      model.title = build_internal_branded_model_name model.mark, model.model_title
       
       models << model
     end
 
-    CW.write_objects F13, models 
-    CW.write_objects "debug-#{F13}-keys", models.map(&:key)
+    write_objects F13, models 
+    write_objects "debug-#{F13}-keys", models.map(&:key)
   end
   
   # ensure that files contain what the title says
@@ -117,5 +123,11 @@ class YA2Processor
   def step_10comp
     # CW.compress_dir(D10, nil, nil, zip: false, hard: false) # for listing
     CW.compress_dir(D18, nil, ".b-complectations, .b-specifications, .car-head, .catalog-filter", zip: false) # for mods & models
+  end
+  
+  def step_10t
+    models = W.read_objects(F13)
+    rows = models.map { |model| [model.key, "#{model.mark}--#{model.model}", model.title, model.model_title] }
+    write_html rows
   end
 end

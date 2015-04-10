@@ -291,8 +291,10 @@ class Mod < DSCoreModel
     alias [] modForKey
 
     def modsForKeys(keys) 
-      mods = context.fetchEntity(entity, predicate:["key in %@", keys])
-      keys.map { |key| mods.detect { |mod| mod.key == key } }.compact
+      KK.benchmark "loading mods for #{keys.count} keys (ordered)" do            
+        mods = context.fetchEntity(entity, predicate:["key in %@", keys])
+        keys.map { |key| mods.detect { |mod| mod.key == key } }.compact
+      end
     end
     
     def unorderedModsForKeys(keys) 
@@ -302,28 +304,34 @@ class Mod < DSCoreModel
     end
     
     def modsForGenerationKey(generationKey)
-      context.fetchEntity(entity, predicate:["generation_key = %@", generationKey], order:"key")
+      KK.benchmark "loading mods for #{generationKey}" do  
+        context.fetchEntity(entity, predicate:["generation_key = %@", generationKey], order:"key")
+      end
     end
 
     def modsForFamilyKey(familyKey)
-      context.fetchEntity(entity, predicate:["model_key = %@", familyKey], order:"key")
+      KK.benchmark "loading mods for #{familyKey}" do        
+        context.fetchEntity(entity, predicate:["model_key = %@", familyKey], order:"key")
+      end
     end
 
     def filterOptionsForMods(mods)
-      options = mods.reduce({}) do |options, mod|
-        options[:mt] = true if options[:mt].nil? && mod.manual?
-        options[:at] = true if options[:at].nil? && mod.automatic?
-        options[:sedan] = true if options[:sedan].nil? && mod.sedan?
-        options[:hatch] = true if options[:hatch].nil? && mod.hatch?
-        options[:wagon] = true if options[:wagon].nil? && mod.wagon?
-        options[:gas] = true if options[:gas].nil? && mod.gas?
-        options[:diesel] = true if options[:diesel].nil? && mod.diesel?        
+      KK.benchmark "building options for mods #{mods.count}" do 
+        options = mods.reduce({}) do |options, mod|
+          options[:mt] = true if options[:mt].nil? && mod.manual?
+          options[:at] = true if options[:at].nil? && mod.automatic?
+          options[:sedan] = true if options[:sedan].nil? && mod.sedan?
+          options[:hatch] = true if options[:hatch].nil? && mod.hatch?
+          options[:wagon] = true if options[:wagon].nil? && mod.wagon?
+          options[:gas] = true if options[:gas].nil? && mod.gas?
+          options[:diesel] = true if options[:diesel].nil? && mod.diesel?        
+          options
+        end
+        options[:transmission] = [options[:mt], options[:at]].compact
+        options[:body] = [options[:sedan], options[:wagon], options[:hatch]].compact
+        options[:fuel] = [options[:gas], options[:diesel]].compact
         options
       end
-      options[:transmission] = [options[:mt], options[:at]].compact
-      options[:body] = [options[:sedan], options[:wagon], options[:hatch]].compact
-      options[:fuel] = [options[:gas], options[:diesel]].compact
-      options
     end
 
     # To import a plist:

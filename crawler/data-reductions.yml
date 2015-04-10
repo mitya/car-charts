@@ -1,23 +1,4 @@
 ---
-body_body:
-  audi--hatch_5d_sportback: hatch_5d
-  audi--coupe_5d_sportback: coupe_5d
-  audi--suv_v12_tdi: suv
-  kia--coupe_koup: coupe
-  land_rover--suv_3d_90: suv_3d
-  land_rover--suv_4d: suv_4d
-  land_rover--suv_5d_110: suv_5d
-  lexus--cabrio_is_250c: cabrio
-  opel--wagon_sports_tourer: wagon
-  peugeot--cabrio_cc: cabrio
-  peugeot--wagon_sw: wagon
-  peugeot--minivan_5d_partner_tepee: minivan_5d
-  vaz--wagon_2104: wagon
-  vaz--hatch_5d_sport: hatch_5d
-  vaz--hatch_3d_coupe: hatch_3d
-  volkswagen--hatch_3d_gti: hatch_3d
-  volkswagen--hatch_5d_gti: hatch_5d
-
 body_body_new:
   aston_martin кабриолет Volante: "кабриолет"
   audi хэтчбек 5 дв. Sportback: "хэтчбек 5 дв."
@@ -48,78 +29,108 @@ body_body_new:
   volkswagen пикап 4 дв. Double Cab: "пикап 4 дв."
   volvo универсал Plug-in-Hybrid: "универсал"
 
-body_model:
-  lexus--sedan_is_f: sedan IS-F
-  mitsubishi--hatch_5d_ralliart: hatch_5d Lancer Ralliart
-  mitsubishi--sedan_ralliart: sedan Lancer Ralliart
-  renault--crossover_stepway: hatch_5d Sandero Stepway
-  nissan--crossover_plus_2: crossover Qashqai +2
-  opel--hatch_3d_gtc: hatch_3d Astra GTC
+# body_model_2:
+#   volkswagen passat 2011   универсал Alltrack: volkswagen passat_alltrack 2011 wagon
+#   # renault sandero stepway
 
-body_model_2:
-  volkswagen passat 2011 -- универсал Alltrack: volkswagen passat_alltrack 2011 wagon
-  # renault sandero stepway
+# body_version:
+#   audi--r8--cabrio_gt_spyder: cabrio GT Spyder
+#   audi--r8--coupe_gt: coupe GT
+#   chevrolet--captiva--crossover_5_seats: crossover 5 seats
+#   chevrolet--captiva--crossover_7_seats: crossover 7 seats
+#   dodge--challenger--coupe_srt8: coupe SRT8
+#   dodge--ram--pickup_2d_1500_regular_cab: pickup 2-dr 1500 regular cab
+#   dodge--ram--pickup_2d_1500_regular_cab_long: pickup 2-dr 1500 regular cab long
+#   dodge--ram--pickup_4d_1500: pickup 4-dr 1500
+#   fiat--500--hatch_3d_abarth: hatch_3d Abarth
+#   ford--ranger--pickup_double_cab: pickup Double Cab
+#   ford--ranger--pickup_extended_cab: pickup Extended Cab
+#   ford--torneo_connect--minivan_kombi_lwb: minivan LWB
+#   ford--torneo_connect--minivan_kombi_swb: minivan SWB
+#   ford--transit--minivan_kombi: minivan Kombi
+#   ford--transit--van_swb_h1_van: van SWB H1
+#   ford--transit--van_swb_h2_van: van SWB H2
+#   great_wall--deer--suv_2d_g1: suv_2d G1
+#   great_wall--deer--suv_2d_g2: suv_2d G2
+#   great_wall--deer--suv_4d_g3: suv_4d G3
+#   great_wall--deer--suv_4d_g3_awd: suv_4d G3 AWD
+#   great_wall--deer--suv_4d_g5: suv_4d G5
+#   great_wall--deer--suv_4d_g5_awd: suv_4d G5 AWD
+#   jaguar--xf--sedan_xfr: sedan XFR
+#   jaguar--xk--cabrio_r: cabrio R
+#   jaguar--xk--coupe_r: coupe R
+#   mercedes_benz--cl--coupe_amg: coupe AMG
+#   mercedes_benz--clk--cabrio_amg: cabrio AMG
+#   mercedes_benz--clk--coupe_amg: coupe AMG
+#   mercedes_benz--e--sedan_amg: sedan AMG
+#   mercedes_benz--g--suv_5d_amg: suv_5d AMG
+#   mercedes_benz--m--suv_amg: suv AMG
+#   mercedes_benz--s--sedan_amg: sedan AMG
+#   mercedes_benz--s--sedan_amg_long: sedan_long AMG
+#   mercedes_benz--sl--cabrio_amg: cabrio AMG
+#   mercedes_benz--slk--cabrio_amg: cabrio AMG
+#   mini--clubman--wagon_cooper_s: wagon Cooper S
+#   mini--clubman--wagon_jcw: wagon JCW
+#   mini--cooper--cabrio_sidewalk: cabrio Sidewalk
+#   mini--cooper--hatch_3d_cooper_s: hatch_3d Cooper S
+#   mini--cooper--hatch_3d_jcw: hatch_3d JCW
+#   mini--countryman--crossover_cooper: crossover Cooper
+#   mini--countryman--crossover_cooper_s: crossover Cooper S
+#   renault--modus--minivan_grand: minivan Grand
+#   skoda--fabia--hatch_5d_monte_carlo: hatch_5d Monte Carlo
+#   skoda--fabia--hatch_5d_scout: hatch_5d Scout
+#   skoda--octavia--crossover_scout: wagon Scout
+#   skoda--roomster--minivan_scout: minivan Scout
+#   ssangyong--rexton--suv_7_seats: suv 7 seats
+#   toyota--rav4--crossover_long: crossover Long
+#   uaz--2206--van_long: van Long
+#   uaz--2360--suv_cargo: pickup Cargo
+#   uaz--2360--suv_patriot: pickup Patriot
+#   uaz--3160--suv_5d_simbir: suv_5d Simbir
+#   uaz--3303--suv_330364: van 330364
+#   uaz--3303--suv_330394: van 330394
+#   uaz--patriot--suv_sport: suv Sport
+#   volkswagen--caddy--minivan_kombi: minivan Kombi
+#   volkswagen--caddy--minivan_kombi_maxi: minivan Kombi Maxi
+#   volkswagen--caddy--minivan_maxi: minivan Maxi
+#   volkswagen--caddy--van_kasten: van Kasten
+#   volkswagen--caddy--van_kasten_maxi: van Kasten Maxi
+#   volkswagen--golf--hatch_5d_r_line: hatch_5d R-Line
 
-body_version:
-  audi--r8--cabrio_gt_spyder: cabrio GT Spyder
-  audi--r8--coupe_gt: coupe GT
-  chevrolet--captiva--crossover_5_seats: crossover 5 seats
-  chevrolet--captiva--crossover_7_seats: crossover 7 seats
-  dodge--challenger--coupe_srt8: coupe SRT8
-  dodge--ram--pickup_2d_1500_regular_cab: pickup 2-dr 1500 regular cab
-  dodge--ram--pickup_2d_1500_regular_cab_long: pickup 2-dr 1500 regular cab long
-  dodge--ram--pickup_4d_1500: pickup 4-dr 1500
-  fiat--500--hatch_3d_abarth: hatch_3d Abarth
-  ford--ranger--pickup_double_cab: pickup Double Cab
-  ford--ranger--pickup_extended_cab: pickup Extended Cab
-  ford--torneo_connect--minivan_kombi_lwb: minivan LWB
-  ford--torneo_connect--minivan_kombi_swb: minivan SWB
-  ford--transit--minivan_kombi: minivan Kombi
-  ford--transit--van_swb_h1_van: van SWB H1
-  ford--transit--van_swb_h2_van: van SWB H2
-  great_wall--deer--suv_2d_g1: suv_2d G1
-  great_wall--deer--suv_2d_g2: suv_2d G2
-  great_wall--deer--suv_4d_g3: suv_4d G3
-  great_wall--deer--suv_4d_g3_awd: suv_4d G3 AWD
-  great_wall--deer--suv_4d_g5: suv_4d G5
-  great_wall--deer--suv_4d_g5_awd: suv_4d G5 AWD
-  jaguar--xf--sedan_xfr: sedan XFR
-  jaguar--xk--cabrio_r: cabrio R
-  jaguar--xk--coupe_r: coupe R
-  mercedes_benz--cl--coupe_amg: coupe AMG
-  mercedes_benz--clk--cabrio_amg: cabrio AMG
-  mercedes_benz--clk--coupe_amg: coupe AMG
-  mercedes_benz--e--sedan_amg: sedan AMG
-  mercedes_benz--g--suv_5d_amg: suv_5d AMG
-  mercedes_benz--m--suv_amg: suv AMG
-  mercedes_benz--s--sedan_amg: sedan AMG
-  mercedes_benz--s--sedan_amg_long: sedan_long AMG
-  mercedes_benz--sl--cabrio_amg: cabrio AMG
-  mercedes_benz--slk--cabrio_amg: cabrio AMG
-  mini--clubman--wagon_cooper_s: wagon Cooper S
-  mini--clubman--wagon_jcw: wagon JCW
-  mini--cooper--cabrio_sidewalk: cabrio Sidewalk
-  mini--cooper--hatch_3d_cooper_s: hatch_3d Cooper S
-  mini--cooper--hatch_3d_jcw: hatch_3d JCW
-  mini--countryman--crossover_cooper: crossover Cooper
-  mini--countryman--crossover_cooper_s: crossover Cooper S
-  renault--modus--minivan_grand: minivan Grand
-  skoda--fabia--hatch_5d_monte_carlo: hatch_5d Monte Carlo
-  skoda--fabia--hatch_5d_scout: hatch_5d Scout
-  skoda--octavia--crossover_scout: wagon Scout
-  skoda--roomster--minivan_scout: minivan Scout
-  ssangyong--rexton--suv_7_seats: suv 7 seats
-  toyota--rav4--crossover_long: crossover Long
-  uaz--2206--van_long: van Long
-  uaz--2360--suv_cargo: pickup Cargo
-  uaz--2360--suv_patriot: pickup Patriot
-  uaz--3160--suv_5d_simbir: suv_5d Simbir
-  uaz--3303--suv_330364: van 330364
-  uaz--3303--suv_330394: van 330394
-  uaz--patriot--suv_sport: suv Sport
-  volkswagen--caddy--minivan_kombi: minivan Kombi
-  volkswagen--caddy--minivan_kombi_maxi: minivan Kombi Maxi
-  volkswagen--caddy--minivan_maxi: minivan Maxi
-  volkswagen--caddy--van_kasten: van Kasten
-  volkswagen--caddy--van_kasten_maxi: van Kasten Maxi
-  volkswagen--golf--hatch_5d_r_line: hatch_5d R-Line
+rejected_models:
+  - bmw 2activetourer
+  - ford fusion_na
+  - ford tourneo_connect
+  - ford tourneo_courier
+  - honda odyssey_na
+  - jeep libety_na
+  - mercedes citan
+  - mercedes sprinter
+  - mercedes viano
+  - mercedes vito
+  - mitsubishi lancer_cargo
+  - renault trafic
+  - toyota camry_japan
+  - vaz vesta_concept
+  - vaz xray
+  - vaz revolution
+  - volkswagen passat_na
+  - volkswagen transporter
+
+renamed_models:
+  # geely ck: CK
+  # geely lc: LC
+  # geely lc_cross: LC Cross
+  # geely vision: FC
+  # great_wall cowry: Cowry
+  # great_wall hover_m1: Hover M1
+  # great_wall voleexc10: Voleex C10
+  # jac j3: J3 (Tongyue)
+  # uaz 2360: '2360'
+  hyundai h_1_starex: H-1
+  jeep patriot: Patriot
+  kia mohaves: Mohave
+  mercedes s_class_maybach: S-Class Maybach
+  nissan navara: Navara
+  nissan otti: Nissan Otti
+  toyota priusplus: Prius +
