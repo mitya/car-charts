@@ -12,7 +12,7 @@ end
 # ENV['device_name'] = 'iPad Air'
 # ENV['device_name'] = 'iPhone 5s 7.1'
 # ENV['device_name'] = 'iPad Retina 7.1'
-ENV['device_name'] = 'iPhone 6 Plus'
+ENV['device_name'] = 'iPhone 5s'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -38,7 +38,7 @@ Motion::Project::App.setup do |app|
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
     app.info_plist['CCTestModsDataset'] = true
-    # app.info_plist['CCTestModsDatasetRun'] = true if ENV['REFILL'] == '1'
+    app.info_plist['CCTestModsDatasetRun'] = true if ENV['fill'] == '1'
   end
 end
 

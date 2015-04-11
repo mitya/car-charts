@@ -47,12 +47,12 @@ module CW
     silent = false
 
     if body_key = Info.bodytypes_by_title[bodytype_name]
-      [body_key, body_key, nil]
+      [body_key, body_key, nil, nil]
     elsif reduction = Info.data_reductions['custom_bodytypes']["#{mark_key} #{model_key} #{bodytype_name}"]      
       body_base_key, body_version_key, body_version_name = reduction
       body_key = "#{body_base_key}.#{body_version_key}"
       puts "reduce #{mark_key} #{model_key} #{body_key}" if reduction unless silent
-      [body_key, body_base_key, body_version_key]
+      [body_key, body_base_key, body_version_key, body_version_name]
     else
       puts "no match for #{mark_key} #{model_key} #{bodytype_name}" if body_key == nil unless silent
       []

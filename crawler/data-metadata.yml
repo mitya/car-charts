@@ -10,7 +10,7 @@ parameterGroupsData:
   - [length, width, height, ground_clearance, wheelbase, kerbweight, gross_mass, tires, front_tire_rut, rear_tire_rut, luggage_string, tank_capacity, doors]
   other:
   - Other
-  - [body, brand_country]
+  - [bodyName, brand_country]
 parameterGroupsForCharting: [engine, dimensions]
 parameterGroupsDataForCharting:
   engine:
@@ -25,6 +25,7 @@ parameterNames:
   acceleration_62mph: Acelleration (0–62 mph)
   assembly_countries: Assembly Countries
   body: Body Style
+  bodyName: Body Style
   bore: Bore
   bore_and_stroke: Bore & Stroke
   brand_country: Brand Country

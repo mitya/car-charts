@@ -1,7 +1,9 @@
 class YA2Parser
   # parse mod values
   def step_82
-    raw_mods = CW.read_hash(F81, openstruct: false)
+    models = read_objects(F13)
+    models_index = models.index_by(&:key)
+    raw_mods = read_hash(F81, openstruct: false)
     parsed_mods = {}
 
     raw_mods.first(1_000_000).each do |mod_key, properties|
@@ -77,7 +79,11 @@ class YA2Parser
       parsed.year = CW.to_i(new_key.years, zero: false)
       parsed.displacement_key = new_key.displacement || CW.make_displacement_key(parsed.displacement)
 
-      if !new_key.aggregate
+      if parsed.body_version
+        parsed.body_version = models_index[new_key.space_generation_body_key].bodytype_version.to_s # replace swb_x = SWB X
+      end
+
+      if new_key.aggregate == nil
         new_key.aggregate = CW.aggregate_key(parsed.displacement_key, parsed.fuel, parsed.max_power, parsed.transmission, parsed.drive)
       end      
 
@@ -98,33 +104,11 @@ class YA2Parser
       parsed_mods_arrays[mod_key] = CWD.used_fields.each_with_index.map { |k, i| mod_hash[k] || '' }
     end
 
-    # xvalidate do
-    #   parsed_mods.each_with_object({}) do |(mod_key, hash), result|
-    #     hash.each do |attr_key, val|
-    #       if CW.blank?(val)
-    #         result[attr_key] ||= 0
-    #         result[attr_key] += 1
-    #       end
-    #     end
-    #   end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end
-    #
-    #   puts
-    #
-    #   parsed_mods_arrays.each_with_object({}) do |(mod_key, array), result|
-    #     array.each_with_index do |val, index|
-    #       if CW.blank?(val)
-    #         result[CWD.used_fields[index]] ||= 0
-    #         result[CWD.used_fields[index]] += 1
-    #       end
-    #     end
-    #   end.sort_by { |k, v| v }.each do |key, count| printf "%25s %4i\n", key, count end
-    # end
+    write_data_to_plist F82, parsed_mods_arrays  
+    write_data_to_binary F82, parsed_mods
+    write_data F82, parsed_mods
     
-    CW.write_data_to_plist F82, parsed_mods_arrays  
-    CW.write_data_to_binary F82, parsed_mods
-    CW.write_data F82, parsed_mods
-    
-    # CW.write_data_to_plist "debug-#{F82}", parsed_mods.first(20).to_h
-    # CW.write_data "debug-#{F82}.keys", parsed_mods.keys.sort
+    # write_data_to_plist "debug-#{F82}", parsed_mods.first(20).to_h
+    # write_data "debug-#{F82}.keys", parsed_mods.keys.sort
   end  
 end

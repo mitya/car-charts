@@ -48,7 +48,7 @@ class ModListController < UIViewController
   def tableView(tv, titleForHeaderInSection:section)
     section_body_key = modsByBody.keys[section]
     if section_body_key.include?('.')
-      sample_mod = model.mods.detect { |mod| mod.body == section_body_key }
+      sample_mod = mods.detect { |mod| mod.body == section_body_key }
       sample_mod.bodyName
     else
       Metadata.parameterTranslations['body'][ section_body_key ]

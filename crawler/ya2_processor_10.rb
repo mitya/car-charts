@@ -70,7 +70,7 @@ class YA2Processor
       model.url = url
 
       bodytypes = parse_bodytype(model.mark, model.model, model.yandex_bodytype, silent: true)
-      model.bodytype, model.bodytype_base, model.bodytype_version = bodytypes
+      model.bodytype, model.bodytype_base, _, model.bodytype_version = bodytypes
       next if model.bodytype == nil
 
       years = doc.css_text(".generations button .button__text") || seq11_index[model.yandex_id].years

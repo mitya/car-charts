@@ -5,6 +5,7 @@ class Mod < DSCoreModel
   NameModel = 1 << 3
   NameYear = 1 << 4
   NameShortYear = 1 << 5
+  NameShortBody = 1 << 6
   NameBodyVersion = NameBody | NameVersion
   NameBodyVersionYear  = NameBody | NameVersion | NameYear
   NameBodyVersionShortYear  = NameBody | NameVersion | NameShortYear
@@ -21,10 +22,9 @@ class Mod < DSCoreModel
   def modName(options = NameEngineVersion)
     enginePart = "#{displacement_key}#{suffix} #{max_power}hp #{transmission}" if options & NameEngine > 0
     enginePart += " 4x4" if options & NameEngine > 0 && drive == 'AWD'
-    bodyPart = bodyName if options & NameBody > 0
-    versionPart = versionName if options & NameVersion > 0
+    bodyPart = shortBodyName if options & NameBody > 0
     modelPart = model.name if options & NameModel > 0
-    result = [modelPart, bodyPart, enginePart, versionPart].compact.join(' ')
+    result = [modelPart, bodyPart, enginePart].compact.join(' ')
     result = [year, result].join(', ') if options & NameYear > 0 && year
     result = [shortYear, result].join(', ') if options & NameShortYear > 0 && year
     result
@@ -38,12 +38,15 @@ class Mod < DSCoreModel
   end
 
   def bodyName
-    baseBodyName = Metadata.parameterTranslations['body'][body_base] || raise("No name for body '#{body}'")
-    body_version ?  "#{baseBodyName} #{body_version}" : baseBodyName
+    body_version ? "#{baseBodyName} #{body_version}" : baseBodyName
   end
 
-  def versionName
-    Metadata['model_versions'][modelKeyWithVersion] if version_key
+  def baseBodyName
+    Metadata.parameterTranslations['body'][body_base] || raise("No name for body '#{body}'")
+  end
+
+  def shortBodyName    
+    body_version ? body_version : baseBodyName
   end
 
   def suffix
