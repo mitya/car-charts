@@ -4,12 +4,12 @@ class ModelCategoriesController < UITableViewController
   attr_accessor :segmentedControl
   attr_accessor :mode
 
-  MODES = [:categories, :brands]
+  MODES = [:brands, :categories]
 
   def initialize
     self.title = "Categories"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("ti-car"), tag:3)
-    self.navigationItem.leftBarButtonItem = KK.textBBI('All', target:self, action:'showAll')
+    # self.navigationItem.leftBarButtonItem = KK.textBBI('All', target:self, action:'showAll')
     self.navigationItem.rightBarButtonItem = KK.imageBBI('bar-x', target:self, action:'close')
     self.mode = :brands
   end
@@ -21,10 +21,10 @@ class ModelCategoriesController < UITableViewController
   end
 
   def viewDidLoad
-    @segmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Categories Brands)).tap do |control|
+    @segmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Brands Categories)).tap do |control|
       control.segmentedControlStyle = UISegmentedControlStyleBar
       control.addTarget self, action:'switchView', forControlEvents:UIControlEventValueChanged
-      control.selectedSegmentIndex = 1
+      control.selectedSegmentIndex = 0
     end
     navigationItem.titleView = segmentedControl
     tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
@@ -65,22 +65,37 @@ class ModelCategoriesController < UITableViewController
     end
 
     def tableView(tableView, numberOfRowsInSection:section)
-      source.count
+      source.count + 1
     end
 
     def tableView(tableView, cellForRowAtIndexPath:indexPath)
-      cell = tableView.dequeueReusableCell(style: UITableViewCellStyleValue1) do |c|
-        c.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+      cell = tableView.dequeueReusableCell(style: UITableViewCellStyleValue1)
+      
+      cell.accessoryType = UITableViewCellAccessoryNone
+      
+      if indexPath.row == 0
+        cell.textLabel.text = "All Models"
+        # cell.detailTextLabel.text = Disk.currentMods.count.to_s_or_nil
+        cell.accessoryType = UITableViewCellAccessoryCheckmark if controller.category == nil        
+      else
+        rowCategory = source[indexPath.row - 1]
+        cell.textLabel.text = rowCategory.name
+        # cell.detailTextLabel.text = rowCategory.selectedModsCount.to_s_or_nil
+        cell.accessoryType = UITableViewCellAccessoryCheckmark if controller.category == rowCategory
       end
-      rowCategory = source[indexPath.row]
-      cell.textLabel.text = rowCategory.name
-      cell.detailTextLabel.text = rowCategory.selectedModsCount.to_s_or_nil
+
       cell
     end
 
     def tableView(tableView, didSelectRowAtIndexPath:indexPath)
       tableView.deselectRowAtIndexPath(indexPath, animated:true)
-      controller.category = self.category = source[indexPath.row]
+      
+      controller.category = self.category = indexPath.row == 0 ? nil : source[indexPath.row - 1]
+
+      tableView.visibleCells.each { |c| c.accessoryType = UITableViewCellAccessoryNone }
+      cell = tableView.cellForRowAtIndexPath(indexPath)
+      cell.accessoryType = UITableViewCellAccessoryCheckmark
+
       controller.close
     end
   end

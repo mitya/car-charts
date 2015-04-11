@@ -12,7 +12,7 @@ end
 # ENV['device_name'] = 'iPad Air'
 # ENV['device_name'] = 'iPhone 5s 7.1'
 # ENV['device_name'] = 'iPad Retina 7.1'
-ENV['device_name'] = 'iPhone 5s'
+ENV['device_name'] = 'iPhone 6 Plus'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
