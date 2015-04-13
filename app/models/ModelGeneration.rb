@@ -61,6 +61,17 @@ class ModelGeneration
     "{generation:#{key} mods=#{mods.count}}"
   end
   
+  def nameAttributedString
+    text = NSMutableAttributedString.alloc.init
+    model_name = NSAttributedString.alloc.initWithString family.name + ' ', attributes: { }
+    year = NSAttributedString.alloc.initWithString year_apostrophe, attributes: { 
+      NSFontAttributeName => UIFont.systemFontOfSize(14), 
+      NSForegroundColorAttributeName => UIColor.lightGrayColor }
+    text.appendAttributedString(model_name)
+    text.appendAttributedString(year)
+    text
+  end
+  
   alias to_s inspect
 
   def metadataRow

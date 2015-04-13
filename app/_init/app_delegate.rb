@@ -15,7 +15,8 @@ class AppDelegate
     self.chartController = ChartController.new
     self.modelListController = ModelListController.new
     self.tabBarController = UITabBarController.new.tap do |tbc|
-      tabControllers = [chartController, ParameterListController.new, modelListController, ModRecentsController.new, ModSetListController.new]
+      tabControllers = [chartController, ParameterListController.new, modelListController, ModRecentsController.new, FavoritesController.new]
+      # tabControllers = [chartController, ParameterListController.new, modelListController, ModRecentsController.new, ModSetListController.new]
       tabControllers.shift if KK.ipad?
       tbc.viewControllers = tabControllers.map do |ctr|
         nav = KK.navigationForController(ctr, withDelegate:self)

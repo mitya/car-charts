@@ -8,16 +8,19 @@ describe "Disk" do
   end
   
   it "adding and removing keys keys in favorites" do
-    Disk.toggleInFavorites "bmw--3er--2011"
-    Disk.favorites.should == ["bmw--3er--2011"]
+    bmw_3er = ModelGeneration["bmw--3er--2011"]
+    audi_a4 = ModelGeneration["audi--a4--2011"]
     
-    Disk.toggleInFavorites "audi--a4--2011"
-    Disk.favorites.should == ["bmw--3er--2011", "audi--a4--2011"]
+    Disk.toggleInFavorites bmw_3er
+    Disk.favorites.should == [bmw_3er]
     
-    Disk.toggleInFavorites "bmw--3er--2011"
-    Disk.favorites.should == ["audi--a4--2011"]
+    Disk.toggleInFavorites audi_a4
+    Disk.favorites.should == [bmw_3er, audi_a4]
+    
+    Disk.toggleInFavorites bmw_3er
+    Disk.favorites.should == [audi_a4]
 
-    Disk.toggleInFavorites "audi--a4--2011"
+    Disk.toggleInFavorites audi_a4
     Disk.favorites.should == []
   end
   

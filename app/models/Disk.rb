@@ -71,19 +71,19 @@ class Disk
     end
     
     def favorites
-      @favorites ||= NSUserDefaults.standardUserDefaults["favorites"].to_a
+      @favorites ||= NSUserDefaults.standardUserDefaults["favorites"].to_a.map { |key| ModelGeneration[key] }
     end
     
     def syncFavorites
-      NSUserDefaults.standardUserDefaults["favorites"] = @favorites
+      NSUserDefaults.standardUserDefaults["favorites"] = @favorites.map(&:key)
     end
     
-    def toggleInFavorites(generationKey)
+    def toggleInFavorites(generation)
       changeValueForKey('favorites') do
-        if @favorites.include?(generationKey)
-          @favorites.delete(generationKey)
+        if @favorites.include?(generation)
+          @favorites.delete(generation)
         else
-          @favorites.push(generationKey)
+          @favorites.push(generation)
         end
       end
       Dispatch::Queue.concurrent.async { syncFavorites }

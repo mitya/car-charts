@@ -21,23 +21,22 @@ class ModelListController < UIViewController
 
     def tableView(tableView, cellForRowAtIndexPath:indexPath)  
       model = @filteredModels[indexPath.row]
-      modelSelectedModsCount = model.selectedModsCount
 
       cell = tableView.dequeueReusableCell style:UITableViewCellStyleValue1 do |c|
         c.accessoryType = UITableViewCellAccessoryDisclosureIndicator
         c.textLabel.adjustsFontSizeToFitWidth = YES
       end
       
-      text = NSMutableAttributedString.alloc.init
-      model_name = NSAttributedString.alloc.initWithString model.family.name + ' ', attributes: { }
-      year = NSAttributedString.alloc.initWithString model.year_apostrophe, attributes: { 
-        NSFontAttributeName => UIFont.systemFontOfSize(14), 
-        NSForegroundColorAttributeName => UIColor.lightGrayColor }
-      text.appendAttributedString(model_name)
-      text.appendAttributedString(year)
+      # text = NSMutableAttributedString.alloc.init
+      # model_name = NSAttributedString.alloc.initWithString model.family.name + ' ', attributes: { }
+      # year = NSAttributedString.alloc.initWithString model.year_apostrophe, attributes: {
+      #   NSFontAttributeName => UIFont.systemFontOfSize(14),
+      #   NSForegroundColorAttributeName => UIColor.lightGrayColor }
+      # text.appendAttributedString(model_name)
+      # text.appendAttributedString(year)
       
-      cell.textLabel.attributedText = text      
-      cell.detailTextLabel.text = modelSelectedModsCount.to_s_or_nil
+      cell.textLabel.attributedText = model.nameAttributedString
+      cell.detailTextLabel.text = model.selectedModsCount.to_s_or_nil
       cell
     end
 

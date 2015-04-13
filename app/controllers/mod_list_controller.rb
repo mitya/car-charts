@@ -78,7 +78,7 @@ class ModListController < UIViewController
     case indexPath.section when 0
       cell = tv.dequeueReusableCell id:'Action', style:UITableViewCellStyleDefault
       cell.textLabel.textColor = Configuration.tintColor      
-      if Disk.favorites.include?(model.key)
+      if Disk.favorites.include?(model)
         cell.textLabel.text = "Remove from Favorites"
         cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star-full'))
       else
@@ -108,7 +108,7 @@ class ModListController < UIViewController
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tv.deselectRowAtIndexPath(indexPath, animated:YES)
     case indexPath.section when 0    
-      Disk.toggleInFavorites(model.key)      
+      Disk.toggleInFavorites(model)      
       # updateFavoritesCell tv.cellForRowAtIndexPath(indexPath)
       tableView.reloadRowsAtIndexPaths [indexPath], withRowAnimation:UITableViewRowAnimationFade
     else      
