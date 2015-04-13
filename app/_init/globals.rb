@@ -7,6 +7,7 @@ HAIR_SPACE = ' '
 DEFAULT_ROW_HEIGHT = 44.0
 TWO_LINE_ROW_HEIGHT = 64.0
 DEBUG = NSBundle.mainBundle.objectForInfoDictionaryKey('CCDebugMode') == true
+SIMULATOR = UIDevice.currentDevice.model == "iPhone Simulator"
 
 def pp(*args)
   puts "*** " + args.map(&:inspect).join(', ')

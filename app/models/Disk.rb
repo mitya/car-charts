@@ -69,6 +69,25 @@ class Disk
         NSUserDefaults.standardUserDefaults["unitSystem"] = value
       end
     end
+    
+    def favorites
+      @favorites ||= NSUserDefaults.standardUserDefaults["favorites"].to_a
+    end
+    
+    def syncFavorites
+      NSUserDefaults.standardUserDefaults["favorites"] = @favorites
+    end
+    
+    def toggleInFavorites(generationKey)
+      changeValueForKey('favorites') do
+        if @favorites.include?(generationKey)
+          @favorites.delete(generationKey)
+        else
+          @favorites.push(generationKey)
+        end
+      end
+      Dispatch::Queue.concurrent.async { syncFavorites }
+    end
   
 
     def load

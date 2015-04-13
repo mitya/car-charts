@@ -48,7 +48,13 @@ module KK::Common
   end
   
   def debug(message, *args)
-    NSLog(message, *args) if DEBUG
+    if DEBUG
+      if SIMULATOR
+        puts message % args
+      else
+        NSLog(message, *args)
+      end      
+    end
   end
   
   def assert_present(value)

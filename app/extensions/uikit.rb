@@ -50,6 +50,8 @@ end
 
 
 class UIViewController
+  include GlobalHelpers
+  
   def self.autorotationPolicy
     @autorotationPolicy
   end

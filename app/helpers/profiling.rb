@@ -8,6 +8,7 @@ $es_profiling_results = []
 # KK.profileBegin("Title")
 # KK.profile("action name")
 # KK.profileEnd("last action name")
+
 module Profiling
   def profileBegin(title = nil)
     $es_profiling_title = title

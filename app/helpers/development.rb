@@ -4,7 +4,7 @@ module KK::Development
     startTime = Time.now
     result = yield
     elapsed = (Time.now - startTime) * 1_000
-    NSLog "TIMING #{actionName}: #{"%.3f" % elapsed}ms"
+    KK.debug "TIMING #{actionName}: #{"%.3f" % elapsed}ms"
     result
   end
   

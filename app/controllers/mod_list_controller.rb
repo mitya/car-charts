@@ -6,17 +6,17 @@ class ModListController < UIViewController
     self.model = model
     self.mods = model.mods
     self.title = model.nameWithApostrophe
-    navigationItem.backBarButtonItem = KK.textBBI("Versions")                    
+    navigationItem.backBarButtonItem = KK.textBBI("Versions")
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
     Disk.addObserver(self, forKeyPath:"filterOptions", options:false, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
-  
+
   def dealloc
     Disk.removeObserver(self, forKeyPath:"filterOptions")
     Disk.removeObserver(self, forKeyPath:"currentMods")
   end
-  
+
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
     case keyPath when 'filterOptions'
       applyFilter if isViewVisible
@@ -24,81 +24,111 @@ class ModListController < UIViewController
       tableView.reloadData
     end
   end
-  
+
 
   def viewDidLoad
     self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain)
   end
-  
-  def viewWillAppear(animated) super    
+
+  def viewWillAppear(animated) super
     applyFilter
+    tableView.contentOffset = CGPointMake(0, DEFAULT_ROW_HEIGHT)
     scrollToMod(selectedMod, animated:NO) if selectedMod
   end
-  
+
 
   def numberOfSectionsInTableView(tv)
-    @modsByBody.count > 0 ? @modsByBody.count : 1
+    modsByBody.count + 1
   end
 
   def tableView(tv, numberOfRowsInSection:section)
-    return 0 if section >= @modsByBody.count
-    @modsByBody[ modsByBody.keys[section] ].count
+    case section when 0
+      1
+    else
+      modsByBody[ modsByBody.keys[section - 1] ].count
+    end
   end
 
   def tableView(tv, titleForHeaderInSection:section)
-    section_body_key = modsByBody.keys[section]
-    if section_body_key.include?('.')
-      sample_mod = mods.detect { |mod| mod.body == section_body_key }
-      sample_mod.bodyName
+    case section when 0
+      nil
     else
-      Metadata.parameterTranslations['body'][ section_body_key ]
+      section_body_key = modsByBody.keys[section - 1]
+      if section_body_key.include?('.')
+        sample_mod = mods.detect { |mod| mod.body == section_body_key }
+        sample_mod.bodyName
+      else
+        Metadata.parameterTranslations['body'][ section_body_key ]
+      end
     end
   end
 
   def tableView(tv, titleForFooterInSection:section)
-    if section == tableView.numberOfSections - 1
+    case section when tableView.numberOfSections - 1
       hiddenModsCount = mods.count - filteredMods.count
-      if @modsByBody.count == 0 && !mods.empty?
-        return "All #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} are filtered out"
+      if modsByBody.count == 0 && !mods.empty?
+        "All #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} are filtered out"
       else
-        return hiddenModsCount > 0 ? "There are also #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} hidden" : nil
+        hiddenModsCount > 0 ? "There are also #{hiddenModsCount} #{"model".pluralizeFor(hiddenModsCount)} hidden" : nil
       end
     end
   end
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
-    mod = modsByBody.objectForIndexPath(indexPath)
-    modIsSelected = mod.selected?
-
-    cell = tv.dequeueReusableCell klass:CheckmarkCell, accessoryType:UITableViewCellAccessoryDetailButton
-    cell.toggleLeftCheckmarkAccessory(modIsSelected)
-    cell.textLabel.text = mod.modName(Mod::NameEngineVersion)
+    case indexPath.section when 0
+      cell = tv.dequeueReusableCell id:'Action', style:UITableViewCellStyleDefault
+      cell.textLabel.textColor = Configuration.tintColor      
+      if Disk.favorites.include?(model.key)
+        cell.textLabel.text = "Remove from Favorites"
+        cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star-full'))
+      else
+        cell.textLabel.text = "Add to Favorites"
+        cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star'))
+      end
+    else
+      mod = modsByBody[ modsByBody.keys[indexPath.section - 1] ][indexPath.row]
+      modIsSelected = mod.selected?
+      cell = tv.dequeueReusableCell klass:CheckmarkCell, accessoryType:UITableViewCellAccessoryDetailButton
+      cell.toggleLeftCheckmarkAccessory(modIsSelected)
+      cell.textLabel.text = mod.modName(Mod::NameEngineVersion)
+    end
     cell
   end
 
+  # def updateFavoritesCell(cell)
+  #   if Disk.favorites.include?(model.key)
+  #     cell.textLabel.text = "Remove from Favorites"
+  #     cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star-full'))
+  #   else
+  #     cell.textLabel.text = "Add to Favorites"
+  #     cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star'))
+  #   end
+  # end
+
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tv.deselectRowAtIndexPath(indexPath, animated:YES)
-    cell = tv.cellForRowAtIndexPath(indexPath)
-    cell.toggleLeftCheckmarkAccessory
+    case indexPath.section when 0    
+      Disk.toggleInFavorites(model.key)      
+      # updateFavoritesCell tv.cellForRowAtIndexPath(indexPath)
+      tableView.reloadRowsAtIndexPaths [indexPath], withRowAnimation:UITableViewRowAnimationFade
+    else      
+      cell = tv.cellForRowAtIndexPath(indexPath)
+      cell.toggleLeftCheckmarkAccessory
+      mod = modsByBody[ modsByBody.keys[indexPath.section - 1] ][indexPath.row]
+      mod.select!
+      # tableView.reloadRowsAtIndexPaths [indexPath], withRowAnimation:UITableViewRowAnimationFade
+    end
+  end
 
-    mod = modsByBody.objectForIndexPath(indexPath)
-    mod.select!
-  end
-  
   def tableView(tv, accessoryButtonTappedForRowWithIndexPath:indexPath)
-    ModViewController.showFor self, withMod: modsByBody.objectForIndexPath(indexPath)
+    mod = modsByBody[ modsByBody.keys[indexPath.section - 1] ][indexPath.row]
+    ModViewController.showFor self, withMod:mod
   end
-  
-  
-  # def addToModSet(button)
-  #   indexPath = tableView.indexPathForCell(button.superview)
-  #   mod = modsByBody.objectForIndexPath(indexPath)
-  #   # nothing for now
-  # end
-  
+
+
   def applyFilter(options = {})
     opts = Disk.filterOptions
-    self.filteredMods = opts.empty? ? mods : mods.select do |mod|
+    @filteredMods = opts.empty? ? mods : mods.select do |mod|
       next false if opts[:at] == false && mod.automatic?
       next false if opts[:mt] == false && mod.manual?
       next false if opts[:sedan] == false && mod.sedan?
@@ -108,10 +138,10 @@ class ModListController < UIViewController
       next false if opts[:diesel] == false && mod.diesel?
       next true
     end
-    self.modsByBody = filteredMods.group_by { |m| m.body }
+    @modsByBody = @filteredMods.group_by { |m| m.body }
     tableView.reloadData
   end
-    
+
   def showFilterPane
     @filterController ||= ModListFilterController.new
     if KK.iphone?
@@ -120,16 +150,16 @@ class ModListController < UIViewController
       @filterController.popover = presentPopoverController @filterController, fromBarItem:navigationItem.rightBarButtonItem
     end
   end
-  
+
   def scrollToMod(mod, animated:animated)
-    modsWithSuchBody = modsByBody[mod.body]    
+    modsWithSuchBody = modsByBody[mod.body]
     if modsWithSuchBody
       modIndex = modsWithSuchBody.index(mod)
       if modIndex
         bodyIndex = modsByBody.keys.index(mod.body)
         indexPath = NSIndexPath.indexPathForRow(modIndex, inSection: bodyIndex)
         tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition:UITableViewScrollPositionTop, animated:animated)
-      end      
+      end
     end
   end
 end

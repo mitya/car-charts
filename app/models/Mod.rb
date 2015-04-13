@@ -354,15 +354,15 @@ class Mod < DSCoreModel
     # 5. comment out the shit again
     def import
       KK.benchmark "Import Mods" do
-        NSLog "Data path: #{KK.documentsPath}"
+        KK.debug "Data path: #{KK.documentsPath}"
         deleteAll
         fields = @fields.map(&:first)
-        NSLog "Params delta: #{(Metadata.parameter_keys - fields).join(',')} | #{(fields - Metadata.parameter_keys).join(',')}"
+        KK.debug "Params delta: #{(Metadata.parameter_keys - fields).join(',')} | #{(fields - Metadata.parameter_keys).join(',')}"
 
         fields.delete 'key'
         plist = NSDictionary.alloc.initWithContentsOfFile(NSBundle.mainBundle.pathForResource("db/mods", ofType:"plist"))
 
-        NSLog "Importing #{plist.count} records"
+        KK.debug "Importing #{plist.count} records"
 
         plist.each do |key, data|
           mod = Mod.build(key: key)

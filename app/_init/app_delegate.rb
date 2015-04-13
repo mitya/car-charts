@@ -1,4 +1,5 @@
 class AppDelegate
+  include GlobalHelpers
   attr_accessor :window, :tabBarController, :chartController, :hidesMasterView
   attr_accessor :modelListController
   
@@ -18,7 +19,6 @@ class AppDelegate
       tabControllers.shift if KK.ipad?
       tbc.viewControllers = tabControllers.map do |ctr|
         nav = KK.navigationForController(ctr, withDelegate:self)
-        # nav.navigationBar.translucent = NO
         nav
       end
       tbc.delegate = self
@@ -96,7 +96,7 @@ class AppDelegate
       model.entities = [Mod.entity]
 
       if KK.env?('CCTestModsDataset')
-        NSLog "Data path: #{KK.documentsPath}"
+        # debug "Data path: #{KK.documentsPath}"
         # switch mods database to the one located in the documents directory to fill it with the data from plist
         storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
         storeOptions = {}
