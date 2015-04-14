@@ -5,7 +5,22 @@ class FavoritesController < UITableViewController
     self.title = "Favorites"
     self.generations = Disk.favorites
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:KK.image("tab-star"), selectedImage:KK.image("tab-star-full"))
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
+    Disk.addObserver(self, forKeyPath:"favorites", options:NO, context:nil)
   end
+
+  def dealloc
+    Disk.removeObserver(self, forKeyPath:"currentMods")
+    Disk.removeObserver(self, forKeyPath:"favorites")
+  end
+
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    case keyPath
+    when 'currentMods', 'favorites'
+      tableView.reloadData
+    end
+  end
+
 
   def viewDidLoad
   end
@@ -31,15 +46,10 @@ class FavoritesController < UITableViewController
     cell
   end
 
-  # def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-  #   tableView.deselectRowAtIndexPath(indexPath, animated:true)
-  #
-  #   controller.category = self.category = indexPath.row == 0 ? nil : source[indexPath.row - 1]
-  #
-  #   tableView.visibleCells.each { |c| c.accessoryType = UITableViewCellAccessoryNone }
-  #   cell = tableView.cellForRowAtIndexPath(indexPath)
-  #   cell.accessoryType = UITableViewCellAccessoryCheckmark
-  #
-  #   controller.close
-  # end
+  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
+    
+    generation = generations[indexPath.row]
+    navigationController.pushViewController ModListController.new(generation), animated:true
+  end
 end

@@ -66,6 +66,7 @@ class ChartController < UIViewController
     tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end
 
+
   def tableView(tv, numberOfRowsInSection:section)
     @comparision.complete?? @comparision.mods.count : 0
   end
@@ -89,7 +90,7 @@ class ChartController < UIViewController
     modListController = ModListController.new(mod.generation)
     modListController.selectedMod = mod
     
-    modelsNavController = KK.app.delegate.modelListController.navigationController    
+    modelsNavController = KK.app.delegate.modelListController.navigationController
     KK.app.delegate.tabBarController.selectedViewController = modelsNavController
     modelsNavController.popToRootViewControllerAnimated(NO)
     modelsNavController.pushViewController modListController, animated:NO

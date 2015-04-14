@@ -10,18 +10,23 @@ class ModListController < UIViewController
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
     Disk.addObserver(self, forKeyPath:"filterOptions", options:false, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
+    Disk.addObserver(self, forKeyPath:"favorites", options:NO, context:nil)
   end
 
   def dealloc
     Disk.removeObserver(self, forKeyPath:"filterOptions")
     Disk.removeObserver(self, forKeyPath:"currentMods")
+    Disk.removeObserver(self, forKeyPath:"favorites")
   end
 
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
-    case keyPath when 'filterOptions'
+    case keyPath 
+    when 'filterOptions'
       applyFilter if isViewVisible
     when 'currentMods'
       tableView.reloadData
+    when 'favorites'
+      tableView.reloadRowsAtIndexPaths [NSIndexPath.indexPathForRow(0, inSection: 0)], withRowAnimation:UITableViewRowAnimationFade
     end
   end
 
@@ -110,7 +115,7 @@ class ModListController < UIViewController
     case indexPath.section when 0    
       Disk.toggleInFavorites(model)      
       # updateFavoritesCell tv.cellForRowAtIndexPath(indexPath)
-      tableView.reloadRowsAtIndexPaths [indexPath], withRowAnimation:UITableViewRowAnimationFade
+      # tableView.reloadRowsAtIndexPaths [indexPath], withRowAnimation:UITableViewRowAnimationFade
     else      
       cell = tv.cellForRowAtIndexPath(indexPath)
       cell.toggleLeftCheckmarkAccessory
@@ -157,7 +162,7 @@ class ModListController < UIViewController
       modIndex = modsWithSuchBody.index(mod)
       if modIndex
         bodyIndex = modsByBody.keys.index(mod.body)
-        indexPath = NSIndexPath.indexPathForRow(modIndex, inSection: bodyIndex)
+        indexPath = NSIndexPath.indexPathForRow(modIndex, inSection: bodyIndex + 1)
         tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition:UITableViewScrollPositionTop, animated:animated)
       end
     end
