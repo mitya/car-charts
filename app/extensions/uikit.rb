@@ -92,6 +92,7 @@ class UIViewController
   end
   
   def presentNavigationController(controller, options = {})
+    KK.trackControllerView(controller)
     controller.presented_modally = true if controller.respond_to?('presented_modally=')
     navigation = KK.navigationForController(controller, withDelegate:NIL)
     navigation.modalPresentationStyle = options[:presentationStyle] || UIModalPresentationFullScreen
@@ -100,6 +101,7 @@ class UIViewController
   end  
   
   def presentPopoverController(controller, options = {})
+    KK.trackControllerView(controller)
     navigation = KK.navigationForController(controller, withDelegate:NIL)
     popover = UIPopoverController.alloc.initWithContentViewController(navigation)
     if barItem = options[:fromBarItem]

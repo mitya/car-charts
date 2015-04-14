@@ -24,21 +24,31 @@ Motion::Project::App.setup do |app|
   app.detect_dependencies = false
   app.frameworks += ['CoreData']
   app.device_family = [:iphone, :ipad]
+  app.vendor_project 'vendor/Flurry', :static, :products => ['libFlurry_6.2.0.a'], :headers_dir => 'Flurry.h', force_load: false
   app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
   app.info_plist['UIStatusBarHidden'] = true # hides the status bar on the launch screen
 
   app.development do
-    app.version = "1.0"
+    app.version = "1.0.100"
     app.codesign_certificate = "iPhone Developer: Dmitry Sokurenko (9HS3696XGX)"
-    app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_Development_Profile.mobileprovision"    
-
+    app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_Development_Profile.mobileprovision"
     app.redgreen_style = :full # default: :focused, also can use :progress
-
-    # app.info_plist['CCBenchmarking'] = true
+    app.info_plist['CCBenchmarking'] = true
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
     app.info_plist['CCTestModsDataset'] = true
     app.info_plist['CCTestModsDatasetRun'] = true if ENV['fill'] == '1'
+  end
+
+  app.release do
+    app.version = "1.0.900"
+    app.codesign_certificate = "iPhone Distribution: Dmitry Sokurenko (SQLB2GAZ2T)"
+    # app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/AdHoc_Profile_for_AllegroTime.mobileprovision"
+
+    if ENV['appstore'] == 'yes'
+      app.version = "1.0.0"
+      # app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/AppStore_Profile_for_AllegroTime.mobileprovision"
+    end
   end
 end
 

@@ -9,6 +9,9 @@ TWO_LINE_ROW_HEIGHT = 64.0
 DEBUG = NSBundle.mainBundle.objectForInfoDictionaryKey('CCDebugMode') == true
 SIMULATOR = UIDevice.currentDevice.model == "iPhone Simulator"
 
+FLURRY_TOKEN = 'REDACTED'
+FLURRY_ENABLED = YES
+
 def pp(*args)
   puts "*** " + args.map(&:inspect).join(', ')
 end

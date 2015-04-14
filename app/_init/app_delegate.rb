@@ -42,6 +42,8 @@ class AppDelegate
 
     setTintColors
     
+    Flurry.startSession FLURRY_TOKEN if FLURRY_ENABLED
+    
     # openControllerForModel("ford--focus--2014")
     
     true
@@ -55,12 +57,19 @@ class AppDelegate
   def applicationDidFailWithException(exception)
     NSUserDefaults.standardUserDefaults["crashed"] = true
     stack = exception.callStackReturnAddresses
+    
+    if FLURRY_ENABLED
+      NSLog "Logged error to Flurry"
+      Flurry.logError exception.name, message:exception.reason, exception:exception
+    end
+        
     NSLog "FATAL ERROR: #{exception}"
   end
 
 
   def navigationController(navController, willShowViewController:viewController, animated:animated)
     navController.setToolbarHidden(viewController.toolbarItems.nil?, animated: animated)
+    KK.trackControllerView(viewController)
   end
 
   def tabBarController(tabBarController, didSelectViewController: viewController)

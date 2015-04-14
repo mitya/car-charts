@@ -32,7 +32,7 @@ class ModRecentsController < UITableViewController
   def modeSegmentedControl
     @modeSegmentedControl ||= UISegmentedControl.alloc.initWithItems(%w(Selected Recents)).tap do |segm|
       segm.segmentedControlStyle = UISegmentedControlStyleBar
-      segm.addTarget self, action:'switchView', forControlEvents:UIControlEventValueChanged
+      segm.addTarget self, action:'modeSegmentedControlChanged:', forControlEvents:UIControlEventValueChanged
       segm.selectedSegmentIndex = 0
     end
   end
@@ -40,6 +40,11 @@ class ModRecentsController < UITableViewController
   def currentDataSource
     dataSourceIndex = modeSegmentedControl.selectedSegmentIndex
     @dataSources[dataSourceIndex]
+  end
+
+  def modeSegmentedControlChanged(control)
+    KK.trackEvent "selected-recents-switched"
+    switchView
   end
 
   # switches table view data source between Selected & Recent mod lists
@@ -84,6 +89,7 @@ class ModRecentsController < UITableViewController
   end
 
   def deselectAllMods
+    KK.trackEvent "mods-deselect-all"
     Disk.deselectAllCurrentMods
   end
 

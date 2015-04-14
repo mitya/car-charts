@@ -8,7 +8,7 @@ class ModelCategoriesController < UITableViewController
 
   def initialize
     self.title = "Categories"
-    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("ti-car"), tag:3)
+    self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-car"), selectedImage:KK.image("tab-car-full"))    
     # self.navigationItem.leftBarButtonItem = KK.textBBI('All', target:self, action:'showAll')
     self.navigationItem.rightBarButtonItem = KK.imageBBI('bar-x', target:self, action:'close')
     self.mode = :brands
@@ -43,6 +43,7 @@ class ModelCategoriesController < UITableViewController
   end
 
   def switchView
+    KK.trackEvent "categories-brands-switched"
     @mode = MODES[segmentedControl.selectedSegmentIndex]
     tableView.dataSource = tableView.delegate = currentDataSource
     tableView.reloadData
