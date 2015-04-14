@@ -85,10 +85,10 @@ class ModListController < UIViewController
       cell.textLabel.textColor = Configuration.tintColor      
       if Disk.favorites.include?(model)
         cell.textLabel.text = "Remove from Favorites"
-        cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star-full'))
+        cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('bar-star-full'))
       else
         cell.textLabel.text = "Add to Favorites"
-        cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star'))
+        cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('bar-star'))
       end
     else
       mod = modsByBody[ modsByBody.keys[indexPath.section - 1] ][indexPath.row]
