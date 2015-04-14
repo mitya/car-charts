@@ -17,7 +17,7 @@ class ModRecentsController < UITableViewController
   end
 
   def viewDidLoad
-    @dataSources = [DataSource.new(self) { Disk.currentMods }, DataSource.new(self) { Disk.recentMods }]
+    @dataSources = [DataSource.new(self) { Disk.currentMods }, DataSource.new(self) { Disk.sortedRecentMods }]
   end
 
   def viewWillAppear(animated)
@@ -84,8 +84,7 @@ class ModRecentsController < UITableViewController
   end
 
   def deselectAllMods
-    Disk.recentMods = Disk.recentMods + Disk.currentMods
-    Disk.currentMods = []
+    Disk.deselectAllCurrentMods
   end
 
   def saveSelectedAsSet(mode = :add)

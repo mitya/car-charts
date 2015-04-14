@@ -43,6 +43,16 @@ class Disk
       end
     end
   
+    def sortedRecentMods
+      puts 'sorting recent mods'
+      recentMods.sort_by(&:key)
+    end
+    
+    def deselectAllCurrentMods
+      self.recentMods = recentMods + currentMods
+      self.currentMods = []      
+    end
+  
     def toggleModInCurrentList(mod)
       self.recentMods = recentMods.dupWithToggledObject(mod) if currentMods.include?(mod) || recentMods.include?(mod)
       self.currentMods = currentMods.dupWithToggledObject(mod)
