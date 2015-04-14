@@ -2,6 +2,7 @@ class ChartController < UIViewController
   attr_accessor :mods, :params, :comparision, :data
   attr_accessor :tableView, :exitFullScreenModeButton, :emptyView
 
+
   def initialize
     self.title = "Chart"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-chart"), selectedImage:KK.image("tab-chart-full"))
@@ -157,6 +158,8 @@ class ChartController < UIViewController
   def reload(reloadView = true)
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     
+    KK.trackEvent "comparision-update", mods_count: @comparision.mods.count, params_count: comparision.params.count
+    
     tableView.reloadData if reloadView
 
     if KK.ipad?
@@ -175,6 +178,7 @@ class ChartController < UIViewController
   end
 
   def toggleFullScreenMode
+    KK.trackEvent "full-screen-mode-toggle"
     @fullScreen = !@fullScreen
     if KK.iphone?
       UIApplication.sharedApplication.setStatusBarHidden(@fullScreen, withAnimation:UIStatusBarAnimationSlide)

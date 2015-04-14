@@ -57,6 +57,7 @@ class ModelListController < UIViewController
 
 
     def loadDataForSearchString(newSearchString)
+      KK.trackEvent "search-models-flat", newSearchString unless newSearchString == ''
       collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
       @filteredModels = newSearchString.empty? ? @initialModels : ModelGeneration.modelsForText(newSearchString, inCollection:collectionToSearch)
       @currentSearchString = newSearchString

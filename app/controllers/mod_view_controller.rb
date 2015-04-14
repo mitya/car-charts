@@ -1,6 +1,7 @@
 class ModViewController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   SystemSectionIndex = 0
+  ScreenKeyMethod = :mod
 
   attr_accessor :mod
 

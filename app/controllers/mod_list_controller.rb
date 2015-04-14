@@ -113,8 +113,9 @@ class ModListController < UIViewController
 
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
     tv.deselectRowAtIndexPath(indexPath, animated:YES)
-    case indexPath.section when 0    
-      Disk.toggleInFavorites(model)      
+    case indexPath.section when 0
+      KK.trackEvent "favorites-toggle", model
+      Disk.toggleInFavorites(model)
       # updateFavoritesCell tv.cellForRowAtIndexPath(indexPath)
       # tableView.reloadRowsAtIndexPaths [indexPath], withRowAnimation:UITableViewRowAnimationFade
     else      
