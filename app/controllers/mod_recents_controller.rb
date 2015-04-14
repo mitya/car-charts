@@ -12,7 +12,6 @@ class ModRecentsController < UITableViewController
 
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
     case keyPath when 'currentMods'
-      # currentDataSource.reload
       tableView.reloadData
     end
   end
@@ -67,8 +66,9 @@ class ModRecentsController < UITableViewController
 
   def showActionSheet(bbi)
     @sheet = UIActionSheet.alloc.initWithTitle nil, delegate:self, cancelButtonTitle:nil, destructiveButtonTitle:NIL, otherButtonTitles:NIL
-    @sheet.addButtonWithTitle "Add Models to Set"
-    @sheet.addButtonWithTitle "Replace Models in Set"
+    @sheet.addButtonWithTitle "Deselect All"
+    # @sheet.addButtonWithTitle "Add Models to Set"
+    # @sheet.addButtonWithTitle "Replace Models in Set"
     @sheet.addButtonWithTitle "Cancel"
     @sheet.cancelButtonIndex = 2
     @sheet.showFromBarButtonItem bbi, animated:YES
@@ -76,10 +76,16 @@ class ModRecentsController < UITableViewController
 
   def actionSheet(sheet, didDismissWithButtonIndex:buttonIndex)
     actionKey = case buttonIndex
-      when 0 then :add
-      when 1 then :replace
+      when 0 then deselectAllMods
+      # when 0 then :add
+      # when 1 then :replace
     end
-    saveSelectedAsSet(actionKey) if actionKey
+    # saveSelectedAsSet(actionKey) if actionKey
+  end
+
+  def deselectAllMods
+    Disk.recentMods = Disk.recentMods + Disk.currentMods
+    Disk.currentMods = []
   end
 
   def saveSelectedAsSet(mode = :add)
