@@ -7,7 +7,7 @@ class Disk
     end
 
     def filterOptions=(hash)
-      changeValueForKey('filterOptions') do
+      changeValueForKey('filterOptions', notify:YES) do
         NSUserDefaults.standardUserDefaults["filterOptions"] = hash
       end
     end
@@ -18,7 +18,7 @@ class Disk
     end
 
     def currentMods=(array)
-      changeValueForKey('currentMods') do
+      changeValueForKey('currentMods', notify:YES) do
         array.sort_by!(&:key)
         NSUserDefaults.standardUserDefaults["mods"] = array.map(&:key)
         @currentMods = array
@@ -36,7 +36,7 @@ class Disk
     end
 
     def recentMods=(array)
-      changeValueForKey('recentMods') do
+      changeValueForKey('recentMods', notify:YES) do
         array = array.last(MaxRecentModCount)
         NSUserDefaults.standardUserDefaults["recentMods"] = array.map(&:key)
         @recentMods = array
@@ -53,7 +53,7 @@ class Disk
     end
   
     def currentParameters=(array)
-      changeValueForKey('currentParameters') do
+      changeValueForKey('currentParameters', notify:YES) do
         NSUserDefaults.standardUserDefaults["parameters"] = array.map { |p| p.key.to_s }
         @currentParameters = array
       end
@@ -65,7 +65,7 @@ class Disk
     end
     
     def unitSystem=(value)
-      changeValueForKey('unitSystem') do
+      changeValueForKey('unitSystem', notify:YES) do
         NSUserDefaults.standardUserDefaults["unitSystem"] = value
       end
     end
@@ -78,15 +78,22 @@ class Disk
       NSUserDefaults.standardUserDefaults["favorites"] = @favorites.map(&:key)
     end
     
+    def removeFromFavorites(generation, notify:notify)
+      changeValueForKey('favorites', notify:notify) do
+        @favorites.delete(generation)
+        Dispatch::Queue.concurrent.async { syncFavorites }
+      end      
+    end
+    
     def toggleInFavorites(generation)
-      changeValueForKey('favorites') do
+      changeValueForKey('favorites', notify:YES) do
         if @favorites.include?(generation)
           @favorites.delete(generation)
         else
           @favorites.push(generation)
         end
+        Dispatch::Queue.concurrent.async { syncFavorites }
       end
-      Dispatch::Queue.concurrent.async { syncFavorites }
     end
   
 
@@ -128,11 +135,11 @@ class Disk
     
     private 
     
-    def changeValueForKey(key)
-      willChangeValueForKey(key)
+    def changeValueForKey(key, notify:notify)
+      willChangeValueForKey(key) if notify
       yield
-      NSUserDefaults.standardUserDefaults.synchronize
-      didChangeValueForKey(key)
+      Dispatch::Queue.concurrent.async { NSUserDefaults.standardUserDefaults.synchronize }
+      didChangeValueForKey(key) if notify
     end
   end
 end

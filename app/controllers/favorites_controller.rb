@@ -5,6 +5,7 @@ class FavoritesController < UITableViewController
     self.title = "Favorites"
     self.generations = Disk.favorites
     self.tabBarItem = UITabBarItem.alloc.initWithTitle("Sets", image:KK.image("tab-star"), selectedImage:KK.image("tab-star-full"))
+    navigationItem.leftBarButtonItem = editButtonItem
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"favorites", options:NO, context:nil)
   end
@@ -21,9 +22,6 @@ class FavoritesController < UITableViewController
     end
   end
 
-
-  def viewDidLoad
-  end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
@@ -47,9 +45,16 @@ class FavoritesController < UITableViewController
   end
 
   def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated:true)
-    
     generation = generations[indexPath.row]
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
     navigationController.pushViewController ModListController.new(generation), animated:true
+  end
+
+  def tableView(tv, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
+    case editingStyle when UITableViewCellEditingStyleDelete
+      generation = generations[indexPath.row]
+      Disk.removeFromFavorites(generation, notify:NO)
+      tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
+    end
   end
 end
