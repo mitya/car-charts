@@ -37,7 +37,8 @@ class ModListController < UIViewController
 
   def viewWillAppear(animated) super
     applyFilter
-    tableView.contentOffset = CGPointMake(0, DEFAULT_ROW_HEIGHT)
+    tableView.contentOffset = CGPointMake(0, DEFAULT_ROW_HEIGHT) if tableView.contentOffset.y == 0
+    tableView.contentOffset = CGPointMake(0, -DEFAULT_ROW_HEIGHT + 20) if tableView.contentOffset.y == -64 # hack
     scrollToMod(selectedMod, animated:NO) if selectedMod
   end
 
