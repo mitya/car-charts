@@ -2,7 +2,6 @@ class ChartController < UIViewController
   attr_accessor :mods, :params, :comparision, :data
   attr_accessor :tableView, :exitFullScreenModeButton, :emptyView, :adView
 
-
   def initialize
     self.title = "Chart"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-chart"), selectedImage:KK.image("tab-chart-full"))
@@ -22,34 +21,26 @@ class ChartController < UIViewController
   end
 
   def viewDidLoad
-    if KK.iphone?
-      self.adView = ADBannerView.alloc.initWithFrame CGRectMake(0, 0, 0, 0)
-      self.adView = ADBannerView.alloc.initWithAdType ADAdTypeBanner
-      adView.backgroundColor = UIColor.clearColor
-      adView.delegate = self
-      view.addSubview adView
-    end
+    # if KK.iphone?
+    #   self.adView = ADBannerView.alloc.initWithAdType ADAdTypeBanner
+    #   adView.backgroundColor = UIColor.clearColor
+    #   adView.delegate = self
+    #   view.addSubview adView
+    # end
       
-    # view.edgesForExtendedLayout = UIRectEdgeNone
+    self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain)
+    tableView.rowHeight = 25
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone
+    tableView.autoresizingMask = adView ? UIViewAutoresizingFlexibleWidth : UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
     
-    self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain).tap do |tableView|
-      tableView.rowHeight = 25
-      tableView.separatorStyle = UITableViewCellSeparatorStyleNone
-      tableView.autoresizingMask = KK.iphone? ? UIViewAutoresizingFlexibleWidth : UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
-    end
-    
-    logoImage = KK.image('logo')
-    logoImageView = UIImageView.alloc.initWithImage(logoImage)
-    navigationItem.titleView = logoImageView
+    navigationItem.titleView = UIImageView.alloc.initWithImage(KK.image('logo'))  
     navigationItem.rightBarButtonItem = toggleFullScreenModeBarItem
 
     @reloadPending = true
   end
 
-  def viewWillAppear(animated)
-    super
+  def viewWillAppear(animated) super
     reload if @reloadPending
-    @reloadPending = false
     reflowViews
   end
 
@@ -73,7 +64,7 @@ class ChartController < UIViewController
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration) unless fullScreen?
-    reflowViews(newOrientation)
+    reflowViews(newOrientation, duration)
   end
 
   def didRotateFromInterfaceOrientation(fromInterfaceOrientation)
@@ -169,6 +160,7 @@ class ChartController < UIViewController
 
 
   def reload(reloadView = true)
+    @reloadPending = false
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     
     KK.trackEvent "comparision-update", mods_count: @comparision.mods.count, params_count: comparision.params.count
@@ -217,32 +209,32 @@ class ChartController < UIViewController
     # make screenshots, place them into resources dir, and run rake g:chop
   end
   
-  def reflowViews(interfaceOrientation = UIApplication.sharedApplication.statusBarOrientation)
-    navigationBarH = navigationController.navigationBar.frame.size.height
-
-    if KK.iphone?
-      adView.currentContentSizeIdentifier = KK.landscape?(interfaceOrientation) ? ADBannerContentSizeIdentifier480x32 : ADBannerContentSizeIdentifier320x50
-      tabBarH = tabBarController.tabBar.frame.size.height
-      viewH = KK.screenH - case
-        when fullScreen? then 0
-        when KK.landscape?(interfaceOrientation) then navigationBarH + tabBarH
-        else KK.statusBarH + navigationBarH + tabBarH
-      end
-      adViewH = KK.landscape?(interfaceOrientation) ? 32 : 50
-      tableView.frame = tableView.frame.change(y: adViewH, height: viewH - adViewH)
-    end
-  end
-  
-  
-  def bannerViewWillLoadAd(banner)    
-    puts 'bannerViewWillLoadAd'
-  end
-
-  def bannerViewDidLoadAd(banner)    
-    puts 'bannerViewDidLoadAd'
-  end
-  
-  def bannerView(banner, didFailToReceiveAdWithError:error)
-    puts "bannerView:didFailToReceiveAdWithError #{error.description}"
+  def reflowViews(interfaceOrientation = UIApplication.sharedApplication.statusBarOrientation, duration = 0)    
+    # if KK.iphone?
+    #   tabBarH = tabBarController.tabBar.frame.size.height
+    #   navigationBarH = navigationController.navigationBar.frame.size.height
+    #
+    #   if adView
+    #     adView.currentContentSizeIdentifier = KK.landscape?(interfaceOrientation) ? ADBannerContentSizeIdentifier480x32 : ADBannerContentSizeIdentifier320x50
+    #
+    #     viewH = KK.screenH - case
+    #       when fullScreen? then 0
+    #       when KK.landscape?(interfaceOrientation) then navigationBarH + tabBarH
+    #       else KK.statusBarH + navigationBarH + tabBarH
+    #     end
+    #     adViewH = KK.landscape?(interfaceOrientation) ? 32 : 50
+    #     tableViewHeight = viewH - adViewH
+    #
+    #     adView.frame = adView.frame.change(y: tableViewHeight)
+    #     tableView.frame = tableView.frame.change(y: 0, height: tableViewHeight)
+    #   else
+    #     viewH = KK.screenH - case
+    #       when fullScreen? then 0
+    #       when KK.landscape?(interfaceOrientation) then navigationBarH + tabBarH
+    #       else KK.statusBarH + navigationBarH + tabBarH
+    #     end
+    #     tableView.frame = tableView.frame.change(y: 0, height: viewH)
+    #   end
+    # end
   end
 end

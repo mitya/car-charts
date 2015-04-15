@@ -4,6 +4,7 @@ class ParameterListController < UITableViewController
   def initialize
     self.title = "Parameters"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-funnel"), selectedImage:KK.image("tab-funnel-full"))    
+    self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
     Disk.addObserver(self, forKeyPath:"unitSystem", options:NO, context:nil)
   end
   
