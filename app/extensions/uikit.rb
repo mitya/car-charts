@@ -70,7 +70,8 @@ class UIViewController
   def setupInnerTableViewWithStyle(tableViewStyle, options = nil)
     offset = options ? options[:offset].to_f : 0.0
     delegate = options && options.include?(:delegate) ? options[:delegate] : self
-    bounds = CGRectOffset(view.bounds, 0, offset)
+    screen = UIScreen.mainScreen.bounds
+    bounds = CGRectMake(screen.x, screen.y + offset, screen.width, screen.height - offset)
     
     tableView = UITableView.alloc.initWithFrame(bounds, style:tableViewStyle)
     tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight

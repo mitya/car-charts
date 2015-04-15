@@ -9,10 +9,10 @@ rescue LoadError
 end
 
 # /Applications/Developer/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/simctl list
-# ENV['device_name'] = 'iPad Air'
-# ENV['device_name'] = 'iPhone 5s 7.1'
-# ENV['device_name'] = 'iPad Retina 7.1'
+ENV['device_name'] = 'iPhone 5s 7.1'
+ENV['device_name'] = 'iPad Retina 7.1'
 ENV['device_name'] = 'iPhone 6 Plus'
+ENV['device_name'] = 'iPad Air'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -22,7 +22,7 @@ Motion::Project::App.setup do |app|
   app.deployment_target = "7.0"
   app.libs += ['/usr/lib/libsqlite3.dylib']
   app.detect_dependencies = false
-  app.frameworks += ['CoreData']
+  app.frameworks += %w(CoreData iAd)
   app.device_family = [:iphone, :ipad]
   app.vendor_project 'vendor/Flurry', :static, :products => ['libFlurry_6.2.0.a'], :headers_dir => 'Flurry.h', force_load: false
   app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
@@ -33,7 +33,7 @@ Motion::Project::App.setup do |app|
     app.codesign_certificate = "iPhone Developer: Dmitry Sokurenko (9HS3696XGX)"
     app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_Development_Profile.mobileprovision"
     app.redgreen_style = :full # default: :focused, also can use :progress
-    app.info_plist['CCBenchmarking'] = true
+    # app.info_plist['CCBenchmarking'] = true
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
     app.info_plist['CCTestModsDataset'] = true
@@ -55,8 +55,8 @@ end
 load 'scripts/crawler.rake'
 load 'scripts/graphics.rake'
 
-task :iphone5  do ENV['device_name'] = 'iPhone 5s';      Rake::Task['simulator'].invoke end
-task :iphone6  do ENV['device_name'] = 'iPhone 6';       Rake::Task['simulator'].invoke end
-task :iphone6p do ENV['device_name'] = 'iPhone 6 Plus';  Rake::Task['simulator'].invoke end
-task :ipad     do ENV['device_name'] = 'Resizable iPad'; Rake::Task['simulator'].invoke end
+task '5'    do ENV['device_name'] = 'iPhone 5s';      Rake::Task['simulator'].invoke end
+task '6'    do ENV['device_name'] = 'iPhone 6';       Rake::Task['simulator'].invoke end
+task '6p'   do ENV['device_name'] = 'iPhone 6 Plus';  Rake::Task['simulator'].invoke end
+task 'ipad' do ENV['device_name'] = 'Resizable iPad'; Rake::Task['simulator'].invoke end
 task d: 'device'

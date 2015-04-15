@@ -32,9 +32,10 @@ module Configuration
 
 
     # green back + green actions + white tabs
-    back = KK.hsb(149, 90, 30); action = KK.hsb(149, 30, 90); tint = KK.hsb(149, 50, 50) # good green
+    # back = KK.hsb(149, 90, 30); action = KK.hsb(149, 30, 90); tint = KK.hsb(149, 50, 50) # good green
 
     # green on gray + green tint + some tab bar
+    # new gray 12% old gray 18%
     back = KK.hsb(151,  0, 16); action = KK.hsb(151, 30, 90); tint = KK.hsb(151, 90, 70)
     
     action_color = action

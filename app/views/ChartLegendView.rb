@@ -5,7 +5,7 @@ class ChartLegendView < UIView
   ContentTM = 8
   ContentTP = 16
   ContentBM = 8
-  ContentHM = 2
+  ContentHM = ChartBarView::TitleLM
   ItemFS = 14.0
   ItemH = KK.lineHeightFromFontSize(ItemFS)
   ItemVM = 1

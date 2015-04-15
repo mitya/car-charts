@@ -14,7 +14,16 @@ module KK::Device
   def currentScreenHeight
     portrait?? UIScreen.mainScreen.bounds.height : UIScreen.mainScreen.bounds.width
   end
+  
+  def screenH
+    UIScreen.mainScreen.bounds.size.height
+  end
 
+  def statusBarH
+    UIApplication.sharedApplication.statusBarFrame.size.height
+    20
+  end
+  
   def ipad?
     return $device_is_ipad if $device_is_ipad != nil
     $device_is_ipad = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad
