@@ -94,3 +94,5 @@ peugeot-607-05-sed-22i.158.af
 
 window.rootViewController.navigationController
 visibleViewController
+
+KK.app.delegate.chartController.adView

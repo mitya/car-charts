@@ -1,7 +1,9 @@
 class AppDelegate
   include GlobalHelpers
-  attr_accessor :window, :tabBarController, :chartController, :hidesMasterView
-  attr_accessor :modelListController
+  attr_accessor :window
+  attr_accessor :tabBarController, :splitViewContorller, :bannerViewController
+  attr_accessor :modelListController, :chartController
+  attr_accessor :hidesMasterView
   
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
@@ -16,10 +18,10 @@ class AppDelegate
     self.modelListController = ModelListController.new
     self.tabBarController = UITabBarController.new.tap do |tbc|
       tabControllers = [chartController, ParameterListController.new, modelListController, ModRecentsController.new, FavoritesController.new]
-      # tabControllers = [chartController, ParameterListController.new, modelListController, ModRecentsController.new, ModSetListController.new]
       tabControllers.shift if KK.ipad?
       tbc.viewControllers = tabControllers.map do |ctr|
         nav = KK.navigationForController(ctr, withDelegate:self)
+        nav.navigationBar.translucent = NO
         nav
       end
       tbc.delegate = self
@@ -31,11 +33,16 @@ class AppDelegate
       tabBarController
     else
       tabBarController.selectedIndex = 1
-      mainController = KK.navigationForController(chartController, withDelegate:self)
-      CustomSplitViewController.alloc.init.tap do |splitViewController|
-        splitViewController.viewControllers = [tabBarController, mainController]
-        splitViewController.delegate = self
+
+      chartNavController = KK.navigationForController(chartController, withDelegate:self)
+      chartNavController.navigationBar.translucent = NO
+
+      self.splitViewContorller = CustomSplitViewController.alloc.init.tap do |svc|
+        svc.viewControllers = [tabBarController, chartNavController]
+        svc.delegate = self
       end
+
+      self.bannerViewController = BannerViewController.alloc.initWithContentViewController(splitViewContorller)
     end
 
     window.makeKeyAndVisible
@@ -75,7 +82,7 @@ class AppDelegate
   def tabBarController(tabBarController, didSelectViewController: viewController)
     if :useTranslucentTabOnlyForChart == true
       return if KK.ipad?
-      tabBarController.tabBar.translucent = tabBarController.selectedIndex == 0 && KK.iphone?
+      # tabBarController.tabBar.translucent = tabBarController.selectedIndex == 0 && KK.iphone?
     end
   end
 
@@ -93,10 +100,10 @@ class AppDelegate
   end
   
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-    if :hideTabBarOnRotation == true
-      return unless KK.iphone?
-      tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true
-    end
+    # if :hideTabBarOnRotation
+    #   return unless KK.iphone?
+    #   tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true
+    # end
   end
 
 
@@ -189,5 +196,9 @@ class AppDelegate
     controller = ModListController.new(ModelGeneration.generationForKey(modelKey))
     tabBarController.selectedIndex = 2
     tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
+  end
+  
+  def visibleViewController
+    tabBarController.selectedViewController.visibleViewController
   end
 end

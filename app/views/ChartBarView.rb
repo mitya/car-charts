@@ -2,7 +2,7 @@ class ChartBarView < UIView
   attr_accessor :comparisionItem
   attr_delegated 'comparisionItem', :mod, :mods, :index, :comparision
 
-  TitleLM = 2
+  TitleLM = KK.iphone?? 2 : 10
 
   ModelTitleFS = 15.0
   ModelTitleH = KK.lineHeightFromFontSize(ModelTitleFS)
@@ -28,8 +28,8 @@ class ChartBarView < UIView
   UltraWideBarLabelW = 350
 
   FirstItemTM = 5
-  ItemBM = 5
-  LastItemBM = ItemBM * 2
+  ItemBM = KK.iphone?? 5 : 10
+  LastItemBM = ItemBM * (KK.iphone?? 2 : 1.5)
 
   def initWithFrame(frame)
     super
