@@ -80,10 +80,7 @@ class AppDelegate
   end
 
   def tabBarController(tabBarController, didSelectViewController: viewController)
-    if :useTranslucentTabOnlyForChart == true
-      return if KK.ipad?
-      # tabBarController.tabBar.translucent = tabBarController.selectedIndex == 0 && KK.iphone?
-    end
+    # tabBarController.tabBar.translucent = tabBarController.selectedIndex == 0 if KK.iphone?
   end
 
   def splitViewController(svc, shouldHideViewController:vc, inOrientation:orientation)
@@ -100,10 +97,7 @@ class AppDelegate
   end
   
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-    # if :hideTabBarOnRotation
-    #   return unless KK.iphone?
-    #   tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true
-    # end
+    # tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true if KK.iphone?
   end
 
 
@@ -200,5 +194,9 @@ class AppDelegate
   
   def visibleViewController
     tabBarController.selectedViewController.visibleViewController
+  end
+  
+  def showsBannerAds?
+    KK.iphone?
   end
 end
