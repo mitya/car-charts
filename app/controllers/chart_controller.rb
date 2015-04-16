@@ -6,10 +6,13 @@ class ChartController < UIViewController
     self.title = "Chart"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-chart"), selectedImage:KK.image("tab-chart-full"))
     self.navigationItem.backBarButtonItem = KK.textBBI("Chart")
+    self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyManual    
 
     Disk.addObserver(self, forKeyPath:"currentParameters", options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"unitSystem", options:NO, context:nil)
+    
+    @reloadCount = 0
   end
 
   def dealloc
@@ -42,6 +45,10 @@ class ChartController < UIViewController
   def viewWillAppear(animated) super
     reload if @reloadPending
     reflowViews
+  end
+  
+  def viewDidAppear(animated) super
+    tryToShowFullScreenAd if KK.iphone? && @reloadCount > showAdAfter 
   end
 
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
@@ -160,8 +167,10 @@ class ChartController < UIViewController
 
 
   def reload(reloadView = true)
+  
     @reloadPending = false
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
+    @reloadCount += 1
     
     KK.trackEvent "comparision-update", mods_count: @comparision.mods.count, params_count: comparision.params.count
     
@@ -178,6 +187,8 @@ class ChartController < UIViewController
       view.addSubview(emptyView)
       tableView.tableFooterView = nil
     end
+    
+    tryToShowFullScreenAd if @reloadCount > showAdAfter if KK.ipad?
 
     # clearScreenToMakeLaunchImage
   end
@@ -236,5 +247,14 @@ class ChartController < UIViewController
     #     tableView.frame = tableView.frame.change(y: 0, height: viewH)
     #   end
     # end
+  end
+  
+  def tryToShowFullScreenAd
+    willShowAd = requestInterstitialAdPresentation
+    @reloadCount = 0 if willShowAd
+  end
+  
+  def showAdAfter
+    KK.iphone?? 10 : 20
   end
 end

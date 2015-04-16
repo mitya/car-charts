@@ -137,6 +137,10 @@ class UIViewController
     end    
   end
   
+  def appDelegate
+    KK.app.delegate
+  end
+  
   include ObserverDisabling
 end
 
