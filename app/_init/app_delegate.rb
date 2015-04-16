@@ -101,6 +101,8 @@ class AppDelegate
   end
 
 
+  ENCRYPTION = YES
+
   def staticContext
     @staticContext ||= begin
       model = NSManagedObjectModel.alloc.init
@@ -112,12 +114,33 @@ class AppDelegate
         storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
         storeOptions = {}
         NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL) if KK.env?('CCTestModsDatasetRun')
-      else
-        storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db/mods", ofType:"sqlite"))
+
+      else      
+
+        if NSUserDefaults.standardUserDefaults["firstLaunchTime"] == nil  
+          %w(CarCharts.sqlite mods.sqlite mods.sqlite-shm mods.sqlite-wal).each do |filename|
+            err = KK.ptr
+            srcPath = NSBundle.mainBundle.resourcePath.stringByAppendingPathComponent('db').stringByAppendingPathComponent(filename)
+            destPath = KK.documentsPath.stringByAppendingPathComponent(filename)
+            NSFileManager.defaultManager.copyItemAtPath srcPath, toPath:destPath, error:err
+            NSLog "Can't copy the seed files: #{err.value.description}" if err.value
+          end
+        end
+
+        if ENCRYPTION
+          storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
+        end
+          storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db/mods", ofType:"sqlite"))
+        end
         storeOptions = {NSReadOnlyPersistentStoreOption => YES}        
       end
 
-      storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
+      if ENCRYPTION
+        storeCoordinator = EncryptedStore.makeStore model, passcode:"a passcode"
+      else
+        storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
+      end
+            
       err = KK.ptr
       storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
       NSLog "Can't open static database: #{err.value.description}" if err.value
