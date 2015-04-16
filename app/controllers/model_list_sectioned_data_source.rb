@@ -69,7 +69,7 @@ class ModelListController < UIViewController
 
 
     def searchDisplayController(ctl, willShowSearchResultsTableView:tbl)
-      controller.navigationItem.backBarButtonItem = KK.textBBI("Search")  
+      controller.navigationItem.backBarButtonItem = KK.textBBI("Search")
     end  
 
     def searchDisplayController(ctl, shouldReloadTableForSearchString:newSearchString)
@@ -90,7 +90,6 @@ class ModelListController < UIViewController
       if newSearchString.empty?
         @models, @modelsIndex, @brands = @initialModels, @initialModelsIndex, @initialBrands
       else
-        KK.trackEvent "search-models-sectioned", newSearchString
         collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @models : @initialModels
         @models = ModelGeneration.modelsForText(newSearchString, inCollection:collectionToSearch)
         @modelsIndex = @models.indexBy { |ml| ml.brand.key }

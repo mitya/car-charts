@@ -26,7 +26,7 @@ class ModelListController < UIViewController
         c.accessoryType = UITableViewCellAccessoryDisclosureIndicator
         c.textLabel.adjustsFontSizeToFitWidth = YES
       end
-      
+
       cell.textLabel.attributedText = model.nameAttributedString
       cell.detailTextLabel.text = model.selectedModsCount.to_s_or_nil
       cell
@@ -57,10 +57,13 @@ class ModelListController < UIViewController
 
 
     def loadDataForSearchString(newSearchString)
-      KK.trackEvent "search-models-flat", newSearchString unless newSearchString == ''
       collectionToSearch = newSearchString.start_with?(@currentSearchString) ? @filteredModels : @initialModels
       @filteredModels = newSearchString.empty? ? @initialModels : ModelGeneration.modelsForText(newSearchString, inCollection:collectionToSearch)
       @currentSearchString = newSearchString
     end    
+    
+    def currentModels
+      @currentSearchString == '' ? @initialModels : @filteredModels
+    end
   end
 end
