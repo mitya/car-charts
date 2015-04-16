@@ -11,6 +11,7 @@ class Disk
         NSUserDefaults.standardUserDefaults["filterOptions"] = hash
       end
     end
+
   
     # sort order is not specified
     def currentMods
@@ -58,6 +59,7 @@ class Disk
       self.currentMods = currentMods.dupWithToggledObject(mod)
     end
 
+
     def currentParameters
       @currentParameters ||= NSUserDefaults.standardUserDefaults["parameters"].to_a.map { |key| Parameter.parameterForKey(key) }.compact
     end
@@ -69,6 +71,7 @@ class Disk
       end
     end
     
+    
     # SI UK UK
     def unitSystem
       NSUserDefaults.standardUserDefaults["unitSystem"] || 'SI'
@@ -79,6 +82,9 @@ class Disk
         NSUserDefaults.standardUserDefaults["unitSystem"] = value
       end
     end
+    
+    
+    # Favorites
     
     def favorites
       @favorites ||= NSUserDefaults.standardUserDefaults["favorites"].to_a.map { |key| ModelGeneration[key] }
@@ -101,6 +107,7 @@ class Disk
           @favorites.delete(generation)
         else
           @favorites.push(generation)
+          @favorites.sort_by!(&:key)
         end
         Dispatch::Queue.concurrent.async { syncFavorites }
       end

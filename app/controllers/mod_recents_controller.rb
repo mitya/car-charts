@@ -12,6 +12,7 @@ class ModRecentsController < UITableViewController
   end
 
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    return if propertyObservingDisabled?(keyPath)
     case keyPath when 'currentMods'
       tableView.reloadData
     end
@@ -124,7 +125,6 @@ class ModRecentsController < UITableViewController
       mod = @mods[indexPath.row]
       cell = tableView.dequeueReusableCell klass:CheckmarkCell, style:UITableViewCellStyleSubtitle, accessoryType:UITableViewCellAccessoryDetailButton do |cell|
         cell.textLabel.adjustsFontSizeToFitWidth = YES
-        # cell.textLabel.minimumScaleFactor = 0.5
       end
       cell.textLabel.text = mod.model.family.name
       cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersionYear)
@@ -133,14 +133,9 @@ class ModRecentsController < UITableViewController
     end
 
     def tableView(tableView, didSelectRowAtIndexPath:indexPath)
-      tableView.deselectRowAtIndexPath(indexPath, animated:YES)
-
-      cell = tableView.cellForRowAtIndexPath(indexPath)
-      cell.toggleLeftCheckmarkAccessory
-
       mod = @mods[indexPath.row]
-      mod.select!
-
+      controller.withoutObserving('currentMods') { mod.select! }
+      tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
       controller.reenableButtons
     end
 

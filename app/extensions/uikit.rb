@@ -48,6 +48,22 @@ class UIView
   end
 end
 
+module ObserverDisabling
+  def withoutObserving(property)
+    notificationTumblers[property] = false
+    yield
+    notificationTumblers[property] = true
+  end  
+  
+  def propertyObservingDisabled?(keyPath)
+    notificationTumblers[keyPath] == false
+  end
+  
+  def notificationTumblers
+    @notificationTumblers ||= {}
+  end
+end
+
 
 class UIViewController
   include GlobalHelpers
@@ -120,8 +136,9 @@ class UIViewController
       navigationController.popViewControllerAnimated(animated)
     end    
   end
+  
+  include ObserverDisabling
 end
-
 
 class UITableView
   def dequeueReusableCell(options = nil, &block)
