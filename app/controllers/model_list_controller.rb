@@ -35,16 +35,16 @@ class ModelListController < UIViewController
     viewSelectorBarItem.title = currentTitle
     navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
 
-    if tableView.dataSource != currentDataSource || searchDisplayController.searchResultsDataSource != currentDataSource
+    if tableView.dataSource != currentDataSource || searchDisplayController.searchResultsDataSource != currentSearchDataSource
       tableView.dataSource = currentDataSource
       tableView.delegate = currentDataSource
-      searchBar.delegate = currentDataSource
-      searchDisplayController.delegate = currentDataSource
-      searchDisplayController.searchResultsDataSource = currentDataSource
-      searchDisplayController.searchResultsDelegate = currentDataSource
+      searchBar.delegate = currentSearchDataSource
+      searchDisplayController.delegate = currentSearchDataSource
+      searchDisplayController.searchResultsDataSource = currentSearchDataSource
+      searchDisplayController.searchResultsDelegate = currentSearchDataSource
       tableView.reloadData
       tableView.tableHeaderView = nil
-      tableView.tableHeaderView = searchBar  
+      tableView.tableHeaderView = searchBar
       @oldDataSources = nil if @oldDataSources
     end
 
@@ -65,31 +65,48 @@ class ModelListController < UIViewController
   def currentShortTitle
     category ? category.shortName : "All"
   end
-  
+
   def category=(newCategory)
     @oldDataSources ||= []
     @oldDataSources << currentDataSource if currentDataSource
+    @oldDataSources << currentSearchDataSource if currentSearchDataSource
 
     oldCategory = @category
     @category = newCategory
 
     if newCategory
-      @categoryDataSource = FlatModelsDataSource.new(self, category.models, category) if newCategory != oldCategory
+      if newCategory != oldCategory
+        @categoryDataSource = FlatModelsDataSource.new(self, category.models, category)
+        @categorySearchDataSource = FlatModelsDataSource.new(self, category.models, category)
+      end
     else
       @categoryDataSource = nil      
+      @categorySearchDataSource = nil      
     end    
+  end
+  
+  def categorySearchDataSource
+    @categorySearchDataSource
   end
   
   def categoryDataSource
     @categoryDataSource
   end
   
+  def currentSearchDataSource
+    categorySearchDataSource || mainSearchDataSource
+  end
+    
   def currentDataSource
     categoryDataSource || mainDataSource
   end
 
   def mainDataSource
     @mainDataSource ||= SectionedModelsDataSource.new(self)
+  end
+
+  def mainSearchDataSource
+    @mainSearchDataSource ||= SectionedModelsDataSource.new(self)
   end
 
   def viewSelectorBarItem
