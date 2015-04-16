@@ -51,13 +51,11 @@ class ParameterListController < UITableViewController
   end  
   
   def tableView(table, didSelectRowAtIndexPath:indexPath)
-    tableView.deselectRowAtIndexPath(indexPath, animated:YES)
-    cell = tableView.cellForRowAtIndexPath(indexPath)
-    cell.toggleCheckmarkAccessory
-
     groupKey = Parameter.groupsKeysForCharting[indexPath.section]
     parameter = Parameter.chartableParametersForGroup(groupKey)[indexPath.row]
     parameter.select!
+    
+    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
   end
   
   def showSettings

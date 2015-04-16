@@ -8,6 +8,7 @@ class ModListController < UIViewController
     self.title = model.nameWithApostrophe
     navigationItem.backBarButtonItem = KK.textBBI("Versions")
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
+    @notificationTumblers = {}
     Disk.addObserver(self, forKeyPath:"filterOptions", options:false, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"favorites", options:NO, context:nil)
@@ -20,13 +21,14 @@ class ModListController < UIViewController
   end
 
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    return if propertyObservingDisabled?(keyPath)
     case keyPath 
     when 'filterOptions'
       applyFilter if isViewVisible
     when 'currentMods'
       tableView.reloadData
     when 'favorites'
-      tableView.reloadRowsAtIndexPaths [NSIndexPath.indexPathForRow(0, inSection: 0)], withRowAnimation:UITableViewRowAnimationFade
+      tableView.reloadRowsAtIndexPaths [NSIndexPath.indexPathForRow(0, inSection: 0)], withRowAnimation:UITableViewRowAnimationFade unless @dontTrackFavorites
     end
   end
 
@@ -92,38 +94,28 @@ class ModListController < UIViewController
         cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('bar-star'))
       end
     else
-      mod = modsByBody[ modsByBody.keys[indexPath.section - 1] ][indexPath.row]
-      modIsSelected = mod.selected?
+      bodyIndex = indexPath.section - 1
+      mod = modsByBody[ modsByBody.keys[bodyIndex] ][indexPath.row]
       cell = tv.dequeueReusableCell klass:CheckmarkCell, accessoryType:UITableViewCellAccessoryDetailButton
-      cell.toggleLeftCheckmarkAccessory(modIsSelected)
+      cell.toggleLeftCheckmarkAccessory(mod.selected?)
       cell.textLabel.text = mod.modName(Mod::NameEngineVersion)
     end
     cell
   end
 
-  # def updateFavoritesCell(cell)
-  #   if Disk.favorites.include?(model.key)
-  #     cell.textLabel.text = "Remove from Favorites"
-  #     cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star-full'))
-  #   else
-  #     cell.textLabel.text = "Add to Favorites"
-  #     cell.accessoryView = UIImageView.alloc.initWithImage(KK.templateImage('tab-star'))
-  #   end
-  # end
-
   def tableView(tv, didSelectRowAtIndexPath:indexPath)
-    tv.deselectRowAtIndexPath(indexPath, animated:YES)
     case indexPath.section when 0
       KK.trackEvent "favorites-toggle", model
       Disk.toggleInFavorites(model)
-      # updateFavoritesCell tv.cellForRowAtIndexPath(indexPath)
-      # tableView.reloadRowsAtIndexPaths [indexPath], withRowAnimation:UITableViewRowAnimationFade
     else      
-      cell = tv.cellForRowAtIndexPath(indexPath)
-      cell.toggleLeftCheckmarkAccessory
       mod = modsByBody[ modsByBody.keys[indexPath.section - 1] ][indexPath.row]
-      mod.select!
-      # tableView.reloadRowsAtIndexPaths [indexPath], withRowAnimation:UITableViewRowAnimationFade
+      withoutObserving('currentMods') { mod.select! }
+
+      KK.animateWithDuration 0.3 do
+        tableView.deselectRowAtIndexPath(indexPath, animated:true)
+        cell = tableView.cellForRowAtIndexPath(indexPath)
+        cell.toggleLeftCheckmarkAccessory(mod.selected?)
+      end
     end
   end
 
@@ -168,5 +160,5 @@ class ModListController < UIViewController
         tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition:UITableViewScrollPositionTop, animated:animated)
       end
     end
-  end
+  end  
 end
