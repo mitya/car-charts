@@ -100,8 +100,7 @@ class AppDelegate
     # tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true if KK.iphone?
   end
 
-
-  ENCRYPTION = YES
+  ENCRYPTION = true
 
   def staticContext
     @staticContext ||= begin
@@ -129,9 +128,10 @@ class AppDelegate
 
         if ENCRYPTION
           storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
-        end
+        else
           storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db/mods", ofType:"sqlite"))
         end
+        
         storeOptions = {NSReadOnlyPersistentStoreOption => YES}        
       end
 
