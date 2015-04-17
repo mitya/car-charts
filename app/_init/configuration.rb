@@ -6,6 +6,10 @@ module Configuration
   end
   
   def barTintColor
+    KK.hsb(151,  0, 25)
+  end
+  
+  def tabBarTintColor
     colors[:bar_bg]
   end
   
@@ -23,23 +27,16 @@ module Configuration
     # background = items.first(3).map(&:to_i)
     # action = items.last[1..-1].map(&:to_i)
     
-    digitalocean_blue_l = KK.hsb(205, 82, 75)
-    digitalocean_blue_d = KK.hsb(205, 74, 65)  # 30
-    things_blue = KK.hsb(213, 40, 69) # good
-    tcs_yellow = KK.hsb(50, 76, 100)
-    linode_green_l = KK.hsb(151, 67, 72) # good
-    linode_green_d = KK.hsb(149, 68, 65) # good
-
-
+    # digitalocean_blue_l = KK.hsb(205, 82, 75)
+    # digitalocean_blue_d = KK.hsb(205, 74, 65)  # 30
+    # things_blue = KK.hsb(213, 40, 69) # good
+    # tcs_yellow = KK.hsb(50, 76, 100)
+    # linode_green_l = KK.hsb(151, 67, 72) # good
+    # linode_green_d = KK.hsb(149, 68, 65) # good
+    
     # green back + green actions + white tabs
     # back = KK.hsb(149, 90, 30); action = KK.hsb(149, 30, 90); tint = KK.hsb(149, 50, 50) # good green
 
-    # green on gray + green tint + some tab bar
-    # new gray 12% old gray 18%
-    back = KK.hsb(151,  0, 16); action = KK.hsb(151, 30, 90); tint = KK.hsb(151, 90, 70)
-    
-    action_color = action
-    
     @all_colors ||= {
       # brown: { tint: KK.hsb( 30, 99, 60), bar_bg: KK.hsb( 30, 99, 25), bar_action: KK.hsb( 30, 30, 85), bar_text: UIColor.whiteColor },
       # navy_gray:  { tint: KK.hsb(216, 16, 31), bar_bg: KK.hsb(216, 16, 31), bar_action: KK.hsb(216, 16, 90), bar_text: UIColor.whiteColor },
@@ -50,7 +47,7 @@ module Configuration
       # digitalocean_blue_d: { tint: digitalocean_blue_d, bar_bg: digitalocean_blue_d, bar_action: action_color, bar_text: UIColor.whiteColor },
       # things_blue: { tint: things_blue, bar_bg: things_blue, bar_action: action_color, bar_text: UIColor.whiteColor },
       # tcs_yellow: { tint: tcs_yellow, bar_bg: tcs_yellow, bar_action: tcs_yellow, bar_text: UIColor.blackColor },
-      green_3: { tint: tint, bar_bg: back, bar_action: action, bar_text: UIColor.whiteColor },
+      green_3: { tint: KK.hsb(151, 90, 70), bar_bg: KK.hsb(151,  0, 16), bar_action: KK.hsb(151, 30, 90), bar_text: UIColor.whiteColor },
     }    
   end
   

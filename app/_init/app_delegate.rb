@@ -42,7 +42,7 @@ class AppDelegate
         svc.delegate = self
       end
 
-      self.bannerViewController = BannerViewController.alloc.initWithContentViewController(splitViewContorller)
+      self.bannerViewController = BannerViewController.alloc.initWithContentViewController(splitViewContorller) 
     end
 
     window.makeKeyAndVisible
@@ -136,7 +136,7 @@ class AppDelegate
               NSFileManager.defaultManager.copyItemAtPath srcPath, toPath:destPath, error:err
               NSLog "Can't copy the seed file: #{err.value.description}" if err.value
             end
-          end           
+          end
         end
 
         storeCoordinator = EncryptedStore.makeStoreWithOptions options, managedObjectModel:model
@@ -214,6 +214,8 @@ class AppDelegate
       bar.appearance.tintColor = Configuration.barIconColor
       bar.appearance.barStyle = UIBarStyleBlack
     end
+    
+    UITabBar.appearance.barTintColor = Configuration.tabBarTintColor
 
     UISwitch.appearance.onTintColor = Configuration.barIconColor
     UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent

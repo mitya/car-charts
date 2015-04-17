@@ -239,7 +239,7 @@ namespace 'g' do
       ss = Magick::Image.read("resources/#{file}.png").first
       ss.crop! 0, statusbar_height, ss.columns, ss.rows, true
       unless ENV['nofill']
-        ss.background_color = "#474747"
+        ss.background_color = "#404040"
         ss = ss.extent ss.columns, ss.rows + statusbar_height, 0, -statusbar_height
       end
       ss.write ss.filename
