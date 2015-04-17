@@ -50,9 +50,13 @@ module CW
       [body_key, body_key, nil, nil]
     elsif reduction = Info.data_reductions['custom_bodytypes']["#{mark_key} #{model_key} #{bodytype_name}"]      
       body_base_key, body_version_key, body_version_name = reduction
-      body_key = "#{body_base_key}.#{body_version_key}"
-      puts "reduce #{mark_key} #{model_key} #{body_key}" if reduction unless silent
-      [body_key, body_base_key, body_version_key, body_version_name]
+      if body_version_key
+        body_key = "#{body_base_key}.#{body_version_key}"
+        # puts "reduce #{mark_key} #{model_key} #{body_key}" if reduction unless silent
+        [body_key, body_base_key, body_version_key, body_version_name]
+      else
+        [body_base_key, body_base_key, nil, nil]
+      end
     else
       puts "no match for #{mark_key} #{model_key} #{bodytype_name}" if body_key == nil unless silent
       []
@@ -142,8 +146,11 @@ module CW
   def build_model_name(mark, model, yandex_mark_model_name)
     result = Info.data_reductions['renamed_models']["#{mark} #{model}"]
     return result if result
+  
+    short_brand_name = Info.yandex_short_brand_names[mark]
+    puts "ERROR: Unknown brand #{mark}" if short_brand_name == nil
     
-    result = yandex_mark_model_name.sub Info.yandex_short_brand_names[mark] + ' ', '' # Ford Focus => Focus
+    result = yandex_mark_model_name.sub "#{short_brand_name} ", '' # Ford Focus => Focus
     result.sub!(/\s+\(.*\)$/, '') # remove everything in (...)
     result.sub!('-klasse', '-Class') if mark == 'mercedes'
     result

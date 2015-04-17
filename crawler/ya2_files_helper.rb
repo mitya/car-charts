@@ -2,7 +2,7 @@ module CW
   module_function
 
   def save_page(url, path, overwrite: true, dir: WORKDIR, test: false, verbose: true)
-    test = !ENV['REAL']
+    test = ENV['download'] != '1'
     
     if test
       puts "WILL WRITE #{path}" unless File.exist?(dir + path)
@@ -10,7 +10,7 @@ module CW
     end
     
     if !overwrite && File.exist?(dir + path)
-      puts "EXIST #{path}" if verbose
+      # puts "EXIST #{path}" if verbose
       return false
     end
 

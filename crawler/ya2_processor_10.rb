@@ -12,6 +12,7 @@ class YA2Processor
         r.years = a.css_text(".b-car__year-range")
         r.url = URI(a['href']).path + '/specs'
         r.ya_generation_id = r.url.split('/')[3].to_i
+  
         rs << r
       end
     end
@@ -140,8 +141,8 @@ class YA2Processor
   end
   
   def step_10t
-    models = W.read_objects(F13)
-    rows = models.map { |model| [model.key, "#{model.mark}--#{model.model}", model.title, model.model_title] }
-    write_html rows
+    # models = W.read_objects(F13)
+    # rows = models.map { |model| [model.key, "#{model.mark}--#{model.model}", model.title, model.model_title] }
+    # write_html rows
   end
 end
