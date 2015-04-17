@@ -234,6 +234,7 @@ class AppDelegate
   end
 
   def showsBannerAds?
+    return false if KK.env?('CCNoAds')
     KK.iphone?
   end
 end

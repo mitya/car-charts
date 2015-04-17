@@ -21,7 +21,7 @@ end
 
 namespace 'cc' do
   rule "" do |action|
-    return unless action.start_with?('cc')
+    return unless action.name.start_with?('cc')
     if action.name =~ /cc:\d.*/
       require "#{Dir.pwd}/crawler/ya2_boot.rb"      
       method = action.name.split(':').last

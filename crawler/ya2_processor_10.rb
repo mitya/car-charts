@@ -21,11 +21,21 @@ class YA2Processor
 
   # this step should be repeated twice
   def step_12
-    urls = CW.read_objects(F11).map(&:url)
-    # urls = CW.read_data(F11b)
-    urls.shuffle.each do |q|
+    case ENV['pass'] 
+    when '1'
+      models = CW.read_objects(F11)
+      models.reject! { |model| model.years.split(' – ').first.to_i < 2005 }
+      urls = models.map(&:url)
+    when '2'
+      urls = CW.read_data(F11b)
+    else
+      puts "specify pass: 1 or 2"
+      exit
+    end
+    
+    urls.shuffle.each do |url|
       filename = url.split('/').first(4).join(' ').strip
-      CW.save_ya_page_and_sleep q.url, "#{D12}/#{ filename }.html", overwrite: false
+      CW.save_ya_page_and_sleep url, "#{D12}/#{ filename }.html", overwrite: false
     end
   end
 
@@ -75,7 +85,7 @@ class YA2Processor
 
       years = doc.css_text(".generations button .button__text") || seq11_index[model.yandex_id].years
       model.year, model.year_end = parse_years(years)
-      next if model.year_end && model.year_end < MIN_YEAR
+      next unless model.year >= MIN_START_YEAR || model.year_end && model.year_end >= MIN_END_YEAR
 
       # this doesn't handle the case when a model has a few complectations but just one engine, thus that a single
       # e.g. bmw x6_m 2009 crossover, subaru b9_tribeca 2007 crossover
@@ -111,7 +121,8 @@ class YA2Processor
   # optional: inject local css
   # work on 10, 12, 18
   def step_10css
-    dir = D18
+    dir = D10
+    # dir = D18
     Dir.glob(WORKDIR + "#{dir}/*.html") do |path|
       text = File.read(path)
       pattern = /"[\w\.\/-]+_common.css"/
@@ -122,9 +133,10 @@ class YA2Processor
   end
 
   # compress models
-  def step_10comp
+  def step_10strip
     # CW.compress_dir(D10, nil, nil, zip: false, hard: false) # for listing
-    CW.compress_dir(D18, nil, ".b-complectations, .b-specifications, .car-head, .catalog-filter", zip: false) # for mods & models
+    CW.compress_dir(D12, nil, ".b-complectations, .b-specifications, .car-head, .catalog-filter", zip: false) # for mods & models
+    # CW.compress_dir(D18, nil, ".b-complectations, .b-specifications, .car-head, .catalog-filter", zip: false) # for mods & models
   end
   
   def step_10t

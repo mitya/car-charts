@@ -31,6 +31,7 @@ class ModelListController < UIViewController
 
       cell = table.dequeueReusableCell(style: UITableViewCellStyleValue1) do |c|
         c.accessoryType = UITableViewCellAccessoryDisclosureIndicator
+        c.textLabel.adjustsFontSizeToFitWidth = YES
       end
 
       text = NSMutableAttributedString.alloc.init
@@ -45,6 +46,7 @@ class ModelListController < UIViewController
     
       cell.textLabel.attributedText = text
       cell.detailTextLabel.text = modelSelectedModsCount.to_s_or_nil
+      cell.imageView.image = model.brand.cellImage
       cell
     end
 

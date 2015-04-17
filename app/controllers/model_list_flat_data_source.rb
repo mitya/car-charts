@@ -29,6 +29,7 @@ class ModelListController < UIViewController
 
       cell.textLabel.attributedText = model.nameAttributedString
       cell.detailTextLabel.text = model.selectedModsCount.to_s_or_nil
+      cell.imageView.image = model.brand.cellImage
       cell
     end
 
