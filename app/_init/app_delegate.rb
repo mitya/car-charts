@@ -12,7 +12,7 @@ class AppDelegate
 
     Disk.load
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
-
+    
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
     self.chartController = ChartController.new
     self.modelListController = ModelListController.new
@@ -52,7 +52,7 @@ class AppDelegate
     Flurry.startSession FLURRY_TOKEN if FLURRY_ENABLED
 
     # openControllerForModel("ford--focus--2014")
-
+    
     true
   end
 

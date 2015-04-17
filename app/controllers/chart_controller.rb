@@ -166,8 +166,7 @@ class ChartController < UIViewController
   end
 
 
-  def reload(reloadView = true)
-  
+  def reload(reloadView = true)  
     @reloadPending = false
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     @reloadCount += 1
@@ -190,7 +189,7 @@ class ChartController < UIViewController
     
     tryToShowFullScreenAd if @reloadCount > showAdAfter if KK.ipad?
 
-    clearScreenToMakeLaunchImage
+    # clearScreenToMakeLaunchImage
   end
 
   def toggleFullScreenMode
