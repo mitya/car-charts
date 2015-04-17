@@ -254,4 +254,21 @@ namespace 'g' do
     im = im.extent im.columns, im.rows + pad, 0, -pad
     im.write outfile(im.filename)
   end  
+  
+  task :brands do
+    dest = "resources/images/brands"
+    sources = ['originals/brand_icons']
+
+    sources.each do |folder|
+      Dir.glob("#{folder}/*") do |path|
+        basename = File.basename(path)
+        FileUtils.cp path, File.expand_path(dest + '/' + basename.sub('.', '@2x.'))
+        FileUtils.cp path, File.expand_path(dest + '/' + basename.sub('.', '@3x.'))
+      end
+    end
+    
+    sh "cd #{dest} && mogrify -path . -resize 80x -format png *@2x*"
+    sh "cd #{dest} && mogrify -path . -resize 120x -format png *@3x*"
+    sh "rm #{dest}/*.jpg"
+  end
 end

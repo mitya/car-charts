@@ -26,6 +26,10 @@ class Brand
   def selectedModsCount
     Disk.currentMods.select { |mod| mod.brand == self }.count
   end
+  
+  def cellImage
+    KK.image("brands/#{key}") || Brand.unknownBrandImage
+  end
     
   class << self 
     attr_reader :index, :all
@@ -49,6 +53,10 @@ class Brand
     
     def allSortedByName
       @allByName ||= @all.sort_by(&:shortName)
+    end
+    
+    def unknownBrandImage
+      KK.image("ci-empty")
     end
   end  
 end

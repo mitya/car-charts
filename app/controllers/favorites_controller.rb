@@ -42,6 +42,7 @@ class FavoritesController < UITableViewController
 
     cell.textLabel.attributedText = generation.nameAttributedString
     cell.detailTextLabel.text = generation.selectedModsCount.to_s_or_nil
+    cell.imageView.image = generation.brand.cellImage
     cell
   end
 

@@ -12,6 +12,7 @@ resources/db/mods.db
 resources/db/mods.sqlite
 resources/db/mods.sqlite-shm
 resources/db/mods.sqlite-wal
+resources/images/brands
 resources/Icon*
 resources/Default*
 vendor/Pods

@@ -207,3 +207,40 @@ Max Speed
 30 load mods
   mods/*.html
 40 parse mods
+
+
+
+### Screenshots
+
+  
+  
+  
+### Competition
+
+  CarBase — 1$
+    https://www.appannie.com/apps/ios/app/898424389/
+  CarCompare — free
+  Automobile Specs - Murat Tanriover - 1$
+  Ojuu — html shit
+
+
+
+
+### Copy
+
+  Simple & powerful app to compare car models visually.
+  
+  — Compare any number of cars simultaneously.
+  — Specification database contains more than a 1 000 models with more than 10 000 bodytype/engine variations. The database includes the majority of car models sold in Europe in recent years.
+  — Compare by more than 25 parameters, using metric, UK or US unit system.
+  — App works offline, no internet connection required.
+  — Use iPhone for adhoc comparsions or iPad for large comparsions with tons of models.
+
+
+### Links
+
+https://auto.yandex.ru/search?year_from=2005&year_to=2011&marks-tab=all&mark=audi&mark=alfa_romeo&mark=alpina&mark=aston_martin&mark=acura&mark=austin&mark=ac&mark=alpine&mark=asia&mark=am_general&mark=autobianchi&mark=ariel&mark=bmw&mark=buick&mark=byd&mark=bentley&mark=brilliance&mark=brabus&mark=bristol&mark=bugatti&mark=chevrolet&mark=citroen&mark=chrysler&mark=cadillac&mark=chery&mark=cizeta&mark=daihatsu&mark=dodge&mark=daewoo&mark=datsun&mark=dacia&mark=daimler&mark=daf&mark=delorean&mark=ecomotors&mark=e_car&mark=ford&mark=fiat&mark=ferrari&mark=faw&mark=foton&mark=great_wall&mark=geely&mark=gmc&mark=honda&mark=hyundai&mark=holden&mark=hafei&mark=hummer&mark=isuzu&mark=infiniti&mark=invicta&mark=iveco&mark=jaguar&mark=jeep&mark=jac&mark=jensen&mark=jmc&mark=kia&mark=koenigsegg&mark=ktm&mark=lancia&mark=lexus&mark=lamborghini&mark=lincoln&mark=land_rover&mark=lotus&mark=lifan
+
+
+
+mogrify -path . -resize 80x80 -format png *.png

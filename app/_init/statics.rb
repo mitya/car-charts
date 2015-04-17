@@ -42,5 +42,36 @@ Statics = {
     [225, 75, 90, 225, 95, 75], # blue
     [  0,  0, 60,   0,  0, 40], # gray
     [  0,  0, 20,   0,  0,  0], # black
- ]
+ ] 
 }
+
+
+Samples = {}
+
+Samples[:business] = [
+  "audi a6 2014 sedan 3.0d-218ps-AMT-FWD",
+  "audi a6 2014 sedan 3.0i-333ps-AMT-AWD",
+  "bmw 5er 2013 sedan 3.0d-258ps-AT-RWD",
+  "bmw 5er 2013 sedan 3.0i-306ps-AT-AWD",
+  "bmw 5er 2013 sedan 3.0i-306ps-AT-RWD",
+  "bmw 5er 2013 sedan 4.4i-449ps-AT-RWD",
+  "lexus gs 2011 sedan 3.5h-292ps-CVT-RWD",
+  "mercedes e_klasse 2013 sedan 3.0i-333ps-AT-RWD",
+  "mercedes e_klasse 2013 sedan 3.5i-252ps-AT-RWD",
+  "mercedes e_klasse 2013 sedan 3.5i-333ps-AT-RWD",
+  "mercedes e_klasse 2013 sedan 4.7i-408ps-AT-RWD"  
+]
+
+Samples[:compact] = [
+  "ford focus 2014 hatch_5d 1.6i-125ps-AMT-FWD",
+  "ford focus 2014 hatch_5d 2.0d-150ps-AMT-FWD",
+  "honda civic 2013 hatch_5d 1.8i-142ps-AT-FWD",
+  "opel astra 2012 hatch_5d 1.6i-180ps-AT-FWD",
+  "opel astra 2012 hatch_5d 2.0d-160ps-AT-FWD",
+  "skoda octavia 2013 hatch_5d 1.8i-180ps-AMT-FWD",
+  "skoda octavia 2013 hatch_5d 2.0d-143ps-AMT-FWD",
+  "volkswagen golf 2013 hatch_5d 1.6d-110ps-AMT-FWD",
+  "volkswagen golf 2013 hatch_5d 2.0d-150ps-AMT-FWD",
+  "volvo c30 2010 hatch_3d 2.0i-145ps-AMT-FWD",
+  "volvo c30 2010 hatch_3d 2.4d-180ps-AT-FWD",
+]
