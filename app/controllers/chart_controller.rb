@@ -190,7 +190,7 @@ class ChartController < UIViewController
     
     tryToShowFullScreenAd if @reloadCount > showAdAfter if KK.ipad?
 
-    # clearScreenToMakeLaunchImage
+    clearScreenToMakeLaunchImage
   end
 
   def toggleFullScreenMode

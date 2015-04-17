@@ -11,13 +11,13 @@ end
 # /Applications/Developer/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/simctl list
 ENV['device_name'] = 'iPhone 5s 7.1'
 ENV['device_name'] = 'iPad Retina 7.1'
+ENV['device_name'] = 'iPhone 6'
 ENV['device_name'] = 'iPad Air'
-ENV['device_name'] = 'iPhone 5s'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
-  app.icons = %w(Icon-60 Icon-76 Icon-Small-40 Icon-Small)
+  app.icons = %w(Icon-60 Icon-76 Icon-40 Icon-Small)
   app.sdk_version = "8.3"
   app.deployment_target = "7.0"
   app.libs += ['/usr/lib/libsqlite3.dylib']
@@ -26,7 +26,7 @@ Motion::Project::App.setup do |app|
   app.device_family = [:iphone, :ipad]
   app.vendor_project 'vendor/Flurry', :static, :products => ['libFlurry_6.2.0.a'], :headers_dir => 'Flurry.h', force_load: false
   app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
-  app.info_plist['UIStatusBarHidden'] = true # hides the status bar on the launch screen
+  # app.info_plist['UIStatusBarHidden'] = true
 
   app.pods do
     pod 'EncryptedCoreData', :git => 'https://github.com/project-imas/encrypted-core-data.git'
@@ -38,7 +38,7 @@ Motion::Project::App.setup do |app|
     app.codesign_certificate = "iPhone Developer: Dmitry Sokurenko (9HS3696XGX)"
     app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_Development_Profile.mobileprovision"
     app.redgreen_style = :full # default: :focused, also can use :progress
-    app.info_plist['CCBenchmarking'] = true
+    # app.info_plist['CCBenchmarking'] = true
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
     # app.info_plist['CCTestModsDataset'] = true
