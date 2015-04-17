@@ -13,12 +13,12 @@ carchartscrawler
 .dat*
 tmp/*
 
-resources/db/mods.plist
 resources/db/metadata.plist
+resources/db/mods.plist
+resources/db/mods.db
 resources/db/mods.sqlite
 resources/db/mods.sqlite-shm
 resources/db/mods.sqlite-wal
-resources/db/CarCharts.sqlite
 resources/Icon.png
 resources/Default-736h@3x.png
 resources/Default-568h@2x.png

@@ -12,7 +12,7 @@ end
 ENV['device_name'] = 'iPhone 5s 7.1'
 ENV['device_name'] = 'iPad Retina 7.1'
 ENV['device_name'] = 'iPad Air'
-ENV['device_name'] = 'iPhone 6'
+ENV['device_name'] = 'iPhone 5s'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -42,7 +42,7 @@ Motion::Project::App.setup do |app|
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
     # app.info_plist['CCTestModsDataset'] = true
-    # app.info_plist['CCTestModsDatasetRun'] = true # if ENV['fill'] == '1'
+    # app.info_plist['CCTestModsDatasetRun'] = true
   end
 
   app.release do
@@ -65,3 +65,8 @@ task '6'    do ENV['device_name'] = 'iPhone 6';       Rake::Task['simulator'].in
 task '6p'   do ENV['device_name'] = 'iPhone 6 Plus';  Rake::Task['simulator'].invoke end
 task 'ipad' do ENV['device_name'] = 'Resizable iPad'; Rake::Task['simulator'].invoke end
 task d: 'device'
+
+
+task 'archive:distribution' do
+  puts "remove the mods.plist !!!"
+end

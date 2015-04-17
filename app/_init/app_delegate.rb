@@ -4,7 +4,7 @@ class AppDelegate
   attr_accessor :tabBarController, :splitViewContorller, :bannerViewController
   attr_accessor :modelListController, :chartController
   attr_accessor :hidesMasterView
-  
+
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
 
@@ -48,11 +48,11 @@ class AppDelegate
     window.makeKeyAndVisible
 
     setTintColors
-    
+
     Flurry.startSession FLURRY_TOKEN if FLURRY_ENABLED
-    
+
     # openControllerForModel("ford--focus--2014")
-    
+
     true
   end
 
@@ -64,12 +64,12 @@ class AppDelegate
   def applicationDidFailWithException(exception)
     NSUserDefaults.standardUserDefaults["crashed"] = true
     stack = exception.callStackReturnAddresses
-    
+
     if FLURRY_ENABLED
       NSLog "Logged error to Flurry"
       Flurry.logError exception.name, message:exception.reason, exception:exception
     end
-        
+
     NSLog "FATAL ERROR: #{exception}"
   end
 
@@ -91,59 +91,71 @@ class AppDelegate
     bbi.title = "Options"
     chartController.navigationItem.setLeftBarButtonItems(chartController.navigationItem.leftBarButtonItems.to_a + [bbi], animated:YES)
   end
-  
+
   def splitViewController(svc, willShowViewController:vc, invalidatingBarButtonItem:bbi)
     chartController.navigationItem.setLeftBarButtonItem(chartController.navigationItem.leftBarButtonItems.to_a - [bbi], animated:YES)
   end
-  
+
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     # tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true if KK.iphone?
   end
 
   ENCRYPTION = true
+  SEED_FILES = ["mods.db"]
 
   def staticContext
     @staticContext ||= begin
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
 
-      if KK.env?('CCTestModsDataset')
-        # debug "Data path: #{KK.documentsPath}"
-        # switch mods database to the one located in the documents directory to fill it with the data from plist
-        storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
-        storeOptions = {}
-        NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL) if KK.env?('CCTestModsDatasetRun')
-
-      else      
-
-        if NSUserDefaults.standardUserDefaults["firstLaunchTime"] == nil  
-          %w(CarCharts.sqlite mods.sqlite mods.sqlite-shm mods.sqlite-wal).each do |filename|
-            err = KK.ptr
-            srcPath = NSBundle.mainBundle.resourcePath.stringByAppendingPathComponent('db').stringByAppendingPathComponent(filename)
-            destPath = KK.documentsPath.stringByAppendingPathComponent(filename)
-            NSFileManager.defaultManager.copyItemAtPath srcPath, toPath:destPath, error:err
-            NSLog "Can't copy the seed files: #{err.value.description}" if err.value
-          end
-        end
-
-        if ENCRYPTION
-          storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
-        else
-          storeURL = NSURL.fileURLWithPath(NSBundle.mainBundle.pathForResource("db/mods", ofType:"sqlite"))
-        end
-        
-        storeOptions = {NSReadOnlyPersistentStoreOption => YES}        
-      end
-
       if ENCRYPTION
-        storeCoordinator = EncryptedStore.makeStore model, passcode:"a passcode"
+        options = { }
+        options[EncryptedStorePassphraseKey] = 'db/mods' + 'firstLaunchTime'.sub('Launch', '') + 123_347_957_156_765.to_s(16)
+        options[EncryptedStoreDatabaseLocation] = KK.documentsURL.URLByAppendingPathComponent('mods.db')
+
+        if KK.env?('CCTestModsDataset')
+          NSFileManager.defaultManager.removeItemAtURL(options[EncryptedStoreDatabaseLocation], error:NULL) if KK.env?('CCTestModsDatasetRun')
+
+        else
+          if NSUserDefaults.standardUserDefaults["firstLaunchTime"] == nil ||
+            !NSFileManager.defaultManager.fileExistsAtPath(KK.documentsPath.stringByAppendingPathComponent(SEED_FILES.first))
+
+            NSLog "Copying the database from app bundle"
+
+            SEED_FILES.each do |filename|
+              srcPath = NSBundle.mainBundle.resourcePath.stringByAppendingPathComponent('db').stringByAppendingPathComponent(filename)
+              destPath = KK.documentsPath.stringByAppendingPathComponent(filename)
+
+              if NSFileManager.defaultManager.fileExistsAtPath(destPath)
+                err = KK.ptr
+                NSFileManager.defaultManager.removeItemAtPath destPath, error:err
+                NSLog "Can't delete the seed file: #{err.value.description}" if err.value
+              end
+
+              err = KK.ptr
+              NSFileManager.defaultManager.copyItemAtPath srcPath, toPath:destPath, error:err
+              NSLog "Can't copy the seed file: #{err.value.description}" if err.value
+            end
+          end           
+        end
+
+        storeCoordinator = EncryptedStore.makeStoreWithOptions options, managedObjectModel:model
+
       else
+        if KK.env?('CCTestModsDataset')
+          storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
+          storeOptions = {}
+          NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL) if KK.env?('CCTestModsDatasetRun')
+        else
+          storeURL ||= NSBundle.mainBundle.URLForResource("db/mods", withExtension:"sqlite")
+          storeOptions ||= {NSReadOnlyPersistentStoreOption => YES}
+        end
+
+        err = KK.ptr
         storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
+        storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
+        NSLog "Can't open static database: #{err.value.description}" if err.value
       end
-            
-      err = KK.ptr
-      storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
-      NSLog "Can't open static database: #{err.value.description}" if err.value
 
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = storeCoordinator
@@ -187,11 +199,11 @@ class AppDelegate
     NSUserDefaults.standardUserDefaults.removeObjectForKey("crashed")
     $lastLaunchDidFail = true
   end
-  
+
   def resetAllSettings
     Disk.recentMods = []
     Disk.currentMods = []
-    Disk.currentParameters = []    
+    Disk.currentParameters = []
   end
 
   def setTintColors
@@ -202,7 +214,7 @@ class AppDelegate
       bar.appearance.tintColor = Configuration.barIconColor
       bar.appearance.barStyle = UIBarStyleBlack
     end
-    
+
     UISwitch.appearance.onTintColor = Configuration.barIconColor
     UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleLightContent
     UINavigationBar.appearance.setTitleTextAttributes NSForegroundColorAttributeName => Configuration.barTextColor
@@ -214,11 +226,11 @@ class AppDelegate
     tabBarController.selectedIndex = 2
     tabBarController.viewControllers[tabBarController.selectedIndex].pushViewController controller, animated:NO
   end
-  
+
   def visibleViewController
     tabBarController.selectedViewController.visibleViewController
   end
-  
+
   def showsBannerAds?
     KK.iphone?
   end
