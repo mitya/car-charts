@@ -46,7 +46,7 @@ F83 = "83-metadata"
 SHIT = Set.new %w(ac ariel bronto bufori byvin caterham changfeng coggiola dadi e_car ecomotors foton fuqi gonow gordon 
   hafei haima haval hawtai hindustan holden huanghai invicta iran_khodro liebao landwind lti mahindra marlin maruti
   morgan noble pagani panoz pgo panoz mitsuoka puch qoros spyker e_mobil gaz tagaz beijing chery dongfeng lifan shuanghuan 
-  piaggio samsung jmc brabus)
+  piaggio samsung jmc brabus daimler)
   
 CHINA_BRANDS = Set.new %w(brilliance changan)
 

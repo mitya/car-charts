@@ -10,7 +10,7 @@ class YA2Processor
 
       yandex_id = basename.split[2].to_i
       ref = models_index[yandex_id]      
-      # puts "EXCLUDE #{basename}" unless ref
+      puts "EXCLUDE #{basename}" unless ref
       next unless ref
 
       doc.css(".b-complectations__item:not(.b-complectations__item_state_current) a.link").each do |a|
