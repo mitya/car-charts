@@ -10,7 +10,6 @@ class ModelListController < UIViewController
   def initialize
     self.title = "Models"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-car"), selectedImage:KK.image("tab-car-full"))    
-    self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
 
     navigationItem.titleView = UIView.alloc.init
     navigationItem.rightBarButtonItems = [KK.flexibleSpaceBBI, viewSelectorBarItem, KK.flexibleSpaceBBI]
@@ -51,6 +50,11 @@ class ModelListController < UIViewController
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
     activeTableView.contentOffset = CGPointMake(0, searchBar.frame.height) if activeTableView.contentOffset.y == 0
     activeTableView.reloadVisibleRows
+    
+    unless @setCanDisplayBannerAds
+      self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
+      @setCanDisplayBannerAds = YES
+    end
   end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)

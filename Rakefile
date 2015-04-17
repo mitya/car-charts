@@ -9,10 +9,10 @@ rescue LoadError
 end
 
 # /Applications/Developer/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/simctl list
-ENV['device_name'] = 'iPhone 5s 7.1'
 ENV['device_name'] = 'iPad Retina 7.1'
 ENV['device_name'] = 'iPhone 6'
 ENV['device_name'] = 'iPad Air'
+ENV['device_name'] = 'iPhone 5s 7.1'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -38,9 +38,9 @@ Motion::Project::App.setup do |app|
     app.codesign_certificate = "iPhone Developer: Dmitry Sokurenko (9HS3696XGX)"
     app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_Development_Profile.mobileprovision"
     app.redgreen_style = :full # default: :focused, also can use :progress
-    # app.info_plist['CCBenchmarking'] = true
     app.info_plist['CCDebugMode'] = true
     app.info_plist['CCNoResetAfterCrash'] = true
+    # app.info_plist['CCBenchmarking'] = true
     # app.info_plist['CCTestModsDataset'] = true
     # app.info_plist['CCTestModsDatasetRun'] = true
   end
