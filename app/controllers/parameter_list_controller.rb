@@ -62,4 +62,8 @@ class ParameterListController < UITableViewController
     @settingsController ||= ParameterListSettingsController.new
     navigationController.pushViewController @settingsController, animated:true
   end
+  
+  def screenKey
+    { count: Disk.currentParameters.count }
+  end
 end

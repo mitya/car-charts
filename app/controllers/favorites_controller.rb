@@ -61,4 +61,8 @@ class FavoritesController < UITableViewController
       tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation:UITableViewRowAnimationFade)
     end
   end
+  
+  def screenKey
+    { models: generations.count }
+  end
 end
