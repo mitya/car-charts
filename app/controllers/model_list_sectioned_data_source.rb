@@ -34,17 +34,7 @@ class ModelListController < UIViewController
         c.textLabel.adjustsFontSizeToFitWidth = YES
       end
 
-      text = NSMutableAttributedString.alloc.init
-
-      model_name = NSAttributedString.alloc.initWithString model.family.unbrandedName + ' ', attributes: { }
-      year = NSAttributedString.alloc.initWithString model.year_apostrophe, attributes: {
-        NSFontAttributeName => UIFont.systemFontOfSize(14),
-        NSForegroundColorAttributeName => UIColor.lightGrayColor }
-
-      text.appendAttributedString(model_name)
-      text.appendAttributedString(year)
-    
-      cell.textLabel.attributedText = text
+      cell.textLabel.attributedText = model.unbrandedNameAttributedString
       cell.detailTextLabel.text = modelSelectedModsCount.to_s_or_nil
       cell.imageView.image = model.brand.cellImage
       cell

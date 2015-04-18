@@ -130,11 +130,12 @@ class ModRecentsController < UITableViewController
       mod = @mods[indexPath.row]
       cell = tableView.dequeueReusableCell klass:CheckmarkCell, style:UITableViewCellStyleSubtitle, accessoryType:UITableViewCellAccessoryDetailButton do |cell|
         cell.textLabel.adjustsFontSizeToFitWidth = YES
+        cell.textLabel.adjustsLetterSpacingToFitWidth = YES
       end
       cell.textLabel.text = mod.model.family.name
       cell.detailTextLabel.text = mod.modName(Mod::NameBodyEngineVersionYear)
       cell.toggleLeftCheckmarkAccessory(mod.selected?)
-      return cell
+      cell
     end
 
     def tableView(tableView, didSelectRowAtIndexPath:indexPath)
