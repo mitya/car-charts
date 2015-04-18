@@ -38,3 +38,8 @@ def __pla(array)
   end
   nil
 end
+
+def debug_raise(message, result = '')
+  raise(message) if DEBUG
+  result
+end
