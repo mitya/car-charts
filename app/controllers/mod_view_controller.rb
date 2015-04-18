@@ -90,7 +90,7 @@ class ModViewController < UITableViewController
   end  
 
   def photosController
-    @photosController ||= ModelPhotosController.new(mod.model, mod.year)
+    @photosController ||= ModelPhotosController.new(mod.model, mod.bodyVersionOrName)
   end
   
   def showPhotos

@@ -1,12 +1,13 @@
 class ModListController < UIViewController
   attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
-  attr_accessor :selectedMod
+  attr_accessor :selectedMod, :photoControllers
 
   def initialize(model = nil)
     self.model = model
     self.mods = model.mods
     self.title = model.nameWithApostrophe
-    navigationItem.backBarButtonItem = KK.textBBI("Versions")
+    self.photoControllers = {}
+    navigationItem.backBarButtonItem = KK.textBBI("Models")
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
     Disk.addObserver(self, forKeyPath:"filterOptions", options:false, context:nil)
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
@@ -123,6 +124,31 @@ class ModListController < UIViewController
     ModViewController.showFor self, withMod:mod
   end
 
+  def tableView(tv, viewForHeaderInSection:section)
+    return nil if section == 0
+    header = ModListSectionHeaderView.alloc.initWithFrame(CGRectMake 0, 0, view.frame.width, ModListSectionHeaderView.sectionHeight)
+    header.title = tableView(tv, titleForHeaderInSection:section)
+    header.sectionIndex = section
+    header.buttonAction = 'showPhotosForSection:'
+    header.buttonTarget = self
+    header
+  end
+  
+  def tableView(tv, heightForHeaderInSection:section)
+    return 0 if section == 0
+    ModListSectionHeaderView.sectionHeight
+  end
+
+  def showPhotosForSection(section)
+    mod = modsByBody[ modsByBody.keys[section - 1] ].first
+    puts "instantiating photo controler #{section}" if photoControllers[section] == nil
+    photoControllers[section] ||= ModelPhotosController.new(mod.model, mod.bodyVersionOrName)
+    if KK.iphone?
+      navigationController.pushViewController photoControllers[section], animated:true
+    else
+      presentNavigationController photoControllers[section], presentationStyle:UIModalPresentationFullScreen
+    end    
+  end
 
   def applyFilter(options = {})
     opts = Disk.filterOptions

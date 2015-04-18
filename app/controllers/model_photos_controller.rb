@@ -1,16 +1,18 @@
 class ModelPhotosController < UIViewController
-  attr_accessor :model, :year
+  attr_accessor :model, :bodytype
+  attr_accessor :query
   attr_accessor :webView, :spinner, :goForwardBBI, :goBackBBI, :webViewIsLoaded
   
-  def initialize(model = nil, year = nil)
+  def initialize(model = nil, bodytype = nil)
     self.model = model
-    self.year = year
+    self.bodytype = bodytype
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if KK.ipad?
   end
 
   
   def viewDidLoad
-    self.title = "Photos"
+    self.query = "#{model.name} #{bodytype}"
+    self.title = query
 
     self.webView = UIWebView.alloc.initWithFrame(view.bounds).tap do |webView|
       webView.backgroundColor = UIColor.scrollViewTexturedBackgroundColor
@@ -31,8 +33,8 @@ class ModelPhotosController < UIViewController
     super
     webView.delegate = self
     webViewIsLoaded || begin
-      query = model.name.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-      path = "http://www.google.com/search?num=10&tbm=isch&q=#{query}"
+      queryString = query.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+      path = "http://www.google.com/search?num=10&tbm=isch&q=#{queryString}"
       url = NSURL.URLWithString(path)
       error = Pointer.new(:object)
       request = NSMutableURLRequest.requestWithURL(url)

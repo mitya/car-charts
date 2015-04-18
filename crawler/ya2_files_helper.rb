@@ -31,7 +31,7 @@ module CW
     raise
   end
   
-  def save_page_and_sleep(url, path, overwrite: true, sleep_interval: 1..3, test: false)
+  def save_page_and_sleep(url, path, overwrite: true, sleep_interval: 2..6, test: false)
     saved = save_page url, path, overwrite: overwrite, test: test
     sleep rand(sleep_interval) if saved
   end
