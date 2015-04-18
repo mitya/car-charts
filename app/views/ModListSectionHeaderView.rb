@@ -46,15 +46,6 @@ class ModListSectionHeaderView < UIView
     end
   end
   
-  # def layoutSubviews
-  #   super
-  #   options = {containerHM:0, containerTM:ContentTP, viewFH:ItemFH}
-  #   viewsBottomEdge = KK.alignBlockViews content.subviews.select(&Item), inContainer:content, withOptions:options
-  #   content.frame = [content.frame.origin, [bounds.width - ContentHM * 2, viewsBottomEdge]]
-  #   topBorder.frame = [topBorder.frame.origin, [content.frame.width, topBorder.frame.height]]
-  #   self.frame = [frame.origin, [frame.width, content.frame.height + ContentTM + ContentBM]]
-  # end
-  
   def self.sectionHeight
     44
   end

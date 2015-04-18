@@ -43,6 +43,13 @@ class ModListController < UIViewController
     # tableView.contentOffset = CGPointMake(0, -DEFAULT_ROW_HEIGHT + 20) if tableView.contentOffset.y == -64 # hack
     scrollToMod(selectedMod, animated:NO) if selectedMod
   end
+  
+  def didReceiveMemoryWarning  
+    photoControllers.each do |section, controller|
+      photoControllers[section] = nil unless controller.viewLoaded? && controller.view.window
+    end    
+    super
+  end
 
 
   def numberOfSectionsInTableView(tv)
