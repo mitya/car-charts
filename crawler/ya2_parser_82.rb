@@ -8,6 +8,10 @@ class YA2Parser
 
     raw_mods.first(1_000_000).each do |mod_key, properties|
       parsed = Mash.new
+      
+      # temp
+      mark = mod_key.split(' ').first
+      next if SHIT.include?(mark)
 
       properties.each do |key, string|
         case key.to_sym

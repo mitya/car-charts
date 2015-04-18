@@ -76,14 +76,14 @@ class ModelCategoriesController < UITableViewController
       
       if indexPath.row == 0
         cell.textLabel.text = "All Models"
-        # cell.detailTextLabel.text = Disk.currentMods.count.to_s_or_nil
-        cell.accessoryType = UITableViewCellAccessoryCheckmark if controller.category == nil        
+        cell.accessoryType = UITableViewCellAccessoryCheckmark if controller.category == nil
+        # cell.detailTextLabel.text = ModelGeneration.keys.count.to_s_or_nil
         cell.imageView.image = Brand === source.first ? Brand.unknownBrandImage : nil
       else
         rowCategory = source[indexPath.row - 1]
         cell.textLabel.text = rowCategory.name
-        # cell.detailTextLabel.text = rowCategory.selectedModsCount.to_s_or_nil
         cell.accessoryType = UITableViewCellAccessoryCheckmark if controller.category == rowCategory
+        # cell.detailTextLabel.text = rowCategory.models.count.to_s_or_nil
         cell.imageView.image = Brand === rowCategory ? rowCategory.cellImage : nil
       end
 

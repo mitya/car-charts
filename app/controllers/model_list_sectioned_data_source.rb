@@ -27,7 +27,6 @@ class ModelListController < UIViewController
     def tableView(table, cellForRowAtIndexPath:indexPath)  
       @modelsIndex[@brands[indexPath.section].key][indexPath.row]
       model = @modelsIndex[@brands[indexPath.section].key][indexPath.row]
-      modelSelectedModsCount = model.selectedModsCount
 
       cell = table.dequeueReusableCell(style: UITableViewCellStyleValue1) do |c|
         c.accessoryType = UITableViewCellAccessoryDisclosureIndicator
@@ -35,7 +34,8 @@ class ModelListController < UIViewController
       end
 
       cell.textLabel.attributedText = model.unbrandedNameAttributedString
-      cell.detailTextLabel.text = modelSelectedModsCount.to_s_or_nil
+      # cell.detailTextLabel.text = model.selectedModsCount.to_s_or_nil
+      cell.detailTextLabel.text = model.modCount.to_s_or_nil
       cell.imageView.image = model.brand.cellImage
       cell
     end
