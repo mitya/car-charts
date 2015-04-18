@@ -21,6 +21,13 @@ class ModViewController < UITableViewController
     self.tableView.tableHeaderView = KK.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersionYear))
   end
 
+  def didReceiveMemoryWarning
+    if @photosController
+      @photosController = nil unless @photosController.viewLoaded? && @photosController.view.window
+    end
+    super
+  end
+
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
     case keyPath when 'unitSystem'
       tableView.reloadData
