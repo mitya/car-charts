@@ -22,14 +22,15 @@ class YA2Parser
     family_keys_set = family_keys.to_set
 
     generation_keys = mods.values.map { |mod| mod['generation_key'] }.uniq.sort
-  
+
     generation_rows = generation_keys.each_with_object({}) do |generation_key, result|
       model = models_by_generation_key[generation_key]
       puts generation_key unless model
       mark_key, model_key, year = generation_key.split('--')
       family_key = "#{mark_key}--#{model_key}"
       generation_title = "#{model.model_title} #{year}"
-      result[generation_key] = [family_key, year.to_i, generation_title]
+      mod_count = mods.values.count { |mod| mod['generation_key'] == generation_key }
+      result[generation_key] = [family_key, year.to_i, generation_title, mod_count]
       assert_all result[generation_key]      
     end
 

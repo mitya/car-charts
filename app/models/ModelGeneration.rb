@@ -56,6 +56,10 @@ class ModelGeneration
   def mods
     Mod.modsForGenerationKey(key)
   end
+  
+  def modCount
+    metadataRow[3]
+  end
 
   def inspect
     "{generation:#{key} mods=#{mods.count}}"

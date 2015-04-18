@@ -37,6 +37,7 @@ class FavoritesController < UITableViewController
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
       cell.textLabel.adjustsFontSizeToFitWidth = YES  
       cell.textLabel.adjustsLetterSpacingToFitWidth = YES
+      cell.detailTextLabel.color = Configuration.tintColor
     end   
 
     generation = generations[indexPath.row]
