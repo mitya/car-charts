@@ -65,7 +65,18 @@ class ModelGeneration
     text = NSMutableAttributedString.alloc.init
     model_name = NSAttributedString.alloc.initWithString family.name + ' ', attributes: { }
     year = NSAttributedString.alloc.initWithString year_apostrophe, attributes: { 
-      NSFontAttributeName => UIFont.systemFontOfSize(14), 
+      NSFontAttributeName => UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline), 
+      NSForegroundColorAttributeName => UIColor.lightGrayColor }
+    text.appendAttributedString(model_name)
+    text.appendAttributedString(year)
+    text
+  end
+  
+  def unbrandedNameAttributedString
+    text = NSMutableAttributedString.alloc.init
+    model_name = NSAttributedString.alloc.initWithString family.unbrandedName + ' ', attributes: { }
+    year = NSAttributedString.alloc.initWithString year_apostrophe, attributes: {
+      NSFontAttributeName => UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline),
       NSForegroundColorAttributeName => UIColor.lightGrayColor }
     text.appendAttributedString(model_name)
     text.appendAttributedString(year)

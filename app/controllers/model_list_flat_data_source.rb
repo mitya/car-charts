@@ -25,9 +25,10 @@ class ModelListController < UIViewController
       cell = tableView.dequeueReusableCell style:UITableViewCellStyleValue1 do |c|
         c.accessoryType = UITableViewCellAccessoryDisclosureIndicator
         c.textLabel.adjustsFontSizeToFitWidth = YES
+        c.textLabel.adjustsLetterSpacingToFitWidth = YES
       end
 
-      cell.textLabel.attributedText = model.nameAttributedString
+      cell.textLabel.attributedText = category.is_a?(Brand) ? model.unbrandedNameAttributedString : model.nameAttributedString
       cell.detailTextLabel.text = model.selectedModsCount.to_s_or_nil
       cell.imageView.image = model.brand.cellImage
       cell

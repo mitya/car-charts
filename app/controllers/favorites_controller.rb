@@ -35,7 +35,8 @@ class FavoritesController < UITableViewController
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
     cell = tableView.dequeueReusableCell(style: UITableViewCellStyleValue1) do |cell|
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
-      cell.textLabel.adjustsFontSizeToFitWidth = YES      
+      cell.textLabel.adjustsFontSizeToFitWidth = YES  
+      cell.textLabel.adjustsLetterSpacingToFitWidth = YES
     end   
 
     generation = generations[indexPath.row]
