@@ -228,7 +228,7 @@ parameterTranslations:
     CVT: CVT
     MT: manual
   body:
-    cabrio: cabriolet
+    cabrio: cabrio
     coupe: coupe
     coupe_2d: coupe 2-dr
     coupe_5d: coupe 5-dr
@@ -256,3 +256,32 @@ parameterTranslations:
     van: van
     wagon: wagon
     minibus: minibus
+  body_capitalized:
+    cabrio: Cabrio
+    coupe: Coupe
+    coupe_2d: 2-Door Coupe
+    coupe_5d: 5-Door Coupe
+    crossover: Crossover
+    crossover_3d: 3-Door Crossover
+    crossover_5d: 5-Door Crossover
+    hatch_3d: 3-Door Hatch
+    hatch_4d: 4-Door Hatch
+    hatch_5d: 5-Door Hatch
+    minivan: Minivan
+    minivan_long: Long Minivan
+    minivan_3d: 3-Door Minivan
+    minivan_5d: 5-Door Minivan
+    pickup: Pickup
+    pickup_2d: 2-Door Pickup
+    pickup_4d: 4-Door Pickup
+    sedan: Sedan
+    sedan_long: Long Sedan 
+    suv: SUV
+    suv_long: Long SUV 
+    suv_2d: 2-Door SUV
+    suv_3d: 3-Door SUV
+    suv_4d: 4-Door SUV
+    suv_5d: 5-Door SUV
+    van: Van
+    wagon: Wagon
+    minibus: Minibus

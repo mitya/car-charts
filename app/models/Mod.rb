@@ -22,7 +22,7 @@ class Mod < DSCoreModel
   def modName(options = NameEngineVersion)
     enginePart = "#{displacement_key}#{suffix} #{max_power}hp #{transmission}" if options & NameEngine > 0
     enginePart += " 4x4" if options & NameEngine > 0 && drive == 'AWD'
-    bodyPart = shortBodyName if options & NameBody > 0
+    bodyPart = shortBodyName(:lower) if options & NameBody > 0
     modelPart = model.name if options & NameModel > 0
     result = [modelPart, bodyPart, enginePart].compact.join(' ')
     result = [year, result].join(', ') if options & NameYear > 0 && year
@@ -41,16 +41,21 @@ class Mod < DSCoreModel
     body_version ? "#{baseBodyName} #{body_version}" : baseBodyName
   end
   
-  def bodyVersionOrName
-    body_version ? body_version : baseBodyName
+  def capitalBodyName
+    body_version ? "#{baseBodyName(:capital)} #{body_version}" : baseBodyName(:capital)
+  end
+  
+  def bodyVersionOrName(style = :capital)
+    body_version ? body_version : baseBodyName(style)
   end
 
-  def baseBodyName
-    Metadata.parameterTranslations['body'][body_base] || raise("No name for body '#{body}'")
+  def baseBodyName(style = :lower) # :capital
+    source = style == :lower ? 'body' : 'body_capitalized'
+    Metadata.parameterTranslations[source][body_base] || debug_raise("No name for body '#{body}'", '')
   end
-
-  def shortBodyName    
-    body_version ? body_version : baseBodyName
+  
+  def shortBodyName(style = :lower)    
+    body_version ? body_version : baseBodyName(style)
   end
 
   def suffix

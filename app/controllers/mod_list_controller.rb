@@ -71,9 +71,9 @@ class ModListController < UIViewController
       section_body_key = modsByBody.keys[section - 1]
       if section_body_key.include?('.')
         sample_mod = mods.detect { |mod| mod.body == section_body_key }
-        sample_mod.bodyName
+        sample_mod.capitalBodyName
       else
-        Metadata.parameterTranslations['body'][ section_body_key ]
+        Metadata.parameterTranslations['body_capitalized'][ section_body_key ]
       end
     end
   end

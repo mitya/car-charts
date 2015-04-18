@@ -11,7 +11,7 @@ class ModListSectionHeaderView < UIView
   def initWithFrame(frame)
     super
     
-    self.backgroundColor = KK.hex(0xF5F5F5)
+    self.backgroundColor = KK.hex(0xF7F7F7)
     
     self.label = UILabel.alloc.initWithFrame(CGRectMake MarginL, 1, frame.width - ImageW - MarginL - MarginR*2, frame.height - 2)
     label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)

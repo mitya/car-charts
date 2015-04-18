@@ -201,8 +201,8 @@ class AppDelegate
   end
 
   def resetAllSettings
-    Disk.recentMods = []
-    Disk.currentMods = []
+    # Disk.recentMods = []
+    # Disk.currentMods = []
     Disk.currentParameters = []
   end
 
