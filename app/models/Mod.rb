@@ -40,6 +40,10 @@ class Mod < DSCoreModel
   def bodyName
     body_version ? "#{baseBodyName} #{body_version}" : baseBodyName
   end
+  
+  def bodyVersionOrName
+    body_version ? body_version : baseBodyName
+  end
 
   def baseBodyName
     Metadata.parameterTranslations['body'][body_base] || raise("No name for body '#{body}'")

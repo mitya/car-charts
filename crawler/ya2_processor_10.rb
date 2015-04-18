@@ -136,8 +136,8 @@ class YA2Processor
   # compress models
   def step_10strip
     # CW.compress_dir(D10, nil, nil, zip: false, hard: false) # for listing
-    CW.compress_dir(D12, nil, ".b-complectations, .b-specifications, .car-head, .catalog-filter", zip: false) # for mods & models
-    # CW.compress_dir(D18, nil, ".b-complectations, .b-specifications, .car-head, .catalog-filter", zip: false) # for mods & models
+    # CW.compress_dir(D12, nil, ".b-complectations, .b-specifications, .car-head, .catalog-filter", zip: false) # for mods & models
+    CW.compress_dir(D18, nil, ".b-complectations, .b-specifications, .car-head, .catalog-filter", zip: false) # for mods & models
   end
   
   def step_10t
