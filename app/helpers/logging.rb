@@ -57,6 +57,8 @@ module KK::Logging
     if defined? controller.class::ScreenKeyMethod
       screenKeyMethod = controller.class::ScreenKeyMethod
       screenKeyObject = controller.send(screenKeyMethod)
+    elsif controller.respond_to?(:screenKey)
+      screenKeyObject = controller.screenKey
     end
     screenName = controller.class.name.sub('Controller', '')
     trackScreen screenName, screenKeyObject

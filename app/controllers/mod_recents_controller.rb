@@ -109,6 +109,9 @@ class ModRecentsController < UITableViewController
     end
   end
 
+  def screenKey
+    { selected: Disk.currentMods.count, recent: Disk.recentMods.count  }
+  end
 
   class DataSource
     attr_reader :controller
