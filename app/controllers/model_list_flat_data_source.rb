@@ -29,8 +29,7 @@ class ModelListController < UIViewController
       end
 
       cell.textLabel.attributedText = category.is_a?(Brand) ? model.unbrandedNameAttributedString : model.nameAttributedString
-      # cell.detailTextLabel.text = model.selectedModsCount.to_s_or_nil
-      cell.detailTextLabel.text = model.modCount.to_s_or_nil
+      cell.detailTextLabel.attributedText = model.totalAndSelectedModCountAttributedString
       cell.imageView.image = model.brand.cellImage
       cell
     end

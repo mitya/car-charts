@@ -75,3 +75,16 @@ Samples[:compact] = [
   "volvo c30 2010 hatch_3d 2.0i-145ps-AMT-FWD",
   "volvo c30 2010 hatch_3d 2.4d-180ps-AT-FWD",
 ]
+
+Samples[:favorites] = [
+  "audi--a4--2011", 
+  "bmw--3er--2012", 
+  "ford--mondeo--2015", 
+  "honda--accord--2014", 
+  "hyundai--i40--2012", 
+  "mazda--6--2015", 
+  "mercedes--c_klasse--2014", 
+  "skoda--superb--2015", 
+  "toyota--camry--2014", 
+  "volkswagen--passat--2015"
+]
