@@ -9,6 +9,7 @@ class FavoritesController < UITableViewController
     navigationItem.leftBarButtonItem = editButtonItem
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"favorites", options:NO, context:nil)
+    # p generations.map(&:key)
   end
 
   def dealloc
@@ -37,13 +38,12 @@ class FavoritesController < UITableViewController
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator
       cell.textLabel.adjustsFontSizeToFitWidth = YES  
       cell.textLabel.adjustsLetterSpacingToFitWidth = YES
-      cell.detailTextLabel.color = Configuration.tintColor
     end   
 
     generation = generations[indexPath.row]
 
-    cell.textLabel.attributedText = generation.nameAttributedString
-    cell.detailTextLabel.text = generation.selectedModsCount.to_s_or_nil
+    cell.textLabel.attributedText = generation.unbrandedNameAttributedString
+    cell.detailTextLabel.attributedText = generation.selectedModCountAttributedString
     cell.imageView.image = generation.brand.cellImage
     cell
   end

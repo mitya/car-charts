@@ -34,8 +34,7 @@ class ModelListController < UIViewController
       end
 
       cell.textLabel.attributedText = model.unbrandedNameAttributedString
-      # cell.detailTextLabel.text = model.selectedModsCount.to_s_or_nil
-      cell.detailTextLabel.text = model.modCount.to_s_or_nil
+      cell.detailTextLabel.attributedText = model.totalAndSelectedModCountAttributedString
       cell.imageView.image = model.brand.cellImage
       cell
     end

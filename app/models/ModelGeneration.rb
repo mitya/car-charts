@@ -81,10 +81,45 @@ class ModelGeneration
     model_name = NSAttributedString.alloc.initWithString family.unbrandedName + ' ', attributes: { }
     year = NSAttributedString.alloc.initWithString year_apostrophe, attributes: {
       NSFontAttributeName => UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline),
-      NSForegroundColorAttributeName => UIColor.lightGrayColor }
+      NSForegroundColorAttributeName => UIColor.lightGrayColor 
+    }
     text.appendAttributedString(model_name)
     text.appendAttributedString(year)
     text
+  end
+  
+  def selectedModCountAttributedString
+    if selectedModsCount > 0
+      NSAttributedString.alloc.initWithString selectedModsCount.to_s, attributes: {
+        NSFontAttributeName => UIFont.preferredFontForTextStyle(UIFontTextStyleBody), NSForegroundColorAttributeName => Configuration.tintColor 
+      }
+    else
+      nil
+    end
+  end
+  
+  def totalModCountAttributedString
+    totalString = NSAttributedString.alloc.initWithString modCount.to_s, attributes: {
+      NSFontAttributeName => UIFont.preferredFontForTextStyle(UIFontTextStyleBody), NSForegroundColorAttributeName => UIColor.grayColor
+    }
+  end
+  
+  def totalAndSelectedModCountAttributedString
+    selectedString = selectedModCountAttributedString
+    totalString = totalModCountAttributedString
+    
+    if selectedString      
+      separatorString = NSAttributedString.alloc.initWithString " / ", attributes: {
+        NSFontAttributeName => UIFont.preferredFontForTextStyle(UIFontTextStyleBody), NSForegroundColorAttributeName => UIColor.lightGrayColor
+      }
+      result = NSMutableAttributedString.alloc.init
+      result.appendAttributedString(selectedString)
+      result.appendAttributedString(separatorString)
+      result.appendAttributedString(totalString)
+      result
+    else
+      totalString
+    end
   end
   
   alias to_s inspect
