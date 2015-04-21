@@ -263,7 +263,10 @@ class YA2Processor
   end
 
   def step_1
+    puts "--- Step 13"
     step_13
+    puts "--- Step 17"    
     step_17
   end
 end
+
