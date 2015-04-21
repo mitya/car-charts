@@ -76,4 +76,14 @@ class YA2Parser
     CW.write_data_to_plist F83, metadata
     CW.write_data "debug-#{F83}", metadata
   end
+  
+  def step_83t
+    s = CW.read_objects(F13).map(&:key)    
+    s = s.group_by { |k| k.split().first(2).join('--') }
+    s = s.select { |k, keys| keys.one? && keys.first.split[2].to_i > 2012 }
+    s.each do |key, values|
+      year = values.first.split[2].to_i
+      puts "#{key}:"
+    end
+  end
 end

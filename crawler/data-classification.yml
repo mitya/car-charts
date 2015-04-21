@@ -1,12 +1,14 @@
 ---
 acura--mdx: Xe
-audi--a1: A
-audi--a3: A
+acura--rlx: E
+acura--tlx: D
+audi--a1: B
+audi--a3: C
 audi--a4: D
 audi--a4_allroad: Wx
 audi--a6: E
-audi--allroad: Wx
 audi--a8: F
+audi--allroad: Wx
 audi--q3: Xc
 audi--q5: Xd
 audi--q7: Xf
@@ -17,6 +19,7 @@ bmw--5er: E
 bmw--7er: F
 bmw--x1: Xc
 bmw--x3: Xd
+bmw--x4: Xd
 bmw--x5: Xe
 bmw--x6: Xe
 bmw--z4: Sr
@@ -39,11 +42,7 @@ chevrolet--suburban:
 chevrolet--tahoe: Xf
 chevrolet--trailblazer: Xe
 chrysler--300c: E
-chrysler--grand_voyager: 
-chrysler--pt_cruiser: 
 chrysler--sebring: D
-chrysler--town_and_country: 
-citroen--berlingo: 
 citroen--c1: A
 citroen--c3: B
 citroen--c3_picasso: Mb
@@ -52,19 +51,11 @@ citroen--c4_picasso: Mc
 citroen--c5: D
 citroen--c6: E
 citroen--c_crosser: Xc
-citroen--ds3: 
-citroen--ds4: 
-citroen--grand_c4_picasso: 
-citroen--xsara_picasso: 
 daewoo--lanos: B
 daewoo--matiz: A
 daewoo--nexia: C
 fiat--500: A
-fiat--albea: 
 fiat--bravo: C
-fiat--croma: 
-fiat--doblo: 
-fiat--ducato: 
 fiat--grande_punto: C
 fiat--punto: B
 ford--c_max: Mc
@@ -85,7 +76,7 @@ ford--s_max: Me
 honda--accord: D
 honda--civic: C
 honda--cr_v: Xd
-honda--crosstour: Wx
+honda--crosstour:
 honda--jazz: B
 honda--legend: E
 honda--pilot: Xe
@@ -106,18 +97,19 @@ infiniti--ex: Xd
 infiniti--fx: Xe
 infiniti--g: D
 infiniti--m: E
+infiniti--q40: D
+infiniti--q50: D
+infiniti--q70: E
+infiniti--qx60: Xe
+infiniti--qx70: Xe
+infiniti--qx80: Xf
 infiniti--qx: Xf
-jaguar--x_type: 
-jaguar--xf: 
+jaguar--xe: D
+jaguar--xf: E
 jaguar--xj: F
-kia--carens: 
-kia--carnival: 
 kia--ceed: C
-kia--cerato: 
-kia--magentis: 
 kia--mohave: Xe
-kia--opirus: 
-kia--optima: 
+kia--optima: D
 kia--picanto: 
 kia--rio: 
 kia--sorento: Xd
@@ -127,17 +119,21 @@ kia--sportage: Xc
 kia--venga: 
 land_rover--defender: Xx
 land_rover--discovery: Xe
+land_rover--discovery_sport: Xe
 land_rover--freelander: Xc
 land_rover--range_rover: Xf
 land_rover--range_rover_evoque: Xc
 land_rover--range_rover_sport: Xe
+land_rover--rangeroversport_svr: Xe
 lexus--ct: C
 lexus--es: E
 lexus--gs: E
+lexus--gs_f:
 lexus--gx: Xe
 lexus--is: D
 lexus--ls: F
 lexus--lx: Xf
+lexus--nx: Xd
 lexus--rx: Xe
 lexus--sc: 
 mazda--2: B
@@ -146,24 +142,29 @@ mazda--3_mps:
 mazda--5: 
 mazda--6: D
 mazda--bt_50: Pc
+mazda--cx_3: Xb
 mazda--cx_5: Xc
 mazda--cx_7: Xd
 mazda--cx_9: Xe
 mazda--mx_5: 
 mazda--rx_8: 
-mercedes--a_klasse: A
-mercedes--b_klasse: B
+mercedes--a_klasse: B
+mercedes--b_klasse: C
 mercedes--c_klasse: D
 mercedes--cl_klasse: 
+mercedes--cla_klasse: Xc
 mercedes--clc_klasse: 
 mercedes--clk_klasse: 
 mercedes--cls_klasse: 
 mercedes--e_klasse: E
-mercedes--g_klasse: Xx
+mercedes--g_klasse: Xf
 mercedes--gl_klasse: Xf
+mercedes--gla_class: Xc
+mercedes--gle_klasse: Xc
+mercedes--gle_klasse_coupe: Xc
 mercedes--glk_klasse: Xd
 mercedes--m_klasse: Xe
-mercedes--r_klasse: Xe
+mercedes--r_klasse: Me
 mercedes--s_klasse: F
 mercedes--sl_klasse: 
 mercedes--slk_klasse: 
@@ -210,6 +211,7 @@ opel--meriva:
 opel--tigra: 
 opel--zafira: 
 peugeot--107: A
+peugeot--2008: Xb
 peugeot--206: B
 peugeot--207: B
 peugeot--3008: Xc
@@ -223,6 +225,7 @@ porsche--911:
 porsche--boxster: 
 porsche--cayenne: Xe
 porsche--cayman: 
+porsche--macan: Xd
 porsche--panamera: F
 renault--clio: B
 renault--duster: Xc
@@ -294,7 +297,7 @@ toyota--highlander:
 toyota--hilux: 
 toyota--land_cruiser: Xf
 toyota--land_cruiser_prado: Xe
-toyota--prius: 
+toyota--prius: C
 toyota--rav_4: Xc
 toyota--sequoia: Xf
 toyota--sienna: Me
