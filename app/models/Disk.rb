@@ -119,8 +119,6 @@ class Disk
         KK.benchmark("Load #{klass.name}") { klass.load }
       end
       
-      # Mod.modForKey('mazda axela 2013 hatch_5d 2.0i-150ps-AT-FWD') first query is slow
-      
       self.currentParameters ||= []
       self.currentMods ||= []
 
@@ -129,14 +127,10 @@ class Disk
       end
 
       if firstLaunch?
-        # ModSet.create name:"Business (Sample)", modKeys:Metadata.sample_sets[:business]
-        # ModSet.create name:"Compact (Sample)", modKeys:Metadata.sample_sets[:compact]
-        # ModSet.create name:"SUVs (Sample)", modKeys:Metadata.sample_sets[:lux_suvs]
-        #
-        # ModSet.first.replaceCurrentMods
-
         self.currentParameters = %w(acceleration_100kmh max_power).map { |key| Parameter.parameterForKey(key) }
-
+        # set current mods
+        # set favorites
+        
         NSUserDefaults.standardUserDefaults["firstLaunchTime"] = Time.now
         NSUserDefaults.standardUserDefaults.synchronize
       end

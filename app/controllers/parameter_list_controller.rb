@@ -15,7 +15,7 @@ class ParameterListController < UITableViewController
   end
     
   def viewDidLoad
-    self.navigationItem.rightBarButtonItem = KK.imageBBI("bar-gear", target:self, action:'showSettings')
+    navigationItem.rightBarButtonItem = KK.imageBBI("bar-gear", target:self, action:'showSettings')
   end
 
   def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
@@ -60,10 +60,14 @@ class ParameterListController < UITableViewController
   
   def showSettings
     @settingsController ||= ParameterListSettingsController.new
-    navigationController.pushViewController @settingsController, animated:true
+    if KK.iphone?
+      navigationController.pushViewController @settingsController, animated:true
+    else
+      presentPopoverController @settingsController, fromBarItem:navigationItem.rightBarButtonItem
+    end    
   end
   
   def screenKey
     { count: Disk.currentParameters.count }
-  end
+  end  
 end

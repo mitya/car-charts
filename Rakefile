@@ -11,8 +11,8 @@ end
 # /Applications/Developer/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/simctl list
 ENV['device_name'] = 'iPad Retina 7.1'
 ENV['device_name'] = 'iPhone 5s 7.1'
-ENV['device_name'] = 'iPad Air'
 ENV['device_name'] = 'iPhone 5s'
+ENV['device_name'] = 'iPad Air'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'

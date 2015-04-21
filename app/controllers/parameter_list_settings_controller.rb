@@ -4,11 +4,9 @@ class ParameterListSettingsController < UITableViewController
   def initialize
     self.title = "Settings"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-funnel"), selectedImage:KK.image("tab-funnel-full"))
+    self.preferredContentSize = [320, 240]
+    self.navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if KK.ipad?
   end
-
-  # def numberOfSectionsInTableView(tv)
-  #   1
-  # end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
     KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
@@ -17,11 +15,6 @@ class ParameterListSettingsController < UITableViewController
   def tableView(tv, numberOfRowsInSection: section)
     ROWS.count
   end
-  
-  # def tableView(tv, titleForHeaderInSection: section)
-  #   Parameter.nameForGroup( Parameter.groupsKeysForCharting[section] )
-  # end
-  
   def tableView(table, cellForRowAtIndexPath: indexPath)
     cell = table.dequeueReusableCell
     cell.textLabel.text = ROWS[indexPath.row][:name]
@@ -35,6 +28,10 @@ class ParameterListSettingsController < UITableViewController
     Disk.unitSystem = ROWS[indexPath.row][:key]
     tableView.visibleCells.each { |c| c.accessoryType = UITableViewCellAccessoryNone }
     cell.accessoryType = UITableViewCellAccessoryCheckmark
+  end
+
+  def close
+    dismissSelfAnimated
   end
   
   ROWS = [

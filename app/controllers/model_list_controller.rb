@@ -34,6 +34,22 @@ class ModelListController < UIViewController
     viewSelectorBarItem.title = currentTitle
     navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
 
+    reload
+    
+    unless @setCanDisplayBannerAds
+      self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
+      @setCanDisplayBannerAds = YES
+    end
+  end
+
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+  end  
+
+  def reload
+    viewSelectorBarItem.title = currentTitle
+    navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
+
     if tableView.dataSource != currentDataSource || searchDisplayController.searchResultsDataSource != currentSearchDataSource
       tableView.dataSource = currentDataSource
       tableView.delegate = currentDataSource
@@ -50,17 +66,7 @@ class ModelListController < UIViewController
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
     activeTableView.contentOffset = CGPointMake(0, searchBar.frame.height) if activeTableView.contentOffset.y == 0
     activeTableView.reloadVisibleRows
-    
-    unless @setCanDisplayBannerAds
-      self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
-      @setCanDisplayBannerAds = YES
-    end
   end
-
-  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-  end  
-
 
   def currentTitle
     (category ? category.name : "All Models") + ' ▾'
@@ -85,8 +91,8 @@ class ModelListController < UIViewController
       end
     else
       @categoryDataSource = nil      
-      @categorySearchDataSource = nil      
-    end    
+      @categorySearchDataSource = nil
+    end
   end
   
   def categorySearchDataSource
@@ -118,11 +124,15 @@ class ModelListController < UIViewController
   end
     
   def categoriesController
-    @categoriesController ||= ModelCategoriesController.new
+    @categoriesController ||= ModelCategoriesController.new(self)
   end
   
   
-  def showCategories
-    presentNavigationController categoriesController, presentationStyle:UIModalPresentationCurrentContext
+  def showCategories    
+    if KK.iphone?
+      presentNavigationController categoriesController
+    else
+      categoriesController.popover = presentPopoverController categoriesController, fromBarItem:viewSelectorBarItem
+    end    
   end
 end

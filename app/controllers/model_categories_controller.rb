@@ -3,15 +3,17 @@ class ModelCategoriesController < UITableViewController
   attr_accessor :category
   attr_accessor :segmentedControl
   attr_accessor :mode
+  attr_accessor :popover  
+  attr_accessor :modelsController  
 
   MODES = [:brands, :categories]
 
-  def initialize
+  def initialize(modelsController)
     self.title = "Categories"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-car"), selectedImage:KK.image("tab-car-full"))    
-    # self.navigationItem.leftBarButtonItem = KK.textBBI('All', target:self, action:'showAll')
     self.navigationItem.rightBarButtonItem = KK.imageBBI('bar-x', target:self, action:'close')
     self.mode = :brands
+    self.modelsController = modelsController
   end
 
   def viewWillAppear(animated) super
@@ -28,6 +30,7 @@ class ModelCategoriesController < UITableViewController
     end
     navigationItem.titleView = segmentedControl
     tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
+    self.preferredContentSize = [320, 700]
   end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
@@ -51,6 +54,10 @@ class ModelCategoriesController < UITableViewController
 
   def close
     dismissSelfAnimated
+    if KK.ipad?
+      modelsController.category = category
+      modelsController.reload 
+    end
   end
   
   def showAll
