@@ -148,7 +148,7 @@ class ModelGeneration
     # Search by: land, land cruiser, toyota, toyota land, toyota land cruiser
     def modelsForText(text, inCollection:collection)
       pattern = /\b#{text.downcase}/i
-      collection.select { |m| m.name =~ pattern }
+      collection.select { |m| m.family.name =~ pattern }
     end
 
     def keys

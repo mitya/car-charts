@@ -115,4 +115,15 @@ class YA2Parser
     # write_data_to_plist "debug-#{F82}", parsed_mods.first(20).to_h
     # write_data "debug-#{F82}.keys", parsed_mods.keys.sort
   end  
+  
+  def step_82t
+    puts parse_ya_aggregate_title 'EV AT (700 л.с.) полный привод, электро'
+    puts parse_ya_aggregate_title 'EV AT (94 л.с.) передний привод, электро'
+    puts parse_ya_aggregate_title 'Momentum 1.6 AMT (150 л.с.) передний привод, бензин'
+    puts parse_ya_aggregate_title '1.4 MT (125 л.с.) передний привод, бензин'
+    
+    # mods = CW.read_data_in_binary(F82)
+    # bad = mods.select { |k, m| m['displacement'] == 0 }
+    # pp bad.map(&:first)
+  end
 end
