@@ -30,10 +30,14 @@ module CW
   # sDrive30i 3.0 AT (258 л.с.) задний привод, бензин
   # 1.4 MT (125 л.с.) передний привод, бензин
   # 4.4 AT (540 л.с.)
+  # --- EV AT (700 л.с.) 4×4
+  # EV AT (94 л.с.) передний привод, электро => 0.0e-700-AT-FWD
+  # EV AT (700 л.с.) полный привод, электро 
   def parse_ya_aggregate_title(title)
     title = title.strip
-    re = /(\d\.\d) (\w{2,3}) \((\d+) л\.с\.\) (\p{L}+) привод, ([\p{L}\s\/]+)$/
-    volume, transmission, power, drive, fuel = title.scan(re).flatten
+    re = /(.*)?\s*(\d\.\d|EV) (\w{2,3}) \((\d+) л\.с\.\) (\p{L}+) привод, ([\p{L}\s\/]+)$/
+    name, volume, transmission, power, drive, fuel = title.scan(re).flatten
+    volume = '0.0' if volume == 'EV'
     transmission_key = transmission
     drive_key = CWD.translations(:drive, drive)
     fuel_key = CWD.translations(:fuel, fuel)

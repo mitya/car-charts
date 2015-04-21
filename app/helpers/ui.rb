@@ -68,7 +68,7 @@ module KK::UI
     label.textAlignment = UITextAlignmentCenter
     label.textColor = UIColor.lightGrayColor
     label.backgroundColor = UIColor.clearColor
-    label.font = UIFont.systemFontOfSize(20)
+    label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
     label.numberOfLines = 0
     label
   end

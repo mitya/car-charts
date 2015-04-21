@@ -222,6 +222,7 @@ parameterTranslations:
     g: gas
     h: hybrid
     i: gasoline
+    e: electro
   transmission:
     AMT: dual-clutch
     AT: automatic

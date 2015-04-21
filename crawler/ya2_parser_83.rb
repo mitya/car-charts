@@ -1,8 +1,6 @@
 class YA2Parser
   include CW
 
-
-
   # build metadata
   def step_83
     models_list = CW.read_objects(F13)
