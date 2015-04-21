@@ -32,6 +32,7 @@
 rejected_models:
   - bmw 2activetourer
   - ford fusion_na
+  - ford focus_na
   - ford tourneo_connect
   - ford tourneo_courier
   - honda odyssey_na

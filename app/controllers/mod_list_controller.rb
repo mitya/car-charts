@@ -176,7 +176,7 @@ class ModListController < UIViewController
   def showFilterPane
     @filterController ||= ModListFilterController.new
     if KK.iphone?
-      presentNavigationController @filterController, presentationStyle:UIModalPresentationCurrentContext
+      presentNavigationController @filterController
     else
       @filterController.popover = presentPopoverController @filterController, fromBarItem:navigationItem.rightBarButtonItem
     end
