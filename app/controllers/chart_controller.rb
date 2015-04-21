@@ -134,16 +134,18 @@ class ChartController < UIViewController
     @fullScreen
   end
 
-  def emptyView
-    @emptyView ||= begin
-      text = if $lastLaunchDidFail
-        $lastLaunchDidFail = nil
-        "Something weird has happened\nModels & parameters were reset\n\nSorry :("
-      else
-        "No Models / Parameters Selected"
-      end
-      KK.emptyViewLabel(text, view.bounds.rectWithHorizMargins(15))
+  def newEmptyView
+    text = if $lastLaunchDidFail
+      $lastLaunchDidFail = nil
+      "Something weird has happened\nModels & parameters were reset"
+    elsif Disk.currentParameters.none? && Disk.currentMods.none?
+      "No Models & Parameters Selected"
+    elsif Disk.currentParameters.none?
+      "No Parameters Selected"
+    elsif Disk.currentMods.none?        
+      "No Models Selected"
     end
+    @emptyView = KK.emptyViewLabel(text, view.bounds.rectWithHorizMargins(15))
   end
 
   def toggleFullScreenModeBarItem
@@ -179,11 +181,11 @@ class ChartController < UIViewController
       tableView.tableHeaderView ||= UIView.alloc.initWithFrame(CGRectMake 0, 0, 100, 10)
     end
 
-    if @comparision.complete?
-      emptyView.removeFromSuperview if @emptyView && @emptyView.superview
+    @emptyView.removeFromSuperview if @emptyView
+    if @comparision.complete?      
       tableView.tableFooterView = ChartLegendView.new(@comparision.params)
     else
-      view.addSubview(emptyView)
+      view.addSubview(newEmptyView)
       tableView.tableFooterView = nil
     end
     
