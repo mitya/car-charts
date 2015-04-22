@@ -26,7 +26,7 @@ class YA2Processor
 
   # load mods
   def step_18
-    W.read_data(F17).to_a.shuffle.each do |key, url|
+    read_data(F17).to_a.shuffle.each do |key, url|
       dash_key = W.convert_space_key_to_dash_key(key)
       next if File.exist?(WORKDIR + "../data_1502/07.0-mods/#{dash_key}.html")
       W.save_ya_page_and_sleep url, "#{ D18 }/#{ key }.html", overwrite: false
@@ -67,5 +67,24 @@ class YA2Processor
     missing_in_new = old_keys - new_keys
     missing_in_old = new_keys - old_keys
     write_html missing_in_new
+  end
+  
+  def step_18_remove_unused_files
+    used_mods = read_data(F17)
+    dash_keys = used_mods.keys.map { |k| convert_space_key_to_dash_key(k) }
+    dash_keys = Set.new(dash_keys)
+
+    # Dir.glob WORKDIR + D18 + '*.html' do |path|
+    #   basename = File.basename(path, '.html')
+    #   puts basename unless used_mods[basename]
+    # end
+
+    Dir.glob(WORKDIR + "../data_1502/07.0-mods/*.html") do |path|
+      basename = File.basename(path, '.html')
+      puts basename unless dash_keys.include? basename
+      # File.delete(path) unless dash_keys.include? basename
+    end
+      
+
   end
 end
