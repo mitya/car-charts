@@ -59,9 +59,13 @@ class Mod < DSCoreModel
   end
 
   def suffix
-    if diesel? then 'd'
-    elsif compressor? && !diesel? then 'T'
-    else ''
+    case 
+      when diesel? then 'd'
+      when liquid? then 'g'
+      when electric? then 'e'
+      when compressor? then 'T'
+      when gas? then ''
+      else ''
     end
   end
 
@@ -186,8 +190,16 @@ class Mod < DSCoreModel
     fuel == 'd'
   end
 
+  def electric?
+    fuel == 'e'
+  end
+  
+  def liquid?
+    fuel == 'g'
+  end
+
   def compressor?
-    compressor != 0
+    compressor != nil
   end
 
   def automatic?

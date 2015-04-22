@@ -40,7 +40,7 @@ end
 
 class UIView
   def xdBorder(color = UIColor.redColor)
-    KK.setDevBorder(self, color)
+    KK.set_border(self, color)
   end
   
   def setRoundedCornersWithRadius(radius, width:width, color:color)

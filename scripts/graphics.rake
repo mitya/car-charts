@@ -27,8 +27,12 @@ def lastGradientColor(colorString)
 end
 
 def run(command, options = {})
-  # puts command
+  puts "-- #{command}"
   system command
+end
+
+def convert(command)
+  run("convert #{command}")
 end
 
 def parseHSV(string)
@@ -270,5 +274,13 @@ namespace 'g' do
     sh "cd #{dest} && mogrify -path . -resize 80x -format png *@2x*"
     sh "cd #{dest} && mogrify -path . -resize 120x -format png *@3x*"
     sh "rm #{dest}/*.jpg"
+  end
+  
+  task :screens do
+    message = "A Long Screen Title"
+    convert "-size 640x1136 xc:white tmp/back.png"
+    convert "tmp/back.png -gravity North -font Lato -pointsize 24 -draw \" fill '#333' text 0,10 '#{message}' \" tmp/back-label.png"
+    # convert "tmp/0-screen.png -resize 300 tmp/1-screen.png"
+    convert "tmp/back-label.png tmp/0-screen.png -geometry 600x1000+10+60 -composite -background yellow -flatten tmp/z.png"
   end
 end

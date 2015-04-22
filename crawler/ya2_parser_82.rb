@@ -121,6 +121,7 @@ class YA2Parser
     puts parse_ya_aggregate_title 'EV AT (94 л.с.) передний привод, электро'
     puts parse_ya_aggregate_title 'Momentum 1.6 AMT (150 л.с.) передний привод, бензин'
     puts parse_ya_aggregate_title '1.4 MT (125 л.с.) передний привод, бензин'
+    puts parse_ya_aggregate_title 'Highline 1.8 AMT (152 л.с.) передний привод, бензин'
     
     # mods = CW.read_data_in_binary(F82)
     # bad = mods.select { |k, m| m['displacement'] == 0 }

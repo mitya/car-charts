@@ -9,7 +9,6 @@ class FavoritesController < UITableViewController
     navigationItem.leftBarButtonItem = editButtonItem
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"favorites", options:NO, context:nil)
-    # p generations.map(&:key)
   end
 
   def dealloc

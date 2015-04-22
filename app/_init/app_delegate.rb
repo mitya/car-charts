@@ -42,7 +42,11 @@ class AppDelegate
         svc.delegate = self
       end
 
-      self.bannerViewController = BannerViewController.alloc.initWithContentViewController(splitViewContorller) 
+      if KK.env?('CCNoAds')
+        splitViewContorller
+      else
+        self.bannerViewController = BannerViewController.alloc.initWithContentViewController(splitViewContorller) 
+      end
     end
 
     window.makeKeyAndVisible
@@ -201,8 +205,6 @@ class AppDelegate
   end
 
   def resetAllSettings
-    # Disk.recentMods = []
-    # Disk.currentMods = []
     Disk.currentParameters = []
   end
 
