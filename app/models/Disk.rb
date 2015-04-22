@@ -128,8 +128,8 @@ class Disk
 
       if firstLaunch?
         self.currentParameters = %w(acceleration_100kmh max_power).map { |key| Parameter.parameterForKey(key) }
+        NSUserDefaults.standardUserDefaults["favorites"] = Samples[:favorites]
         # set current mods
-        # set favorites
         
         NSUserDefaults.standardUserDefaults["firstLaunchTime"] = Time.now
         NSUserDefaults.standardUserDefaults.synchronize
