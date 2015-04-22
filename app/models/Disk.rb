@@ -115,24 +115,23 @@ class Disk
   
 
     def load
+      if firstLaunch?
+        NSUserDefaults.standardUserDefaults["parameters"] = %w(acceleration_100kmh length)
+        NSUserDefaults.standardUserDefaults["favorites"] = Samples[:favorites]
+        NSUserDefaults.standardUserDefaults["mods"] = Samples[:family]        
+        NSUserDefaults.standardUserDefaults["firstLaunchTime"] = Time.now
+        NSUserDefaults.standardUserDefaults.synchronize
+      end
+      
       [Metadata, Brand, Category, ModelFamily, ModelGeneration, Parameter].each do |klass|
         KK.benchmark("Load #{klass.name}") { klass.load }
       end
       
-      self.currentParameters ||= []
-      self.currentMods ||= []
+      # self.currentParameters ||= []
+      # self.currentMods ||= []
 
       if KK.env?('CCTestModsDataset') && KK.env?('CCTestModsDatasetRun')
         Mod.import
-      end
-
-      if firstLaunch?
-        self.currentParameters = %w(acceleration_100kmh max_power).map { |key| Parameter.parameterForKey(key) }
-        NSUserDefaults.standardUserDefaults["favorites"] = Samples[:favorites]
-        # set current mods
-        
-        NSUserDefaults.standardUserDefaults["firstLaunchTime"] = Time.now
-        NSUserDefaults.standardUserDefaults.synchronize
       end
     end
     
@@ -140,8 +139,7 @@ class Disk
       NSUserDefaults.standardUserDefaults["firstLaunchTime"].nil? && 
       NSUserDefaults.standardUserDefaults["mods"].nil? && 
       NSUserDefaults.standardUserDefaults["recentMods"].nil? && 
-      NSUserDefaults.standardUserDefaults["parameters"].nil? && 
-      ModSet.count == 0
+      NSUserDefaults.standardUserDefaults["parameters"].nil?
     end
     
     private 

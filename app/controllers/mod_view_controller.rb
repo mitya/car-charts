@@ -1,6 +1,7 @@
 class ModViewController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
-  SystemSectionIndex = 0
+  SystemSectionIndex = 3
+  SystemSectionShift = 0
   ScreenKeyMethod = :mod
 
   attr_accessor :mod
@@ -18,7 +19,7 @@ class ModViewController < UITableViewController
   end
 
   def viewDidLoad
-    self.tableView.tableHeaderView = KK.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersionYear))
+    self.tableView.tableHeaderView = KK.tableViewFooterLabel(mod.modName(Mod::NameBodyEngineVersionYear), )
   end
 
   def didReceiveMemoryWarning
@@ -40,7 +41,7 @@ class ModViewController < UITableViewController
 
   def tableView(tv, numberOfRowsInSection:section)
     return 1 if section == SystemSectionIndex
-    section -= 1
+    section -= SystemSectionShift
     
     groupKey = Parameter.groupKeys[section]
     Parameter.parametersForGroup(groupKey).count
@@ -48,10 +49,17 @@ class ModViewController < UITableViewController
 
   def tableView(tv, titleForHeaderInSection:section)
     return nil if section == SystemSectionIndex
-    section -= 1    
+    return nil if section == 0    
+    return nil if section == 2
+    section -= SystemSectionShift
     
     groupKey = Parameter.groupKeys[section]
     Parameter.nameForGroup(groupKey)
+  end
+
+  def tableView(tv, heightForHeaderInSection:section)
+    return 0 if section == 0
+    38
   end
 
   def tableView(tv, cellForRowAtIndexPath:indexPath)
@@ -61,7 +69,7 @@ class ModViewController < UITableViewController
         cell.imageView.image = KK.image("ci-google")
       end
     else
-      parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - 1] )[indexPath.row]
+      parameter = Parameter.parametersForGroup( Parameter.groupKeys[indexPath.section - SystemSectionShift] )[indexPath.row]
       cell = tv.dequeueReusableCell style:UITableViewCellStyleValue1, selectionStyle:UITableViewCellSelectionStyleNone do |cell|
         cell.detailTextLabel.adjustsFontSizeToFitWidth = YES
         cell.detailTextLabel.numberOfLines = 1
@@ -88,7 +96,7 @@ class ModViewController < UITableViewController
   
   def tableView(tv, heightForRowAtIndexPath:ip)
     return super if ip.section == SystemSectionIndex
-    parameter = Parameter.parametersForGroup( Parameter.groupKeys[ip.section - 1] )[ip.row]
+    parameter = Parameter.parametersForGroup( Parameter.groupKeys[ip.section - SystemSectionShift] )[ip.row]
     parameter.key == 'consumption_string' ? TWO_LINE_ROW_HEIGHT : super
   end
   

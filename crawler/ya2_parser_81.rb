@@ -21,7 +21,7 @@ class YA2Parser
     results = {}
     files.each do |key, path|
       result = results[key] = {}
-      doc = W.parse_file(path)
+      doc = parse_file(path)
       doc.css(".b-specifications__details .b-features__item_type_specs").each do |div|
         name = div.at_css(".b-features__name").text
         name_translation = TranslationHelper.instance.translate_parameter(name)
@@ -32,6 +32,6 @@ class YA2Parser
       end
     end
 
-    W.write_data F81, results
+    write_data F81, results
   end
 end

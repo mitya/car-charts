@@ -74,7 +74,7 @@ module KK::UI
   end
 
   def tableViewFooterLabel(text = "")
-    font = UIFont.systemFontOfSize(15)
+    font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
     textHeight = text.sizeWithFont(font).height
     topMargin = (UIToolbarHeight - textHeight) / 2
     
@@ -90,8 +90,11 @@ module KK::UI
       label.shadowOffset = CGSizeMake(0, 1)
       label.textAlignment = UITextAlignmentCenter
       label.autoresizingMask = UIViewAutoresizingFlexibleWidth
-      view.addSubview(label)        
+      view.addSubview(label)
     end
+    #
+    # label.xdBorder(UIColor.greenColor)
+    # view.xdBorder
     
     view
   end

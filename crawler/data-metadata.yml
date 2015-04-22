@@ -240,9 +240,9 @@ parameterTranslations:
     RWD: rear wheels
   fuel:
     d: diesel
-    g: gas
+    g: autogas
     h: hybrid
-    i: gasoline
+    i: petrol
     e: electro
   transmission:
     AMT: dual-clutch

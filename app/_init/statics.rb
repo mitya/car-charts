@@ -76,6 +76,31 @@ Samples[:compact] = [
   "volvo c30 2010 hatch_3d 2.4d-180ps-AT-FWD",
 ]
 
+Samples[:family] = [
+  "audi a4 2011 sedan 2.0i-180ps-CVT-FWD", 
+  "audi a4 2011 sedan 2.0i-211ps-AMT-AWD",
+  "bmw 3er 2012 sedan 1.6i-170ps-AT-RWD",
+  "bmw 3er 2012 sedan 2.0i-184ps-AT-RWD",
+  "bmw 3er 2012 sedan 2.0i-245ps-AT-RWD",
+  "ford mondeo 2015 sedan 2.0i-199ps-AT-FWD",
+  "honda accord 2014 sedan 2.0i-150ps-CVT-FWD",
+  "honda accord 2014 sedan 2.4i-180ps-AT-FWD", 
+  "hyundai i40 2012 sedan 2.0i-178ps-AT-FWD",
+  "mazda 6 2015 sedan 2.0i-150ps-AT-FWD",
+  "mazda 6 2015 sedan 2.5i-192ps-AT-FWD",
+  "mercedes c_klasse 2014 sedan 2.0i-184ps-AT-RWD", 
+  "mercedes c_klasse 2014 sedan 2.0i-211ps-AT-RWD",
+  "skoda superb 2015 hatch_5d 1.8i-180ps-AMT-FWD",
+  "toyota camry 2014 sedan 2.0i-149ps-AT-FWD", 
+  "toyota camry 2014 sedan 2.5i-181ps-AT-FWD", 
+  "volkswagen passat 2011 sedan 1.8i-152ps-AMT-FWD",
+  "volkswagen passat 2011 sedan 2.0i-210ps-AMT-FWD",
+  "volkswagen passat 2015 sedan 2.0d-150ps-AMT-FWD"
+]
+
+# more D-class stuff
+Samples[:family] = ["acura tlx 2014 sedan 3.5i-290ps-AT-AWD", "bmw 3er 2012 sedan 2.0i-184ps-AT-RWD", "bmw 3er 2012 sedan 2.0i-245ps-AT-RWD", "bmw 3er 2012 sedan 3.0i-306ps-AT-RWD", "cadillac bls 2006 sedan 1.9d-150ps-AT-FWD", "ford mondeo 2015 sedan 2.0i-199ps-AT-FWD", "honda accord 2014 sedan 2.0i-150ps-CVT-FWD", "honda accord 2014 sedan 2.4i-180ps-AT-FWD", "hyundai i40 2012 sedan 2.0i-178ps-AT-FWD", "infiniti q50 2013 sedan 3.5h-354ps-AT-RWD", "jaguar xe 2014 sedan 2.0i-200ps-AT-RWD", "lexus is 2013 sedan 2.5h-181ps-CVT-RWD", "mercedes c_klasse 2014 sedan 2.0i-184ps-AT-RWD", "mercedes c_klasse 2014 sedan 2.0i-211ps-AT-RWD", "nissan teana 2014 sedan 2.5i-172ps-CVT-FWD", "opel insignia 2013 sedan 1.6i-170ps-AT-FWD", "skoda superb 2015 hatch_5d 1.8i-180ps-AMT-FWD", "toyota avensis 2015 sedan 1.8i-147ps-CVT-FWD", "toyota camry 2014 sedan 2.0i-149ps-AT-FWD", "toyota camry 2014 sedan 2.5i-181ps-AT-FWD", "volkswagen passat 2011 sedan 1.8i-152ps-AMT-FWD", "volkswagen passat 2011 sedan 2.0i-210ps-AMT-FWD", "volkswagen passat 2015 sedan 2.0d-150ps-AMT-FWD", "volkswagen passat_cc 2011 sedan 1.8i-152ps-AMT-FWD", "volvo s60 2013 sedan 2.0i-180ps-AT-FWD"]
+
 Samples[:favorites] = [
   "audi--a4--2011", 
   "bmw--3er--2012", 
@@ -86,5 +111,6 @@ Samples[:favorites] = [
   "mercedes--c_klasse--2014", 
   "skoda--superb--2015", 
   "toyota--camry--2014", 
+  "volkswagen--passat--2011",
   "volkswagen--passat--2015"
 ]
