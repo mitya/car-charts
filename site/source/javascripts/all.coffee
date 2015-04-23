@@ -7,9 +7,9 @@ document.addEventListener "DOMContentLoaded", (event) ->
   figures = document.querySelectorAll("img.retina")
   for figure in figures
     image = figure.dataset.image
-    figure.src = "/images/#{image}#{suffix}.png"
+    figure.src = "#{image}#{suffix}.png"
 
   figures = document.querySelectorAll("figure.retina")
   for figure in figures
     image = figure.dataset.image
-    figure.style['background-image'] = "url(/images/#{image}#{suffix}.png)"
+    figure.style['background-image'] = "url(#{image}#{suffix}.png)"
