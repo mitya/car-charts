@@ -301,10 +301,20 @@ namespace 'g' do
   
   task :screens_b do
     root = "originals/screenshots"
-    run "cp -r #{root}/iphone #{root}/iphone--1"
-    run "cd #{root}/iphone--1 && frameit silver"
+    
+    unless ENV['frame'] == 'no'
+      run "cp -r #{root}/iphone/ #{root}/iphone--1"
+      run "cd #{root}/iphone--1 && frameit"
+    end
+
     run "mkdir -p #{root}/iphone--2"
     run "mogrify -path #{root}/iphone--2 -resize 300x #{root}/iphone--1/*framed.png"
     run "pngquant -f --quality=75-90 --ext=.png #{root}/iphone--2/*.png"
+    
+    Dir.glob("#{root}/iphone--1/*framed.png") do |path|
+      basename = File.basename(path, '.png')
+      run "convert #{path} -resize 600x #{root}/iphone--2/#{basename}@2x.png"
+    end
+    run "pngquant -f --quality=60-70 --ext=.png #{root}/iphone--2/*@2x.png"
   end
 end

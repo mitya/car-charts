@@ -11,31 +11,28 @@ title: CarCharts App — The best way to compare cars visually on iPhone and iPa
           p.concept Compare cars visually
       .col-md-12
         p.text-center
-          = image_tag "Promo-Black-64.png", width: '100%'
-          / = image_tag "promo.png", width: '100%'
+          / figure.retina.promo data-image='Promo-Black-64'
+          img.retina.promo data-image='Promo-Black-64'
       .col-md-12
         p.appstore-badge
-          a href="https://itunes.apple.com/ru/app/allegrotajm/id524992172" target="_blank"
-            = image_tag "appstore-badge.png", width: 270, height: 80
+          a href="https://itunes.apple.com" target="_blank"
+            = image_tag "appstore-badge.png"
 
 #screenshots
   .container
     .row
-      = partial "screenshot", locals: { image_name: "1_framed.png", title: "Compare Anything" }
-      = partial "screenshot", locals: { image_name: "2_framed.png", title: "Full Screen Mode" }
-      = partial "screenshot", locals: { image_name: "3_framed.png", title: "Browse Photos" }
-      = partial "screenshot", locals: { image_name: "4_framed.png", title: "View Detailed Specs" }
-      = partial "screenshot", locals: { image_name: "5_framed.png", title: "Thousands Models" }
-      = partial "screenshot", locals: { image_name: "6_framed.png", title: "25 Parameters" }
-
-    .row
-      .col-lg-12
+      = partial "screenshot", locals: { image_name: "1_framed", title: "Compare Anything" }
+      = partial "screenshot", locals: { image_name: "2_framed", title: "Full Screen Mode" }
+      = partial "screenshot", locals: { image_name: "3_framed", title: "Browse Photos" }
+      = partial "screenshot", locals: { image_name: "4_framed", title: "View Detailed Specs" }
+      = partial "screenshot", locals: { image_name: "5_framed", title: "Thousands Models" }
+      = partial "screenshot", locals: { image_name: "6_framed", title: "25 Parameters" }
 
 #support
   .container
     p.text-center
       | Any questions and comments — send to 
-      = link_to "carchartsiphone@gmail.com"
+      = mail_to "carchartsiphone@gmail.com"
       / или
       / = link_to "оставьте комментарий", '/comments', target: 'blank'
 

@@ -1,4 +1,6 @@
 .col-lg-4.col-md-4.col-sm-6
   .screenshot
     h3= title
-    p.text-center= image_tag "#{image_name}", width: 300
+    p.text-center
+      / = image_tag "#{image_name}", width: 300
+    figure.retina data-image=image_name
