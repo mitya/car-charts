@@ -237,7 +237,8 @@ namespace 'g' do
   
   desc "removes the statusbar from a full-screen screenshot"
   task :chopstatus do    
-    %w(Default@2x Default-568h@2x Default-667h@2x Default-736h@3x).each do |file|
+    files = %w(Default@2x Default-568h@2x Default-667h@2x Default-736h@3x)
+    files.each do |file|
       scale = file.scan(/@(\d)x/).first.first.to_i rescue 1
       statusbar_height = 20 * scale
       ss = Magick::Image.read("resources/#{file}.png").first
@@ -282,5 +283,28 @@ namespace 'g' do
     convert "tmp/back.png -gravity North -font Lato -pointsize 24 -draw \" fill '#333' text 0,10 '#{message}' \" tmp/back-label.png"
     # convert "tmp/0-screen.png -resize 300 tmp/1-screen.png"
     convert "tmp/back-label.png tmp/0-screen.png -geometry 600x1000+10+60 -composite -background yellow -flatten tmp/z.png"
+  end
+
+  desc "Composes an app screenshot over the device image"
+  task :compose_mockup do
+    device_image = "/Volumes/Vault/Sources/Active/_assets/Apple/iphone.png"
+    results_dir = "tmp"
+    screenshots_dir = "originals/screenshots/iphone"
+    screenshots = %w(1 2 3 4 5)
+    screenshots.each do |name|
+      screenshot = "#{screenshots_dir}/#{name}.png"
+      result_image = "#{results_dir}/iphone-#{name}"
+      # convert "#{device_image} #{screenshot} -geometry 531x945+45+157 -composite -background white -flatten -resize 300 -quality 60% #{result_image}.jpg"
+      convert "#{device_image} #{screenshot} -geometry 531x945+45+157 -composite -background transparent -flatten #{result_image}.png"
+    end
+  end
+  
+  task :screens_b do
+    root = "originals/screenshots"
+    run "cp -r #{root}/iphone #{root}/iphone--1"
+    run "cd #{root}/iphone--1 && frameit silver"
+    run "mkdir -p #{root}/iphone--2"
+    run "mogrify -path #{root}/iphone--2 -resize 300x #{root}/iphone--1/*framed.png"
+    run "pngquant -f --quality=75-90 --ext=.png #{root}/iphone--2/*.png"
   end
 end

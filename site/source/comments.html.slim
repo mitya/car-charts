@@ -1,0 +1,12 @@
+#comments-heading
+  .container
+    h1
+      a.home-link href='/'
+        span.icon= image_tag "appicon.png", width: 40, height: 40
+        span.text АллегроТайм
+      a.appstore-link href="https://itunes.apple.com/ru/app/allegrotajm/id524992172" target="_blank"
+        = image_tag "appstore-badge.png", height: 64
+
+#comments
+  .container
+    = partial 'disqus'
