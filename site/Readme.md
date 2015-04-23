@@ -4,7 +4,7 @@ $ divshot auth:token
 
 $ divshot promote development production
 
-$ divshot domains:add allegrotime.sokurenko.name
+$ divshot domains:add carcharts.sokurenko.name
 
 $ divshot push production
 
