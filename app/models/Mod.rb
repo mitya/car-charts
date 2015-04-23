@@ -393,6 +393,10 @@ class Mod < DSCoreModel
         Mod.save
       end
     end
+    
+    def randomMod
+      self["volkswagen passat 2011 sedan 1.8i-152ps-AMT-FWD"]
+    end
 
     def fieldIndexInPlist(key)
       @keyIndex || begin

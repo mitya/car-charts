@@ -24,11 +24,6 @@ class ModRecentsController < UITableViewController
 
   def viewWillAppear(animated)
     super
-    
-    # Disk.currentMods.each do |m|
-    #   puts %|"#{m.key}",|
-    # end
-    
     switchView
   end
 

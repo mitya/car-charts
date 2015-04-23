@@ -31,7 +31,7 @@ module Profiling
   def profileEnd(label = nil)
     profile(label) if label
     text = $es_profiling_results.map { |label, time| "#{label} %.3f" % time }.join(', ')
-    # text = $es_profiling_results.map { |label, time| "%s %.3f" % [label, time] }.join(', ') # MEMORY BUG
+    text = $es_profiling_results.map { |label, time| "%s %.3f" % [label, time] }.join(', ') # MEMORY BUG
     NSLog("TIMING #{$es_profiling_title} #{text}")
   end    
 end

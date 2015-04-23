@@ -26,7 +26,6 @@ Motion::Project::App.setup do |app|
   app.device_family = [:iphone, :ipad]
   app.vendor_project 'vendor/Flurry', :static, :products => ['libFlurry_6.2.0.a'], :headers_dir => 'Flurry.h', force_load: false
   app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
-  # app.info_plist['UIStatusBarHidden'] = true
 
   app.pods do
     pod 'EncryptedCoreData', :git => 'https://github.com/project-imas/encrypted-core-data.git'
@@ -64,7 +63,7 @@ load 'scripts/graphics.rake'
 task '5'    do ENV['device_name'] = 'iPhone 5s';      Rake::Task['simulator'].invoke end
 task '6'    do ENV['device_name'] = 'iPhone 6';       Rake::Task['simulator'].invoke end
 task '6p'   do ENV['device_name'] = 'iPhone 6 Plus';  Rake::Task['simulator'].invoke end
-task 'ipad' do ENV['device_name'] = 'Resizable iPad'; Rake::Task['simulator'].invoke end
+task 'ipad' do ENV['device_name'] = 'iPad Air';       Rake::Task['simulator'].invoke end
 task d: 'device'
 
 
