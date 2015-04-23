@@ -1,6 +1,6 @@
 {
-  "name": "allegrotime",
-  "root": "./build",
+  "name": "carcharts",
+  "root": "build",
   "clean_urls": true,
   "error_page": "error.html"
 }
