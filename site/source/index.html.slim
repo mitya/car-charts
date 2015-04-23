@@ -1,0 +1,49 @@
+---
+title: CarCharts
+---
+
+#billboard
+  .container
+    .row
+      .col-md-12
+        #promo-text
+          h1.brand CarCharts          
+          p.concept Compare cars visually
+      .col-md-12
+        p.text-center
+          = image_tag "Promo-Black-64.png", width: '100%'
+          / = image_tag "promo.png", width: '100%'
+      .col-md-12
+        p.appstore-badge
+          a href="https://itunes.apple.com/ru/app/allegrotajm/id524992172" target="_blank"
+            = image_tag "appstore-badge.png", width: 270, height: 80
+
+#screenshots
+  .container
+    .row
+      = partial "screenshot", locals: { image_name: "1_framed.png", title: "Compare Anything" }
+      = partial "screenshot", locals: { image_name: "2_framed.png", title: "Full Screen Mode" }
+      = partial "screenshot", locals: { image_name: "3_framed.png", title: "Browse Photos" }
+      = partial "screenshot", locals: { image_name: "4_framed.png", title: "View Detailed Specs" }
+      = partial "screenshot", locals: { image_name: "5_framed.png", title: "Thousands Models" }
+      = partial "screenshot", locals: { image_name: "6_framed.png", title: "25 Parameters" }
+
+    .row
+      .col-lg-12
+
+#support
+  .container
+    p.text-center
+      | Any questions and comments — send to 
+      = link_to "carcharts@gmail.com"
+      / или
+      / = link_to "оставьте комментарий", '/comments', target: 'blank'
+
+#footer
+  .container  
+    p 
+      | &copy; 2015 Dmitry Sokurenko
+      / %br
+      / = link_to "carcharts@gmail.com"
+    p#copyright
+      | * Apple, the Apple logo, iPad, and iPhone are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc.
