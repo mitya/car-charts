@@ -6,12 +6,21 @@ class AppDelegate
   attr_accessor :hidesMasterView
 
   def application(application, didFinishLaunchingWithOptions:launchOptions)
+    KK.profileBegin 'didFinishLaunchingWithOptions'
+    
+    Flurry.startSession FLURRY_TOKEN if FLURRY_ENABLED
+    
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
 
     self.hidesMasterView = NO
 
+    KK.profile 'flurry'
+
     Disk.load
     recoverAfterCrash if NSUserDefaults.standardUserDefaults["crashed"]
+    Mod.randomMod
+
+    KK.profile 'disk'
     
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
     self.chartController = ChartController.new
@@ -53,7 +62,7 @@ class AppDelegate
 
     setTintColors
 
-    Flurry.startSession FLURRY_TOKEN if FLURRY_ENABLED
+    KK.profileEnd 'all'
 
     # openControllerForModel("ford--focus--2014")
     
@@ -163,6 +172,7 @@ class AppDelegate
 
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = storeCoordinator
+      
       context
     end
   end
