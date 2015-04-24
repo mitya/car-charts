@@ -148,7 +148,6 @@ class ModListController < UIViewController
 
   def showPhotosForSection(section)
     mod = modsByBody[ modsByBody.keys[section - 1] ].first
-    puts "instantiating photo controler #{section}" if photoControllers[section] == nil
     photoControllers[section] ||= ModelPhotosController.new(mod.model, mod.bodyVersionOrName)
     if KK.iphone?
       navigationController.pushViewController photoControllers[section], animated:true
