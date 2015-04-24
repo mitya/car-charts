@@ -2,7 +2,7 @@ class ModelPhotosController < UIViewController
   attr_accessor :model, :bodytype
   attr_accessor :query
   attr_accessor :webView, :spinner, :goForwardBBI, :goBackBBI, :webViewIsLoaded
-  
+
   def initialize(model = nil, bodytype = nil)
     self.model = model
     self.bodytype = bodytype
@@ -50,7 +50,6 @@ class ModelPhotosController < UIViewController
     spinner.stopAnimating
   end
   
-
   def close
     dismissSelfAnimated
   end

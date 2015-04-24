@@ -2,6 +2,8 @@ class ModListController < UIViewController
   attr_accessor :model, :mods, :modsByBody, :filteredMods, :tableView, :toolbar
   attr_accessor :selectedMod, :photoControllers
 
+  @@photosViewCount = 0
+
   def initialize(model = nil)
     self.model = model
     self.mods = model.mods
@@ -147,13 +149,22 @@ class ModListController < UIViewController
   end
 
   def showPhotosForSection(section)
-    mod = modsByBody[ modsByBody.keys[section - 1] ].first
-    photoControllers[section] ||= ModelPhotosController.new(mod.model, mod.bodyVersionOrName)
-    if KK.iphone?
-      navigationController.pushViewController photoControllers[section], animated:true
-    else
-      presentNavigationController photoControllers[section], presentationStyle:UIModalPresentationFullScreen
-    end    
+    @@photosViewCount += 1
+
+    if @@photosViewCount >= 3
+      willShowAd = requestInterstitialAdPresentation
+      @@photosViewCount = 0 if willShowAd
+    end
+    
+    unless willShowAd
+      mod = modsByBody[ modsByBody.keys[section - 1] ].first
+      photoControllers[section] ||= ModelPhotosController.new(mod.model, mod.bodyVersionOrName)
+      if KK.iphone?
+        navigationController.pushViewController photoControllers[section], animated:true
+      else
+        presentNavigationController photoControllers[section], presentationStyle:UIModalPresentationFullScreen
+      end    
+    end
   end
 
   def applyFilter(options = {})
