@@ -35,7 +35,6 @@ class ModelPhotosController < UIViewController
       queryString = query.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
       path = "http://www.google.com/search?num=10&tbm=isch&q=#{queryString}"
       url = NSURL.URLWithString(path)
-      error = Pointer.new(:object)
       request = NSMutableURLRequest.requestWithURL(url)
       request.setValue(UISafariUA, forHTTPHeaderField:"User-Agent")
       spinner.startAnimating

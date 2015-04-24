@@ -10,7 +10,11 @@ class NSManagedObjectContext
     end    
     
     error = KK.ptr
-    executeFetchRequest(fetchRequest, error:error) || raise("Error when fetching data: #{error.value.description}")
+    unless results = executeFetchRequest(fetchRequest, error:error)
+       NSLog("Error when fetching data: #{error.value.description}")
+       Flurry.logError 'Fetch Error', message:error.value.description, error:error
+    end 
+    results || []
   end
 
   def fetchEntity(entity, predicate:predicateArgs)

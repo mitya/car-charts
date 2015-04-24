@@ -46,32 +46,29 @@ module KK::Logging
       when nil then nil
       else { value: object.to_s }
     end
-    Flurry.logEvent eventName, withParameters: params
     
+    Flurry.logEvent eventName, withParameters: params    
     debug "event #{eventName} #{object}" if DEBUG
   end
   
   def trackControllerView(controller)
     return unless FLURRY_ENABLED
 
-    if defined? controller.class::ScreenKeyMethod
-      screenKeyMethod = controller.class::ScreenKeyMethod
-      screenKeyObject = controller.send(screenKeyMethod)
-    elsif controller.respond_to?(:screenKey)
+    # if defined? controller.class::ScreenKeyMethod
+    #   screenKeyMethod = controller.class::ScreenKeyMethod
+    #   screenKeyObject = controller.send(screenKeyMethod)
+    if controller.respond_to?(:screenKey)
       screenKeyObject = controller.screenKey
     end
+    
     screenName = controller.class.name.sub('Controller', '')
     trackScreen screenName, screenKeyObject
   end
   
   def trackScreen(screenName, object = nil)
     return unless FLURRY_ENABLED
-
-    params = object ? { object: object.to_s } : nil
     Flurry.logPageView
-    Flurry.logEvent "screen:#{screenName}", withParameters: params
-    
-    debug "show #{screenName} #{object}" if DEBUG
+    trackEvent "screen:#{screenName}", object
   end
 end
 
