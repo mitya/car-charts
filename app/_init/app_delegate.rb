@@ -75,15 +75,14 @@ class AppDelegate
   end
 
   def applicationDidFailWithException(exception)
-    NSUserDefaults.standardUserDefaults["crashed"] = true
-    stack = exception.callStackReturnAddresses
+    NSUserDefaults.standardUserDefaults["crashed"] = true    
 
     if FLURRY_ENABLED
-      NSLog "Logged error to Flurry"
       Flurry.logError exception.name, message:exception.reason, exception:exception
+      NSLog "Logged error to Flurry"
     end
 
-    NSLog "FATAL ERROR: #{exception}"
+    # NSLog "FATAL ERROR: #{exception}"
   end
 
 
@@ -140,11 +139,18 @@ class AppDelegate
           end
         else
           seedPath = appBundle.resourcePath.stringByAppendingPathComponent('db').stringByAppendingPathComponent(DB_NAME)
+
           if userDefaults["firstLaunchTime"] == nil || !fileManager.fileExistsAtPath(copyPath)
             NSLog "Copying the #{DB_NAME} database from the app bundle"
-            fileManager.removeItemAtPath copyDir, error:NULL
-            fileManager.createDirectoryAtPath copyDir, withIntermediateDirectories:NO, attributes:NIL, error:NULL
-            fileManager.copyItemAtPath seedPath, toPath:copyPath, error:NULL
+            error = KK.ptr
+            fileManager.removeItemAtPath copyDir, error:error
+            fileManager.createDirectoryAtPath copyDir, withIntermediateDirectories:NO, attributes:NIL, error:error
+            fileManager.copyItemAtPath seedPath, toPath:copyPath, error:error
+          end
+          
+          if error
+            NSLog("Seed Error: #{error.value.description}")
+            Flurry.logError 'Seed Error', message:error.value.description, error:error
           end
         end
 
