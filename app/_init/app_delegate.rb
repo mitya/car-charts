@@ -7,9 +7,9 @@ class AppDelegate
 
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     KK.profileBegin 'didFinishLaunchingWithOptions'
-    
+
     Flurry.startSession FLURRY_TOKEN if FLURRY_ENABLED
-    
+
     NSSetUncaughtExceptionHandler(@exceptionHandler = proc { |exception| applicationDidFailWithException(exception) })
 
     self.hidesMasterView = NO
@@ -21,7 +21,7 @@ class AppDelegate
     Mod.randomMod
 
     KK.profile 'disk'
-    
+
     self.window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds).tap { |w| w.backgroundColor = UIColor.whiteColor }
     self.chartController = ChartController.new
     self.modelListController = ModelListController.new
@@ -54,7 +54,7 @@ class AppDelegate
       if KK.env?('CCNoAds')
         splitViewContorller
       else
-        self.bannerViewController = BannerViewController.alloc.initWithContentViewController(splitViewContorller) 
+        self.bannerViewController = BannerViewController.alloc.initWithContentViewController(splitViewContorller)
       end
     end
 
@@ -65,7 +65,7 @@ class AppDelegate
     KK.profileEnd 'all'
 
     # openControllerForModel("ford--focus--2014")
-    
+
     true
   end
 
@@ -114,65 +114,60 @@ class AppDelegate
   end
 
   ENCRYPTION = true
-  SEED_FILES = ["mods.db"]
+  DB_NAME = "mods-150424.db"
 
   def staticContext
     @staticContext ||= begin
       model = NSManagedObjectModel.alloc.init
       model.entities = [Mod.entity]
 
+      fileManager = NSFileManager.defaultManager
+      appBundle = NSBundle.mainBundle
+      userDefaults = NSUserDefaults.standardUserDefaults
+
       if ENCRYPTION
-        options = { }
+        copyDir = KK.documentsPath.stringByAppendingPathComponent("dbcopy")
+        copyPath = copyDir.stringByAppendingPathComponent(DB_NAME)
+
+        options = {}
         options[EncryptedStorePassphraseKey] = 'db/mods' + 'firstLaunchTime'.sub('Launch', '') + 123_347_957_156_765.to_s(16)
-        options[EncryptedStoreDatabaseLocation] = KK.documentsURL.URLByAppendingPathComponent('mods.db')
+        options[EncryptedStoreDatabaseLocation] = copyPath
 
         if KK.env?('CCTestModsDataset')
-          NSFileManager.defaultManager.removeItemAtURL(options[EncryptedStoreDatabaseLocation], error:NULL) if KK.env?('CCTestModsDatasetRun')
-
+          if KK.env?('CCTestModsDatasetRun')
+            fileManager.removeItemAtURL copyDir, error:NULL
+            fileManager.createDirectoryAtPath copyDir, withIntermediateDirectories:NO, attributes:NIL, error:NULL
+          end
         else
-          if NSUserDefaults.standardUserDefaults["firstLaunchTime"] == nil ||
-            !NSFileManager.defaultManager.fileExistsAtPath(KK.documentsPath.stringByAppendingPathComponent(SEED_FILES.first))
-
-            NSLog "Copying the database from app bundle"
-
-            SEED_FILES.each do |filename|
-              srcPath = NSBundle.mainBundle.resourcePath.stringByAppendingPathComponent('db').stringByAppendingPathComponent(filename)
-              destPath = KK.documentsPath.stringByAppendingPathComponent(filename)
-
-              if NSFileManager.defaultManager.fileExistsAtPath(destPath)
-                err = KK.ptr
-                NSFileManager.defaultManager.removeItemAtPath destPath, error:err
-                NSLog "Can't delete the seed file: #{err.value.description}" if err.value
-              end
-
-              err = KK.ptr
-              NSFileManager.defaultManager.copyItemAtPath srcPath, toPath:destPath, error:err
-              NSLog "Can't copy the seed file: #{err.value.description}" if err.value
-            end
+          seedPath = appBundle.resourcePath.stringByAppendingPathComponent('db').stringByAppendingPathComponent(DB_NAME)
+          if userDefaults["firstLaunchTime"] == nil || !fileManager.fileExistsAtPath(copyPath)
+            NSLog "Copying the #{DB_NAME} database from the app bundle"
+            fileManager.removeItemAtPath copyDir, error:NULL
+            fileManager.createDirectoryAtPath copyDir, withIntermediateDirectories:NO, attributes:NIL, error:NULL
+            fileManager.copyItemAtPath seedPath, toPath:copyPath, error:NULL
           end
         end
 
         storeCoordinator = EncryptedStore.makeStoreWithOptions options, managedObjectModel:model
 
       else
-        if KK.env?('CCTestModsDataset')
-          storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
-          storeOptions = {}
-          NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL) if KK.env?('CCTestModsDatasetRun')
-        else
-          storeURL ||= NSBundle.mainBundle.URLForResource("db/mods", withExtension:"sqlite")
-          storeOptions ||= {NSReadOnlyPersistentStoreOption => YES}
-        end
-
-        err = KK.ptr
-        storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
-        storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
-        NSLog "Can't open static database: #{err.value.description}" if err.value
+        # if KK.env?('CCTestModsDataset')
+        #   storeURL = KK.documentsURL.URLByAppendingPathComponent('mods.sqlite')
+        #   storeOptions = {}
+        #   NSFileManager.defaultManager.removeItemAtURL(storeURL, error:NULL) if KK.env?('CCTestModsDatasetRun')
+        # else
+        #   storeURL ||= NSBundle.mainBundle.URLForResource("db/mods", withExtension:"sqlite")
+        #   storeOptions ||= {NSReadOnlyPersistentStoreOption => YES}
+        # end
+        #
+        # err = KK.ptr
+        # storeCoordinator = NSPersistentStoreCoordinator.alloc.initWithManagedObjectModel(model)
+        # storeCoordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration:nil, URL:storeURL, options:storeOptions, error:err)
+        # NSLog "Can't open static database: #{err.value.description}" if err.value
       end
 
       context = NSManagedObjectContext.alloc.init
       context.persistentStoreCoordinator = storeCoordinator
-      
       context
     end
   end
@@ -226,7 +221,7 @@ class AppDelegate
       bar.appearance.tintColor = Configuration.barIconColor
       bar.appearance.barStyle = UIBarStyleBlack
     end
-    
+
     UITabBar.appearance.barTintColor = Configuration.tabBarTintColor
 
     UISwitch.appearance.onTintColor = Configuration.barIconColor
