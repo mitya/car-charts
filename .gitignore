@@ -6,12 +6,9 @@ resources/*.nib
 resources/*.momd
 resources/*.storyboardc
 resources/tmp/*
-resources/db/metadata.plist
-resources/db/mods.plist
-resources/db/mods.db
-resources/db/mods.sqlite
-resources/db/mods.sqlite-shm
-resources/db/mods.sqlite-wal
+resources/db/*.plist
+resources/db/*.db
+resources/db/*.sqlite
 resources/images/brands
 resources/Icon*
 resources/Default*
