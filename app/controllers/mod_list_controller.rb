@@ -9,6 +9,7 @@ class ModListController < UIViewController
     self.mods = model.mods
     self.title = model.nameWithApostrophe
     self.photoControllers = {}
+    # self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
     navigationItem.backBarButtonItem = KK.textBBI("Models")
     navigationItem.rightBarButtonItem = KK.imageBBI("bi-filter", target:self, action:'showFilterPane')
     Disk.addObserver(self, forKeyPath:"filterOptions", options:false, context:nil)
@@ -41,8 +42,9 @@ class ModListController < UIViewController
 
   def viewWillAppear(animated) super
     applyFilter
-    # tableView.contentOffset = CGPointMake(0, DEFAULT_ROW_HEIGHT) if tableView.contentOffset.y == 0
-    # tableView.contentOffset = CGPointMake(0, -DEFAULT_ROW_HEIGHT + 20) if tableView.contentOffset.y == -64 # hack
+    ## disabled: refreshing data will break the offset for some reason
+    ## tableView.contentOffset = CGPointMake(0, DEFAULT_ROW_HEIGHT) if tableView.contentOffset.y == 0
+    ## tableView.contentOffset = CGPointMake(0, -DEFAULT_ROW_HEIGHT + 20) if tableView.contentOffset.y == -64 # hack
     scrollToMod(selectedMod, animated:NO) if selectedMod
   end
   

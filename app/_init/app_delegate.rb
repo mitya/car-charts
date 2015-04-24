@@ -108,7 +108,7 @@ class AppDelegate
     chartController.navigationItem.setLeftBarButtonItem(chartController.navigationItem.leftBarButtonItems.to_a - [bbi], animated:YES)
   end
 
-  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
+  def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)    
     # tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:true if KK.iphone?
   end
 

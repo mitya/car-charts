@@ -8,7 +8,7 @@ class ModViewController < UITableViewController
   def initialize(mod)
     self.mod = mod
     self.title = mod.model.family.name
-    self.canDisplayBannerAds = KK.app.delegate.adsEnabled?
+    self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if KK.ipad?
     Disk.addObserver(self, forKeyPath:"unitSystem", options:NO, context:nil)
   end

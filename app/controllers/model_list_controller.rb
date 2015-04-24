@@ -54,10 +54,10 @@ class ModelListController < UIViewController
 
     reload if @reloadPending
     
-    unless @setCanDisplayBannerAds
-      self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
-      @setCanDisplayBannerAds = YES
-    end
+    # unless @setCanDisplayBannerAds
+    #   self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
+    #   @setCanDisplayBannerAds = YES
+    # end
   end
 
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
