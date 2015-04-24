@@ -12,7 +12,7 @@ class NSManagedObjectContext
     error = KK.ptr
     unless results = executeFetchRequest(fetchRequest, error:error)
        NSLog("Error when fetching data: #{error.value.description}")
-       Flurry.logError 'Fetch Error', message:error.value.description, error:error
+       Flurry.logError 'Fetch Error', message:error.value.description, error:error.value
     end 
     results || []
   end
