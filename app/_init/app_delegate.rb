@@ -138,19 +138,18 @@ class AppDelegate
             fileManager.createDirectoryAtPath copyDir, withIntermediateDirectories:NO, attributes:NIL, error:NULL
           end
         else
-          seedPath = appBundle.resourcePath.stringByAppendingPathComponent('db').stringByAppendingPathComponent(DB_NAME)
-
           if userDefaults["firstLaunchTime"] == nil || !fileManager.fileExistsAtPath(copyPath)
             NSLog "Copying the #{DB_NAME} database from the app bundle"
             error = KK.ptr
-            fileManager.removeItemAtPath copyDir, error:error
+            seedPath = appBundle.resourcePath.stringByAppendingPathComponent('db').stringByAppendingPathComponent(DB_NAME)
+            fileManager.removeItemAtPath copyDir, error:NULL
             fileManager.createDirectoryAtPath copyDir, withIntermediateDirectories:NO, attributes:NIL, error:error
             fileManager.copyItemAtPath seedPath, toPath:copyPath, error:error
           end
           
           if error
             NSLog("Seed Error: #{error.value.description}")
-            Flurry.logError 'Seed Error', message:error.value.description, error:error
+            Flurry.logError 'Seed Error', message:error.value.description, error:error.value
           end
         end
 

@@ -151,7 +151,7 @@ class ModListController < UIViewController
   def showPhotosForSection(section)
     @@photosViewCount += 1
 
-    if @@photosViewCount >= 3
+    if @@photosViewCount >= SHOW_AD_AFTER_PHOTO_VIEWS
       willShowAd = requestInterstitialAdPresentation
       @@photosViewCount = 0 if willShowAd
     end

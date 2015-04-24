@@ -12,6 +12,10 @@ SIMULATOR = UIDevice.currentDevice.model == "iPhone Simulator"
 FLURRY_TOKEN = '7XM69ZGBXJVDYCP22PS2'
 FLURRY_ENABLED = YES
 
+SHOW_AD_AFTER_PHOTO_VIEWS = 15
+SHOW_AD_CHART_VIEW_IPHONE = 30
+SHOW_AD_CHART_VIEW_IPAD = 100
+
 def pp(*args)
   puts "*** " + args.map(&:inspect).join(', ')
 end

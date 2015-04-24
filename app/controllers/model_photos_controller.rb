@@ -39,14 +39,18 @@ class ModelPhotosController < UIViewController
       request.setValue(UISafariUA, forHTTPHeaderField:"User-Agent")
       spinner.startAnimating
       webView.loadRequest(request)
-    end    
+    end
   end
-
+  
   def viewWillDisappear(animated)
     super    
     webView.delegate = nil
     webView.stopLoading
     spinner.stopAnimating
+  end
+  
+  def hidesBottomBarWhenPushed
+    YES
   end
   
   def close
@@ -58,9 +62,16 @@ class ModelPhotosController < UIViewController
     spinner.stopAnimating
     goBackBBI.enabled = webView.canGoBack
     goForwardBBI.enabled = webView.canGoForward
-    
-    offset = KK.iphone?? 85 : 100
-    webView.scrollView.setContentOffset CGPointMake(0, offset), animated:YES if webView.scrollView.contentOffset.y == 0 || webView.scrollView.contentOffset.y == -64
+
+    if KK.iphone?
+      unless @offsetSet
+        if webView.scrollView.contentOffset.y == 0 || webView.scrollView.contentOffset.y == -64
+          offset = KK.iphone?? 85 : 100
+          webView.scrollView.setContentOffset CGPointMake(0, offset), animated:YES
+          @offsetSet = YES
+        end
+      end
+    end
     
     if webView.canGoBack || webView.canGoForward
       self.toolbarItems ||= [KK.flexibleSpaceBBI, goBackBBI, KK.flexibleSpaceBBI, goForwardBBI, KK.flexibleSpaceBBI]
