@@ -5,7 +5,7 @@ class FavoritesController < UITableViewController
     self.title = "Favorites"
     self.generations = Disk.favorites
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-star"), selectedImage:KK.image("tab-star-full"))
-    self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
+    # self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
     navigationItem.leftBarButtonItem = editButtonItem
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
     Disk.addObserver(self, forKeyPath:"favorites", options:NO, context:nil)

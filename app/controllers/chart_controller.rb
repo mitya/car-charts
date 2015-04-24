@@ -39,9 +39,11 @@ class ChartController < UIViewController
     navigationItem.titleView = UIImageView.alloc.initWithImage(KK.image('logo'))  
     navigationItem.rightBarButtonItem = toggleFullScreenModeBarItem
 
+    self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
+
     @reloadPending = true
   end
-
+  
   def viewWillAppear(animated) super
     reload if @reloadPending
     reflowViews
@@ -69,9 +71,19 @@ class ChartController < UIViewController
     end
   end
 
+  def willRotateToInterfaceOrientation(newOrientation, duration:duration)
+    if KK.iphone?
+      hidden = fullScreen? || KK.landscape?(newOrientation)
+      # hack: if tab bar is not translucent then it leave empty space at the bottom in landscape mode
+      tabBarController.tabBar.translucent = hidden
+      tabBarController.tabBar.hidden = hidden
+    end
+  end
+
   def willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration)
-    KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration) unless fullScreen?
-    reflowViews(newOrientation, duration)
+    ## KK.app.delegate.willAnimateRotationToInterfaceOrientation(newOrientation, duration:duration) unless fullScreen?
+    # tabBarController.setTabBarHidden KK.landscape?(newOrientation), animated:YES if KK.iphone?
+    ## reflowViews(newOrientation, duration)
   end
 
   def didRotateFromInterfaceOrientation(fromInterfaceOrientation)
@@ -199,9 +211,10 @@ class ChartController < UIViewController
     KK.trackEvent "full-screen-mode-on", selected: Disk.currentMods.count if @fullScreen
 
     if KK.iphone?
+      self.canDisplayBannerAds = !@fullScreen
       UIApplication.sharedApplication.setStatusBarHidden(@fullScreen, withAnimation:UIStatusBarAnimationSlide)
       navigationController.setNavigationBarHidden(@fullScreen, animated:YES)
-      tabBarController.setTabBarHidden(@fullScreen, animated:YES)
+      tabBarController.setTabBarHidden(@fullScreen || KK.landscape?, animated:YES)
       exitFullScreenModeButton.hidden = !@fullScreen
     else
       KK.app.delegate.hidesMasterView = @fullScreen
