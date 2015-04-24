@@ -8,6 +8,7 @@ class ModViewController < UITableViewController
   def initialize(mod)
     self.mod = mod
     self.title = mod.model.family.name
+    self.canDisplayBannerAds = KK.app.delegate.adsEnabled?
     navigationItem.rightBarButtonItem = KK.systemBBI(UIBarButtonSystemItemDone, target:self, action:'close') if KK.ipad?
     Disk.addObserver(self, forKeyPath:"unitSystem", options:NO, context:nil)
   end
@@ -119,6 +120,10 @@ class ModViewController < UITableViewController
     mod.key
   end
   
+  def hidesBottomBarWhenPushed
+    KK.iphone?
+  end
+    
   def self.showFor(presentingController, withMod:mod)
     controller = new(mod)
     if KK.iphone?

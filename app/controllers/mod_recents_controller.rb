@@ -3,7 +3,6 @@ class ModRecentsController < UITableViewController
     self.title = "Selected"
     self.tabBarItem = UITabBarItem.alloc.initWithTitle(title, image:KK.image("tab-check"), selectedImage:KK.image("tab-check-full"))
     self.navigationItem.titleView = modeSegmentedControl
-    self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
     Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
 
