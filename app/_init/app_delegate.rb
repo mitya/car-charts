@@ -249,4 +249,8 @@ class AppDelegate
     return false if KK.env?('CCNoAds')
     KK.iphone?
   end
+  
+  def adsEnabled?
+    KK.env?('CCNoAds') ? false : true
+  end
 end

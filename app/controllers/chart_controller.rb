@@ -78,7 +78,6 @@ class ChartController < UIViewController
     tableView.reloadRowsAtIndexPaths tableView.indexPathsForVisibleRows, withRowAnimation:UITableViewRowAnimationNone
   end
 
-
   def tableView(tv, numberOfRowsInSection:section)
     @comparision.complete?? @comparision.mods.count : 0
   end
