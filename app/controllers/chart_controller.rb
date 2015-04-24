@@ -257,6 +257,6 @@ class ChartController < UIViewController
   end
   
   def showAdAfter
-    KK.iphone?? 10 : 20
+    KK.iphone?? 30 : 100
   end
 end
