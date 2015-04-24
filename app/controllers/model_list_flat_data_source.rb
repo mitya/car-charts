@@ -1,6 +1,6 @@
 class ModelListController < UIViewController
   class FlatModelsDataSource
-    attr_accessor :controller, :models, :category
+    attr_accessor :controller, :models, :category, :currentSearchString
   
     def initialize(controller, models, category = nil)
       @controller = controller

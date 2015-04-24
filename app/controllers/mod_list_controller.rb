@@ -192,4 +192,8 @@ class ModListController < UIViewController
       end
     end
   end  
+
+  def screenKey
+    { model: model.key }
+  end    
 end
