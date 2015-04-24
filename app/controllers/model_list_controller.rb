@@ -13,7 +13,23 @@ class ModelListController < UIViewController
 
     navigationItem.titleView = UIView.alloc.init
     navigationItem.rightBarButtonItems = [KK.flexibleSpaceBBI, viewSelectorBarItem, KK.flexibleSpaceBBI]
+    Disk.addObserver(self, forKeyPath:"currentMods", options:NO, context:nil)
   end
+
+  def dealloc
+    Disk.removeObserver(self, forKeyPath:"currentMods")
+  end
+  
+  def observeValueForKeyPath(keyPath, ofObject:object, change:change, context:context)
+    case keyPath when 'currentMods'
+      if KK.iphone? || view.superview == nil || tabBarController.selectedViewController != navigationController || KK.app.delegate.chartController.fullScreen?
+        @reloadPending = YES
+      else
+        reload
+      end
+    end
+  end
+
   
   def viewDidLoad
     self.tableView = setupInnerTableViewWithStyle(UITableViewStylePlain)
@@ -25,6 +41,8 @@ class ModelListController < UIViewController
     searchBar.placeholder = "Search"
 
     self.searchDisplayController = UISearchDisplayController.alloc.initWithSearchBar(searchBar, contentsController:self)
+    
+    @reloadPending = YES
   end
 
   def viewWillAppear(animated)
@@ -34,7 +52,7 @@ class ModelListController < UIViewController
     viewSelectorBarItem.title = currentTitle
     navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
 
-    reload
+    reload if @reloadPending
     
     unless @setCanDisplayBannerAds
       self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
@@ -47,6 +65,8 @@ class ModelListController < UIViewController
   end  
 
   def reload
+    @reloadPending = NO
+    
     viewSelectorBarItem.title = currentTitle
     navigationItem.backBarButtonItem = KK.textBBI(currentShortTitle)
 
@@ -65,7 +85,7 @@ class ModelListController < UIViewController
 
     activeTableView = searchDisplayController.isActive ? searchDisplayController.searchResultsTableView : tableView
     activeTableView.contentOffset = CGPointMake(0, searchBar.frame.height) if activeTableView.contentOffset.y == 0
-    activeTableView.reloadVisibleRows
+    activeTableView.reloadData
   end
 
   def currentTitle
@@ -86,6 +106,7 @@ class ModelListController < UIViewController
 
     if newCategory
       if newCategory != oldCategory
+        KK.trackEvent "model-category-change", category.key
         @categoryDataSource = FlatModelsDataSource.new(self, category.models, category)
         @categorySearchDataSource = FlatModelsDataSource.new(self, category.models, category)
       end
@@ -135,4 +156,11 @@ class ModelListController < UIViewController
       categoriesController.popover = presentPopoverController categoriesController, fromBarItem:viewSelectorBarItem
     end    
   end
+  
+  def screenKey
+    data = {}
+    data[:category] = category.key if category
+    data[:query] = currentSearchDataSource.currentSearchString if searchDisplayController.isActive
+    data
+  end  
 end

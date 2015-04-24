@@ -68,6 +68,6 @@ class ParameterListController < UITableViewController
   end
   
   def screenKey
-    { count: Disk.currentParameters.count }
+    { parameters: Disk.currentParameters.count }
   end  
 end

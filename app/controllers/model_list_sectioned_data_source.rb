@@ -1,6 +1,6 @@
 class ModelListController < UIViewController
   class SectionedModelsDataSource
-    attr_accessor :controller, :models, :category
+    attr_accessor :controller, :models, :category, :currentSearchString
   
     def initialize(controller, models = ModelGeneration.all)
       @controller = controller

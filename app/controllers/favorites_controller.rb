@@ -62,6 +62,6 @@ class FavoritesController < UITableViewController
   end
   
   def screenKey
-    { models: generations.count }
+    { favorites: generations.count }
   end
 end

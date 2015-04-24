@@ -2,7 +2,6 @@ class ModViewController < UITableViewController
   DefaultTableViewStyleForRubyInit = UITableViewStyleGrouped
   SystemSectionIndex = 3
   SystemSectionShift = 0
-  ScreenKeyMethod = :mod
 
   attr_accessor :mod
 
@@ -114,6 +113,10 @@ class ModViewController < UITableViewController
     else
       presentNavigationController photosController, presentationStyle:UIModalPresentationFullScreen
     end    
+  end
+  
+  def screenKey
+    mod.key
   end
   
   def self.showFor(presentingController, withMod:mod)

@@ -173,7 +173,7 @@ class ChartController < UIViewController
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     @reloadCount += 1
     
-    KK.trackEvent "comparision-update", mods_count: @comparision.mods.count, params_count: comparision.params.count
+    # KK.trackEvent "comparision-update", mods_count: @comparision.mods.count, params_count: comparision.params.count
     
     tableView.reloadData if reloadView
 
@@ -195,8 +195,9 @@ class ChartController < UIViewController
   end
 
   def toggleFullScreenMode
-    KK.trackEvent "full-screen-mode-toggle"
     @fullScreen = !@fullScreen
+
+    KK.trackEvent "full-screen-mode-on", selected: Disk.currentMods.count if @fullScreen
 
     if KK.iphone?
       UIApplication.sharedApplication.setStatusBarHidden(@fullScreen, withAnimation:UIStatusBarAnimationSlide)

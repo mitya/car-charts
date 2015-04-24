@@ -69,4 +69,8 @@ class ModelPhotosController < UIViewController
       navigationController.setToolbarHidden(NO, animated:YES)
     end
   end  
+
+  def screenKey
+    { model: model.key, bodytype: bodytype }
+  end
 end
