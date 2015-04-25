@@ -165,16 +165,24 @@ class ChartController < UIViewController
 
   def exitFullScreenModeButton
     @exitFullScreenModeButton ||= begin
-      button = UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 50, 20, 40, 40))
+      wrapper = UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 80, 0, 80, 80))
+      wrapper.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
+      
+      # button = UIButton.alloc.initWithFrame(CGRectMake(view.bounds.width - 40, 10, 30, 30))
+      button = UIButton.alloc.initWithFrame(CGRectMake(20, 20, 40, 40))
       button.backgroundColor = UIColor.blackColor
-      button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin
       button.setImage KK.templateImage("bi-fullScreenExit"), forState:UIControlStateNormal
       button.tintColor = :white.uicolor
       button.alpha = 0.5
       button.setRoundedCornersWithRadius(3, width:0.5, color:UIColor.grayColor)
+      # view.addSubview(button)
+      # button
+
       button.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
-      view.addSubview(button)
-      button
+      wrapper.addTarget self, action:'toggleFullScreenMode', forControlEvents:UIControlEventTouchUpInside
+      wrapper.addSubview(button)
+      view.addSubview(wrapper)
+      wrapper
     end
   end
 
