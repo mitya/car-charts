@@ -20,11 +20,14 @@ Motion::Project::App.setup do |app|
   app.icons = %w(Icon-60 Icon-76 Icon-40 Icon-Small)
   app.sdk_version = "8.3"
   app.deployment_target = "7.0"
-  app.libs += ['/usr/lib/libsqlite3.dylib']
-  app.detect_dependencies = false
-  app.frameworks += %w(CoreData iAd)
   app.device_family = [:iphone, :ipad]
+  app.detect_dependencies = false
+  app.libs += ['/usr/lib/libsqlite3.dylib']
+  app.frameworks += %w(CoreData iAd)
   app.vendor_project 'vendor/Flurry', :static, :products => ['libFlurry_6.2.0.a'], :headers_dir => 'Flurry.h', force_load: false
+  app.vendor_project 'vendor/CrittercismSDK', :static, :headers_dir => 'vendor/CrittercismSDK'
+  app.frameworks << 'Crittercism'
+  
   app.info_plist['UIStatusBarStyle'] = 'UIStatusBarStyleLightContent'
 
   app.pods do
