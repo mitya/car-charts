@@ -39,14 +39,17 @@ class ChartController < UIViewController
     navigationItem.titleView = UIImageView.alloc.initWithImage(KK.image('logo'))  
     navigationItem.rightBarButtonItem = toggleFullScreenModeBarItem
 
-    self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
-
     @reloadPending = true
   end
   
   def viewWillAppear(animated) super
     reload if @reloadPending
     reflowViews
+    
+    unless @setCanDisplayBannerAds
+      self.canDisplayBannerAds = KK.app.delegate.showsBannerAds?
+      @setCanDisplayBannerAds = YES
+    end        
   end
   
   def viewDidAppear(animated) super
