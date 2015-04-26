@@ -237,7 +237,8 @@ namespace 'g' do
   
   desc "removes the statusbar from a full-screen screenshot"
   task :chopstatus do    
-    files = %w(Default@2x Default-568h@2x Default-667h@2x Default-736h@3x)
+    # files = %w(Default@2x Default-568h@2x Default-667h@2x Default-736h@3x)
+    files = %w(Default-Landscape@2x)
     files.each do |file|
       scale = file.scan(/@(\d)x/).first.first.to_i rescue 1
       statusbar_height = 20 * scale
