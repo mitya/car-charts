@@ -195,6 +195,7 @@ class ChartController < UIViewController
     @comparision = Comparision.new(Disk.currentMods, Disk.currentParameters)
     @reloadCount += 1
     
+    # # way too many of this
     # KK.trackEvent "comparision-update", mods_count: @comparision.mods.count, params_count: comparision.params.count
     
     tableView.reloadData if reloadView
@@ -241,6 +242,8 @@ class ChartController < UIViewController
     emptyView.removeFromSuperview if @emptyView && @emptyView.superview
     tableView.tableFooterView = nil
     tableView.reloadData
+    
+    view.addSubview(KK.emptyViewLabel("Loading...", view.bounds.rectWithHorizMargins(15)))
 
     # make screenshots, place them into resources dir, and run rake g:chop
   end
