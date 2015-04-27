@@ -151,7 +151,7 @@ class ChartController < UIViewController
   def newEmptyView
     text = if $lastLaunchDidFail
       $lastLaunchDidFail = nil
-      "Something weird has happened\nComparision parameters were reset"
+      "Something weird has happened\nComparison parameters were reset"
     elsif Disk.currentParameters.none? && Disk.currentMods.none?
       "No Models & Parameters Selected"
     elsif Disk.currentParameters.none?

@@ -12,7 +12,7 @@ end
 ENV['device_name'] = 'iPad Retina 7.1'
 ENV['device_name'] = 'iPhone 5s 7.1'
 ENV['device_name'] = 'iPhone 6'
-ENV['device_name'] = 'iPad Air 7.1'
+ENV['device_name'] = 'iPad Air'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -54,10 +54,10 @@ Motion::Project::App.setup do |app|
     app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_AdHoc_Profile.mobileprovision"
 
     if ENV['appstore'] == 'yes'
-      app.version = "1.0.0"
       app.short_version = "1.0.0"
+      app.version = "1.0.0"
       app.entitlements['beta-reports-active'] = true
-      # app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/AppStore_Profile_for_AllegroTime.mobileprovision"
+      app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/CarCharts_AppStore_Profile.mobileprovision"
     end
   end
 end
