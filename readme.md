@@ -76,7 +76,7 @@ Mods are stored in the CoreData database. Everything else is in plist files whic
 * Brand       - RO,   50 objects, few fields
 * Parameter   - RO,   20 objects, few fields
 * ModSet      - RW, 0-20 objects, 2 fields, one 0-3kb clob
-* Comparision - VT,    1 object at time, lots of subobjects
+* Comparison - VT,    1 object at time, lots of subobjects
 
 Conclusion
 
@@ -234,7 +234,7 @@ Max Speed
   — Specification database contains more than a 1 000 models with more than 10 000 bodytype/engine variations. The database includes the majority of car models sold in Europe in recent years.
   — Compare by more than 25 parameters, using metric, UK or US unit system.
   — App works offline, no internet connection required.
-  — Use iPhone for adhoc comparsions or iPad for large comparsions with tons of models.
+  — Use iPhone for adhoc comparisons or iPad for large comparisons with tons of models.
 
 
 ### Links
@@ -248,3 +248,7 @@ mogrify -path . -resize 80x80 -format png *.png
 ### Site
 
   http://www.roundpic.com/
+
+
+### Keywords
+cars,comparison,compare,chart,best,specs,models,fastest,tool,size,side,small
