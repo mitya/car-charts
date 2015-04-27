@@ -228,13 +228,15 @@ Max Speed
 
 ### Copy
 
-  Simple & powerful app to compare car models visually.
+CarCharts is a simple & powerful app to compare car models visually.
   
-  — Compare any number of cars simultaneously.
-  — Specification database contains more than a 1 000 models with more than 10 000 bodytype/engine variations. The database includes the majority of car models sold in Europe in recent years.
-  — Compare by more than 25 parameters, using metric, UK or US unit system.
-  — App works offline, no internet connection required.
-  — Use iPhone for adhoc comparisons or iPad for large comparisons with tons of models.
+— Compare any number of cars simultaneously.
+— Specification database contains more than a 1 000 models with more than 10 000 bodystyle/engine variations. The database includes the majority of car models sold in Europe in recent years.
+— More than 25 comparison parameters.
+— Support metric, UK or US unit systems.
+— App works offline, no internet connection required.
+— Use iPhone for adhoc comparisons and iPad for large comparisons with tons of models.
+— View specs and photos.
 
 
 ### Links
