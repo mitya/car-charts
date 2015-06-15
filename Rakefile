@@ -11,8 +11,8 @@ end
 # /Applications/Developer/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/simctl list
 ENV['device_name'] = 'iPad Retina 7.1'
 ENV['device_name'] = 'iPhone 5s 7.1'
-ENV['device_name'] = 'iPad Air'
 ENV['device_name'] = 'iPhone 5s'
+ENV['device_name'] = 'iPad Air'
 
 Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
@@ -49,13 +49,13 @@ Motion::Project::App.setup do |app|
   end
 
   app.release do
-    app.version = "0.99"
+    app.version = "1.0.1"
     app.codesign_certificate = "iPhone Distribution: Dmitry Sokurenko (SQLB2GAZ2T)"
     app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_AdHoc_Profile.mobileprovision"
 
     if ENV['appstore'] == 'yes'
-      app.short_version = "1.0.0"
-      app.version = "1.0.0"
+      app.short_version = "1.0.1"
+      app.version = "1.0.1"
       app.entitlements['beta-reports-active'] = true
       app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/CarCharts_AppStore_Profile.mobileprovision"
     end
