@@ -50,7 +50,7 @@ class ModListController < UIViewController
   
   def didReceiveMemoryWarning  
     photoControllers.each do |section, controller|
-      photoControllers[section] = nil unless controller.viewLoaded? && controller.view.window
+      photoControllers[section] = nil unless controller && controller.viewLoaded? && controller.view.window
     end    
     super
   end
