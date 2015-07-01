@@ -18,7 +18,7 @@ Motion::Project::App.setup do |app|
   app.name = 'CarCharts'
   app.identifier = "name.sokurenko.CarCharts"
   app.icons = %w(Icon-60 Icon-76 Icon-40 Icon-Small)
-  app.sdk_version = "8.3"
+  app.sdk_version = "8.4"
   app.deployment_target = "7.0"
   app.device_family = [:iphone, :ipad]
   app.detect_dependencies = false
@@ -49,13 +49,13 @@ Motion::Project::App.setup do |app|
   end
 
   app.release do
-    app.version = "1.0.1"
+    app.version = "1.0.2"
     app.codesign_certificate = "iPhone Distribution: Dmitry Sokurenko (SQLB2GAZ2T)"
     app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/Universal_AdHoc_Profile.mobileprovision"
 
     if ENV['appstore'] == 'yes'
-      app.short_version = "1.0.1"
-      app.version = "1.0.1"
+      app.short_version = "1.0.2"
+      app.version = "1.0.2"
       app.entitlements['beta-reports-active'] = true
       app.provisioning_profile = "/Volumes/Vault/Sources/active/_etc/CarCharts_AppStore_Profile.mobileprovision"
     end

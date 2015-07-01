@@ -17,7 +17,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   EncryptedCoreData:
-    :commit: 3067f129792b976ebad49c91de4a36c468535011
+    :commit: 8ba09005256b35cd3424a6ff7439e16576b86271
     :git: https://github.com/project-imas/encrypted-core-data.git
 
 SPEC CHECKSUMS:
