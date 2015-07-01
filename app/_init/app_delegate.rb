@@ -121,7 +121,10 @@ class AppDelegate
       fileManager = NSFileManager.defaultManager
       appBundle = NSBundle.mainBundle
       userDefaults = NSUserDefaults.standardUserDefaults
-
+      
+      KK.documentsURL.URLByAppendingPathComponent("dbcopy").setResourceValue(NSNumber.numberWithBool(YES), forKey:NSURLIsExcludedFromBackupKey, error:NULL)
+      KK.documentsURL.URLByAppendingPathComponent("dbcopy/#{DB_NAME}").setResourceValue(NSNumber.numberWithBool(YES), forKey:NSURLIsExcludedFromBackupKey, error:NULL)
+      
       if ENCRYPTION
         copyDir = KK.documentsPath.stringByAppendingPathComponent("dbcopy")
         copyPath = copyDir.stringByAppendingPathComponent(DB_NAME)
@@ -145,7 +148,7 @@ class AppDelegate
             fileManager.copyItemAtPath seedPath, toPath:copyPath, error:error
           end
           
-          if error
+          if error && error.value
             NSLog("Seed Error: #{error.value.description}")
             Flurry.logError 'Seed Error', message:error.value.description, error:error.value
           end
