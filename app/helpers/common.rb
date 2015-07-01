@@ -21,7 +21,7 @@ module KK::Common
   end
 
   def documentsURL    
-    NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).first   
+    NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, inDomains:NSUserDomainMask).first
   end    
   
   def documentsPath
@@ -47,8 +47,9 @@ module KK::Common
     return view
   end
   
-  def debug(message, *args)
+  def debug(message, *args)    
     if DEBUG
+      message = message.to_s
       if SIMULATOR
         puts message % args
       else
