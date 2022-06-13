@@ -1,9 +1,14 @@
 # CarCharts
 
-## Object Model
-Mods are stored in the CoreData database. Everything else is in plist files which are loaded into memory at runtime.
+CarCharts is a simple & powerful app to compare car models visually.
 
-  this is a piece of code  // test
+* Compare any number of cars simultaneously.
+* Specification database contains more than a 1 000 models with more than 10 000 bodystyle/engine variations. The database includes the majority of car models sold in Europe in recent years.
+* More than 25 comparison parameters.
+* Support metric, UK or US unit systems.
+* App works offline, no internet connection required.
+* Use iPhone for adhoc comparisons and iPad for large comparisons with tons of models.
+* View specs and photos.
 
 ## Performance
 
@@ -24,9 +29,26 @@ Mods are stored in the CoreData database. Everything else is in plist files whic
    * 07 /   70 ms - indexing
    * 55 /  450 ms - load all
    * 02 /    x ms - load metadata
-    
+
 * App Initialization — 10ms : 50ms (Core Data : plist)
 
+
+## Object Model
+Mods are stored in the CoreData database. Everything else is in plist files which are loaded into memory at runtime.
+
+* Mod         - RO, 2500 objects, many fields
+* Model       - RO,  250 objects, few fields
+* Brand       - RO,   50 objects, few fields
+* Parameter   - RO,   20 objects, few fields
+* ModSet      - RW, 0-20 objects, 2 fields, one 0-3kb clob
+* Comparison - VT,    1 object at time, lots of subobjects
+
+Conclusion
+
+* Mods should be stored in the r/o database, because it's too time consuming to load them all at once
+  and storing them all in memory is a bit too much.
+* ModSets should be stored in the r/w database.
+* Everything else can be loaded from code / data files.
 
 ## Colors
   * 214 27 38 - segment control border (one of)
@@ -69,23 +91,6 @@ Mods are stored in the CoreData database. Everything else is in plist files whic
 * blue  hsb(210, 100, 25)
 
 
-## Model
-
-* Mod         - RO, 2500 objects, many fields
-* Model       - RO,  250 objects, few fields
-* Brand       - RO,   50 objects, few fields
-* Parameter   - RO,   20 objects, few fields
-* ModSet      - RW, 0-20 objects, 2 fields, one 0-3kb clob
-* Comparison - VT,    1 object at time, lots of subobjects
-
-Conclusion
-
-* Mods should be stored in the r/o database, because it's too time consuming to load them all at once
-  and storing them all in memory is a bit too much.
-* ModSets should be stored in the r/w database.
-* Everything else can be loaded from code / data files.
-
-
 ## Graphics
 
 ### Convert SVG icon
@@ -114,107 +119,91 @@ icon8 — require to mention them on the AppStore page.
 pixeden — no atribution
 cupertinoline — no atribution
 
-my tab-chart 
+my tab-chart
 open tab-star
 open cell-google
-pixeden tab-checkbox 
+pixeden tab-checkbox
 pixeden tab-car
-pixeden tab-filter 
-icon8 tab-funnel 
+pixeden tab-filter
+icon8 tab-funnel
 icon8 bar-filter
 misc bar-expand
 cupertinoline bar-gear
 
 
 ## Logo Font
-  
+
   ITC Blair Medium 14pt (small-caps, commersial)
   Orbitron Medium 17pt (geometric, open-source)
 
-## Other
-
-  * alfa_romeo-giulietta-2010-hatch_5d--1.4g-120ps-MT-FWD is loaded from a newer site
-
-  ~/Library/Developer/CoreSimulator/Devices/7A8F9071-A067-4F1E-8306-DFBE2C80A532/data/Containers/Data/Application/
-
-
-## Missing Models
-
-  * Hummer
-
 
 ## Internationalization
-US
- MPG gal lbs ft3 in
- Displacement: L & cu. in.
- Trunk volume
- Track Width / Tread / Front Track / Rear Track
- jaguar.uk Front Track Rear Track
- 4WD 2WD
- Fuel System: some kind of injection
 
-  torque Ft. Lbs
-  Lb-Ft lb.ft
-  cargo colume cargo cu.ft
-  fuel gal
+    US
+     MPG gal lbs ft3 in
+     Displacement: L & cu. in.
+     Trunk volume
+     Track Width / Tread / Front Track / Rear Track
+     jaguar.uk Front Track Rear Track
+     4WD 2WD
+     Fuel System: some kind of injection
 
-  3.6-Liter V6 24-Valve VVT Engine
+      torque Ft. Lbs
+      Lb-Ft lb.ft
+      cargo colume cargo cu.ft
+      fuel gal
 
-UK mpg mph | kg litre mm kW HP Nm | lb-ft bhp 
-  Everybody uses MPG and MPH
-  PS is used a lot
-  toyota and other don't use in, lb, gal at all
+      3.6-Liter V6 24-Valve VVT Engine
 
- CO2 — g/km
- 38.7 mpg (combined)
- litre, kg
- 0-62 mph/s
- max speed mph
- fuel type: pertol diesel
- KW PS Nm @ rpm
- size: mm
- torque lb-ft @ rpm 
- 
- fuel: litre / UK gallons
- suzuki repeats all in inches and pounds
- landrover.co.uk: litre HP Nm cc mph 117  0-60mph, CO2 162 g/km,  40.4 mpg (urban combined), 4,555mm, 2,200kg
+    UK mpg mph | kg litre mm kW HP Nm | lb-ft bhp
+      Everybody uses MPG and MPH
+      PS is used a lot
+      toyota and other don't use in, lb, gal at all
 
+     CO2 — g/km
+     38.7 mpg (combined)
+     litre, kg
+     0-62 mph/s
+     max speed mph
+     fuel type: pertol diesel
+     KW PS Nm @ rpm
+     size: mm
+     torque lb-ft @ rpm
 
-cc to cu. in. 16.387
-mm to inch 25.4
-Nm to lb-ft 0.74
+     fuel: litre / UK gallons
+     suzuki repeats all in inches and pounds
+     landrover.co.uk: litre HP Nm cc mph 117  0-60mph, CO2 162 g/km,  40.4 mpg (urban combined), 4,555mm, 2,200kg
 
 
-Number of Cylinders / No. of Cylinders
-Number of Valves
-Max Power
-Max Torques
-Overall length
-Max Speed
-
-10 get the initial files manually
-  generations.html: <audi-a4-2011> <ford-focus-2014> <bmw-3-2014>, ...
-11 parse to URLs
-  generation-bodies-first.yaml: audi-a4-2011: /audi/a3/123456/specs, ...
-12 load initial bodytype
-  generations/mark-model-year.html ...
-13 parse initial bodytype for other bodytypes
-  generation-bodies-other.yaml: audi-a4-2011-hatch3d: /audi/a3/123456/456789/specs, ...
-14 load other bodytypes
-  generations/mark-model-year-bodytype.html ...
-20 parse bodytypes (both) for mod URLs
-  mods.yaml: bmw-3-2014-sedan--1.8T-200ps-AT-FWD => /bmw/1/123456/456789/654987 (or name file like bmw-3-6123456-6789654)
-30 load mods
-  mods/*.html
-40 parse mods
+    cc to cu. in. 16.387
+    mm to inch 25.4
+    Nm to lb-ft 0.74
 
 
+    Number of Cylinders / No. of Cylinders
+    Number of Valves
+    Max Power
+    Max Torques
+    Overall length
+    Max Speed
 
-### Screenshots
+    10 get the initial files manually
+      generations.html: <audi-a4-2011> <ford-focus-2014> <bmw-3-2014>, ...
+    11 parse to URLs
+      generation-bodies-first.yaml: audi-a4-2011: /audi/a3/123456/specs, ...
+    12 load initial bodytype
+      generations/mark-model-year.html ...
+    13 parse initial bodytype for other bodytypes
+      generation-bodies-other.yaml: audi-a4-2011-hatch3d: /audi/a3/123456/456789/specs, ...
+    14 load other bodytypes
+      generations/mark-model-year-bodytype.html ...
+    20 parse bodytypes (both) for mod URLs
+      mods.yaml: bmw-3-2014-sedan--1.8T-200ps-AT-FWD => /bmw/1/123456/456789/654987 (or name file like bmw-3-6123456-6789654)
+    30 load mods
+      mods/*.html
+    40 parse mods
 
-  
-  
-  
+
 ### Competition
 
   CarBase — 1$
@@ -222,35 +211,3 @@ Max Speed
   CarCompare — free
   Automobile Specs - Murat Tanriover - 1$
   Ojuu — html shit
-
-
-
-
-### Copy
-
-CarCharts is a simple & powerful app to compare car models visually.
-  
-— Compare any number of cars simultaneously.
-— Specification database contains more than a 1 000 models with more than 10 000 bodystyle/engine variations. The database includes the majority of car models sold in Europe in recent years.
-— More than 25 comparison parameters.
-— Support metric, UK or US unit systems.
-— App works offline, no internet connection required.
-— Use iPhone for adhoc comparisons and iPad for large comparisons with tons of models.
-— View specs and photos.
-
-
-### Links
-
-https://auto.yandex.ru/search?year_from=2005&year_to=2011&marks-tab=all&mark=audi&mark=alfa_romeo&mark=alpina&mark=aston_martin&mark=acura&mark=austin&mark=ac&mark=alpine&mark=asia&mark=am_general&mark=autobianchi&mark=ariel&mark=bmw&mark=buick&mark=byd&mark=bentley&mark=brilliance&mark=brabus&mark=bristol&mark=bugatti&mark=chevrolet&mark=citroen&mark=chrysler&mark=cadillac&mark=chery&mark=cizeta&mark=daihatsu&mark=dodge&mark=daewoo&mark=datsun&mark=dacia&mark=daimler&mark=daf&mark=delorean&mark=ecomotors&mark=e_car&mark=ford&mark=fiat&mark=ferrari&mark=faw&mark=foton&mark=great_wall&mark=geely&mark=gmc&mark=honda&mark=hyundai&mark=holden&mark=hafei&mark=hummer&mark=isuzu&mark=infiniti&mark=invicta&mark=iveco&mark=jaguar&mark=jeep&mark=jac&mark=jensen&mark=jmc&mark=kia&mark=koenigsegg&mark=ktm&mark=lancia&mark=lexus&mark=lamborghini&mark=lincoln&mark=land_rover&mark=lotus&mark=lifan
-
-
-
-mogrify -path . -resize 80x80 -format png *.png
-
-### Site
-
-  http://www.roundpic.com/
-
-
-### Keywords
-cars,comparison,compare,chart,best,specs,models,fastest,tool,size,side,small
